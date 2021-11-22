@@ -4,8 +4,8 @@
  */
 
 import { KubeObjectStore } from "../../../common/k8s-api/kube-object.store";
-import type { HorizontalPodAutoscaler } from "../../../common/k8s-api/endpoints/hpa.api";
-import { hpaApi } from "../../../common/k8s-api/endpoints/hpa.api";
+import type { HorizontalPodAutoscaler } from "../../../common/k8s-api/endpoints/horizontal-pod-autoscaler.api";
+import { hpaApi } from "../../../common/k8s-api/endpoints/horizontal-pod-autoscaler.api";
 import { apiManager } from "../../../common/k8s-api/api-manager";
 
 export class HPAStore extends KubeObjectStore<HorizontalPodAutoscaler> {
