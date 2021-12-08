@@ -18,22 +18,20 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+import { getInjectable, lifecycleEnum } from "@ogre-tools/injectable";
+import { computed } from "mobx";
+import rendererExtensionsInjectable from "../../../../../extensions/renderer-extensions.injectable";
 
-import * as registries from "../../extensions/registries";
+const topBarItemsInjectable = getInjectable({
+  instantiate: (di) => {
+    const extensions = di.inject(rendererExtensionsInjectable);
 
-export function initRegistries() {
-  registries.AppPreferenceRegistry.createInstance();
-  registries.CatalogEntityDetailRegistry.createInstance();
-  registries.ClusterPageMenuRegistry.createInstance();
-  registries.ClusterPageRegistry.createInstance();
-  registries.CommandRegistry.createInstance();
-  registries.EntitySettingRegistry.createInstance();
-  registries.GlobalPageRegistry.createInstance();
-  registries.KubeObjectDetailRegistry.createInstance();
-  registries.KubeObjectMenuRegistry.createInstance();
-  registries.KubeObjectStatusRegistry.createInstance();
-  registries.StatusBarRegistry.createInstance();
-  registries.WelcomeMenuRegistry.createInstance();
-  registries.WelcomeBannerRegistry.createInstance();
-  registries.WorkloadsOverviewDetailRegistry.createInstance();
-}
+    return computed(() =>
+      extensions.get().flatMap((extension) => extension.topBarItems),
+    );
+  },
+
+  lifecycle: lifecycleEnum.singleton,
+});
+
+export default topBarItemsInjectable;

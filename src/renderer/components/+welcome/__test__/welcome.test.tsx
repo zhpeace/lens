@@ -23,7 +23,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { Welcome } from "../welcome";
-import { TopBarRegistry, WelcomeMenuRegistry, WelcomeBannerRegistry } from "../../../../extensions/registries";
+import { WelcomeMenuRegistry, WelcomeBannerRegistry } from "../../../../extensions/registries";
 import { defaultWidth } from "../welcome";
 
 jest.mock(
@@ -40,13 +40,11 @@ jest.mock(
 
 describe("<Welcome/>", () => {
   beforeEach(() => {
-    TopBarRegistry.createInstance();
     WelcomeMenuRegistry.createInstance();
     WelcomeBannerRegistry.createInstance();
   });
 
   afterEach(() => {
-    TopBarRegistry.resetInstance();
     WelcomeMenuRegistry.resetInstance();
     WelcomeBannerRegistry.resetInstance();
   });

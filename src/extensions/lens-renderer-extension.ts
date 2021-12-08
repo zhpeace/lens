@@ -26,6 +26,7 @@ import type { CatalogEntity } from "../common/catalog";
 import type { Disposer } from "../common/utils";
 import { catalogEntityRegistry, EntityFilter } from "../renderer/api/catalog-entity-registry";
 import { catalogCategoryRegistry, CategoryFilter } from "../renderer/api/catalog-category-registry";
+import type { TopBarRegistration } from "../renderer/components/layout/top-bar/top-bar-registration";
 import type { KubernetesCluster } from "../common/catalog-entities";
 
 export class LensRendererExtension extends LensExtension {
@@ -43,7 +44,7 @@ export class LensRendererExtension extends LensExtension {
   welcomeMenus: registries.WelcomeMenuRegistration[] = [];
   welcomeBanners: registries.WelcomeBannerRegistration[] = [];
   catalogEntityDetailItems: registries.CatalogEntityDetailRegistration<CatalogEntity>[] = [];
-  topBarItems: registries.TopBarRegistration[] = [];
+  topBarItems: TopBarRegistration[] = [];
 
   async navigate<P extends object>(pageId?: string, params?: P) {
     const { navigate } = await import("../renderer/navigation");
