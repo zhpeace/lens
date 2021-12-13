@@ -20,9 +20,11 @@ import type { Navigate } from "../../navigation/navigate.injectable";
 import type { NormalizeCatalogEntityContextMenu } from "../../catalog/normalize-menu-item.injectable";
 import navigateInjectable from "../../navigation/navigate.injectable";
 import normalizeCatalogEntityContextMenuInjectable from "../../catalog/normalize-menu-item.injectable";
+import { getIconColourHash } from "../../../common/catalog/helpers";
+import { EntityIcon } from "../entity-icon";
 
 export interface SidebarClusterProps {
-  clusterEntity: CatalogEntity;
+  entity: CatalogEntity;
 }
 
 interface Dependencies {
@@ -32,7 +34,7 @@ interface Dependencies {
 }
 
 function NonInjectedSidebarCluster({
-  clusterEntity,
+  entity,
   hotbarStore,
   navigate,
   normalizeMenuItem,
@@ -40,7 +42,7 @@ function NonInjectedSidebarCluster({
   const [opened, setOpened] = useState(false);
   const [menuItems] = useState(observable.array<CatalogEntityContextMenu>());
 
-  if (!clusterEntity) {
+  if (!entity) {
     // render a Loading version of the SidebarCluster
     return (
       <div className={styles.SidebarCluster}>
@@ -56,16 +58,16 @@ function NonInjectedSidebarCluster({
   }
 
   const onMenuOpen = () => {
-    const isAddedToActive = hotbarStore.isAddedToActive(clusterEntity);
+    const isAddedToActive = hotbarStore.isAddedToActive(entity);
     const title = isAddedToActive
       ? "Remove from Hotbar"
       : "Add to Hotbar";
     const onClick = isAddedToActive
-      ? () => hotbarStore.removeFromHotbar(clusterEntity.getId())
-      : () => hotbarStore.addToHotbar(clusterEntity);
+      ? () => hotbarStore.removeFromHotbar(entity.getId())
+      : () => hotbarStore.addToHotbar(entity);
 
     menuItems.replace([{ title, onClick }]);
-    clusterEntity.onContextMenuOpen({
+    entity.onContextMenuOpen({
       menuItems,
       navigate: (url, forceMainFrame = true) => {
         if (forceMainFrame) {
@@ -89,7 +91,7 @@ function NonInjectedSidebarCluster({
     setOpened(!opened);
   };
 
-  const id = `cluster-${clusterEntity.getId()}`;
+  const id = `cluster-${entity.getId()}`;
   const tooltipId = `tooltip-${id}`;
 
   return (
@@ -102,17 +104,17 @@ function NonInjectedSidebarCluster({
       data-testid="sidebar-cluster-dropdown"
     >
       <Avatar
-        title={clusterEntity.getName()}
-        colorHash={`${clusterEntity.getName()}-${clusterEntity.metadata.source}`}
+        colorHash={getIconColourHash(entity)}
         size={40}
-        src={clusterEntity.spec.icon?.src}
         className={styles.avatar}
-      />
+      >
+        <EntityIcon entity={entity} />
+      </Avatar>
       <div className={styles.clusterName} id={tooltipId}>
-        {clusterEntity.getName()}
+        {entity.getName()}
       </div>
       <Tooltip targetId={tooltipId}>
-        {clusterEntity.getName()}
+        {entity.getName()}
       </Tooltip>
       <Icon material="arrow_drop_down" className={styles.dropdown}/>
       <Menu

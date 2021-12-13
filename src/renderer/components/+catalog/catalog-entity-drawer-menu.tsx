@@ -19,8 +19,8 @@ import navigateInjectable from "../../navigation/navigate.injectable";
 import type { NormalizeCatalogEntityContextMenu } from "../../catalog/normalize-menu-item.injectable";
 import normalizeCatalogEntityContextMenuInjectable from "../../catalog/normalize-menu-item.injectable";
 
-export interface CatalogEntityDrawerMenuProps<T extends CatalogEntity> extends MenuActionsProps {
-  entity: T;
+export interface CatalogEntityDrawerMenuProps extends MenuActionsProps {
+  entity: CatalogEntity | null | undefined;
 }
 
 interface Dependencies {
@@ -29,10 +29,10 @@ interface Dependencies {
 }
 
 @observer
-class NonInjectedCatalogEntityDrawerMenu<T extends CatalogEntity> extends React.Component<CatalogEntityDrawerMenuProps<T> & Dependencies> {
+class NonInjectedCatalogEntityDrawerMenu extends React.Component<CatalogEntityDrawerMenuProps & Dependencies> {
   @observable private contextMenu: CatalogEntityContextMenuContext;
 
-  constructor(props: CatalogEntityDrawerMenuProps<T> & Dependencies) {
+  constructor(props: CatalogEntityDrawerMenuProps & Dependencies) {
     super(props);
     makeObservable(this);
   }
@@ -45,7 +45,7 @@ class NonInjectedCatalogEntityDrawerMenu<T extends CatalogEntity> extends React.
     this.props.entity?.onContextMenuOpen(this.contextMenu);
   }
 
-  getMenuItems(entity: T): React.ReactChild[] {
+  getMenuItems(entity: CatalogEntity | null | undefined): React.ReactChild[] {
     if (!entity) {
       return [];
     }
@@ -94,10 +94,10 @@ class NonInjectedCatalogEntityDrawerMenu<T extends CatalogEntity> extends React.
   }
 }
 
-export const CatalogEntityDrawerMenu = withInjectables<Dependencies, CatalogEntityDrawerMenuProps<CatalogEntity>>(NonInjectedCatalogEntityDrawerMenu, {
+export const CatalogEntityDrawerMenu = withInjectables<Dependencies, CatalogEntityDrawerMenuProps>(NonInjectedCatalogEntityDrawerMenu, {
   getProps: (di, props) => ({
     ...props,
     normalizeMenuItem: di.inject(normalizeCatalogEntityContextMenuInjectable),
     navigate: di.inject(navigateInjectable),
   }),
-}) as <Entity extends CatalogEntity>(props: CatalogEntityDrawerMenuProps<Entity>) => React.ReactElement;
+});
