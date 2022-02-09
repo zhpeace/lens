@@ -8,6 +8,8 @@ import rendererExtensionsInjectable from "../../../extensions/renderer-extension
 import type { StatusBarRegistration } from "./status-bar-registration";
 
 const bottomBarItemsInjectable = getInjectable({
+  id: "bottom-bar-items",
+
   instantiate: (di) => {
     const extensions = di.inject(rendererExtensionsInjectable);
 
