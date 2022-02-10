@@ -5,6 +5,7 @@
 import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
 import { Router, Route } from "../router";
 import routePortForwardInjectable from "../routes/port-forward/route-port-forward/route-port-forward.injectable";
+import helmApiRouteInjectable from "../routes/helm-api-route.injectable";
 
 export const routeInjectionToken = getInjectionToken<Route>({
   id: "route-injection-token",
@@ -16,6 +17,7 @@ const routerInjectable = getInjectable({
   instantiate: (di) => {
     const router = new Router({
       routePortForward: di.inject(routePortForwardInjectable),
+      helmApiRoute: di.inject(helmApiRouteInjectable),
     });
 
     const routes = di.injectMany(routeInjectionToken);

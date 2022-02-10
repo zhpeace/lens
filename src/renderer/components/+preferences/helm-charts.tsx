@@ -8,7 +8,7 @@ import styles from "./helm-charts.module.scss";
 import React from "react";
 import { action, computed, observable, makeObservable } from "mobx";
 
-import { HelmRepo, HelmRepoManager } from "../../../main/helm/helm-repo-manager";
+import type { HelmRepo, HelmRepoManager } from "../../../main/helm/helm-repo-manager";
 import { Button } from "../button";
 import { Icon } from "../icon";
 import { Notifications } from "../notifications";
@@ -18,14 +18,22 @@ import { observer } from "mobx-react";
 import { RemovableItem } from "./removable-item";
 import { Notice } from "../+extensions/notice";
 import { Spinner } from "../spinner";
+import { withInjectables } from "@ogre-tools/injectable-react";
+import helmRepoManagerInjectable from "../../../main/helm/helm-repo-manager.injectable";
+import addHelmRepoDialogModelInjectable from "./add-helm-repo-dialog-model.injectable";
+
+interface Dependencies {
+  helmRepoManager: HelmRepoManager
+  openAddHelmRepoDialog: () => void
+}
 
 @observer
-export class HelmCharts extends React.Component {
+class NonInjectedHelmCharts extends React.Component<Dependencies> {
   @observable loading = false;
   @observable repos: HelmRepo[] = [];
   @observable addedRepos = observable.map<string, HelmRepo>();
 
-  constructor(props: {}) {
+  constructor(props: Dependencies) {
     super(props);
     makeObservable(this);
   }
@@ -47,9 +55,9 @@ export class HelmCharts extends React.Component {
 
     try {
       if (!this.repos.length) {
-        this.repos = await HelmRepoManager.loadAvailableRepos();
+        this.repos = await this.props.helmRepoManager.loadAvailableRepos();
       }
-      const repos = await HelmRepoManager.getInstance().repositories(); // via helm-cli
+      const repos = await this.props.helmRepoManager.repositories(); // via helm-cli
 
       this.addedRepos.clear();
       repos.forEach(repo => this.addedRepos.set(repo.name, repo));
@@ -62,7 +70,7 @@ export class HelmCharts extends React.Component {
 
   async addRepo(repo: HelmRepo) {
     try {
-      await HelmRepoManager.addRepo(repo);
+      await this.props.helmRepoManager.addRepo(repo);
       this.addedRepos.set(repo.name, repo);
     } catch (err) {
       Notifications.error(<>Adding helm branch <b>{repo.name}</b> has failed: {String(err)}</>);
@@ -71,7 +79,7 @@ export class HelmCharts extends React.Component {
 
   async removeRepo(repo: HelmRepo) {
     try {
-      await HelmRepoManager.removeRepo(repo);
+      await this.props.helmRepoManager.removeRepo(repo);
       this.addedRepos.delete(repo.name);
     } catch (err) {
       Notifications.error(
@@ -149,7 +157,7 @@ export class HelmCharts extends React.Component {
           <Button
             primary
             label="Add Custom Helm Repo"
-            onClick={AddHelmRepoDialog.open}
+            onClick={this.props.openAddHelmRepoDialog}
           />
         </div>
         <AddHelmRepoDialog onAddRepo={() => this.loadRepos()}/>
@@ -160,3 +168,14 @@ export class HelmCharts extends React.Component {
     );
   }
 }
+
+export const HelmCharts = withInjectables<Dependencies>(
+  NonInjectedHelmCharts,
+
+  {
+    getProps: (di) => ({
+      helmRepoManager: di.inject(helmRepoManagerInjectable),
+      openAddHelmRepoDialog: di.inject(addHelmRepoDialogModelInjectable).open,
+    }),
+  },
+);

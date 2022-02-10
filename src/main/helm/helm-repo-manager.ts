@@ -7,7 +7,6 @@ import yaml from "js-yaml";
 import { BaseEncodingOptions, readFile } from "fs-extra";
 import { promiseExecFile } from "../../common/utils/promise-exec";
 import { helmCli } from "./helm-cli";
-import { Singleton } from "../../common/utils/singleton";
 import { customRequestPromise } from "../../common/request";
 import orderBy from "lodash/orderBy";
 import logger from "../logger";
@@ -46,12 +45,12 @@ async function execHelm(args: string[], options?: BaseEncodingOptions & ExecFile
   }
 }
 
-export class HelmRepoManager extends Singleton {
+export class HelmRepoManager {
   protected repos: HelmRepo[];
   protected helmEnv: HelmEnv;
   protected initialized: boolean;
 
-  public static async loadAvailableRepos(): Promise<HelmRepo[]> {
+  public async loadAvailableRepos(): Promise<HelmRepo[]> {
     const res = await customRequestPromise({
       uri: "https://github.com/lensapp/artifact-hub-repositories/releases/download/latest/repositories.json",
       json: true,
@@ -67,13 +66,13 @@ export class HelmRepoManager extends Singleton {
     await helmCli.ensureBinary();
 
     if (!this.initialized) {
-      this.helmEnv = await HelmRepoManager.parseHelmEnv();
-      await HelmRepoManager.update();
+      this.helmEnv = await this.parseHelmEnv();
+      await this.update();
       this.initialized = true;
     }
   }
 
-  protected static async parseHelmEnv() {
+  protected async parseHelmEnv() {
     const output = await execHelm(["env"]);
     const lines = output.split(/\r?\n/); // split by new line feed
     const env: HelmEnv = {};
@@ -89,11 +88,11 @@ export class HelmRepoManager extends Singleton {
     return env;
   }
 
-  public async repo(name: string): Promise<HelmRepo> {
+  public repo = async (name: string): Promise<HelmRepo> => {
     const repos = await this.repositories();
 
     return repos.find(repo => repo.name === name);
-  }
+  };
 
   private async readConfig(): Promise<HelmRepoConfig> {
     try {
@@ -112,7 +111,7 @@ export class HelmRepoManager extends Singleton {
     };
   }
 
-  public async repositories(): Promise<HelmRepo[]> {
+  public repositories = async (): Promise<HelmRepo[]> => {
     try {
       if (!this.initialized) {
         await this.init();
@@ -121,7 +120,7 @@ export class HelmRepoManager extends Singleton {
       const { repositories } = await this.readConfig();
 
       if (!repositories.length) {
-        await HelmRepoManager.addRepo({ name: "bitnami", url: "https://charts.bitnami.com/bitnami" });
+        await this.addRepo({ name: "bitnami", url: "https://charts.bitnami.com/bitnami" });
 
         return await this.repositories();
       }
@@ -135,16 +134,16 @@ export class HelmRepoManager extends Singleton {
 
       return [];
     }
-  }
+  };
 
-  public static async update() {
+  public async update() {
     return execHelm([
       "repo",
       "update",
     ]);
   }
 
-  public static async addRepo({ name, url }: HelmRepo) {
+  public async addRepo({ name, url }: HelmRepo) {
     logger.info(`[HELM]: adding repo "${name}" from ${url}`);
 
     return execHelm([
@@ -155,7 +154,7 @@ export class HelmRepoManager extends Singleton {
     ]);
   }
 
-  public static async addCustomRepo({ name, url, insecureSkipTlsVerify, username, password, caFile, keyFile, certFile }: HelmRepo) {
+  public async addCustomRepo({ name, url, insecureSkipTlsVerify, username, password, caFile, keyFile, certFile }: HelmRepo) {
     logger.info(`[HELM]: adding repo ${name} from ${url}`);
     const args = [
       "repo",
@@ -191,7 +190,7 @@ export class HelmRepoManager extends Singleton {
     return execHelm(args);
   }
 
-  public static async removeRepo({ name, url }: HelmRepo): Promise<string> {
+  public async removeRepo({ name, url }: HelmRepo): Promise<string> {
     logger.info(`[HELM]: removing repo ${name} (${url})`);
 
     return execHelm([
