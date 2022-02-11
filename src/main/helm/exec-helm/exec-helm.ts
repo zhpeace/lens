@@ -14,7 +14,6 @@ interface Dependencies {
 
 export const execHelm = ({ helmCli } : Dependencies) =>  async (args: string[], options?: BaseEncodingOptions & ExecFileOptions): Promise<string> => {
   helmCli.setLogger(logger);
-  await helmCli.ensureBinary();
 
   const helmCliPath = await helmCli.binaryPath();
 
