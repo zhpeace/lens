@@ -11,7 +11,7 @@ import { promiseExecFile } from "../../common/utils/promise-exec";
 import { helmCli } from "./helm-cli";
 import type { RepoHelmChartList } from "../../common/k8s-api/endpoints/helm-charts.api";
 import { iter, sortCharts } from "../../common/utils";
-import type { HelmRepo } from "./get-helm-repositories/read-helm-config/read-helm-config";
+import type { HelmRepo } from "../../common/helm-repo";
 
 interface ChartCacheEntry {
   data: Buffer,

@@ -8,7 +8,7 @@ import { getDiForUnitTesting } from "../../getDiForUnitTesting";
 import getHelmRepositoriesInjectable from "../get-helm-repositories/get-helm-repositories.injectable";
 import asyncFn, { AsyncFnMock } from "@async-fn/jest";
 import helmServiceInjectable from "../helm-service.injectable";
-import type { HelmRepo } from "../get-helm-repositories/read-helm-config/read-helm-config";
+import type { HelmRepo } from "../../../common/helm-repo";
 
 jest.mock("../helm-chart-manager");
 

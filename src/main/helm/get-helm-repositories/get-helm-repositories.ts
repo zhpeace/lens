@@ -4,7 +4,8 @@
  */
 import logger from "../../logger";
 import type { HelmEnv } from "../get-helm-env/get-helm-env";
-import type { HelmRepo, HelmRepoConfig } from "./read-helm-config/read-helm-config";
+import type { HelmRepoConfig } from "./read-helm-config/read-helm-config";
+import type { HelmRepo } from "../../../common/helm-repo";
 
 interface Dependencies {
   readHelmConfig: (configPath: string) => Promise<HelmRepoConfig>

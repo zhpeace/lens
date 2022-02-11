@@ -23,9 +23,7 @@ import { withInjectables } from "@ogre-tools/injectable-react";
 import addHelmRepoDialogModelInjectable from "./add-helm-repo-dialog-model.injectable";
 import type { AddHelmRepoDialogModel } from "./add-helm-repo-dialog-model";
 import addHelmRepositoryInjectable from "./add-helm-repository/add-helm-repository.injectable";
-import type {
-  HelmRepo,
-} from "../../../main/helm/get-helm-repositories/read-helm-config/read-helm-config";
+import type { HelmRepo } from "../../../common/helm-repo";
 
 interface Dependencies {
   addHelmRepository: (repo: HelmRepo) => Promise<void>

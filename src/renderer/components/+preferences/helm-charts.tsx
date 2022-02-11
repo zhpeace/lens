@@ -22,7 +22,7 @@ import helmReposInUseInjectable, { RemovableHelmRepo } from "./helm-repos-in-use
 import { matches } from "lodash/fp";
 import { Notifications } from "../notifications";
 import addHelmRepositoryInjectable from "./add-helm-repository/add-helm-repository.injectable";
-import type { HelmRepo } from "../../../main/helm/get-helm-repositories/read-helm-config/read-helm-config";
+import type { HelmRepo } from "../../../common/helm-repo";
 
 interface Dependencies {
   availableRepos: HelmRepo[],

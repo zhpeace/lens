@@ -8,7 +8,7 @@ import React from "react";
 import { apiBase } from "../../../../common/k8s-api";
 import type {
   HelmRepo,
-} from "../../../../main/helm/get-helm-repositories/read-helm-config/read-helm-config";
+} from "../../../../common/helm-repo";
 
 interface Dependencies {
   helmReposInUse: IAsyncComputed<HelmRepo[]>;

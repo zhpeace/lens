@@ -7,7 +7,9 @@ import { asyncComputed, IAsyncComputed } from "@ogre-tools/injectable-react";
 import { apiBase } from "../../../../common/k8s-api";
 import { Notifications } from "../../notifications";
 import React from "react";
-import type { HelmRepo } from "../../../../main/helm/get-helm-repositories/read-helm-config/read-helm-config";
+import type {
+  HelmRepo,
+} from "../../../../common/helm-repo";
 
 export interface RemovableHelmRepo extends HelmRepo {
   remove: () => Promise<void>;

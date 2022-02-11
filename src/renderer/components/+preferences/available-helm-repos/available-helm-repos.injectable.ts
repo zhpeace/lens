@@ -7,7 +7,7 @@ import { customRequestPromise } from "../../../../common/request";
 import { orderBy } from "lodash/fp";
 import type {
   HelmRepo,
-} from "../../../../main/helm/get-helm-repositories/read-helm-config/read-helm-config";
+} from "../../../../common/helm-repo";
 
 const callForAvailableHelmRepos = async (): Promise<HelmRepo[]> => {
   const { body }: { body: HelmRepo[] } = await customRequestPromise({
