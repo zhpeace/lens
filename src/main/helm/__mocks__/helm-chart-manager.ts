@@ -4,7 +4,7 @@
  */
 
 import { sortCharts } from "../../../common/utils";
-import type { HelmRepo } from "../helm-repo-manager";
+import type { HelmRepo } from "../get-helm-repositories/read-helm-config/read-helm-config";
 
 const charts = new Map([
   ["stable", {

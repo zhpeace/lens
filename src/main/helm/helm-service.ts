@@ -5,9 +5,9 @@
 
 import type { Cluster } from "../../common/cluster/cluster";
 import logger from "../logger";
-import type { HelmRepo } from "./helm-repo-manager";
 import { HelmChartManager } from "./helm-chart-manager";
 import { deleteRelease, getHistory, getRelease, getValues, installChart, listReleases, rollback, upgradeRelease } from "./helm-release-manager";
+import type { HelmRepo } from "./get-helm-repositories/read-helm-config/read-helm-config";
 
 interface GetReleaseValuesArgs {
   cluster: Cluster;

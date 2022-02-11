@@ -9,7 +9,7 @@ import React from "react";
 import type { FileFilter } from "electron";
 import { observable, makeObservable } from "mobx";
 import { observer } from "mobx-react";
-import { Dialog, DialogProps } from "../dialog";
+import { Dialog } from "../dialog";
 import { Wizard, WizardStep } from "../wizard";
 import { Input } from "../input";
 import { Checkbox } from "../checkbox";
@@ -18,19 +18,17 @@ import { systemName, isUrl, isPath } from "../input/input_validators";
 import { SubTitle } from "../layout/sub-title";
 import { Icon } from "../icon";
 import { Notifications } from "../notifications";
-import type { HelmRepo, HelmRepoManager } from "../../../main/helm/helm-repo-manager";
 import { requestOpenFilePickingDialog } from "../../ipc";
-import helmRepoManagerInjectable from "../../../main/helm/helm-repo-manager.injectable";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import addHelmRepoDialogModelInjectable from "./add-helm-repo-dialog-model.injectable";
 import type { AddHelmRepoDialogModel } from "./add-helm-repo-dialog-model";
-
-interface Props extends Partial<DialogProps> {
-  onAddRepo: Function
-}
+import addHelmRepositoryInjectable from "./add-helm-repository/add-helm-repository.injectable";
+import type {
+  HelmRepo,
+} from "../../../main/helm/get-helm-repositories/read-helm-config/read-helm-config";
 
 interface Dependencies {
-  helmRepoManager: HelmRepoManager
+  addHelmRepository: (repo: HelmRepo) => Promise<void>
   model: AddHelmRepoDialogModel
 }
 
@@ -41,13 +39,13 @@ enum FileType {
 }
 
 @observer
-class NonInjectedAddHelmRepoDialog extends React.Component<Props & Dependencies> {
+class NonInjectedAddHelmRepoDialog extends React.Component<Dependencies> {
   private emptyRepo = { name: "", url: "", username: "", password: "", insecureSkipTlsVerify: false, caFile:"", keyFile: "", certFile: "" };
 
   private keyExtensions = ["key", "keystore", "jks", "p12", "pfx", "pem"];
   private certExtensions = ["crt", "cer", "ca-bundle", "p7b", "p7c", "p7s", "p12", "pfx", "pem"];
 
-  constructor(props: Props & Dependencies) {
+  constructor(props: Dependencies) {
     super(props);
     makeObservable(this);
   }
@@ -88,9 +86,8 @@ class NonInjectedAddHelmRepoDialog extends React.Component<Props & Dependencies>
 
   async addCustomRepo() {
     try {
-      await this.props.helmRepoManager.addCustomRepo(this.helmRepo);
+      this.props.addHelmRepository(this.helmRepo);
       Notifications.ok(<>Helm repository <b>{this.helmRepo.name}</b> has added</>);
-      this.props.onAddRepo();
       this.close();
     } catch (err) {
       Notifications.error(<>Adding helm branch <b>{this.helmRepo.name}</b> has failed: {String(err)}</>);
@@ -185,12 +182,12 @@ class NonInjectedAddHelmRepoDialog extends React.Component<Props & Dependencies>
   }
 }
 
-export const AddHelmRepoDialog = withInjectables<Dependencies, Props>(
+export const AddHelmRepoDialog = withInjectables<Dependencies>(
   NonInjectedAddHelmRepoDialog,
 
   {
     getProps: (di, props) => ({
-      helmRepoManager: di.inject(helmRepoManagerInjectable),
+      addHelmRepository: di.inject(addHelmRepositoryInjectable),
       model: di.inject(addHelmRepoDialogModelInjectable),
       ...props,
     }),

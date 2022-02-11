@@ -3,22 +3,33 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { removeRepo } from "./remove-repo";
 import { routeInjectionToken } from "../../../router/router.injectable";
 import { apiPrefix } from "../../../../common/vars";
-import helmRepoManagerInjectable from "../../../helm/helm-repo-manager.injectable";
+import removeHelmRepositoryInjectable from "../../../helm/remove-helm-repository/remove-helm-repository.injectable";
+import type { LensApiRequest } from "../../../router";
+import type {
+  HelmRepo,
+} from "../../../helm/get-helm-repositories/read-helm-config/read-helm-config";
 
 const removeRepoInjectable = getInjectable({
   id: "helm-route-remove-repo",
 
-  instantiate: (di) => ({
-    method: "delete",
-    path: `${apiPrefix}/v2/repos`,
+  instantiate: (di) => {
+    const removeHelmRepository = di.inject(removeHelmRepositoryInjectable);
 
-    handler: removeRepo({
-      helmRepoManager: di.inject(helmRepoManagerInjectable),
-    }),
-  }),
+    return {
+      method: "delete",
+      path: `${apiPrefix}/v2/repos`,
+
+      handler: async (request: LensApiRequest<HelmRepo>) => {
+        const repo = request.payload;
+
+        await removeHelmRepository(repo);
+
+        request.response.end();
+      },
+    };
+  },
 
   injectionToken: routeInjectionToken,
 });

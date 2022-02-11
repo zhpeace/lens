@@ -5,10 +5,10 @@
 
 import type { HelmService } from "../helm-service";
 import { getDiForUnitTesting } from "../../getDiForUnitTesting";
-import getRepositoriesInjectable from "../get-repositories.injectable";
+import getHelmRepositoriesInjectable from "../get-helm-repositories/get-helm-repositories.injectable";
 import asyncFn, { AsyncFnMock } from "@async-fn/jest";
-import type { HelmRepo } from "../helm-repo-manager";
 import helmServiceInjectable from "../helm-service.injectable";
+import type { HelmRepo } from "../get-helm-repositories/read-helm-config/read-helm-config";
 
 jest.mock("../helm-chart-manager");
 
@@ -21,7 +21,7 @@ describe("Helm Service tests", () => {
 
     getRepositoriesMock = asyncFn();
 
-    di.override(getRepositoriesInjectable, () => getRepositoriesMock);
+    di.override(getHelmRepositoriesInjectable, () => getRepositoriesMock);
 
     await di.runSetups();
 
