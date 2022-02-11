@@ -6,7 +6,7 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { getHelmRepositories } from "./get-helm-repositories";
 import addHelmRepositoryInjectable from "../add-helm-repository/add-helm-repository.injectable";
 import updateHelmRepositoriesInjectable from "../update-helm-repositories/update-helm-repositories.injectable";
-import getHelmEnvInjectable from "../get-helm-env/get-helm-env.injectable";
+import getHelmEnvInjectable from "../../get-helm-env/get-helm-env.injectable";
 import readHelmConfigInjectable from "./read-helm-config/read-helm-config.injectable";
 import { once } from "lodash/fp";
 

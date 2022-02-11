@@ -3,11 +3,11 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { routeInjectionToken } from "../../../router/router.injectable";
-import { apiPrefix } from "../../../../common/vars";
-import type { LensApiRequest } from "../../../router";
-import addHelmRepositoryInjectable from "../../../helm/add-helm-repository/add-helm-repository.injectable";
-import type { HelmRepo } from "../../../../common/helm-repo";
+import { routeInjectionToken } from "../../../../router/router.injectable";
+import { apiPrefix } from "../../../../../common/vars";
+import type { LensApiRequest } from "../../../../router";
+import addHelmRepositoryInjectable from "../../../../helm/repositories/add-helm-repository/add-helm-repository.injectable";
+import type { HelmRepo } from "../../../../../common/helm-repo";
 
 const addHelmRepositoryRouteInjectable = getInjectable({
   id: "helm-route-add-repo",

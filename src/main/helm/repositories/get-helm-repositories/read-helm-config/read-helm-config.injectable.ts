@@ -4,7 +4,7 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { readHelmConfig } from "./read-helm-config";
-import readFileInjectable from "../../../../common/fs/read-file.injectable";
+import readFileInjectable from "../../../../../common/fs/read-file.injectable";
 
 const readHelmConfigInjectable = getInjectable({
   id: "read-helm-config",

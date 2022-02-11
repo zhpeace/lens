@@ -5,7 +5,7 @@
 
 import type { HelmService } from "../helm-service";
 import { getDiForUnitTesting } from "../../getDiForUnitTesting";
-import getHelmRepositoriesInjectable from "../get-helm-repositories/get-helm-repositories.injectable";
+import getHelmRepositoriesInjectable from "../repositories/get-helm-repositories/get-helm-repositories.injectable";
 import asyncFn, { AsyncFnMock } from "@async-fn/jest";
 import helmServiceInjectable from "../helm-service.injectable";
 import type { HelmRepo } from "../../../common/helm-repo";

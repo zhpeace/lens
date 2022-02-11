@@ -4,8 +4,8 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { HelmService } from "./helm-service";
-import getHelmRepositoryInjectable from "./get-helm-repository/get-helm-repository.injectable";
-import getHelmRepositoriesInjectable from "./get-helm-repositories/get-helm-repositories.injectable";
+import getHelmRepositoryInjectable from "./repositories/get-helm-repository/get-helm-repository.injectable";
+import getHelmRepositoriesInjectable from "./repositories/get-helm-repositories/get-helm-repositories.injectable";
 
 const helmServiceInjectable = getInjectable({
   id: "helm-service",

@@ -2,10 +2,10 @@
  * Copyright (c) OpenLens Authors. All rights reserved.
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
-import logger from "../../logger";
-import type { HelmEnv } from "../get-helm-env/get-helm-env";
+import logger from "../../../logger";
+import type { HelmEnv } from "../../get-helm-env/get-helm-env";
 import type { HelmRepoConfig } from "./read-helm-config/read-helm-config";
-import type { HelmRepo } from "../../../common/helm-repo";
+import type { HelmRepo } from "../../../../common/helm-repo";
 
 interface Dependencies {
   readHelmConfig: (configPath: string) => Promise<HelmRepoConfig>
