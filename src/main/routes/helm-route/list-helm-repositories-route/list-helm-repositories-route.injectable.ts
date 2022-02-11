@@ -9,7 +9,7 @@ import { apiPrefix } from "../../../../common/vars";
 import type { LensApiRequest } from "../../../router";
 import { respondJson } from "../../../utils/http-responses";
 
-const listReposInjectable = getInjectable({
+const listHelmRepositoriesRouteInjectable = getInjectable({
   id: "helm-route-list-repos",
 
   instantiate: (di) => {
@@ -30,4 +30,4 @@ const listReposInjectable = getInjectable({
   injectionToken: routeInjectionToken,
 });
 
-export default listReposInjectable;
+export default listHelmRepositoriesRouteInjectable;

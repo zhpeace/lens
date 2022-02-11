@@ -9,7 +9,7 @@ import removeHelmRepositoryInjectable from "../../../helm/remove-helm-repository
 import type { LensApiRequest } from "../../../router";
 import type { HelmRepo } from "../../../../common/helm-repo";
 
-const removeRepoInjectable = getInjectable({
+const removeHelmRepositoryRouteInjectable = getInjectable({
   id: "helm-route-remove-repo",
 
   instantiate: (di) => {
@@ -32,4 +32,4 @@ const removeRepoInjectable = getInjectable({
   injectionToken: routeInjectionToken,
 });
 
-export default removeRepoInjectable;
+export default removeHelmRepositoryRouteInjectable;
