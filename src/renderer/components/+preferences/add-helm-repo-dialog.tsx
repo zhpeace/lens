@@ -9,7 +9,7 @@ import React from "react";
 import type { FileFilter } from "electron";
 import { observable, makeObservable, action } from "mobx";
 import { observer } from "mobx-react";
-import { Dialog, DialogProps } from "../dialog";
+import { Dialog } from "../dialog";
 import { Wizard, WizardStep } from "../wizard";
 import { Input } from "../input";
 import { Checkbox } from "../checkbox";
@@ -18,11 +18,16 @@ import { systemName, isUrl, isPath } from "../input/input_validators";
 import { SubTitle } from "../layout/sub-title";
 import { Icon } from "../icon";
 import { Notifications } from "../notifications";
-import { type HelmRepo, HelmRepoManager } from "../../../main/helm/helm-repo-manager";
 import { requestOpenFilePickingDialog } from "../../ipc";
+import { withInjectables } from "@ogre-tools/injectable-react";
+import addHelmRepoDialogModelInjectable from "./add-helm-repo-dialog-model.injectable";
+import type { AddHelmRepoDialogModel } from "./add-helm-repo-dialog-model";
+import addHelmRepositoryInjectable from "./add-helm-repository/add-helm-repository.injectable";
+import type { HelmRepo } from "../../../common/helm-repo";
 
-export interface AddHelmRepoDialogProps extends Partial<DialogProps> {
-  onAddRepo: () => void;
+interface Dependencies {
+  addHelmRepository: (repo: HelmRepo) => Promise<void>;
+  model: AddHelmRepoDialogModel;
 }
 
 enum FileType {
@@ -31,38 +36,26 @@ enum FileType {
   CertFile = "certFile",
 }
 
-const dialogState = observable.object({
-  isOpen: false,
-});
-
 function getEmptyRepo(): HelmRepo {
   return { name: "", url: "", username: "", password: "", insecureSkipTlsVerify: false, caFile: "", keyFile: "", certFile: "" };
 }
 
 @observer
-export class AddHelmRepoDialog extends React.Component<AddHelmRepoDialogProps> {
-  private static keyExtensions = ["key", "keystore", "jks", "p12", "pfx", "pem"];
-  private static certExtensions = ["crt", "cer", "ca-bundle", "p7b", "p7c", "p7s", "p12", "pfx", "pem"];
+class NonInjectedAddHelmRepoDialog extends React.Component<Dependencies> {
+  private keyExtensions = ["key", "keystore", "jks", "p12", "pfx", "pem"];
+  private certExtensions = ["crt", "cer", "ca-bundle", "p7b", "p7c", "p7s", "p12", "pfx", "pem"];
 
-  constructor(props: AddHelmRepoDialogProps) {
+  constructor(props: Dependencies) {
     super(props);
     makeObservable(this);
   }
 
-  static open() {
-    dialogState.isOpen = true;
-  }
-
-  static close() {
-    dialogState.isOpen = false;
-  }
-
-  @observable helmRepo = getEmptyRepo();
+  @observable helmRepo : HelmRepo = getEmptyRepo();
   @observable showOptions = false;
 
   @action
     close = () => {
-      AddHelmRepoDialog.close();
+      this.props.model.close();
       this.helmRepo = getEmptyRepo();
       this.showOptions = false;
     };
@@ -94,9 +87,8 @@ export class AddHelmRepoDialog extends React.Component<AddHelmRepoDialogProps> {
 
   async addCustomRepo() {
     try {
-      await HelmRepoManager.getInstance().addRepo(this.helmRepo);
-      Notifications.ok(<>Helm repository <b>{this.helmRepo.name}</b> has been added</>);
-      this.props.onAddRepo();
+      this.props.addHelmRepository(this.helmRepo);
+      Notifications.ok(<>Helm repository <b>{this.helmRepo.name}</b> has added</>);
       this.close();
     } catch (err) {
       Notifications.error(<>Adding helm branch <b>{this.helmRepo.name}</b> has failed: {String(err)}</>);
@@ -130,9 +122,9 @@ export class AddHelmRepoDialog extends React.Component<AddHelmRepoDialogProps> {
           value={this.helmRepo.insecureSkipTlsVerify}
           onChange={v => this.helmRepo.insecureSkipTlsVerify = v}
         />
-        {this.renderFileInput("Key file", FileType.KeyFile, AddHelmRepoDialog.keyExtensions)}
-        {this.renderFileInput("Ca file", FileType.CaFile, AddHelmRepoDialog.certExtensions)}
-        {this.renderFileInput("Certificate file", FileType.CertFile, AddHelmRepoDialog.certExtensions)}
+        {this.renderFileInput("Key file", FileType.KeyFile, this.keyExtensions)}
+        {this.renderFileInput("Ca file", FileType.CaFile, this.certExtensions)}
+        {this.renderFileInput("Certificate file", FileType.CertFile, this.certExtensions)}
         <SubTitle title="Chart Repository Credentials" />
         <Input
           placeholder="Username"
@@ -155,7 +147,7 @@ export class AddHelmRepoDialog extends React.Component<AddHelmRepoDialogProps> {
       <Dialog
         {...dialogProps}
         className="AddHelmRepoDialog"
-        isOpen={dialogState.isOpen}
+        isOpen={this.props.model.isOpen}
         close={this.close}
       >
         <Wizard header={header} done={this.close}>
@@ -190,3 +182,15 @@ export class AddHelmRepoDialog extends React.Component<AddHelmRepoDialogProps> {
     );
   }
 }
+
+export const AddHelmRepoDialog = withInjectables<Dependencies>(
+  NonInjectedAddHelmRepoDialog,
+
+  {
+    getProps: (di, props) => ({
+      addHelmRepository: di.inject(addHelmRepositoryInjectable),
+      model: di.inject(addHelmRepoDialogModelInjectable),
+      ...props,
+    }),
+  },
+);
