@@ -4,10 +4,10 @@
  */
 
 import glob from "glob";
-import { memoize, kebabCase } from "lodash/fp";
+import { kebabCase, memoize, noop } from "lodash/fp";
 import { createContainer } from "@ogre-tools/injectable";
 
-import { setLegacyGlobalDiForExtensionApi } from "../extensions/as-legacy-globals-for-extension-api/legacy-global-di-for-extension-api";
+import { Environments, setLegacyGlobalDiForExtensionApi } from "../extensions/as-legacy-globals-for-extension-api/legacy-global-di-for-extension-api";
 import getElectronAppPathInjectable from "./app-paths/get-electron-app-path/get-electron-app-path.injectable";
 import setElectronAppPathInjectable from "./app-paths/set-electron-app-path/set-electron-app-path.injectable";
 import appNameInjectable from "./app-paths/app-name/app-name.injectable";
@@ -15,13 +15,14 @@ import registerChannelInjectable from "./app-paths/register-channel/register-cha
 import writeJsonFileInjectable from "../common/fs/write-json-file.injectable";
 import readJsonFileInjectable from "../common/fs/read-json-file.injectable";
 import directoryForBundledBinariesInjectable from "../common/app-paths/directory-for-bundled-binaries/directory-for-bundled-binaries.injectable";
+import loggerInjectable from "../common/logger.injectable";
 
 export const getDiForUnitTesting = (
   { doGeneralOverrides } = { doGeneralOverrides: false },
 ) => {
   const di = createContainer();
 
-  setLegacyGlobalDiForExtensionApi(di);
+  setLegacyGlobalDiForExtensionApi(di, Environments.main);
 
   for (const filePath of getInjectableFilePaths()) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -53,6 +54,14 @@ export const getDiForUnitTesting = (
     di.override(readJsonFileInjectable, () => () => {
       throw new Error("Tried to read JSON file from file system without specifying explicit override.");
     });
+
+    di.override(loggerInjectable, () => ({
+      warn: noop,
+      debug: noop,
+      log: noop,
+      error: (...args: any) => console.error(...args),
+      info: noop,
+    }));
   }
 
   return di;

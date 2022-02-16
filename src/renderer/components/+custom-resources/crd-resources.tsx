@@ -8,18 +8,17 @@ import "./crd-resources.scss";
 import React from "react";
 import jsonPath from "jsonpath";
 import { observer } from "mobx-react";
-import type { RouteComponentProps } from "react-router";
 import { KubeObjectListLayout } from "../kube-object-list-layout";
 import type { KubeObject } from "../../../common/k8s-api/kube-object";
-import { computed, makeObservable } from "mobx";
+import { computed, IComputedValue, makeObservable } from "mobx";
 import { crdStore } from "./crd.store";
 import type { TableSortCallbacks } from "../table";
 import { apiManager } from "../../../common/k8s-api/api-manager";
 import { parseJsonPath } from "../../utils/jsonPath";
-import type { CRDRouteParams } from "../../../common/routes";
-
-export interface CustomResourceDefinitionResourcesProps extends RouteComponentProps<CRDRouteParams> {
-}
+import { TabLayout } from "../layout/tab-layout-2";
+import { withInjectables } from "@ogre-tools/injectable-react";
+import customResourcesRouteParametersInjectable
+  from "./custom-resources-route-parameters.injectable";
 
 enum columnId {
   name = "name",
@@ -27,17 +26,20 @@ enum columnId {
   age = "age",
 }
 
+interface Dependencies {
+  group: IComputedValue<string>;
+  name: IComputedValue<string>;
+}
+
 @observer
-export class CustomResourceDefinitionResources extends React.Component<CustomResourceDefinitionResourcesProps> {
-  constructor(props: CustomResourceDefinitionResourcesProps) {
+class NonInjectedCrdResources extends React.Component<Dependencies> {
+  constructor(props: Dependencies) {
     super(props);
     makeObservable(this);
   }
 
   @computed get crd() {
-    const { group, name } = this.props.match.params;
-
-    return crdStore.getByGroup(group, name);
+    return crdStore.getByGroup(this.props.group.get(), this.props.name.get());
   }
 
   @computed get store() {
@@ -72,58 +74,81 @@ export class CustomResourceDefinitionResources extends React.Component<CustomRes
       );
 
     return (
-      <KubeObjectListLayout
-        isConfigurable
-        key={`crd_resources_${crd.getResourceApiBase()}`}
-        tableId="crd_resources"
-        className="CrdResources"
-        store={store}
-        sortingCallbacks={sortingCallbacks}
-        searchFilters={[
-          item => item.getSearchFields(),
-        ]}
-        renderHeaderTitle={crd.getResourceKind()}
-        customizeHeader={({ searchProps, ...headerPlaceholders }) => ({
-          searchProps: {
-            ...searchProps,
-            placeholder: `${crd.getResourceKind()} search ...`,
-          },
-          ...headerPlaceholders,
-        })}
-        renderTableHeader={[
-          { title: "Name", className: "name", sortBy: columnId.name, id: columnId.name },
-          isNamespaced && { title: "Namespace", className: "namespace", sortBy: columnId.namespace, id: columnId.namespace },
-          ...extraColumns.map(column => {
-            const { name } = column;
+      <TabLayout>
+        <KubeObjectListLayout
+          isConfigurable
+          key={`crd_resources_${crd.getResourceApiBase()}`}
+          tableId="crd_resources"
+          className="CrdResources"
+          store={store}
+          sortingCallbacks={sortingCallbacks}
+          searchFilters={[
+            item => item.getSearchFields(),
+          ]}
+          renderHeaderTitle={crd.getResourceKind()}
+          customizeHeader={({ searchProps, ...headerPlaceholders }) => ({
+            searchProps: {
+              ...searchProps,
+              placeholder: `${crd.getResourceKind()} search ...`,
+            },
+            ...headerPlaceholders,
+          })}
+          renderTableHeader={[
+            { title: "Name", className: "name", sortBy: columnId.name, id: columnId.name },
+            isNamespaced && {
+              title: "Namespace",
+              className: "namespace",
+              sortBy: columnId.namespace,
+              id: columnId.namespace,
+            },
+            ...extraColumns.map(column => {
+              const { name } = column;
 
-            return {
-              title: name,
-              className: name.toLowerCase(),
-              sortBy: name,
-              id: name,
-            };
-          }),
-          { title: "Age", className: "age", sortBy: columnId.age, id: columnId.age },
-        ]}
-        renderTableContents={crdInstance => [
-          crdInstance.getName(),
-          isNamespaced && crdInstance.getNs(),
-          ...extraColumns.map((column) => {
-            let value = jsonPath.value(crdInstance, parseJsonPath(column.jsonPath.slice(1)));
+              return {
+                title: name,
+                className: name.toLowerCase(),
+                sortBy: name,
+                id: name,
+              };
+            }),
+            { title: "Age", className: "age", sortBy: columnId.age, id: columnId.age },
+          ]}
+          renderTableContents={crdInstance => [
+            crdInstance.getName(),
+            isNamespaced && crdInstance.getNs(),
+            ...extraColumns.map((column) => {
+              let value = jsonPath.value(crdInstance, parseJsonPath(column.jsonPath.slice(1)));
 
-            if (Array.isArray(value) || typeof value === "object") {
-              value = JSON.stringify(value);
-            }
+              if (Array.isArray(value) || typeof value === "object") {
+                value = JSON.stringify(value);
+              }
 
-            return {
-              renderBoolean: true,
-              children: value,
-            };
-          }),
-          crdInstance.getAge(),
-        ]}
-        failedToLoadMessage={failedToLoadMessage}
-      />
+              return {
+                renderBoolean: true,
+                children: value,
+              };
+            }),
+            crdInstance.getAge(),
+          ]}
+          failedToLoadMessage={failedToLoadMessage}
+        />
+      </TabLayout>
     );
   }
 }
+
+export const CrdResources = withInjectables<Dependencies>(
+  NonInjectedCrdResources,
+
+  {
+    getProps: (di) => {
+      const routeParameters = di.inject(customResourcesRouteParametersInjectable);
+
+      return {
+        group: routeParameters.group,
+        name: routeParameters.name,
+      };
+    },
+  },
+);
+

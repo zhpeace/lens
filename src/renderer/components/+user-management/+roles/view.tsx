@@ -7,12 +7,11 @@ import "./view.scss";
 
 import { observer } from "mobx-react";
 import React from "react";
-import type { RouteComponentProps } from "react-router";
 import { KubeObjectListLayout } from "../../kube-object-list-layout";
 import { KubeObjectStatusIcon } from "../../kube-object-status-icon";
 import { AddRoleDialog } from "./add-dialog";
 import { rolesStore } from "./store";
-import type { RolesRouteParams } from "../../../../common/routes";
+import { SiblingsInTabLayout } from "../../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -20,14 +19,11 @@ enum columnId {
   age = "age",
 }
 
-export interface RolesProps extends RouteComponentProps<RolesRouteParams> {
-}
-
 @observer
-export class Roles extends React.Component<RolesProps> {
+export class Roles extends React.Component {
   render() {
     return (
-      <>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="access_roles"
@@ -60,7 +56,7 @@ export class Roles extends React.Component<RolesProps> {
           }}
         />
         <AddRoleDialog/>
-      </>
+      </SiblingsInTabLayout>
     );
   }
 }

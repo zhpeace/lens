@@ -124,12 +124,9 @@ describe("HotbarStore", () => {
         "lens-hotbar-store.json": JSON.stringify({}),
       },
     });
-
-    HotbarStore.createInstance();
   });
 
   afterEach(() => {
-    HotbarStore.resetInstance();
     mockFs.restore();
   });
 
@@ -390,8 +387,6 @@ describe("HotbarStore", () => {
       };
 
       mockFs(mockOpts);
-
-      HotbarStore.createInstance();
     });
 
     afterEach(() => {
