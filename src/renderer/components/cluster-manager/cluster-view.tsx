@@ -5,9 +5,8 @@
 
 import "./cluster-view.scss";
 import React from "react";
-import { computed, makeObservable, reaction } from "mobx";
+import { computed, IComputedValue, makeObservable, reaction } from "mobx";
 import { disposeOnUnmount, observer } from "mobx-react";
-import type { RouteComponentProps } from "react-router";
 import { ClusterStatus } from "./cluster-status";
 import { ClusterFrameHandler } from "./lens-views";
 import type { Cluster } from "../../../common/cluster/cluster";
@@ -16,21 +15,24 @@ import { catalogEntityRegistry } from "../../api/catalog-entity-registry";
 import { navigate } from "../../navigation";
 import { catalogURL, ClusterViewRouteParams } from "../../../common/routes";
 import { requestClusterActivation } from "../../ipc";
+import { withInjectables } from "@ogre-tools/injectable-react";
+import pathParametersInjectable from "../../routes/path-parameters.injectable";
 
-interface Props extends RouteComponentProps<ClusterViewRouteParams> {
+interface Dependencies {
+  pathParameters: IComputedValue<ClusterViewRouteParams>
 }
 
 @observer
-export class ClusterView extends React.Component<Props> {
+class NonInjectedClusterView extends React.Component<Dependencies> {
   private store = ClusterStore.getInstance();
 
-  constructor(props: Props) {
+  constructor(props: Dependencies) {
     super(props);
     makeObservable(this);
   }
 
   @computed get clusterId() {
-    return this.props.match.params.clusterId;
+    return this.props.pathParameters.get().clusterId;
   }
 
   @computed get cluster(): Cluster | undefined {
@@ -89,3 +91,14 @@ export class ClusterView extends React.Component<Props> {
     );
   }
 }
+
+export const ClusterView = withInjectables<Dependencies>(
+  NonInjectedClusterView,
+
+  {
+    getProps: (di) => ({
+      pathParameters: di.inject(pathParametersInjectable) as IComputedValue<ClusterViewRouteParams>,
+    }),
+  },
+);
+

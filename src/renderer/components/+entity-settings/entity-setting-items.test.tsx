@@ -13,7 +13,6 @@ import { DiContainer, getInjectable } from "@ogre-tools/injectable";
 import entitySettingItemsInjectable, {
   entitySettingRegistrationInjectionToken,
 } from "./entity-setting-items.injectable";
-import type { CatalogEntity } from "../../../common/catalog";
 import React from "react";
 import { get, matches } from "lodash/fp";
 
@@ -58,15 +57,15 @@ describe("entity-setting-items", () => {
 
     di.register(someInjectable);
 
-    const catalogEntityStub = {
-      kind: "some-kind",
-      apiVersion: "some-api-version",
-      metadata: {
-        source: "some-source",
-      },
-    } as CatalogEntity;
+    // const catalogEntityStub = {
+    //   kind: "some-kind",
+    //   apiVersion: "some-api-version",
+    //   metadata: {
+    //     source: "some-source",
+    //   },
+    // } as CatalogEntity;
 
-    const items = di.inject(entitySettingItemsInjectable, catalogEntityStub).get();
+    const items = di.inject(entitySettingItemsInjectable).get();
 
     const actual = items.find(matches({ id: "some-registration-id" }));
 
@@ -89,15 +88,15 @@ describe("entity-setting-items", () => {
       registrations.push(registrationStub);
     });
 
-    const catalogEntityStub = {
-      kind: "some-kind",
-      apiVersion: "some-api-version",
-      metadata: {
-        source: "some-source",
-      },
-    } as CatalogEntity;
+    // const catalogEntityStub = {
+    //   kind: "some-kind",
+    //   apiVersion: "some-api-version",
+    //   metadata: {
+    //     source: "some-source",
+    //   },
+    // } as CatalogEntity;
 
-    const actual = di.inject(entitySettingItemsInjectable, catalogEntityStub).get();
+    const actual = di.inject(entitySettingItemsInjectable).get();
 
     expect(actual.find(matches({ id: "some-registration-id" }))).toBeUndefined();
   });
@@ -118,15 +117,15 @@ describe("entity-setting-items", () => {
       registrations.push(registrationStub);
     });
 
-    const catalogEntityStub = {
-      kind: "some-kind",
-      apiVersion: "some-api-version",
-      metadata: {
-        source: "some-source",
-      },
-    } as CatalogEntity;
+    // const catalogEntityStub = {
+    //   kind: "some-kind",
+    //   apiVersion: "some-api-version",
+    //   metadata: {
+    //     source: "some-source",
+    //   },
+    // } as CatalogEntity;
 
-    const items = di.inject(entitySettingItemsInjectable, catalogEntityStub).get();
+    const items = di.inject(entitySettingItemsInjectable).get();
 
     expect(items.find(matches({ id: "some-registration-id" }))).toBeUndefined();
   });
@@ -148,15 +147,15 @@ describe("entity-setting-items", () => {
       registrations.push(registrationStub);
     });
 
-    const catalogEntityStub = {
-      kind: "some-kind",
-      apiVersion: "some-api-version",
-      metadata: {
-        source: "some-source",
-      },
-    } as CatalogEntity;
+    // const catalogEntityStub = {
+    //   kind: "some-kind",
+    //   apiVersion: "some-api-version",
+    //   metadata: {
+    //     source: "some-source",
+    //   },
+    // } as CatalogEntity;
 
-    const items = di.inject(entitySettingItemsInjectable, catalogEntityStub).get();
+    const items = di.inject(entitySettingItemsInjectable).get();
 
     const actual = items.find(matches({ id: "some-registration-id" }));
 
@@ -180,15 +179,15 @@ describe("entity-setting-items", () => {
       registrations.push(registrationStub);
     });
 
-    const catalogEntityStub = {
-      kind: "some-kind",
-      apiVersion: "some-api-version",
-      metadata: {
-        source: "some-source",
-      },
-    } as CatalogEntity;
+    // const catalogEntityStub = {
+    //   kind: "some-kind",
+    //   apiVersion: "some-api-version",
+    //   metadata: {
+    //     source: "some-source",
+    //   },
+    // } as CatalogEntity;
 
-    const items = di.inject(entitySettingItemsInjectable, catalogEntityStub).get();
+    const items = di.inject(entitySettingItemsInjectable).get();
 
     const actual = items.find(matches({ id: "some-registration-id" }));
 
@@ -212,15 +211,15 @@ describe("entity-setting-items", () => {
       registrations.push(registrationStub);
     });
 
-    const catalogEntityStub = {
-      kind: "some-kind",
-      apiVersion: "some-api-version",
-      metadata: {
-        source: undefined,
-      },
-    } as CatalogEntity;
+    // const catalogEntityStub = {
+    //   kind: "some-kind",
+    //   apiVersion: "some-api-version",
+    //   metadata: {
+    //     source: undefined,
+    //   },
+    // } as CatalogEntity;
 
-    const items = di.inject(entitySettingItemsInjectable, catalogEntityStub).get();
+    const items = di.inject(entitySettingItemsInjectable).get();
 
     const actual = items.find(matches({ id: "some-registration-id" }));
 
@@ -243,15 +242,15 @@ describe("entity-setting-items", () => {
       registrations.push(registrationStub);
     });
 
-    const catalogEntityStub = {
-      kind: "some-kind",
-      apiVersion: "some-api-version",
-      metadata: {
-        source: undefined,
-      },
-    } as CatalogEntity;
+    // const catalogEntityStub = {
+    //   kind: "some-kind",
+    //   apiVersion: "some-api-version",
+    //   metadata: {
+    //     source: undefined,
+    //   },
+    // } as CatalogEntity;
 
-    const items = di.inject(entitySettingItemsInjectable, catalogEntityStub).get();
+    const items = di.inject(entitySettingItemsInjectable).get();
 
     const actual = items.find(matches({ id: "some-title" }));
 
@@ -292,74 +291,21 @@ describe("entity-setting-items", () => {
       registrations.push(registrationWithoutPriority);
     });
 
-    const catalogEntityStub = {
-      kind: "some-kind",
-      apiVersion: "some-api-version",
-      metadata: {
-        source: "irrelevant",
-      },
-    } as CatalogEntity;
+    // const catalogEntityStub = {
+    //   kind: "some-kind",
+    //   apiVersion: "some-api-version",
+    //   metadata: {
+    //     source: "irrelevant",
+    //   },
+    // } as CatalogEntity;
 
-    const items = di.inject(entitySettingItemsInjectable, catalogEntityStub).get();
+    const items = di.inject(entitySettingItemsInjectable).get();
 
     expect(items.map(get("id"))).toEqual([
       "registration-with-top-priority",
       "registration-without-priority",
       "registration-with-low-priority",
     ]);
-  });
-
-  it("given injecting multiple times for same catalog entity, receives same instance", () => {
-    const catalogEntityStub = {
-      kind: "some-kind",
-      apiVersion: "some-api-version",
-      metadata: {
-        source: "some-source",
-      },
-    } as CatalogEntity;
-
-    const otherCatalogEntityStub = {
-      kind: "some-other-kind",
-      apiVersion: "some-other-api-version",
-      metadata: {
-        source: "some-other-source",
-      },
-    } as CatalogEntity;
-
-    const actual1 = di.inject(entitySettingItemsInjectable, catalogEntityStub);
-
-    di.inject(entitySettingItemsInjectable, otherCatalogEntityStub);
-
-    const actual2 = di.inject(entitySettingItemsInjectable, catalogEntityStub);
-
-    expect(actual1).toBe(actual2);
-  });
-
-  it("given injecting multiple times for different catalog entities, receives different instances", () => {
-    const catalogEntityStub = {
-      kind: "some-kind",
-      apiVersion: "some-api-version",
-      metadata: {
-        source: "some-source",
-      },
-    } as CatalogEntity;
-
-    const otherCatalogEntityStub = {
-      kind: "some-other-kind",
-      apiVersion: "some-other-api-version",
-      metadata: {
-        source: "some-other-source",
-      },
-    } as CatalogEntity;
-
-    const actual1 = di.inject(entitySettingItemsInjectable, catalogEntityStub);
-
-    const actual2 = di.inject(
-      entitySettingItemsInjectable,
-      otherCatalogEntityStub,
-    );
-
-    expect(actual1).not.toBe(actual2);
   });
 });
 

@@ -83,9 +83,13 @@ class PageRegistry extends BaseRegistry<PageRegistration, RegisteredPage> {
     const components = this.normalizeComponents(page.components, params);
     const url = getExtensionPageUrl({ extensionId, pageId });
 
-    return {
+    const asd = {
       id: pageId, extensionId, params, components, url,
     };
+
+    console.log("mikko", { asd, page });
+
+    return asd;
   }
 
   protected normalizeComponents(components: PageComponents, params?: PageParams<PageParam>): PageComponents {

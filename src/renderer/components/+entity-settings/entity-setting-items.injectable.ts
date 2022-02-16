@@ -2,25 +2,28 @@
  * Copyright (c) OpenLens Authors. All rights reserved.
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
-import {
-  getInjectable,
-  getInjectionToken,
-} from "@ogre-tools/injectable";
+import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
 import { conforms, eq, includes, isEmpty, overSome } from "lodash/fp";
 import { computed } from "mobx";
-import extensionEntitySettingRegistrationsInjectable
-  from "./extension-entity-setting-registrations.injectable";
+import extensionEntitySettingRegistrationsInjectable from "./extension-entity-setting-registrations.injectable";
 import type { EntitySettingRegistration } from "../../../extensions/registries";
 import activeCatalogEntityInjectable from "./active-catalog-entity.injectable";
 
-export const entitySettingRegistrationInjectionToken = getInjectionToken<EntitySettingRegistration>({ id: "entity-setting-registrations" });
+export const entitySettingRegistrationInjectionToken =
+  getInjectionToken<EntitySettingRegistration>({
+    id: "entity-setting-registrations",
+  });
 
 const entitySettingItemsInjectable = getInjectable({
   id: "entity-setting-items",
 
   instantiate: (di) => {
-    const extensionEntitySettingRegistrations = di.inject(extensionEntitySettingRegistrationsInjectable);
-    const coreEntitySettingRegistrations = di.injectMany(entitySettingRegistrationInjectionToken);
+    const extensionEntitySettingRegistrations = di.inject(
+      extensionEntitySettingRegistrationsInjectable,
+    );
+    const coreEntitySettingRegistrations = di.injectMany(
+      entitySettingRegistrationInjectionToken,
+    );
 
     return computed(() => {
       const entity = di.inject(activeCatalogEntityInjectable).get();

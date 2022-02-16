@@ -36,6 +36,7 @@ import getCategoryColumnsInjectable from "./get-category-columns.injectable";
 import type { RegisteredCustomCategoryViewDecl } from "./custom-views.injectable";
 import customCategoryViewsInjectable from "./custom-views.injectable";
 import type { CustomCategoryViewComponents } from "./custom-views";
+import pathParametersInjectable from "../../routes/path-parameters.injectable";
 
 interface Props extends RouteComponentProps<CatalogViewRouteParam> {}
 
@@ -44,6 +45,11 @@ interface Dependencies {
   catalogEntityStore: CatalogEntityStore;
   getCategoryColumns: (params: GetCategoryColumnsParams) => CategoryColumns;
   customCategoryViews: IComputedValue<Map<string, Map<string, RegisteredCustomCategoryViewDecl>>>;
+
+  pathParameters: {
+    group?: string
+    kind?: string
+  }
 }
 
 @observer
@@ -57,7 +63,7 @@ class NonInjectedCatalog extends React.Component<Props & Dependencies> {
   }
 
   get routeActiveTab(): string {
-    const { group, kind } = this.props.match.params ?? {};
+    const { group, kind } = this.props.pathParameters;
 
     if (group && kind) {
       return `${group}/${kind}`;
@@ -311,6 +317,7 @@ export const Catalog = withInjectables<Dependencies, Props>( NonInjectedCatalog,
     catalogPreviousActiveTabStorage: di.inject(catalogPreviousActiveTabStorageInjectable),
     getCategoryColumns: di.inject(getCategoryColumnsInjectable),
     customCategoryViews: di.inject(customCategoryViewsInjectable),
+    pathParameters: di.inject(pathParametersInjectable),
     ...props,
   }),
 });

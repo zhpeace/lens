@@ -36,6 +36,8 @@ import userStoreInjectable from "../common/user-store/user-store.injectable";
 import initRootFrameInjectable from "./frames/root-frame/init-root-frame/init-root-frame.injectable";
 import initClusterFrameInjectable from "./frames/cluster-frame/init-cluster-frame/init-cluster-frame.injectable";
 import commandOverlayInjectable from "./components/command-palette/command-overlay.injectable";
+import { Router } from "react-router";
+import historyInjectable from "./navigation/history.injectable";
 
 if (process.isMainFrame) {
   SentryInit();
@@ -135,9 +137,13 @@ export async function bootstrap(di: DiContainer) {
 
   await initializeApp(rootElem);
 
+  const history = di.inject(historyInjectable);
+
   render(
     <DiContextProvider value={{ di }}>
-      {DefaultProps(App)}
+      <Router history={history}>
+        {DefaultProps(App)}
+      </Router>
     </DiContextProvider>,
 
     rootElem,
