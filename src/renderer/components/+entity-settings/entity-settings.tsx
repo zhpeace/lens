@@ -12,7 +12,6 @@ import { observer } from "mobx-react";
 import { navigation } from "../../navigation";
 import { Tabs, Tab } from "../tabs";
 import type { CatalogEntity } from "../../api/catalog-entity";
-import { catalogEntityRegistry } from "../../api/catalog-entity-registry";
 import type { EntitySettingRegistration } from "../../../extensions/registries";
 import type { EntitySettingsRouteParams } from "../../../common/routes";
 import { groupBy } from "lodash";
@@ -20,13 +19,14 @@ import { SettingLayout } from "../layout/setting-layout";
 import { Avatar } from "../avatar";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import entitySettingItemsInjectable from "./entity-setting-items.injectable";
+import routeCatalogEntityInjectable from "./route-catalog-entity.injectable";
 
 interface Props extends RouteComponentProps<EntitySettingsRouteParams> {
 }
 
 interface Dependencies {
   registrations: IComputedValue<EntitySettingRegistration[]>
-  entity: CatalogEntity
+  entity: IComputedValue<CatalogEntity>
 }
 
 @observer
@@ -49,8 +49,8 @@ class NonInjectedEntitySettings extends React.Component<Props & Dependencies> {
     }
   }
 
-  get entity(): CatalogEntity {
-    return this.props.entity;
+  @computed get entity() {
+    return this.props.entity.get();
   }
 
   @computed get menuItems() {
@@ -114,6 +114,10 @@ class NonInjectedEntitySettings extends React.Component<Props & Dependencies> {
   render() {
     const { activeSetting } = this;
 
+    if (!this.entity) {
+      return null;
+    }
+
     return (
       <SettingLayout
         navigation={this.renderNavigation()}
@@ -138,18 +142,10 @@ export const EntitySettings = withInjectables<Dependencies, Props>(
   NonInjectedEntitySettings,
 
   {
-    getProps: (di, props) => {
-      const entity = catalogEntityRegistry.getById(props.match.params.entityId);
-
-      if (!entity) {
-        throw new Error("KUKKUU");
-      }
-
-      return {
-        registrations: di.inject(entitySettingItemsInjectable, entity),
-        entity,
-        ...props,
-      };
-    },
+    getProps: (di, props) => ({
+      registrations: di.inject(entitySettingItemsInjectable),
+      entity: di.inject(routeCatalogEntityInjectable),
+      ...props,
+    }),
   },
 );

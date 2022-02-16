@@ -17,7 +17,7 @@ import commandOverlayInjectable from "../command-overlay.injectable";
 import createTerminalTabInjectable from "../../dock/terminal/create-terminal-tab.injectable";
 import type { DockTabCreate } from "../../dock/dock/store";
 import entitySettingItemsInjectable from "../../+entity-settings/entity-setting-items.injectable";
-import type { CatalogEntity } from "../../../../common/catalog";
+import type { IComputedValue } from "mobx";
 
 export function isKubernetesClusterActive(context: CommandContext): boolean {
   return context.entity?.kind === "KubernetesCluster";
@@ -25,18 +25,19 @@ export function isKubernetesClusterActive(context: CommandContext): boolean {
 
 interface Dependencies {
   openCommandDialog: (component: React.ReactElement) => void;
-  getEntitySettingItems: (entity: CatalogEntity) => RegisteredEntitySetting[];
   createTerminalTab: () => DockTabCreate
+  entitySettingItems: IComputedValue<RegisteredEntitySetting[]>
 }
 
-function getInternalCommands({ openCommandDialog, getEntitySettingItems, createTerminalTab }: Dependencies): CommandRegistration[] {
+function getInternalCommands({ openCommandDialog, entitySettingItems, createTerminalTab }: Dependencies): CommandRegistration[] {
   return [
     {
       id: "app.showPreferences",
       title: "Preferences: Open",
-      action: ({ navigate }) => navigate(routes.preferencesURL(), {
-        forceRootFrame: true,
-      }),
+      action: ({ navigate }) =>
+        navigate(routes.preferencesURL(), {
+          forceRootFrame: true,
+        }),
     },
     {
       id: "cluster.viewHelmCharts",
@@ -160,17 +161,15 @@ function getInternalCommands({ openCommandDialog, getEntitySettingItems, createT
     },
     {
       id: "entity.viewSettings",
-      title: ({ entity }) => `${entity.kind}/${entity.getName()}: View Settings`,
-      action: ({ entity, navigate }) => navigate(`/entity/${entity.getId()}/settings`, {
-        forceRootFrame: true,
-      }),
-      isActive: ({ entity }) => {
-        if (!entity) {
-          return false;
-        }
+      title: ({ entity }) =>
+        `${entity.kind}/${entity.getName()}: View Settings`,
 
-        return getEntitySettingItems(entity).length > 0;
-      },
+      action: ({ entity, navigate }) =>
+        navigate(`/entity/${entity.getId()}/settings`, {
+          forceRootFrame: true,
+        }),
+
+      isActive: () => entitySettingItems.get().length > 0,
     },
     {
       id: "cluster.openTerminal",
@@ -211,7 +210,7 @@ const internalCommandsInjectable = getInjectable({
 
   instantiate: (di) => getInternalCommands({
     openCommandDialog: di.inject(commandOverlayInjectable).open,
-    getEntitySettingItems: (entity) => di.inject(entitySettingItemsInjectable, entity).get(),
+    entitySettingItems: di.inject(entitySettingItemsInjectable),
     createTerminalTab: di.inject(createTerminalTabInjectable),
   }),
 });

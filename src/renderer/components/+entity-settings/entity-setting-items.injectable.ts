@@ -5,25 +5,30 @@
 import {
   getInjectable,
   getInjectionToken,
-  lifecycleEnum,
 } from "@ogre-tools/injectable";
 import { conforms, eq, includes, isEmpty, overSome } from "lodash/fp";
 import { computed } from "mobx";
-import type { CatalogEntity } from "../../../common/catalog";
 import extensionEntitySettingRegistrationsInjectable
   from "./extension-entity-setting-registrations.injectable";
 import type { EntitySettingRegistration } from "../../../extensions/registries";
+import routeCatalogEntityInjectable from "./route-catalog-entity.injectable";
 
 export const entitySettingRegistrationInjectionToken = getInjectionToken<EntitySettingRegistration>({ id: "entity-setting-registrations" });
 
 const entitySettingItemsInjectable = getInjectable({
   id: "entity-setting-items",
 
-  instantiate: (di, entity: CatalogEntity) => {
+  instantiate: (di) => {
     const extensionEntitySettingRegistrations = di.inject(extensionEntitySettingRegistrationsInjectable);
     const coreEntitySettingRegistrations = di.injectMany(entitySettingRegistrationInjectionToken);
 
     return computed(() => {
+      const entity = di.inject(routeCatalogEntityInjectable).get();
+
+      if (!entity) {
+        return [];
+      }
+
       const allRegistrations = [
         ...coreEntitySettingRegistrations,
         ...extensionEntitySettingRegistrations.get(),
@@ -53,10 +58,10 @@ const entitySettingItemsInjectable = getInjectable({
     });
   },
 
-  lifecycle: lifecycleEnum.keyedSingleton({
-    getInstanceKey: (di, entity: CatalogEntity) =>
-      `${entity.kind}-${entity.apiVersion}-${entity.metadata.source}`,
-  }),
+  // lifecycle: lifecycleEnum.keyedSingleton({
+  //   getInstanceKey: (di, entity: CatalogEntity) =>
+  //     `${entity.kind}-${entity.apiVersion}-${entity.metadata.source}`,
+  // }),
 });
 
 export default entitySettingItemsInjectable;
