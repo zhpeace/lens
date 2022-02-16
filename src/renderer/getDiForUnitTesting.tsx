@@ -4,19 +4,25 @@
  */
 
 import glob from "glob";
-import { memoize } from "lodash/fp";
+import { memoize, noop } from "lodash/fp";
 import { createContainer } from "@ogre-tools/injectable";
-import { setLegacyGlobalDiForExtensionApi } from "../extensions/as-legacy-globals-for-extension-api/legacy-global-di-for-extension-api";
+import { Environments, setLegacyGlobalDiForExtensionApi } from "../extensions/as-legacy-globals-for-extension-api/legacy-global-di-for-extension-api";
 import getValueFromRegisteredChannelInjectable from "./app-paths/get-value-from-registered-channel/get-value-from-registered-channel.injectable";
-import writeJsonFileInjectable from "../common/fs/write-json-file.injectable";
-import readJsonFileInjectable from "../common/fs/read-json-file.injectable";
-import readDirInjectable from "../common/fs/read-dir.injectable";
-import readFileInjectable from "../common/fs/read-file.injectable";
+import loggerInjectable from "../common/logger.injectable";
+import { overrideFsWithFakes } from "../test-utils/override-fs-with-fakes";
+import observableHistoryInjectable from "./navigation/observable-history.injectable";
+import { searchParamsOptions } from "./navigation";
+import { createMemoryHistory } from "history";
+import { createObservableHistory } from "mobx-observable-history";
+import registerIpcChannelListenerInjectable from "./app-paths/get-value-from-registered-channel/register-ipc-channel-listener.injectable";
+import focusWindowInjectable from "./ipc-channel-listeners/focus-window.injectable";
 
-export const getDiForUnitTesting = ({ doGeneralOverrides } = { doGeneralOverrides: false }) => {
+export const getDiForUnitTesting = (
+  { doGeneralOverrides } = { doGeneralOverrides: false },
+) => {
   const di = createContainer();
 
-  setLegacyGlobalDiForExtensionApi(di);
+  setLegacyGlobalDiForExtensionApi(di, Environments.renderer);
 
   for (const filePath of getInjectableFilePaths()) {
     const injectableInstance = require(filePath).default;
@@ -31,22 +37,27 @@ export const getDiForUnitTesting = ({ doGeneralOverrides } = { doGeneralOverride
 
   if (doGeneralOverrides) {
     di.override(getValueFromRegisteredChannelInjectable, () => () => undefined);
+    di.override(registerIpcChannelListenerInjectable, () => () => undefined);
 
-    di.override(readDirInjectable, () => () => {
-      throw new Error("Tried to read contents of a directory from file system without specifying explicit override.");
+    overrideFsWithFakes(di);
+
+    di.override(observableHistoryInjectable, () => {
+      const historyFake = createMemoryHistory();
+
+      return createObservableHistory(historyFake, {
+        searchParams: searchParamsOptions,
+      });
     });
 
-    di.override(readFileInjectable, () => () => {
-      throw new Error("Tried to read a file from file system without specifying explicit override.");
-    });
+    di.override(focusWindowInjectable, () => () => {});
 
-    di.override(writeJsonFileInjectable, () => () => {
-      throw new Error("Tried to write JSON file to file system without specifying explicit override.");
-    });
-
-    di.override(readJsonFileInjectable, () => () => {
-      throw new Error("Tried to read JSON file from file system without specifying explicit override.");
-    });
+    di.override(loggerInjectable, () => ({
+      warn: noop,
+      debug: noop,
+      log: noop,
+      error: (...args: any) => console.error(...args),
+      info: noop,
+    }));
   }
 
   return di;
