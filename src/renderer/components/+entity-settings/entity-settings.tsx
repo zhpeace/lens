@@ -6,28 +6,34 @@
 import styles from "./entity-settings.module.scss";
 
 import React from "react";
-import { observable, makeObservable } from "mobx";
+import { observable, makeObservable, IComputedValue, computed } from "mobx";
 import type { RouteComponentProps } from "react-router";
 import { observer } from "mobx-react";
 import { navigation } from "../../navigation";
 import { Tabs, Tab } from "../tabs";
 import type { CatalogEntity } from "../../api/catalog-entity";
 import { catalogEntityRegistry } from "../../api/catalog-entity-registry";
-import { EntitySettingRegistry } from "../../../extensions/registries";
+import type { EntitySettingRegistration } from "../../../extensions/registries";
 import type { EntitySettingsRouteParams } from "../../../common/routes";
 import { groupBy } from "lodash";
 import { SettingLayout } from "../layout/setting-layout";
-import logger from "../../../common/logger";
 import { Avatar } from "../avatar";
+import { withInjectables } from "@ogre-tools/injectable-react";
+import entitySettingItemsInjectable from "./entity-setting-items.injectable";
 
 interface Props extends RouteComponentProps<EntitySettingsRouteParams> {
 }
 
+interface Dependencies {
+  registrations: IComputedValue<EntitySettingRegistration[]>
+  entity: CatalogEntity
+}
+
 @observer
-export class EntitySettings extends React.Component<Props> {
+class NonInjectedEntitySettings extends React.Component<Props & Dependencies> {
   @observable activeTab: string;
 
-  constructor(props: Props) {
+  constructor(props: Props & Dependencies) {
     super(props);
     makeObservable(this);
 
@@ -43,18 +49,12 @@ export class EntitySettings extends React.Component<Props> {
     }
   }
 
-  get entityId() {
-    return this.props.match.params.entityId;
-  }
-
   get entity(): CatalogEntity {
-    return catalogEntityRegistry.getById(this.entityId);
+    return this.props.entity;
   }
 
-  get menuItems() {
-    if (!this.entity) return [];
-
-    return EntitySettingRegistry.getInstance().getItemsForKind(this.entity.kind, this.entity.apiVersion, this.entity.metadata.source);
+  @computed get menuItems() {
+    return this.props.registrations.get();
   }
 
   get activeSetting() {
@@ -112,14 +112,7 @@ export class EntitySettings extends React.Component<Props> {
   }
 
   render() {
-    if (!this.entity) {
-      logger.error("[ENTITY-SETTINGS]: entity not found", this.entityId);
-
-      return null;
-    }
-
     const { activeSetting } = this;
-
 
     return (
       <SettingLayout
@@ -140,3 +133,23 @@ export class EntitySettings extends React.Component<Props> {
     );
   }
 }
+
+export const EntitySettings = withInjectables<Dependencies, Props>(
+  NonInjectedEntitySettings,
+
+  {
+    getProps: (di, props) => {
+      const entity = catalogEntityRegistry.getById(props.match.params.entityId);
+
+      if (!entity) {
+        throw new Error("KUKKUU");
+      }
+
+      return {
+        registrations: di.inject(entitySettingItemsInjectable, entity),
+        entity,
+        ...props,
+      };
+    },
+  },
+);

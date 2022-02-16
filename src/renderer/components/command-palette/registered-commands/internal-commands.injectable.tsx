@@ -5,7 +5,7 @@
 
 import React from "react";
 import * as routes from "../../../../common/routes";
-import { EntitySettingRegistry, RegisteredEntitySetting } from "../../../../extensions/registries";
+import type { RegisteredEntitySetting } from "../../../../extensions/registries";
 import { HotbarAddCommand } from "../../hotbar/hotbar-add-command";
 import { HotbarRemoveCommand } from "../../hotbar/hotbar-remove-command";
 import { HotbarSwitchCommand } from "../../hotbar/hotbar-switch-command";
@@ -16,6 +16,8 @@ import { getInjectable } from "@ogre-tools/injectable";
 import commandOverlayInjectable from "../command-overlay.injectable";
 import createTerminalTabInjectable from "../../dock/terminal/create-terminal-tab.injectable";
 import type { DockTabCreate } from "../../dock/dock/store";
+import entitySettingItemsInjectable from "../../+entity-settings/entity-setting-items.injectable";
+import type { CatalogEntity } from "../../../../common/catalog";
 
 export function isKubernetesClusterActive(context: CommandContext): boolean {
   return context.entity?.kind === "KubernetesCluster";
@@ -23,7 +25,7 @@ export function isKubernetesClusterActive(context: CommandContext): boolean {
 
 interface Dependencies {
   openCommandDialog: (component: React.ReactElement) => void;
-  getEntitySettingItems: (kind: string, apiVersion: string, source?: string) => RegisteredEntitySetting[];
+  getEntitySettingItems: (entity: CatalogEntity) => RegisteredEntitySetting[];
   createTerminalTab: () => DockTabCreate
 }
 
@@ -167,7 +169,7 @@ function getInternalCommands({ openCommandDialog, getEntitySettingItems, createT
           return false;
         }
 
-        return getEntitySettingItems(entity.kind, entity.apiVersion, entity.metadata.source).length > 0;
+        return getEntitySettingItems(entity).length > 0;
       },
     },
     {
@@ -209,9 +211,7 @@ const internalCommandsInjectable = getInjectable({
 
   instantiate: (di) => getInternalCommands({
     openCommandDialog: di.inject(commandOverlayInjectable).open,
-    getEntitySettingItems: EntitySettingRegistry
-      .getInstance()
-      .getItemsForKind,
+    getEntitySettingItems: (entity) => di.inject(entitySettingItemsInjectable, entity).get(),
     createTerminalTab: di.inject(createTerminalTabInjectable),
   }),
 });
