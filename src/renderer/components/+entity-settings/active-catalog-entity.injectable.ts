@@ -7,10 +7,11 @@ import { computed } from "mobx";
 import { catalogEntityRegistry } from "../../api/catalog-entity-registry";
 import entitySettingsRouteParametersInjectable from "./entity-settings-route-parameters.injectable";
 
-const routeCatalogEntityInjectable = getInjectable({
-  id: "route-catalog-entity",
+const activeCatalogEntityInjectable = getInjectable({
+  id: "active-catalog-entity",
 
   instantiate: (di) => {
+    // TODO: Make it work on all routes
     const entitySettingsRouteParameters = di.inject(entitySettingsRouteParametersInjectable);
 
     return computed(() => {
@@ -26,4 +27,4 @@ const routeCatalogEntityInjectable = getInjectable({
   },
 });
 
-export default routeCatalogEntityInjectable;
+export default activeCatalogEntityInjectable;

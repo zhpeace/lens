@@ -11,7 +11,7 @@ import { computed } from "mobx";
 import extensionEntitySettingRegistrationsInjectable
   from "./extension-entity-setting-registrations.injectable";
 import type { EntitySettingRegistration } from "../../../extensions/registries";
-import routeCatalogEntityInjectable from "./route-catalog-entity.injectable";
+import activeCatalogEntityInjectable from "./active-catalog-entity.injectable";
 
 export const entitySettingRegistrationInjectionToken = getInjectionToken<EntitySettingRegistration>({ id: "entity-setting-registrations" });
 
@@ -23,7 +23,7 @@ const entitySettingItemsInjectable = getInjectable({
     const coreEntitySettingRegistrations = di.injectMany(entitySettingRegistrationInjectionToken);
 
     return computed(() => {
-      const entity = di.inject(routeCatalogEntityInjectable).get();
+      const entity = di.inject(activeCatalogEntityInjectable).get();
 
       if (!entity) {
         return [];

@@ -19,7 +19,7 @@ import { SettingLayout } from "../layout/setting-layout";
 import { Avatar } from "../avatar";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import entitySettingItemsInjectable from "./entity-setting-items.injectable";
-import routeCatalogEntityInjectable from "./route-catalog-entity.injectable";
+import activeCatalogEntityInjectable from "./active-catalog-entity.injectable";
 
 interface Props extends RouteComponentProps<EntitySettingsRouteParams> {
 }
@@ -144,7 +144,7 @@ export const EntitySettings = withInjectables<Dependencies, Props>(
   {
     getProps: (di, props) => ({
       registrations: di.inject(entitySettingItemsInjectable),
-      entity: di.inject(routeCatalogEntityInjectable),
+      entity: di.inject(activeCatalogEntityInjectable),
       ...props,
     }),
   },
