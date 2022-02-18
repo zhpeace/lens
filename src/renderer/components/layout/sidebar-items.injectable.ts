@@ -2,13 +2,17 @@
  * Copyright (c) OpenLens Authors. All rights reserved.
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
-import { getInjectable } from "@ogre-tools/injectable";
-import { computed } from "mobx";
+import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
+import { computed, IComputedValue } from "mobx";
 import type { ISidebarItem } from "./sidebar";
 import routesInjectable from "../../routes/routes.injectable";
 import { matches, some } from "lodash/fp";
 import matchRouteInjectable from "../../routes/match-route.injectable";
 import type { Route } from "../../routes/all-routes.injectable";
+
+export const sidebarItemsInjectionToken = getInjectionToken<
+  IComputedValue<ISidebarItem[]>
+>({ id: "sidebar-items-injection-token" });
 
 const sidebarItemsInjectable = getInjectable({
   id: "sidebar-items",
@@ -45,7 +49,11 @@ const sidebarItemsInjectable = getInjectable({
         };
       };
 
-      return rootRoutes.map(toSidebarItem);
+      const routeSidebarItems = rootRoutes.map(toSidebarItem);
+
+      const customSidebarItems = di.injectMany(sidebarItemsInjectionToken).flatMap(x => x.get());
+
+      return [...routeSidebarItems, ...customSidebarItems];
     });
   },
 });
