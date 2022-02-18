@@ -7,7 +7,6 @@ import "./port-forwards.scss";
 
 import React from "react";
 import { disposeOnUnmount, observer } from "mobx-react";
-import type { RouteComponentProps } from "react-router-dom";
 import { ItemListLayout } from "../item-object-list/list-layout";
 import type { PortForwardItem, PortForwardStore } from "../../port-forward";
 import { PortForwardMenu } from "./port-forward-menu";
@@ -16,6 +15,7 @@ import { PortForwardDetails } from "./port-forward-details";
 import { navigation } from "../../navigation";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import portForwardStoreInjectable from "../../port-forward/port-forward-store/port-forward-store.injectable";
+import pathParametersInjectable from "../../routes/path-parameters.injectable";
 
 enum columnId {
   name = "name",
@@ -27,15 +27,13 @@ enum columnId {
   status = "status",
 }
 
-interface Props extends RouteComponentProps<PortForwardsRouteParams> {
-}
-
 interface Dependencies {
   portForwardStore: PortForwardStore
+  pathParameters: PortForwardsRouteParams
 }
 
 @observer
-class NonInjectedPortForwards extends React.Component<Props & Dependencies> {
+class NonInjectedPortForwards extends React.Component<Dependencies> {
 
   componentDidMount() {
     disposeOnUnmount(this, [
@@ -44,7 +42,7 @@ class NonInjectedPortForwards extends React.Component<Props & Dependencies> {
   }
 
   get selectedPortForward() {
-    const { match: { params: { forwardport }}} = this.props;
+    const { forwardport } = this.props.pathParameters;
 
     return this.props.portForwardStore.getById(forwardport);
   }
@@ -143,13 +141,13 @@ class NonInjectedPortForwards extends React.Component<Props & Dependencies> {
   }
 }
 
-export const PortForwards = withInjectables<Dependencies, Props>(
+export const PortForwards = withInjectables<Dependencies>(
   NonInjectedPortForwards,
 
   {
-    getProps: (di, props) => ({
+    getProps: (di) => ({
       portForwardStore: di.inject(portForwardStoreInjectable),
-      ...props,
+      pathParameters: di.inject(pathParametersInjectable) as PortForwardsRouteParams,
     }),
   },
 );
