@@ -28,14 +28,14 @@ const sidebarItemsInjectable = getInjectable({
       return rootRoutes.map((rootRoute) => ({
         title: rootRoute.title,
         path: rootRoute.path,
-        icon: rootRoute.icon,
+        getIcon: rootRoute.getIcon,
 
         isActive: !!matchRoute({ path: rootRoute.path }),
 
         children: mikkoRoutes.filter(matches({ parent: rootRoute })).map(childRoute => ({
           title: childRoute.title,
           path: childRoute.path,
-          icon: childRoute.icon,
+          getIcon: childRoute.getIcon,
           isActive: !!matchRoute({ path: childRoute.path }),
           children: [],
         })),

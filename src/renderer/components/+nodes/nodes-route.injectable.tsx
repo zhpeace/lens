@@ -13,7 +13,7 @@ const nodesRouteInjectable = getInjectable({
 
   instantiate: () => ({
     title: "Nodes",
-    getIcon: () => <Icon material="nodes" />,
+    getIcon: () => <Icon svg="nodes" />,
     path: "/nodes",
     Component: NodesRoute,
     clusterFrame: true,

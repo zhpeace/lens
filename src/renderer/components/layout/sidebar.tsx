@@ -18,13 +18,12 @@ import { renderTabRoutesSidebarItems } from "./tab-routes-sidebar-items";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import sidebarItemsInjectable from "./sidebar-items.injectable";
 import type { IComputedValue } from "mobx";
-import { Icon } from "../icon";
 
 export interface SidebarItemAsd {
   title: string;
   path: string;
   children: SidebarItemAsd[]
-  icon?: string
+  getIcon?: () => React.ReactNode
   isActive: boolean
 }
 
@@ -122,7 +121,7 @@ class NonInjectedSidebar extends React.Component<Dependencies> {
         id={item.title}
         url={item.path}
         isActive={item.isActive}
-        icon={item.icon ? <Icon material={item.icon} />: null}
+        icon={item.getIcon ? item.getIcon(): null}
         text={item.title}>
         {item.children.map(childItem => renderSidebarItems(childItem))}
       </SidebarItem>

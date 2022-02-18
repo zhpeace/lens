@@ -13,7 +13,7 @@ const clusterOverviewRouteInjectable = getInjectable({
 
   instantiate: () => ({
     title: "Overview",
-    getIcon: () => <Icon material="kube" />,
+    getIcon: () => <Icon svg="kube" />,
     path: "/overview",
     Component: ClusterOverview,
     clusterFrame: true,

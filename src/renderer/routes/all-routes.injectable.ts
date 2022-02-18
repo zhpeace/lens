@@ -15,7 +15,7 @@ export interface Route {
   clusterFrame: boolean
   mikko: () => boolean
   parent?: Route
-  icon?: string;
+  getIcon?: () => React.ReactNode
 }
 
 const routesInjectable = getInjectable({
