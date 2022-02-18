@@ -9,20 +9,26 @@ import { routeInjectionToken } from "../../routes/all-routes.injectable";
 const workloadsRouteInjectable = getInjectable({
   id: "workloads-route",
 
-  instantiate: () => (  {
-    path: [
-      "/workloads",
-      "/pods",
-      "/deployments",
-      "/daemonsets",
-      "/statefulsets",
-      "/replicasets",
-      "/jobs",
-      "/cronjobs",
-    ],
+  instantiate: () => ({
+    title: "Workloads",
+    icon: "apps",
+
+    path: "/workloads",
+
+    // path: [
+    //   "/workloads",
+    //   "/pods",
+    //   "/deployments",
+    //   "/daemonsets",
+    //   "/statefulsets",
+    //   "/replicasets",
+    //   "/jobs",
+    //   "/cronjobs",
+    // ],
 
     Component: WorkloadsRoute,
     clusterFrame: true,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

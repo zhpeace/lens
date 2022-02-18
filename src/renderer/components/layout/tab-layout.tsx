@@ -17,6 +17,7 @@ export interface TabLayoutProps {
   className?: IClassName;
   contentClass?: IClassName;
   tabs?: TabLayoutRoute[];
+  newTabs?: { title: string, path: string }[];
   children?: ReactNode;
 }
 
@@ -29,9 +30,10 @@ export interface TabLayoutRoute {
   default?: boolean; // initial tab to open with provided `url, by default tabs[0] is used
 }
 
-export const TabLayout = observer(({ className, contentClass, tabs = [], children }: TabLayoutProps) => {
+export const TabLayout = observer(({ className, contentClass, newTabs = [], tabs = [], children }: TabLayoutProps) => {
   const currentLocation = navigation.location.pathname;
   const hasTabs = tabs.length > 0;
+  const hasNewTabs = newTabs.length > 0;
   const startTabUrl = hasTabs ? (tabs.find(tab => tab.default) || tabs[0])?.url : null;
 
   return (
@@ -45,6 +47,16 @@ export const TabLayout = observer(({ className, contentClass, tabs = [], childre
           })}
         </Tabs>
       )}
+
+      {hasNewTabs && (
+        <Tabs center onChange={(url) => navigate(url)}>
+          {newTabs.map(({ title, path }) => {
+            // const isActive = !!matchPath(currentLocation, { path: routePath, exact });
+            return <Tab key={path} label={title} value={path} active={false}/>;
+          })}
+        </Tabs>
+      )}
+
       <main className={cssNames(contentClass)}>
         <ErrorBoundary>
           {hasTabs && (

@@ -8,7 +8,14 @@ import { ClusterOverview } from "./cluster-overview";
 
 const clusterOverviewRouteInjectable = getInjectable({
   id: "cluster-overview-route",
-  instantiate: () => ({ path: "/overview", Component: ClusterOverview, clusterFrame: true }),
+  instantiate: () => ({
+    title: "Overview",
+    icon: "apps",
+    path: "/overview",
+    Component: ClusterOverview,
+    clusterFrame: true,
+    mikko: () => true,
+  }),
   injectionToken: routeInjectionToken,
 });
 

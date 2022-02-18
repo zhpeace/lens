@@ -10,17 +10,22 @@ const userManagementRouteInjectable = getInjectable({
   id: "user-management-route",
 
   instantiate: () => ({
-    path: [
-      "/service-accounts",
-      "/pod-security-policies",
-      "/role-bindings",
-      "/cluster-role-bindings",
-      "/roles",
-      "/cluster-roles",
-    ],
+    title: "User Management",
+    icon: "apps",
+    path: "/pod-security-policies",
+
+    // path: [
+    //   // "/service-accounts",
+    //   "/pod-security-policies",
+    //   "/role-bindings",
+    //   "/cluster-role-bindings",
+    //   "/roles",
+    //   // "/cluster-roles",
+    // ],
 
     Component: UserManagementRoute,
     clusterFrame: true,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

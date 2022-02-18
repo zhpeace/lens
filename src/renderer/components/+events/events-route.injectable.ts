@@ -9,10 +9,13 @@ import { routeInjectionToken } from "../../routes/all-routes.injectable";
 const eventsRouteInjectable = getInjectable({
   id: "events-route",
 
-  instantiate: () => (  {
+  instantiate: () => ({
+    title: "Events",
+    icon: "apps",
     path: "/events",
     Component: Events,
     clusterFrame: true,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

@@ -10,16 +10,22 @@ const networkRouteInjectable = getInjectable({
   id: "network-route",
 
   instantiate: () => ({
-    path: [
-      "/services",
-      "/endpoints",
-      "/ingresses",
-      "/network-policies",
-      "/port-forwards/:forwardport?",
-    ],
+    title: "Network",
+    icon: "apps",
+
+    path: "/services",
+
+    // path: [
+    //   "/services",
+    //   "/endpoints",
+    //   "/ingresses",
+    //   "/network-policies",
+    //   "/port-forwards/:forwardport?",
+    // ],
 
     Component: NetworkRoute,
     clusterFrame: true,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

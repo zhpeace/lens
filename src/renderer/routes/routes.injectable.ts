@@ -4,16 +4,9 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import type React from "react";
 import currentlyInClusterFrameInjectable from "./currently-in-cluster-frame.injectable";
 import allRoutesInjectable from "./all-routes.injectable";
-import { matches } from "lodash/fp";
-
-export interface Route {
-  path: string | string[];
-  Component: React.ElementType;
-  clusterFrame: boolean;
-}
+import { invoke, matches } from "lodash/fp";
 
 const routesInjectable = getInjectable({
   id: "routes",
@@ -26,7 +19,10 @@ const routesInjectable = getInjectable({
     );
 
     return computed(() =>
-      allRoutes.get().filter(matches({ clusterFrame: currentlyInClusterFrame })),
+      allRoutes
+        .get()
+        .filter(matches({ clusterFrame: currentlyInClusterFrame }))
+        .filter(invoke("mikko")),
     );
   },
 });

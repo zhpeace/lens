@@ -8,7 +8,14 @@ import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const nodesRouteInjectable = getInjectable({
   id: "nodes-route",
-  instantiate: () => ({ path: "/nodes", Component: NodesRoute, clusterFrame: true }),
+  instantiate: () => ({
+    title: "Nodes",
+    icon: "apps",
+    path: "/nodes",
+    Component: NodesRoute,
+    clusterFrame: true,
+    mikko: () => true,
+  }),
   injectionToken: routeInjectionToken,
 });
 

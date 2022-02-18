@@ -6,7 +6,7 @@
 import "./cluster-manager.scss";
 
 import React from "react";
-import { Redirect, Switch } from "react-router";
+import { Redirect } from "react-router";
 import { observer } from "mobx-react";
 import { StatusBar } from "../status-bar/status-bar";
 import { HotbarMenu } from "../hotbar/hotbar-menu";
@@ -16,7 +16,7 @@ import { withInjectables } from "@ogre-tools/injectable-react";
 import { TopBar } from "../layout/top-bar/top-bar";
 import catalogPreviousActiveTabStorageInjectable from "../+catalog/catalog-previous-active-tab-storage/catalog-previous-active-tab-storage.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import type { Route } from "../../routes/routes.injectable";
+import type { Route } from "../../routes/all-routes.injectable";
 import type { IComputedValue } from "mobx";
 
 interface Dependencies {
@@ -49,22 +49,22 @@ class NonInjectedClusterManager extends React.Component<Dependencies> {
 
           <Component />
 
-          <Switch>
-            {/*<Redirect*/}
-            {/*  exact*/}
-            {/*  from={catalogURL()}*/}
-            {/*  to={getPreviousTabUrl(*/}
-            {/*    this.props.catalogPreviousActiveTabStorage.get(),*/}
-            {/*  )}*/}
-            {/*/>*/}
+          {/*<Switch>*/}
+          {/*<Redirect*/}
+          {/*  exact*/}
+          {/*  from={catalogURL()}*/}
+          {/*  to={getPreviousTabUrl(*/}
+          {/*    this.props.catalogPreviousActiveTabStorage.get(),*/}
+          {/*  )}*/}
+          {/*/>*/}
 
-            {/*{GlobalPageRegistry.getInstance()*/}
-            {/*  .getItems()*/}
-            {/*  .map(({ url, components: { Page }}) => (*/}
-            {/*    <Route key={url} path={url} component={Page} />*/}
-            {/*  ))}*/}
-            {/*<Redirect exact to={routes.welcomeURL()} />*/}
-          </Switch>
+          {/*{GlobalPageRegistry.getInstance()*/}
+          {/*  .getItems()*/}
+          {/*  .map(({ url, components: { Page }}) => (*/}
+          {/*    <Route key={url} path={url} component={Page} />*/}
+          {/*  ))}*/}
+          {/*<Redirect exact to={routes.welcomeURL()} />*/}
+          {/*</Switch>*/}
         </main>
         <HotbarMenu />
         <StatusBar />

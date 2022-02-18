@@ -10,9 +10,13 @@ const welcomeRouteInjectable = getInjectable({
   id: "welcome-route",
 
   instantiate: () => ({
+    title: "Welcome",
+    icon: "apps",
+
     path: "/welcome",
     Component: Welcome,
     clusterFrame: false,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

@@ -9,9 +9,13 @@ import type React from "react";
 export const routeInjectionToken = getInjectionToken<Route>({ id: "route-injection-token" });
 
 export interface Route {
-  path: string | string[],
+  title: string;
+  path: string,
   Component: React.ElementType
   clusterFrame: boolean
+  mikko: () => boolean
+  parent?: Route
+  icon?: string;
 }
 
 const routesInjectable = getInjectable({
@@ -22,7 +26,9 @@ const routesInjectable = getInjectable({
     const coreRoutes = di.injectMany(routeInjectionToken);
 
     // return computed(() => [...coreRoutes, ...extensionRoutes.get()]);
-    return computed(() => [...coreRoutes]);
+    return computed(() => {
+      return [...coreRoutes];
+    });
   },
 });
 

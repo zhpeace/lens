@@ -45,7 +45,6 @@ interface Dependencies {
 }
 
 const NonInjectedPreferences: React.FC<Dependencies> = ({ appPreferenceItems }) => {
-
   function renderNavigation() {
     const extensions = appPreferenceItems.get();
     const telemetryExtensions = extensions.filter(e => e.showInPreferencesTab == "telemetry");

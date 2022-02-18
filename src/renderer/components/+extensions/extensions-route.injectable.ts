@@ -10,9 +10,13 @@ const extensionsRouteInjectable = getInjectable({
   id: "extensions-route",
 
   instantiate: () => ({
+    title: "Extensions",
+    icon: "apps",
+
     path: "/extensions",
     Component: Extensions,
     clusterFrame: false,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

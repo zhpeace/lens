@@ -38,9 +38,13 @@ describe("routes, given in cluster frame", () => {
       id: "some-route-in-root-frame",
 
       instantiate: () => ({
+        title: "some-title",
+        icon: "some-icon",
+
         path: "/some-path",
         Component: () => <div />,
         clusterFrame: false,
+        mikko: () => true,
       }),
 
       injectionToken: routeInjectionToken,
@@ -50,9 +54,12 @@ describe("routes, given in cluster frame", () => {
       id: "some-route-in-cluster-frame",
 
       instantiate: () => ({
+        title: "some-title",
+        icon: "some-icon",
         path: "/some-path",
         Component: () => <div />,
         clusterFrame: true,
+        mikko: () => true,
       }),
 
       injectionToken: routeInjectionToken,

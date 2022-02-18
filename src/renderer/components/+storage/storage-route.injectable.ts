@@ -10,14 +10,20 @@ const storageRouteInjectable = getInjectable({
   id: "storage-route",
 
   instantiate: () => ({
-    path: [
-      "/persistent-volume-claims",
-      "/persistent-volumes",
-      "/storage-classes",
-    ],
+    title: "Storage",
+    icon: "apps",
+
+    path: "/persistent-volume-claims",
+
+    // path: [
+    //   "/persistent-volume-claims",
+    //   "/persistent-volumes",
+    //   "/storage-classes",
+    // ],
 
     Component: StorageRoute,
     clusterFrame: true,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

@@ -10,9 +10,13 @@ const preferencesRouteInjectable = getInjectable({
   id: "preferences-route",
 
   instantiate: () => ({
+    title: "Preferences",
+    icon: "apps",
+
     path: "/preferences",
     Component: Preferences,
     clusterFrame: false,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

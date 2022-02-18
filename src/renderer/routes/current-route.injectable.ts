@@ -15,7 +15,13 @@ const currentRouteInjectable = getInjectable({
     return computed(() => {
       const match = matchingRoute.get();
 
-      return match ? match.route : null;
+      console.log(match, match?.route.mikko());
+
+      if (match && match.route.mikko()) {
+        return match.route;
+      }
+
+      return null;
     });
   },
 });

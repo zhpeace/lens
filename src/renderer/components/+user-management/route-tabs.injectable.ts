@@ -10,10 +10,8 @@ import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resour
 import * as routes from "../../../common/routes";
 import { PodSecurityPolicies } from "../+pod-security-policies";
 import { ClusterRoleBindings } from "./+cluster-role-bindings";
-import { ClusterRoles } from "./+cluster-roles";
 import { RoleBindings } from "./+role-bindings";
 import { Roles } from "./+roles";
-import { ServiceAccounts } from "./+service-accounts";
 
 interface Dependencies {
   isAllowedResource: IsAllowedResource;
@@ -22,24 +20,6 @@ interface Dependencies {
 function getRouteTabs({ isAllowedResource }: Dependencies) {
   return computed(() => {
     const tabs: TabLayoutRoute[] = [];
-
-    if (isAllowedResource("serviceaccounts")) {
-      tabs.push({
-        title: "Service Accounts",
-        component: ServiceAccounts,
-        url: routes.serviceAccountsURL(),
-        routePath: routes.serviceAccountsRoute.path.toString(),
-      });
-    }
-
-    if (isAllowedResource("clusterroles")) {
-      tabs.push({
-        title: "Cluster Roles",
-        component: ClusterRoles,
-        url: routes.clusterRolesURL(),
-        routePath: routes.clusterRolesRoute.path.toString(),
-      });
-    }
 
     if (isAllowedResource("roles")) {
       tabs.push({

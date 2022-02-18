@@ -7,10 +7,8 @@ import "../item-object-list/item-list-layout.scss";
 import "./releases.scss";
 
 import React, { Component } from "react";
-import type { RouteComponentProps } from "react-router";
 import type { HelmRelease } from "../../../common/k8s-api/endpoints/helm-releases.api";
 import { navigation } from "../../navigation";
-import type { ReleaseRouteParams } from "../../../common/routes";
 import { releaseURL } from "../../../common/routes";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import namespaceStoreInjectable from "../+namespaces/namespace-store/namespace-store.injectable";
@@ -25,6 +23,8 @@ import removableReleasesInjectable from "./removable-releases.injectable";
 import type { RemovableHelmRelease } from "./removable-releases";
 import type { IComputedValue } from "mobx";
 import releasesInjectable from "./releases.injectable";
+import pathParametersInjectable from "../../routes/path-parameters.injectable";
+import { HelmRoute } from "../+helm/route";
 
 enum columnId {
   name = "name",
@@ -37,18 +37,16 @@ enum columnId {
   updated = "update",
 }
 
-interface Props extends RouteComponentProps<ReleaseRouteParams> {
-}
-
 interface Dependencies {
   releases: IComputedValue<RemovableHelmRelease[]>
   releasesArePending: IComputedValue<boolean>
   selectNamespace: (namespace: string) => void
+  pathParameters: IComputedValue<{ namespace?: string }>
 }
 
-class NonInjectedHelmReleases extends Component<Dependencies & Props> {
+class NonInjectedHelmReleases extends Component<Dependencies> {
   componentDidMount() {
-    const { match: { params: { namespace }}} = this.props;
+    const { namespace } = this.props.pathParameters.get();
 
     if (namespace) {
       this.props.selectNamespace(namespace);
@@ -144,7 +142,7 @@ class NonInjectedHelmReleases extends Component<Dependencies & Props> {
     } as ItemStore<RemovableHelmRelease>;
 
     return (
-      <>
+      <HelmRoute>
         <ItemListLayout
           store={legacyReleaseStore}
           getItems={() => legacyReleaseStore.items}
@@ -218,20 +216,20 @@ class NonInjectedHelmReleases extends Component<Dependencies & Props> {
         />
 
         <ReleaseRollbackDialog/>
-      </>
+      </HelmRoute>
     );
   }
 }
 
-export const HelmReleases = withInjectables<Dependencies, Props>(
+export const HelmReleases = withInjectables<Dependencies>(
   NonInjectedHelmReleases,
 
   {
-    getProps: (di, props) => ({
+    getProps: (di) => ({
       releases: di.inject(removableReleasesInjectable),
       releasesArePending: di.inject(releasesInjectable).pending,
       selectNamespace: di.inject(namespaceStoreInjectable).selectNamespaces,
-      ...props,
+      pathParameters: di.inject(pathParametersInjectable),
     }),
   },
 );

@@ -10,9 +10,12 @@ const customResourcesRouteInjectable = getInjectable({
   id: "custom-resources-route",
 
   instantiate: () => ({
+    title: "Custom Resources",
+    icon: "apps",
     path: "/crd",
     Component: CustomResourcesRoute,
     clusterFrame: true,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

@@ -15,24 +15,25 @@ import { SidebarItem } from "./sidebar-item";
 import { catalogEntityRegistry } from "../../api/catalog-entity-registry";
 import { SidebarCluster } from "./sidebar-cluster";
 import { renderTabRoutesSidebarItems } from "./tab-routes-sidebar-items";
-import { ConfigSidebarItem } from "../+config/sidebar-item";
-import { ClusterSidebarItem } from "../+cluster/sidebar-item";
-import { NodesSidebarItem } from "../+nodes/sidebar-item";
-import { WorkloadsSidebarItem } from "../+workloads/sidebar-item";
-import { NetworkSidebarItem } from "../+network/sidebar-item";
-import { StorageSidebarItem } from "../+storage/sidebar-item";
-import { NamespacesSidebarItem } from "../+namespaces/sidebar-item";
-import { EventsSidebarItem } from "../+events/sidebar-item";
-import { HelmSidebarItem } from "../+helm/sidebar-item";
-import { UserManagementSidebarItem } from "../+user-management/sidebar-item";
-import { CustomResourcesSidebarItem } from "../+custom-resources/sidebar-item";
+import { withInjectables } from "@ogre-tools/injectable-react";
+import sidebarItemsInjectable from "./sidebar-items.injectable";
+import type { IComputedValue } from "mobx";
+import { Icon } from "../icon";
 
-interface SidebarProps {
-  className?: string;
+export interface SidebarItemAsd {
+  title: string;
+  path: string;
+  children: SidebarItemAsd[]
+  icon?: string
+  isActive: boolean
+}
+
+interface Dependencies {
+  sidebarItems: IComputedValue<SidebarItemAsd[]>
 }
 
 @observer
-export class Sidebar extends React.Component<SidebarProps> {
+class NonInjectedSidebar extends React.Component<Dependencies> {
   static displayName = "Sidebar";
 
   getTabLayoutRoutes(menu: ClusterPageMenuRegistration): TabLayoutRoute[] {
@@ -115,26 +116,49 @@ export class Sidebar extends React.Component<SidebarProps> {
   }
 
   render() {
-    const { className } = this.props;
+    const renderSidebarItems = (item: SidebarItemAsd) => (
+      <SidebarItem
+        key={item.path}
+        id={item.title}
+        url={item.path}
+        isActive={item.isActive}
+        icon={item.icon ? <Icon material={item.icon} />: null}
+        text={item.title}>
+        {item.children.map(childItem => renderSidebarItems(childItem))}
+      </SidebarItem>
+    );
 
     return (
-      <div className={cssNames("flex flex-col", className)} data-testid="cluster-sidebar">
-        <SidebarCluster clusterEntity={this.clusterEntity}/>
+      <div className={cssNames("flex flex-col")} data-testid="cluster-sidebar">
+        <SidebarCluster clusterEntity={this.clusterEntity} />
         <div className={styles.sidebarNav}>
-          <ClusterSidebarItem />
-          <NodesSidebarItem />
-          <WorkloadsSidebarItem />
-          <ConfigSidebarItem />
-          <NetworkSidebarItem />
-          <StorageSidebarItem />
-          <NamespacesSidebarItem />
-          <EventsSidebarItem />
-          <HelmSidebarItem />
-          <UserManagementSidebarItem />
-          <CustomResourcesSidebarItem />
-          {this.renderRegisteredMenus()}
+          {this.props.sidebarItems.get().map(renderSidebarItems)}
+
+          {/*<ClusterSidebarItem />*/}
+          {/*<NodesSidebarItem />*/}
+          {/*<WorkloadsSidebarItem />*/}
+          {/*<ConfigSidebarItem />*/}
+          {/*<NetworkSidebarItem />*/}
+          {/*<StorageSidebarItem />*/}
+          {/*<NamespacesSidebarItem />*/}
+          {/*<EventsSidebarItem />*/}
+          {/*/!*<HelmSidebarItem />*!/*/}
+          {/*<UserManagementSidebarItem />*/}
+          {/*<CustomResourcesSidebarItem />*/}
+          {/*{this.renderRegisteredMenus()}*/}
         </div>
       </div>
     );
   }
 }
+
+export const Sidebar = withInjectables<Dependencies>(
+  NonInjectedSidebar,
+
+  {
+    getProps: (di, props) => ({
+      sidebarItems: di.inject(sidebarItemsInjectable),
+      ...props,
+    }),
+  },
+);

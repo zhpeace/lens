@@ -10,9 +10,13 @@ const catalogRouteInjectable = getInjectable({
   id: "catalog-route",
 
   instantiate: () => ({
+    title: "Catalog",
+    icon: "apps",
+
     path: "/catalog/:group?/:kind?",
     Component: Catalog,
     clusterFrame: false,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

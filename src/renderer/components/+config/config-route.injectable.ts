@@ -10,17 +10,23 @@ const configRouteInjectable = getInjectable({
   id: "config-route",
 
   instantiate: () => ({
-    path: [
-      "/configmaps",
-      "/secrets",
-      "/resourcequotas",
-      "/limitranges",
-      "/hpa",
-      "/poddisruptionbudgets",
-    ],
+    title: "Config",
+    icon: "apps",
+
+    path: "/configmaps",
+
+    // path: [
+    //   "/configmaps",
+    //   "/secrets",
+    //   "/resourcequotas",
+    //   "/limitranges",
+    //   "/hpa",
+    //   "/poddisruptionbudgets",
+    // ],
 
     Component: ConfigRoute,
     clusterFrame: true,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

@@ -10,10 +10,14 @@ const clusterViewRouteInjectable = getInjectable({
   id: "cluster-view-route",
 
   instantiate: () => ({
+    title: "Cluster View",
+    icon: "apps",
+
     exact: true,
     path: "/cluster/:clusterId",
     Component: ClusterView,
     clusterFrame: false,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

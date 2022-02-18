@@ -9,10 +9,13 @@ import { routeInjectionToken } from "../../routes/all-routes.injectable";
 const namespacesRouteInjectable = getInjectable({
   id: "namespaces-route",
 
-  instantiate: () => (  {
+  instantiate: () => ({
+    title: "Namespaces",
+    icon: "apps",
     path: "/namespaces",
     Component: NamespacesRoute,
     clusterFrame: true,
+    mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,

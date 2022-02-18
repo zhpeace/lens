@@ -44,9 +44,13 @@ describe("routes", () => {
         injectionToken: routeInjectionToken,
 
         instantiate: () => ({
+          title: "some-title",
+          icon: "some-icon",
+
           path: "/some-path",
           Component: () => <div />,
           clusterFrame: false,
+          mikko: () => true,
         }),
       });
 
@@ -106,9 +110,13 @@ describe("routes", () => {
         injectionToken: routeInjectionToken,
 
         instantiate: () => ({
+          title: "some-title",
+          icon: "some-icon",
+
           path: "/some-path/:someParameter?/:someOtherParameter?",
           Component: () => <div />,
           clusterFrame: false,
+          mikko: () => true,
         }),
       });
 

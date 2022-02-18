@@ -6,7 +6,6 @@
 import "./helm-charts.scss";
 
 import React, { Component } from "react";
-import type { RouteComponentProps } from "react-router";
 import { observer } from "mobx-react";
 import { helmChartStore } from "./helm-chart.store";
 import type { HelmChart } from "../../../common/k8s-api/endpoints/helm-charts.api";
@@ -14,7 +13,10 @@ import { HelmChartDetails } from "./helm-chart-details";
 import { navigation } from "../../navigation";
 import { ItemListLayout } from "../item-object-list/list-layout";
 import { helmChartsURL } from "../../../common/routes";
-import type { HelmChartsRouteParams } from "../../../common/routes";
+import type { IComputedValue } from "mobx";
+import { withInjectables } from "@ogre-tools/injectable-react";
+import pathParametersInjectable from "../../routes/path-parameters.injectable";
+import { HelmRoute } from "../+helm/route";
 
 enum columnId {
   name = "name",
@@ -24,17 +26,18 @@ enum columnId {
   repo = "repo",
 }
 
-interface Props extends RouteComponentProps<HelmChartsRouteParams> {
+interface Dependencies {
+  pathParameters: IComputedValue<{ chartName?: string, repo?: string }>
 }
 
 @observer
-export class HelmCharts extends Component<Props> {
+class NonInjectedHelmCharts extends Component<Dependencies> {
   componentDidMount() {
     helmChartStore.loadAll();
   }
 
   get selectedChart() {
-    const { match: { params: { chartName, repo }}} = this.props;
+    const { chartName, repo } = this.props.pathParameters.get();
 
     return helmChartStore.getByName(chartName, repo);
   }
@@ -67,7 +70,7 @@ export class HelmCharts extends Component<Props> {
 
   render() {
     return (
-      <>
+      <HelmRoute>
         <ItemListLayout
           isConfigurable
           tableId="helm_charts"
@@ -122,7 +125,18 @@ export class HelmCharts extends Component<Props> {
             hideDetails={this.hideDetails}
           />
         )}
-      </>
+      </HelmRoute>
     );
   }
 }
+
+export const HelmCharts = withInjectables<Dependencies>(
+  NonInjectedHelmCharts,
+
+  {
+    getProps: (di) => ({
+      pathParameters: di.inject(pathParametersInjectable),
+    }),
+  },
+);
+

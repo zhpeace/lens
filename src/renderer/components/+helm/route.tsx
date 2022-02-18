@@ -5,27 +5,22 @@
 
 import React from "react";
 import { observer } from "mobx-react";
-import { TabLayout, TabLayoutRoute } from "../layout/tab-layout";
-import { withInjectables } from "@ogre-tools/injectable-react";
-import type { IComputedValue } from "mobx";
-import helmRoutesInjectable from "./route-tabs.injectable";
+import { TabLayout } from "../layout/tab-layout";
 
-export interface HelmRouteProps {}
-
-interface Dependencies {
-  routes: IComputedValue<TabLayoutRoute[]>;
+export interface HelmRouteProps {
+  children: React.ReactNode;
 }
 
-const NonInjectedHelmRoute = observer(({ routes }: Dependencies & HelmRouteProps) => (
-  <TabLayout
-    className="Apps"
-    tabs={routes.get()}
-  />
-));
-
-export const HelmRoute = withInjectables<Dependencies, HelmRouteProps>(NonInjectedHelmRoute, {
-  getProps: (di, props) => ({
-    routes: di.inject(helmRoutesInjectable),
-    ...props,
-  }),
-});
+export const HelmRoute = observer(
+  ({ children }: HelmRouteProps) => (
+    <TabLayout
+      className="Apps"
+      newTabs={[
+        { title: "Charts", path: "/helm/charts" },
+        { title: "Releases", path: "/helm/releases" },
+      ]}
+    >
+      {children}
+    </TabLayout>
+  ),
+);
