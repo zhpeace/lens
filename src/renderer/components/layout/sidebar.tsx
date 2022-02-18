@@ -19,16 +19,16 @@ import { withInjectables } from "@ogre-tools/injectable-react";
 import sidebarItemsInjectable from "./sidebar-items.injectable";
 import type { IComputedValue } from "mobx";
 
-export interface SidebarItemAsd {
+export interface ISidebarItem {
   title: string;
   path: string;
-  children: SidebarItemAsd[]
+  children: ISidebarItem[]
   getIcon?: () => React.ReactNode
   isActive: boolean
 }
 
 interface Dependencies {
-  sidebarItems: IComputedValue<SidebarItemAsd[]>
+  sidebarItems: IComputedValue<ISidebarItem[]>
 }
 
 @observer
@@ -115,7 +115,7 @@ class NonInjectedSidebar extends React.Component<Dependencies> {
   }
 
   render() {
-    const renderSidebarItems = (item: SidebarItemAsd) => (
+    const renderSidebarItems = (item: ISidebarItem) => (
       <SidebarItem
         key={item.path}
         id={item.title}

@@ -4,12 +4,14 @@
  */
 import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import type { SidebarItemAsd } from "./sidebar";
+import type { ISidebarItem } from "./sidebar";
 import routesInjectable from "../../routes/routes.injectable";
 import { matches } from "lodash/fp";
 import matchRouteInjectable from "../../routes/match-route.injectable";
 
-export const sidebarItemInjectionToken = getInjectionToken<SidebarItemAsd>({ id: "sidebar-item-injection-token" });
+export const sidebarItemInjectionToken = getInjectionToken<ISidebarItem>({
+  id: "sidebar-item-injection-token",
+});
 
 const sidebarItemsInjectable = getInjectable({
   id: "sidebar-items",
@@ -18,10 +20,10 @@ const sidebarItemsInjectable = getInjectable({
     const routes = di.inject(routesInjectable);
     const matchRoute = di.inject(matchRouteInjectable);
 
-    return computed((): SidebarItemAsd[] => {
-      const mikkoRoutes = routes.get().filter(route => route.mikko());
+    return computed((): ISidebarItem[] => {
+      const mikkoRoutes = routes.get().filter((route) => route.mikko());
 
-      const rootRoutes = mikkoRoutes.filter(item => !item.parent);
+      const rootRoutes = mikkoRoutes.filter((item) => !item.parent);
 
       // TODO: .filter(x => x.children.length)
 
@@ -32,13 +34,16 @@ const sidebarItemsInjectable = getInjectable({
 
         isActive: !!matchRoute({ path: rootRoute.path }),
 
-        children: mikkoRoutes.filter(matches({ parent: rootRoute })).map(childRoute => ({
-          title: childRoute.title,
-          path: childRoute.path,
-          getIcon: childRoute.getIcon,
-          isActive: !!matchRoute({ path: childRoute.path }),
-          children: [],
-        })),
+        children: mikkoRoutes
+          .filter(matches({ parent: rootRoute }))
+
+          .map((childRoute) => ({
+            title: childRoute.title,
+            path: childRoute.path,
+            getIcon: childRoute.getIcon,
+            isActive: !!matchRoute({ path: childRoute.path }),
+            children: [],
+          })),
       }));
     });
   },
