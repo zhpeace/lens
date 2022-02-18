@@ -20,7 +20,7 @@ const clusterRoleBindingsRouteInjectable = getInjectable({
       path: "/cluster-role-bindings",
       parent: di.inject(userManagementRouteInjectable),
       clusterFrame: true,
-      mikko: () => true || isAllowedResource("clusterrolebindings"),
+      mikko: () => isAllowedResource("clusterrolebindings"),
     };
   },
 

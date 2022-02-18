@@ -6,8 +6,9 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import type { ISidebarItem } from "./sidebar";
 import routesInjectable from "../../routes/routes.injectable";
-import { matches } from "lodash/fp";
+import { matches, some } from "lodash/fp";
 import matchRouteInjectable from "../../routes/match-route.injectable";
+import type { Route } from "../../routes/all-routes.injectable";
 
 const sidebarItemsInjectable = getInjectable({
   id: "sidebar-items",
@@ -23,24 +24,28 @@ const sidebarItemsInjectable = getInjectable({
 
       // TODO: .filter(x => x.children.length)
 
-      return rootRoutes.map((rootRoute) => ({
-        title: rootRoute.title,
-        path: rootRoute.path,
-        getIcon: rootRoute.getIcon,
+      const toSidebarItem = (rootRoute: Route): ISidebarItem => {
+        const isChild = matches({ parent: rootRoute });
 
-        isActive: !!matchRoute({ path: rootRoute.path }),
+        const childSidebarItems = mikkoRoutes
+          .filter(isChild)
+          .map(toSidebarItem);
 
-        children: mikkoRoutes
-          .filter(matches({ parent: rootRoute }))
+        const childIsActive = some(
+          matches({ isActive: true }),
+          childSidebarItems,
+        );
 
-          .map((childRoute) => ({
-            title: childRoute.title,
-            path: childRoute.path,
-            getIcon: childRoute.getIcon,
-            isActive: !!matchRoute({ path: childRoute.path }),
-            children: [],
-          })),
-      }));
+        return {
+          title: rootRoute.title,
+          path: rootRoute.path,
+          getIcon: rootRoute.getIcon,
+          isActive: childIsActive || !!matchRoute({ path: rootRoute.path }),
+          children: childSidebarItems,
+        };
+      };
+
+      return rootRoutes.map(toSidebarItem);
     });
   },
 });

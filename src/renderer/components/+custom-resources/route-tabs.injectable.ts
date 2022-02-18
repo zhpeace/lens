@@ -5,7 +5,7 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed, IComputedValue } from "mobx";
 import type { CustomResourceDefinition } from "../../../common/k8s-api/endpoints";
-import { crdURL, crdDefinitionsRoute } from "../../../common/routes";
+import { crdURL } from "../../../common/routes";
 import type { TabLayoutRoute } from "../layout/tab-layout";
 import groupedCustomResourceDefinitionsInjectable from "./grouped-custom-resources.injectable";
 
@@ -23,15 +23,7 @@ interface Dependencies {
 
 function getRouteTabs({ customResourcesDefinitions }: Dependencies) {
   return computed(() => {
-    const tabs: CustomResourceGroupTabLayoutRoute[] = [
-      {
-        id: "definitions",
-        title: "Definitions",
-        url: crdURL(),
-        routePath: String(crdDefinitionsRoute.path),
-        exact: true,
-      },
-    ];
+    const tabs: CustomResourceGroupTabLayoutRoute[] = [];
 
     for (const [group, definitions] of customResourcesDefinitions.get()) {
       tabs.push({
