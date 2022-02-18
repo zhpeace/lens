@@ -3,20 +3,24 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
+import { Events } from "./events";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
-import { ClusterOverview } from "./cluster-overview";
+import { Icon } from "../icon";
+import React from "react";
 
-const clusterOverviewRouteInjectable = getInjectable({
-  id: "cluster-overview-route",
+const eventsRouteInjectable = getInjectable({
+  id: "events-route",
+
   instantiate: () => ({
-    title: "Overview",
-    icon: "apps",
-    path: "/overview",
-    Component: ClusterOverview,
+    title: "Events",
+    getIcon: () => <Icon material="access_time" />,
+    path: "/events",
+    Component: Events,
     clusterFrame: true,
     mikko: () => true,
   }),
+
   injectionToken: routeInjectionToken,
 });
 
-export default clusterOverviewRouteInjectable;
+export default eventsRouteInjectable;

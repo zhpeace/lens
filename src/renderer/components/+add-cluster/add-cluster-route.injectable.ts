@@ -11,8 +11,6 @@ const addClusterRouteInjectable = getInjectable({
 
   instantiate: () => ({
     title: "Add cluster",
-    icon: "apps",
-
     path: "/add-cluster",
     Component: AddCluster,
     clusterFrame: false,

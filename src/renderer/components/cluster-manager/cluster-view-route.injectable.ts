@@ -11,7 +11,6 @@ const clusterViewRouteInjectable = getInjectable({
 
   instantiate: () => ({
     title: "Cluster View",
-    icon: "apps",
 
     exact: true,
     path: "/cluster/:clusterId",

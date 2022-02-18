@@ -5,13 +5,15 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { StorageRoute } from "./route";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
+import { Icon } from "../icon";
+import React from "react";
 
 const storageRouteInjectable = getInjectable({
   id: "storage-route",
 
   instantiate: () => ({
     title: "Storage",
-    icon: "apps",
+    getIcon: () => <Icon material="storage" />,
 
     path: "/persistent-volume-claims",
 

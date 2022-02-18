@@ -3,23 +3,23 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { Extensions } from "./extensions";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
+import { Icon } from "../icon";
+import React from "react";
 
-const extensionsRouteInjectable = getInjectable({
-  id: "extensions-route",
+const helmRouteInjectable = getInjectable({
+  id: "helm-route",
 
   instantiate: () => ({
-    title: "Extensions",
-    icon: "apps",
-
-    path: "/extensions",
-    Component: Extensions,
-    clusterFrame: false,
+    title: "Helm",
+    getIcon: () => <Icon material="apps" />,
+    path: "/helm",
+    Component: (): null => null,
+    clusterFrame: true,
     mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,
 });
 
-export default extensionsRouteInjectable;
+export default helmRouteInjectable;

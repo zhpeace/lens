@@ -11,8 +11,6 @@ const preferencesRouteInjectable = getInjectable({
 
   instantiate: () => ({
     title: "Preferences",
-    icon: "apps",
-
     path: "/preferences",
     Component: Preferences,
     clusterFrame: false,

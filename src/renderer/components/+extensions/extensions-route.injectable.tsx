@@ -3,22 +3,20 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { Events } from "./events";
+import { Extensions } from "./extensions";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
-
-const eventsRouteInjectable = getInjectable({
-  id: "events-route",
+const extensionsRouteInjectable = getInjectable({
+  id: "extensions-route",
 
   instantiate: () => ({
-    title: "Events",
-    icon: "apps",
-    path: "/events",
-    Component: Events,
-    clusterFrame: true,
+    title: "Extensions",
+    path: "/extensions",
+    Component: Extensions,
+    clusterFrame: false,
     mikko: () => true,
   }),
 
   injectionToken: routeInjectionToken,
 });
 
-export default eventsRouteInjectable;
+export default extensionsRouteInjectable;

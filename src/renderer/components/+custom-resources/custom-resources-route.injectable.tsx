@@ -5,13 +5,15 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { CustomResourcesRoute } from "./route";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
+import { Icon } from "../icon";
+import React from "react";
 
 const customResourcesRouteInjectable = getInjectable({
   id: "custom-resources-route",
 
   instantiate: () => ({
     title: "Custom Resources",
-    icon: "apps",
+    getIcon: () => <Icon material="extension" />,
     path: "/crd",
     Component: CustomResourcesRoute,
     clusterFrame: true,

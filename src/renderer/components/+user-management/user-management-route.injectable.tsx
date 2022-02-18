@@ -5,13 +5,15 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { UserManagementRoute } from "./route";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
+import { Icon } from "../icon";
+import React from "react";
 
 const userManagementRouteInjectable = getInjectable({
   id: "user-management-route",
 
   instantiate: () => ({
     title: "User Management",
-    icon: "apps",
+    getIcon: () => <Icon material="security" />,
     path: "/pod-security-policies",
 
     // path: [

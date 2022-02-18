@@ -11,7 +11,6 @@ const welcomeRouteInjectable = getInjectable({
 
   instantiate: () => ({
     title: "Welcome",
-    icon: "apps",
 
     path: "/welcome",
     Component: Welcome,

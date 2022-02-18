@@ -3,17 +3,19 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { NamespacesRoute } from "./route";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
+import { ClusterOverview } from "./cluster-overview";
+import { Icon } from "../icon";
+import React from "react";
 
-const namespacesRouteInjectable = getInjectable({
-  id: "namespaces-route",
+const clusterOverviewRouteInjectable = getInjectable({
+  id: "cluster-overview-route",
 
   instantiate: () => ({
-    title: "Namespaces",
-    icon: "apps",
-    path: "/namespaces",
-    Component: NamespacesRoute,
+    title: "Overview",
+    getIcon: () => <Icon material="kube" />,
+    path: "/overview",
+    Component: ClusterOverview,
     clusterFrame: true,
     mikko: () => true,
   }),
@@ -21,4 +23,4 @@ const namespacesRouteInjectable = getInjectable({
   injectionToken: routeInjectionToken,
 });
 
-export default namespacesRouteInjectable;
+export default clusterOverviewRouteInjectable;

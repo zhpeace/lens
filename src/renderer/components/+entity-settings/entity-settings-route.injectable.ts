@@ -11,8 +11,6 @@ const entitySettingsRouteInjectable = getInjectable({
 
   instantiate: () => ({
     title: "Entity Settings",
-    icon: "apps",
-
     path: `/entity/:entityId/settings`,
     Component: EntitySettings,
     clusterFrame: false,
