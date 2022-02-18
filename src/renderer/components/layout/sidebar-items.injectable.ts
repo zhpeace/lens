@@ -41,7 +41,7 @@ const sidebarItemsInjectable = getInjectable({
           isActive: !!matchRoute({ path: childRoute.path }),
           children: [],
         })),
-      }));
+      })).filter(x => x.children.length);
 
       // console.log("mikkoasd", { janne, tiinaRoutes, mikkoRoutes });
 
