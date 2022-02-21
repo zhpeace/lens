@@ -3,15 +3,15 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { CustomResourcesRoute } from "./route";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
+import { CrdResources } from "./crd-resources";
 
 const customResourcesRouteInjectable = getInjectable({
   id: "custom-resources-route",
 
   instantiate: () => ({
     path: "/crd/:group?/:name?",
-    Component: CustomResourcesRoute,
+    Component: CrdResources,
     clusterFrame: true,
     isEnabled: () => true,
   }),

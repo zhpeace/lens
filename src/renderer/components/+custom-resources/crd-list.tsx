@@ -17,6 +17,7 @@ import { Select, SelectOption } from "../select";
 import { createPageParam } from "../../navigation";
 import { Icon } from "../icon";
 import type { TableSortCallbacks } from "../table";
+import { TabLayout } from "../layout/tab-layout";
 
 export const crdGroupsUrlParam = createPageParam<string[]>({
   name: "groups",
@@ -71,67 +72,74 @@ export class CrdList extends React.Component {
     };
 
     return (
-      <KubeObjectListLayout
-        isConfigurable
-        tableId="crd"
-        className="CrdList"
-        store={crdStore}
-        items={items}
-        sortingCallbacks={sortingCallbacks}
-        searchFilters={Object.values(sortingCallbacks)}
-        renderHeaderTitle="Custom Resources"
-        customizeHeader={({ filters, ...headerPlaceholders }) => {
-          let placeholder = <>All groups</>;
+      <TabLayout>
+        <KubeObjectListLayout
+          isConfigurable
+          tableId="crd"
+          className="CrdList"
+          store={crdStore}
+          items={items}
+          sortingCallbacks={sortingCallbacks}
+          searchFilters={Object.values(sortingCallbacks)}
+          renderHeaderTitle="Custom Resources"
+          customizeHeader={({ filters, ...headerPlaceholders }) => {
+            let placeholder = <>All groups</>;
 
-          if (selectedGroups.length == 1) placeholder = <>Group: {selectedGroups[0]}</>;
-          if (selectedGroups.length >= 2) placeholder = <>Groups: {selectedGroups.join(", ")}</>;
+            if (selectedGroups.length == 1) placeholder = <>Group: {selectedGroups[0]}</>;
+            if (selectedGroups.length >= 2) placeholder = <>Groups: {selectedGroups.join(", ")}</>;
 
-          return {
+            return {
             // todo: move to global filters
-            filters: (
-              <>
-                {filters}
-                <Select
-                  className="group-select"
-                  placeholder={placeholder}
-                  options={Object.keys(crdStore.groups)}
-                  onChange={({ value: group }: SelectOption) => this.toggleSelection(group)}
-                  closeMenuOnSelect={false}
-                  controlShouldRenderValue={false}
-                  formatOptionLabel={({ value: group }: SelectOption) => {
-                    const isSelected = selectedGroups.includes(group);
+              filters: (
+                <>
+                  {filters}
+                  <Select
+                    className="group-select"
+                    placeholder={placeholder}
+                    options={Object.keys(crdStore.groups)}
+                    onChange={({ value: group }: SelectOption) => this.toggleSelection(group)}
+                    closeMenuOnSelect={false}
+                    controlShouldRenderValue={false}
+                    formatOptionLabel={({ value: group }: SelectOption) => {
+                      const isSelected = selectedGroups.includes(group);
 
-                    return (
-                      <div className="flex gaps align-center">
-                        <Icon small material="folder"/>
-                        <span>{group}</span>
-                        {isSelected && <Icon small material="check" className="box right"/>}
-                      </div>
-                    );
-                  }}
-                />
-              </>
-            ),
-            ...headerPlaceholders,
-          };
-        }}
-        renderTableHeader={[
-          { title: "Resource", className: "kind", sortBy: columnId.kind, id: columnId.kind },
-          { title: "Group", className: "group", sortBy: columnId.group, id: columnId.group },
-          { title: "Version", className: "version", sortBy: columnId.version, id: columnId.version },
-          { title: "Scope", className: "scope", sortBy: columnId.scope, id: columnId.scope },
-          { title: "Age", className: "age", sortBy: columnId.age, id: columnId.age },
-        ]}
-        renderTableContents={crd => [
-          <Link key="link" to={crd.getResourceUrl()} onClick={stopPropagation}>
-            {crd.getResourceKind()}
-          </Link>,
-          crd.getGroup(),
-          crd.getVersion(),
-          crd.getScope(),
-          crd.getAge(),
-        ]}
-      />
+                      return (
+                        <div className="flex gaps align-center">
+                          <Icon small material="folder" />
+                          <span>{group}</span>
+                          {isSelected && <Icon small material="check" className="box right" />}
+                        </div>
+                      );
+                    }}
+                  />
+                </>
+              ),
+              ...headerPlaceholders,
+            };
+          }}
+          renderTableHeader={[
+            { title: "Resource", className: "kind", sortBy: columnId.kind, id: columnId.kind },
+            { title: "Group", className: "group", sortBy: columnId.group, id: columnId.group },
+            {
+              title: "Version",
+              className: "version",
+              sortBy: columnId.version,
+              id: columnId.version,
+            },
+            { title: "Scope", className: "scope", sortBy: columnId.scope, id: columnId.scope },
+            { title: "Age", className: "age", sortBy: columnId.age, id: columnId.age },
+          ]}
+          renderTableContents={crd => [
+            <Link key="link" to={crd.getResourceUrl()} onClick={stopPropagation}>
+              {crd.getResourceKind()}
+            </Link>,
+            crd.getGroup(),
+            crd.getVersion(),
+            crd.getScope(),
+            crd.getAge(),
+          ]}
+        />
+      </TabLayout>
     );
   }
 }
