@@ -8,18 +8,15 @@ import React from "react";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { computed } from "mobx";
 import type { ISidebarItem } from "../layout/sidebar";
-import clusterOverviewRouteInjectable from "../+cluster/cluster-overview-route.injectable";
-import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
-import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 
 const configSidebarItemsInjectable = getInjectable({
   id: "config-sidebar-items",
 
   instantiate: (di) => {
     // const route = di.inject(clusterOverviewRouteInjectable);
-    const route = di.inject(clusterOverviewRouteInjectable);
-    const isActiveRoute = di.inject(isActiveRouteInjectable);
-    const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+    // const route = di.inject(clusterOverviewRouteInjectable);
+    // const isActiveRoute = di.inject(isActiveRouteInjectable);
+    // const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
 
 
     return computed((): ISidebarItem[] => [
@@ -29,7 +26,7 @@ const configSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon material="list" />,
         url: "https://google.com",
         isActive: false,
-        isVisible: false,
+        isVisible: true,
       },
     ]);
   },

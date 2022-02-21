@@ -19,6 +19,7 @@ const workloadsSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon svg="workloads" />,
         url: `asd`,
         isActive: false,
+        isVisible: true,
       },
     ]),
 

@@ -4,12 +4,16 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import type { Route } from "./all-routes.injectable";
-
-const isActiveRoute = () => (route: Route) => false;
+import currentRouteInjectable from "./current-route.injectable";
 
 const isActiveRouteInjectable = getInjectable({
   id: "is-active-route",
-  instantiate: (di) => isActiveRoute(),
+
+  instantiate: (di) => {
+    const currentRoute = di.inject(currentRouteInjectable);
+
+    return (route: Route) => route === currentRoute.get();
+  },
 });
 
 export default isActiveRouteInjectable;
