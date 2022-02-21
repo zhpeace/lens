@@ -5,11 +5,9 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import type { Route } from "./all-routes.injectable";
 
-const hasAccessToRoute = () => (route: Route) => true;
-
 const hasAccessToRouteInjectable = getInjectable({
   id: "has-access-to-route",
-  instantiate: (di) => hasAccessToRoute(),
+  instantiate: () => (route: Route) => route.mikko(),
 });
 
 export default hasAccessToRouteInjectable;

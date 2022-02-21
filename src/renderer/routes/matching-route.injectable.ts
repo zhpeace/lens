@@ -4,7 +4,7 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import routesInjectable from "./routes.injectable";
-import { matches, orderBy } from "lodash/fp";
+import { matches } from "lodash/fp";
 import { computed } from "mobx";
 import matchRouteInjectable from "./match-route.injectable";
 
@@ -21,15 +21,10 @@ const matchingRouteInjectable = getInjectable({
 
         return {
           route,
-          isExactMatch: !!match && match.isExact,
           isMatching: !!match,
           pathParameters: match ? match.params : {},
         };
       });
-
-      const asd = orderBy("isExact", "asc")(matchedRoutes);
-
-      console.log(asd);
 
       return matchedRoutes.find(matches({ isMatching: true }));
     });

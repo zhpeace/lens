@@ -19,6 +19,7 @@ const helmSidebarItemsInjectable = getInjectable({
         title: "Helm",
         url: `asd`,
         isActive: false,
+        isVisible: true,
       },
     ]);
   },

@@ -3,7 +3,7 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { groupBy } from "lodash/fp";
+import { groupBy, matches } from "lodash/fp";
 import toPairs from "lodash/toPairs";
 import { computed } from "mobx";
 
@@ -17,6 +17,7 @@ import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injecta
 import { getUrl } from "../../routes/get-url";
 import customResourcesRouteInjectable from "./custom-resources-route.injectable";
 import crdListRouteInjectable from "./crd-list-route.injectable";
+import pathParametersInjectable from "../../routes/path-parameters.injectable";
 
 const customResourceSidebarItemsInjectable = getInjectable({
   id: "custom-resource-sidebar-items",
@@ -26,23 +27,37 @@ const customResourceSidebarItemsInjectable = getInjectable({
     const crdListRoute = di.inject(crdListRouteInjectable);
     const isActiveRoute = di.inject(isActiveRouteInjectable);
     const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+    const pathParameters = di.inject(pathParametersInjectable);
 
     const allCrds = di.inject(customResourceDefinitionsInjectable);
 
     return computed(() => {
       const groupedCrds = toPairs(groupBy((x) => x.getGroup(), allCrds.get()));
 
+      const currentPathParameters = pathParameters.get();
+
       const rootItem = {
         id: "custom-resources",
         title: "Custom Resources",
         getIcon: () => <Icon material="extension" />,
         url: getUrl(crdRoute),
-        isActive: isActiveRoute(crdRoute),
+        isActive: true,
         isVisible: hasAccessToRoute(crdRoute),
+      };
+
+      const definitionsItem = {
+        id: "custom-resource-definitions",
+        title: "Definitions",
+        parentId: "custom-resources",
+        url: getUrl(crdListRoute),
+        isActive: isActiveRoute(crdListRoute),
+        isVisible: hasAccessToRoute(crdListRoute),
       };
 
       return [
         rootItem,
+
+        definitionsItem,
 
         ...groupedCrds.flatMap(([group, definitions]) => {
           const parentGroupId = `custom-resources-group-${group}`;
@@ -52,7 +67,7 @@ const customResourceSidebarItemsInjectable = getInjectable({
             parentId: "custom-resources",
             title: group,
             url: getUrl(crdListRoute, { query: { groups: group }}),
-            isActive: isActiveRoute(crdListRoute),
+            isActive: false,
             isVisible: hasAccessToRoute(crdListRoute),
           };
 
@@ -62,16 +77,19 @@ const customResourceSidebarItemsInjectable = getInjectable({
             ...definitions.map((crd) => {
               const title = crd.getResourceKind();
 
+              const crdPathParameters = { group: crd.getGroup(), name: crd.getPluralName() };
+              const crdIsActive = isActiveRoute(crdRoute) && matches(crdPathParameters, currentPathParameters);
+
               return {
                 id: `${parentGroupId}-${title}`,
                 parentId: parentGroupId,
                 title,
 
                 url: getUrl(crdRoute, {
-                  path: { group: crd.getGroup(), name: crd.getPluralName() },
+                  path: crdPathParameters,
                 }),
 
-                isActive: isActiveRoute(crdListRoute),
+                isActive: crdIsActive,
                 isVisible: hasAccessToRoute(crdListRoute),
               };
             }),

@@ -19,6 +19,7 @@ const networkSidebarItemsInjectable = getInjectable({
         title: "Network",
         url: `asd`,
         isActive: false,
+        isVisible: true,
       },
     ]);
   },

@@ -19,6 +19,7 @@ const storageSidebarItemsInjectable = getInjectable({
         title: "Storage",
         url: `asd`,
         isActive: false,
+        isVisible: true,
       },
     ]),
 
