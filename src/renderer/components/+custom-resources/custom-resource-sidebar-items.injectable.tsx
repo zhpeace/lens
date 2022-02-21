@@ -3,7 +3,7 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { groupBy, matches } from "lodash/fp";
+import { groupBy, matches, some } from "lodash/fp";
 import toPairs from "lodash/toPairs";
 import { computed } from "mobx";
 
@@ -32,70 +32,78 @@ const customResourceSidebarItemsInjectable = getInjectable({
     const allCrds = di.inject(customResourceDefinitionsInjectable);
 
     return computed(() => {
-      const groupedCrds = toPairs(groupBy((x) => x.getGroup(), allCrds.get()));
+      const groupedCrds = toPairs(
+        groupBy((crd) => crd.getGroup(), allCrds.get()),
+      );
 
       const currentPathParameters = pathParameters.get();
 
-      const rootItem = {
-        id: "custom-resources",
-        title: "Custom Resources",
-        getIcon: () => <Icon material="extension" />,
-        url: getUrl(crdRoute),
-        isActive: isActiveRoute(crdRoute),
-        isVisible: hasAccessToRoute(crdRoute),
-      };
+      const parentItemId = "custom-resources";
+
+      const crdItems = groupedCrds.flatMap(([group, definitions]) => {
+        const parentGroupId = `custom-resources-group-${group}`;
+
+        const groupParent = {
+          id: parentGroupId,
+          parentId: parentItemId,
+          title: group,
+          url: getUrl(crdListRoute, { query: { groups: group }}),
+          isActive: false,
+          isVisible: true,
+        };
+
+        return [
+          groupParent,
+
+          ...definitions.map((crd) => {
+            const title = crd.getResourceKind();
+
+            const crdPathParameters = {
+              group: crd.getGroup(),
+              name: crd.getPluralName(),
+            };
+
+            const crdIsActive =
+              isActiveRoute(crdRoute) &&
+              matches(crdPathParameters, currentPathParameters);
+
+            return {
+              id: `${parentGroupId}-${title}`,
+              parentId: parentGroupId,
+              title,
+
+              url: getUrl(crdRoute, {
+                path: crdPathParameters,
+              }),
+
+              isActive: crdIsActive,
+              isVisible: hasAccessToRoute(crdListRoute),
+            };
+          }),
+        ];
+      });
 
       const definitionsItem = {
         id: "custom-resource-definitions",
         title: "Definitions",
-        parentId: "custom-resources",
+        parentId: parentItemId,
         url: getUrl(crdListRoute),
         isActive: isActiveRoute(crdListRoute),
         isVisible: hasAccessToRoute(crdListRoute),
       };
 
-      return [
-        rootItem,
+      const childItems = [definitionsItem, ...crdItems];
 
-        definitionsItem,
+      const parentItem = {
+        id: parentItemId,
+        title: "Custom Resources",
+        getIcon: () => <Icon material="extension" />,
+        url: getUrl(crdRoute),
+        isActive: some({ isActive: true }, childItems),
+        isVisible: some({ isVisible: true }, childItems),
+      };
 
-        ...groupedCrds.flatMap(([group, definitions]) => {
-          const parentGroupId = `custom-resources-group-${group}`;
-
-          const groupParent = {
-            id: parentGroupId,
-            parentId: "custom-resources",
-            title: group,
-            url: getUrl(crdListRoute, { query: { groups: group }}),
-            isActive: false,
-            isVisible: hasAccessToRoute(crdListRoute),
-          };
-
-          return [
-            groupParent,
-
-            ...definitions.map((crd) => {
-              const title = crd.getResourceKind();
-
-              const crdPathParameters = { group: crd.getGroup(), name: crd.getPluralName() };
-              const crdIsActive = isActiveRoute(crdRoute) && matches(crdPathParameters, currentPathParameters);
-
-              return {
-                id: `${parentGroupId}-${title}`,
-                parentId: parentGroupId,
-                title,
-
-                url: getUrl(crdRoute, {
-                  path: crdPathParameters,
-                }),
-
-                isActive: crdIsActive,
-                isVisible: hasAccessToRoute(crdListRoute),
-              };
-            }),
-          ];
-        }),
-      ];
+      return [parentItem, ...childItems];
     });
   },
 
