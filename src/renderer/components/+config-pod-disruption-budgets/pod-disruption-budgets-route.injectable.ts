@@ -17,7 +17,7 @@ const podDisruptionBudgetsRouteInjectable = getInjectable({
       Component: PodDisruptionBudgets,
       path: "/poddisruptionbudgets",
       clusterFrame: true,
-      mikko: () => isAllowedResource("poddisruptionbudgets"),
+      isEnabled: () => isAllowedResource("poddisruptionbudgets"),
     });
   },
 

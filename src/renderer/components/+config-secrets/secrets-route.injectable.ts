@@ -17,7 +17,7 @@ const secretsRouteInjectable = getInjectable({
       Component: Secrets,
       path: "/secrets",
       clusterFrame: true,
-      mikko: () => isAllowedResource("secrets"),
+      isEnabled: () => isAllowedResource("secrets"),
     };
   },
 

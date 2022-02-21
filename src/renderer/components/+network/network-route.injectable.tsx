@@ -22,7 +22,7 @@ const networkRouteInjectable = getInjectable({
 
     Component: NetworkRoute,
     clusterFrame: true,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

@@ -25,7 +25,7 @@ const networkPoliciesSidebarItemsInjectable = getInjectable({
         title: "Network Policies",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
-        isVisible: route.mikko(),
+        isVisible: route.isEnabled(),
       },
     ]);
   },

@@ -14,7 +14,7 @@ export interface Route {
   path: string;
   Component: React.ElementType;
   clusterFrame: boolean;
-  mikko: () => boolean;
+  isEnabled: () => boolean;
 }
 
 const routesInjectable = getInjectable({

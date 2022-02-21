@@ -17,7 +17,7 @@ const replicasetsRouteInjectable = getInjectable({
       Component: ReplicaSets,
       path: "/replicasets",
       clusterFrame: true,
-      mikko: () => isAllowedResource("replicasets"),
+      isEnabled: () => isAllowedResource("replicasets"),
     };
   },
 

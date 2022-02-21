@@ -12,7 +12,7 @@ const helmRouteInjectable = getInjectable({
     path: "/helm",
     Component: (): null => null,
     clusterFrame: true,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

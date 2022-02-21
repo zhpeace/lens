@@ -17,7 +17,7 @@ const configMapsRouteInjectable = getInjectable({
       Component: ConfigMaps,
       path: "/configmaps",
       clusterFrame: true,
-      mikko: () => isAllowedResource("configmaps"),
+      isEnabled: () => isAllowedResource("configmaps"),
     });
   },
 

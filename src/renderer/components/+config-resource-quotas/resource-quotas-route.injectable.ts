@@ -17,7 +17,7 @@ const resourceQuotasRouteInjectable = getInjectable({
       Component: ResourceQuotas,
       path: "/resourcequotas",
       clusterFrame: true,
-      mikko: () => isAllowedResource("resourcequotas"),
+      isEnabled: () => isAllowedResource("resourcequotas"),
     };
   },
 

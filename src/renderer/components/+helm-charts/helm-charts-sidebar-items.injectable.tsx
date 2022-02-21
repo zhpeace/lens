@@ -23,7 +23,7 @@ const helmChartsSidebarItemsInjectable = getInjectable({
         title: "Charts",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
-        isVisible: route.mikko(),
+        isVisible: route.isEnabled(),
       },
     ]);
   },

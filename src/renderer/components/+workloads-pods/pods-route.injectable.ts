@@ -17,7 +17,7 @@ const podsRouteInjectable = getInjectable({
       Component: Pods,
       path: "/pods",
       clusterFrame: true,
-      mikko: () => isAllowedResource("pods"),
+      isEnabled: () => isAllowedResource("pods"),
     };
   },
 

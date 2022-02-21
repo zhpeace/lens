@@ -17,7 +17,7 @@ const clusterRolesRouteInjectable = getInjectable({
       path: "/cluster-roles",
       Component: ClusterRoles,
       clusterFrame: true,
-      mikko: () => isAllowedResource("clusterroles"),
+      isEnabled: () => isAllowedResource("clusterroles"),
     };
   },
 

@@ -24,7 +24,7 @@ const secretsSidebarItemsInjectable = getInjectable({
         title: "Secrets",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
-        isVisible: route.mikko(),
+        isVisible: route.isEnabled(),
       },
     ]);
   },

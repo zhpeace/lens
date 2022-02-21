@@ -56,7 +56,7 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
             }),
 
             isActive: definitionIsShown,
-            isVisible: crdListRoute.mikko(),
+            isVisible: crdListRoute.isEnabled(),
           };
         });
 

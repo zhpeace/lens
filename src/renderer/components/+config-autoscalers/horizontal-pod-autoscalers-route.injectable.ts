@@ -17,7 +17,7 @@ const horizontalPodAutoscalersRouteInjectable = getInjectable({
       Component: HorizontalPodAutoscalers,
       path: "/hpa",
       clusterFrame: true,
-      mikko: () => isAllowedResource("horizontalpodautoscalers"),
+      isEnabled: () => isAllowedResource("horizontalpodautoscalers"),
     };
   },
 

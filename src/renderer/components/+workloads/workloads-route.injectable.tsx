@@ -25,7 +25,7 @@ const workloadsRouteInjectable = getInjectable({
 
     Component: WorkloadsRoute,
     clusterFrame: true,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

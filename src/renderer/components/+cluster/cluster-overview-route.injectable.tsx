@@ -17,7 +17,7 @@ const clusterOverviewRouteInjectable = getInjectable({
       path: "/overview",
       Component: ClusterOverview,
       clusterFrame: true,
-      mikko: () => isAllowedResource("nodes"),
+      isEnabled: () => isAllowedResource("nodes"),
     };
   },
 

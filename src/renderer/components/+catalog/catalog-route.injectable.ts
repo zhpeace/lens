@@ -13,7 +13,7 @@ const catalogRouteInjectable = getInjectable({
     path: "/catalog/:group?/:kind?",
     Component: Catalog,
     clusterFrame: false,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

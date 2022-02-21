@@ -17,7 +17,7 @@ const statefulsetsRouteInjectable = getInjectable({
       Component: StatefulSets,
       path: "/statefulsets",
       clusterFrame: true,
-      mikko: () => isAllowedResource("statefulsets"),
+      isEnabled: () => isAllowedResource("statefulsets"),
     };
   },
 

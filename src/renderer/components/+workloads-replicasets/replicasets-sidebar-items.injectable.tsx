@@ -23,7 +23,7 @@ const replicasetsSidebarItemsInjectable = getInjectable({
         title: "ReplicaSets",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
-        isVisible: route.mikko(),
+        isVisible: route.isEnabled(),
       },
     ]);
   },

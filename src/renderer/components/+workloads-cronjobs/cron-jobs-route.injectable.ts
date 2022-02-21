@@ -17,7 +17,7 @@ const cronJobsRouteInjectable = getInjectable({
       Component: CronJobs,
       path: "/cronjobs",
       clusterFrame: true,
-      mikko: () => isAllowedResource("cronjobs"),
+      isEnabled: () => isAllowedResource("cronjobs"),
     };
   },
 

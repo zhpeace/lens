@@ -17,7 +17,7 @@ const ingressesRouteInjectable = getInjectable({
       Component: Ingresses,
       path: "/ingresses",
       clusterFrame: true,
-      mikko: () => isAllowedResource("ingresses"),
+      isEnabled: () => isAllowedResource("ingresses"),
     };
   },
 

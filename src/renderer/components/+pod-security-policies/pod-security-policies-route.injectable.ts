@@ -17,7 +17,7 @@ const podSecurityPoliciesRouteInjectable = getInjectable({
       Component: PodSecurityPolicies,
       path: "/pod-security-policies",
       clusterFrame: true,
-      mikko: () => isAllowedResource("podsecuritypolicies"),
+      isEnabled: () => isAllowedResource("podsecuritypolicies"),
     };
   },
 

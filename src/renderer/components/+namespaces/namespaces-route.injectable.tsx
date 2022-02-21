@@ -17,7 +17,7 @@ const namespacesRouteInjectable = getInjectable({
       path: "/namespaces",
       Component: NamespacesRoute,
       clusterFrame: true,
-      mikko: () => isAllowedResource("namespaces"),
+      isEnabled: () => isAllowedResource("namespaces"),
     };
   },
 

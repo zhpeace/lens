@@ -23,7 +23,7 @@ const userManagementRouteInjectable = getInjectable({
 
     Component: UserManagementRoute,
     clusterFrame: true,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

@@ -17,7 +17,7 @@ const deploymentsRouteInjectable = getInjectable({
       Component: Deployments,
       path: "/deployments",
       clusterFrame: true,
-      mikko: () => isAllowedResource("deployments"),
+      isEnabled: () => isAllowedResource("deployments"),
     };
   },
 

@@ -17,7 +17,7 @@ const networkPoliciesRouteInjectable = getInjectable({
       Component: NetworkPolicies,
       path: "/network-policies",
       clusterFrame: true,
-      mikko: () => isAllowedResource("networkpolicies"),
+      isEnabled: () => isAllowedResource("networkpolicies"),
     };
   },
 

@@ -34,7 +34,7 @@ const customResourceSidebarItemsInjectable = getInjectable({
         title: "Definitions",
         onClick: () => navigateToRoute(crdListRoute),
         isActive: route === crdListRoute,
-        isVisible: crdListRoute.mikko(),
+        isVisible: crdListRoute.isEnabled(),
       };
 
       const definitionGroupItems = definitionGroupSidebarItems.get();

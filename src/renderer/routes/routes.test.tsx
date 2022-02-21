@@ -50,7 +50,7 @@ describe("routes", () => {
           path: "/some-path",
           Component: () => <div />,
           clusterFrame: false,
-          mikko: () => true,
+          isEnabled: () => true,
         }),
       });
 
@@ -116,7 +116,7 @@ describe("routes", () => {
           path: "/some-path/:someParameter?/:someOtherParameter?",
           Component: () => <div />,
           clusterFrame: false,
-          mikko: () => true,
+          isEnabled: () => true,
         }),
       });
 

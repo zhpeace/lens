@@ -13,7 +13,7 @@ const helmReleasesRouteInjectable = getInjectable({
     path: `/helm/releases/:repo?/:chartName?`,
     Component: HelmReleases,
     clusterFrame: true,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

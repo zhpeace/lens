@@ -13,7 +13,7 @@ const workloadsOverviewRouteInjectable = getInjectable({
     Component: WorkloadsOverview,
     path: "/workloads",
     clusterFrame: true,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

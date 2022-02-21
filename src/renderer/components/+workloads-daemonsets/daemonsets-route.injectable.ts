@@ -17,7 +17,7 @@ const daemonsetsRouteInjectable = getInjectable({
       Component: DaemonSets,
       path: "/daemonsets",
       clusterFrame: true,
-      mikko: () => isAllowedResource("daemonsets"),
+      isEnabled: () => isAllowedResource("daemonsets"),
     };
   },
 

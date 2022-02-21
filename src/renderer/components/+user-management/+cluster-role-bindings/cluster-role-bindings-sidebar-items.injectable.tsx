@@ -25,7 +25,7 @@ const clusterRoleBindingsSidebarItemsInjectable = getInjectable({
         title: "Cluster Role Bindings",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
-        isVisible: route.mikko(),
+        isVisible: route.isEnabled(),
       },
     ]);
   },

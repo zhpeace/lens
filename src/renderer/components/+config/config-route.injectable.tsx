@@ -23,7 +23,7 @@ const configRouteInjectable = getInjectable({
 
     Component: ConfigRoute,
     clusterFrame: true,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

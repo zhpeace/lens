@@ -13,7 +13,7 @@ const welcomeRouteInjectable = getInjectable({
     path: "/welcome",
     Component: Welcome,
     clusterFrame: false,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

@@ -25,7 +25,7 @@ const deploymentsSidebarItemsInjectable = getInjectable({
         title: "Deployments",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
-        isVisible: route.mikko(),
+        isVisible: route.isEnabled(),
       },
     ]);
   },

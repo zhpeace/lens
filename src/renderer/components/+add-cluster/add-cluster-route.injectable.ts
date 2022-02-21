@@ -13,7 +13,7 @@ const addClusterRouteInjectable = getInjectable({
     path: "/add-cluster",
     Component: AddCluster,
     clusterFrame: false,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

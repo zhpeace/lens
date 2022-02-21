@@ -22,7 +22,7 @@ const routesInjectable = getInjectable({
       allRoutes
         .get()
         .filter(matches({ clusterFrame: currentlyInClusterFrame }))
-        .filter(invoke("mikko")),
+        .filter(invoke("isEnabled")),
     );
   },
 });

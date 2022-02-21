@@ -17,7 +17,7 @@ const eventsRouteInjectable = getInjectable({
       path: "/events",
       Component: Events,
       clusterFrame: true,
-      mikko: () => isAllowedResource("events"),
+      isEnabled: () => isAllowedResource("events"),
     };
   },
 

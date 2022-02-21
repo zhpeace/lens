@@ -17,7 +17,7 @@ const roleBindingsRouteInjectable = getInjectable({
       Component: RoleBindings,
       path: "/role-bindings",
       clusterFrame: true,
-      mikko: () => isAllowedResource("rolebindings"),
+      isEnabled: () => isAllowedResource("rolebindings"),
     });
   },
 

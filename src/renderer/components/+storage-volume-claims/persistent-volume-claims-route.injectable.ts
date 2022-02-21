@@ -17,7 +17,7 @@ const persistentVolumeClaimsRouteInjectable = getInjectable({
       Component: PersistentVolumeClaims,
       path: "/persistent-volume-claims",
       clusterFrame: true,
-      mikko: () => isAllowedResource("persistentvolumeclaims"),
+      isEnabled: () => isAllowedResource("persistentvolumeclaims"),
     };
   },
 

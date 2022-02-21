@@ -23,7 +23,7 @@ const resourceQuotasSidebarItemsInjectable = getInjectable({
         title: "Resource Quotas",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
-        isVisible: route.mikko(),
+        isVisible: route.isEnabled(),
       },
     ]);
   },

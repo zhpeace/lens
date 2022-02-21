@@ -17,7 +17,7 @@ const limitRangesRouteInjectable = getInjectable({
       Component: LimitRanges,
       path: "/limitranges",
       clusterFrame: true,
-      mikko: () => isAllowedResource("limitranges"),
+      isEnabled: () => isAllowedResource("limitranges"),
     };
   },
 

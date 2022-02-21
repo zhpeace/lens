@@ -15,7 +15,7 @@ const currentRouteInjectable = getInjectable({
     return computed(() => {
       const match = matchingRoute.get();
 
-      if (match && match.route.mikko()) {
+      if (match && match.route.isEnabled()) {
         return match.route;
       }
 

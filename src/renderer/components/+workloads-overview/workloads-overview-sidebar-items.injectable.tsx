@@ -25,7 +25,7 @@ const workloadsOverviewSidebarItemsInjectable = getInjectable({
         title: "Overview",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
-        isVisible: route.mikko(),
+        isVisible: route.isEnabled(),
       },
     ]);
   },

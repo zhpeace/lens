@@ -23,7 +23,7 @@ const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
         title: "Pod Disruption Budgets",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
-        isVisible: route.mikko(),
+        isVisible: route.isEnabled(),
       },
     ]);
   },

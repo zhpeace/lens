@@ -13,7 +13,7 @@ const portForwardsRouteInjectable = getInjectable({
     Component: PortForwards,
     path: "/port-forwards/:forwardport?",
     clusterFrame: true,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

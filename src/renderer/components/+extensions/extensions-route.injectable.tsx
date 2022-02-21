@@ -13,7 +13,7 @@ const extensionsRouteInjectable = getInjectable({
     path: "/extensions",
     Component: Extensions,
     clusterFrame: false,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

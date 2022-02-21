@@ -17,7 +17,7 @@ const endpointsRouteInjectable = getInjectable({
       Component: Endpoints,
       path: "/endpoints",
       clusterFrame: true,
-      mikko: () => isAllowedResource("endpoints"),
+      isEnabled: () => isAllowedResource("endpoints"),
     };
   },
 

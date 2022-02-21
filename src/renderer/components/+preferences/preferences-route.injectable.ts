@@ -13,7 +13,7 @@ const preferencesRouteInjectable = getInjectable({
     path: "/preferences",
     Component: Preferences,
     clusterFrame: false,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

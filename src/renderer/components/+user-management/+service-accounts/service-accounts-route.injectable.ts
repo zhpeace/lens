@@ -17,7 +17,7 @@ const serviceAccountsRouteInjectable = getInjectable({
       Component: ServiceAccounts,
       path: "/service-accounts",
       clusterFrame: true,
-      mikko: () => isAllowedResource("serviceaccounts"),
+      isEnabled: () => isAllowedResource("serviceaccounts"),
     };
   },
 

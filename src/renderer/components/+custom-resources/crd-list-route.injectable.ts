@@ -13,7 +13,7 @@ const crdListRouteInjectable = getInjectable({
     Component: CrdList,
     path: "/crd/definitions",
     clusterFrame: true,
-    mikko: () => true,
+    isEnabled: () => true,
     exact: true,
   }),
 

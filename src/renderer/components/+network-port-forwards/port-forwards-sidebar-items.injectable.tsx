@@ -25,7 +25,7 @@ const portForwardsSidebarItemsInjectable = getInjectable({
         title: "Port Forwarding",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
-        isVisible: route.mikko(),
+        isVisible: route.isEnabled(),
       },
     ]);
   },

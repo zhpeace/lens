@@ -14,7 +14,7 @@ const entitySettingsRouteInjectable = getInjectable({
     path: `/entity/:entityId/settings`,
     Component: EntitySettings,
     clusterFrame: false,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

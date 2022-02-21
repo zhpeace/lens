@@ -17,7 +17,7 @@ const nodesRouteInjectable = getInjectable({
       path: "/nodes",
       Component: NodesRoute,
       clusterFrame: true,
-      mikko: () => isAllowedResource("nodes"),
+      isEnabled: () => isAllowedResource("nodes"),
     };
   },
 

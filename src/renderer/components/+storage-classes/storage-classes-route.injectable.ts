@@ -17,7 +17,7 @@ const storageClassesRouteInjectable = getInjectable({
       Component: StorageClasses,
       path: "/storage-classes",
       clusterFrame: true,
-      mikko: () => isAllowedResource("storageclasses"),
+      isEnabled: () => isAllowedResource("storageclasses"),
     };
   },
 

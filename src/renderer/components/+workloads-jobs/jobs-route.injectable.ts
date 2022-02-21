@@ -17,7 +17,7 @@ const jobsRouteInjectable = getInjectable({
       Component: Jobs,
       path: "/jobs",
       clusterFrame: true,
-      mikko: () => isAllowedResource("jobs"),
+      isEnabled: () => isAllowedResource("jobs"),
     };
   },
 

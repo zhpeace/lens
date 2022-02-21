@@ -14,7 +14,7 @@ const clusterViewRouteInjectable = getInjectable({
     path: "/cluster/:clusterId",
     Component: ClusterView,
     clusterFrame: false,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

@@ -44,7 +44,7 @@ describe("routes, given in cluster frame", () => {
         path: "/some-path",
         Component: () => <div />,
         clusterFrame: false,
-        mikko: () => true,
+        isEnabled: () => true,
       }),
 
       injectionToken: routeInjectionToken,
@@ -59,7 +59,7 @@ describe("routes, given in cluster frame", () => {
         path: "/some-path",
         Component: () => <div />,
         clusterFrame: true,
-        mikko: () => true,
+        isEnabled: () => true,
       }),
 
       injectionToken: routeInjectionToken,

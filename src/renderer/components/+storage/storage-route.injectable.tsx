@@ -20,7 +20,7 @@ const storageRouteInjectable = getInjectable({
 
     Component: StorageRoute,
     clusterFrame: true,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

@@ -13,7 +13,7 @@ const customResourcesRouteInjectable = getInjectable({
     path: "/crd/:group?/:name?",
     Component: CustomResourcesRoute,
     clusterFrame: true,
-    mikko: () => true,
+    isEnabled: () => true,
   }),
 
   injectionToken: routeInjectionToken,

@@ -20,7 +20,7 @@ const persistentVolumesInjectable = getInjectable({
       path: "/persistent-volumes",
       parent: di.inject(storageRouteInjectable),
       clusterFrame: true,
-      mikko: () => isAllowedResource("persistentvolumes"),
+      isEnabled: () => isAllowedResource("persistentvolumes"),
     };
   },
 
