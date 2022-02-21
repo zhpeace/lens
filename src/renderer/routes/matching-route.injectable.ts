@@ -6,18 +6,19 @@ import { getInjectable } from "@ogre-tools/injectable";
 import routesInjectable from "./routes.injectable";
 import { matches } from "lodash/fp";
 import { computed } from "mobx";
-import matchRouteInjectable from "./match-route.injectable";
+import observableHistoryInjectable from "../navigation/observable-history.injectable";
+import { matchPath } from "react-router";
 
 const matchingRouteInjectable = getInjectable({
   id: "matching-route",
 
   instantiate: (di) => {
     const routes = di.inject(routesInjectable);
-    const matchRoute = di.inject(matchRouteInjectable);
+    const observableHistory = di.inject(observableHistoryInjectable);
 
     return computed(() => {
       const matchedRoutes = routes.get().map((route) => {
-        const match = matchRoute(route);
+        const match = matchPath(observableHistory.location.pathname, route);
 
         return {
           route,

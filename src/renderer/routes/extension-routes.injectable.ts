@@ -9,6 +9,7 @@ import rendererExtensionsInjectable from "../../extensions/renderer-extensions.i
 
 const extensionRoutesInjectable = getInjectable({
   id: "extension-routes",
+
   instantiate: (di) => {
     const extensions = di.inject(rendererExtensionsInjectable);
 
