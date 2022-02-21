@@ -4,12 +4,14 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import portForwardsRouteInjectable from "./port-forwards-route.injectable";
 import { getUrl } from "../../routes/get-url";
+import {
+  networkChildSidebarItemsInjectionToken,
+} from "../+network/network-sidebar-items.injectable";
 
 const portForwardsSidebarItemsInjectable = getInjectable({
   id: "port-forwards-sidebar-items",
@@ -22,7 +24,6 @@ const portForwardsSidebarItemsInjectable = getInjectable({
     return computed(() => [
       {
         id: "port-forwards",
-        parentId: "network",
         title: "Port Forwarding",
         url: getUrl(route),
         isActive: isActiveRoute(route),
@@ -31,7 +32,7 @@ const portForwardsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: sidebarItemsInjectionToken,
+  injectionToken: networkChildSidebarItemsInjectionToken,
 });
 
 export default portForwardsSidebarItemsInjectable;

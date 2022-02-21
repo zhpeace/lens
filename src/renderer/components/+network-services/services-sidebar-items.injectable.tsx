@@ -4,12 +4,14 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import servicesRouteInjectable from "./services-route.injectable";
 import { getUrl } from "../../routes/get-url";
+import {
+  networkChildSidebarItemsInjectionToken,
+} from "../+network/network-sidebar-items.injectable";
 
 const servicesSidebarItemsInjectable = getInjectable({
   id: "services-sidebar-items",
@@ -22,7 +24,6 @@ const servicesSidebarItemsInjectable = getInjectable({
     return computed(() => [
       {
         id: "services",
-        parentId: "network",
         title: "Services",
         url: getUrl(route),
         isActive: isActiveRoute(route),
@@ -31,7 +32,7 @@ const servicesSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: sidebarItemsInjectionToken,
+  injectionToken: networkChildSidebarItemsInjectionToken,
 });
 
 export default servicesSidebarItemsInjectable;

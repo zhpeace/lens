@@ -4,12 +4,14 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import deploymentsRouteInjectable from "./deployments-route.injectable";
 import { getUrl } from "../../routes/get-url";
+import {
+  workloadsChildSidebarItemsInjectionToken,
+} from "../+workloads/workloads-sidebar-items.injectable";
 
 const deploymentsSidebarItemsInjectable = getInjectable({
   id: "deployments-sidebar-items",
@@ -23,7 +25,6 @@ const deploymentsSidebarItemsInjectable = getInjectable({
       {
         id: "deployments",
         title: "Deployments",
-        parentId: "workloads",
         url: getUrl(route),
         isActive: isActiveRoute(route),
         isVisible: hasAccessToRoute(route),
@@ -31,7 +32,7 @@ const deploymentsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: sidebarItemsInjectionToken,
+  injectionToken: workloadsChildSidebarItemsInjectionToken,
 });
 
 export default deploymentsSidebarItemsInjectable;

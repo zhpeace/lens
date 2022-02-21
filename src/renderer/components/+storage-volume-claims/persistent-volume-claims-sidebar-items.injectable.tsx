@@ -4,12 +4,14 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import persistentVolumeClaimsRouteInjectable from "./persistent-volume-claims-route.injectable";
 import { getUrl } from "../../routes/get-url";
+import {
+  storageChildSidebarItemsInjectionToken,
+} from "../+storage/storage-sidebar-items.injectable";
 
 const persistentVolumeClaimsSidebarItemsInjectable = getInjectable({
   id: "persistent-volume-claims-sidebar-items",
@@ -22,7 +24,6 @@ const persistentVolumeClaimsSidebarItemsInjectable = getInjectable({
     return computed(() => [
       {
         id: "persistent-volume-claims",
-        parentId: "storage",
         title: "Persistent Volume Claims",
         url: getUrl(route),
         isActive: isActiveRoute(route),
@@ -31,7 +32,7 @@ const persistentVolumeClaimsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: sidebarItemsInjectionToken,
+  injectionToken: storageChildSidebarItemsInjectionToken,
 });
 
 export default persistentVolumeClaimsSidebarItemsInjectable;

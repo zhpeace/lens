@@ -4,12 +4,14 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import { sidebarItemsInjectionToken } from "../../layout/sidebar-items.injectable";
 
 import isActiveRouteInjectable from "../../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../../routes/has-access-to-route.injectable";
 import roleBindingsRouteInjectable from "./role-bindings-route.injectable";
 import { getUrl } from "../../../routes/get-url";
+import {
+  userManagementChildSidebarItemsInjectionToken,
+} from "../user-management-sidebar-items.injectable";
 
 const roleBindingsSidebarItemsInjectable = getInjectable({
   id: "role-bindings-sidebar-items",
@@ -22,7 +24,6 @@ const roleBindingsSidebarItemsInjectable = getInjectable({
     return computed(() => [
       {
         id: "role-bindings",
-        parentId: "user-management",
         title: "Role Bindings",
         url: getUrl(route),
         isActive: isActiveRoute(route),
@@ -31,7 +32,7 @@ const roleBindingsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: sidebarItemsInjectionToken,
+  injectionToken: userManagementChildSidebarItemsInjectionToken,
 });
 
 export default roleBindingsSidebarItemsInjectable;

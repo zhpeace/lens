@@ -2,26 +2,46 @@
  * Copyright (c) OpenLens Authors. All rights reserved.
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
-import { getInjectable } from "@ogre-tools/injectable";
-import { computed } from "mobx";
+import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
+import { computed, IComputedValue } from "mobx";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 import React from "react";
+import type { ISidebarItem } from "../layout/sidebar";
+import { some } from "lodash/fp";
+
+export const networkChildSidebarItemsInjectionToken = getInjectionToken<IComputedValue<ISidebarItem[]>>({
+  id: "network-child-sidebar-items-injection-token",
+});
 
 const networkSidebarItemsInjectable = getInjectable({
   id: "network-sidebar-items",
 
-  instantiate: () => {
-    return computed(() => [
-      {
-        id: "network",
-        getIcon: () => <Icon material="device_hub" />,
-        title: "Network",
-        url: `asd`,
-        isActive: false,
-        isVisible: true,
-      },
-    ]);
+  instantiate: (di) => {
+    const childSidebarItems = di.injectMany(
+      networkChildSidebarItemsInjectionToken,
+    );
+
+    return computed(() => {
+      const parentId = "network";
+
+      const childItems = childSidebarItems
+        .flatMap((items) => items.get())
+        .map((item) => ({ ...item, parentId }));
+
+      return [
+        {
+          id: parentId,
+          getIcon: () => <Icon material="device_hub" />,
+          title: "Network",
+          url: `asd`,
+          isActive: some({ isActive: true }, childItems),
+          isVisible: some({ isVisible: true }, childItems),
+        },
+
+        ...childItems,
+      ];
+    });
   },
 
   injectionToken: sidebarItemsInjectionToken,

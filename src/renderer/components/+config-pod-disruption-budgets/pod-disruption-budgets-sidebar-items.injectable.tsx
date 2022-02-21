@@ -5,11 +5,11 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { getUrl } from "../../routes/get-url";
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import podDisruptionBudgetsRouteInjectable from "./pod-disruption-budgets-route.injectable";
+import { configChildSidebarItemsInjectionToken } from "../+config/config-sidebar-items.injectable";
 
 const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
   id: "pod-disruption-budgets-sidebar-items",
@@ -22,7 +22,6 @@ const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
     return computed(() => [
       {
         id: "pod-disruption-budgets",
-        parentId: "config",
         title: "Pod Disruption Budgets",
         url: getUrl(route),
         isActive: isActiveRoute(route),
@@ -31,7 +30,7 @@ const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: sidebarItemsInjectionToken,
+  injectionToken: configChildSidebarItemsInjectionToken,
 });
 
 export default podDisruptionBudgetsSidebarItemsInjectable;

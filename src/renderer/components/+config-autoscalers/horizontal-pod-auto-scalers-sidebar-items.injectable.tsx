@@ -3,13 +3,13 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { computed } from "mobx";
 import type { ISidebarItem } from "../layout/sidebar";
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import { getUrl } from "../../routes/get-url";
 import horizontalPodAutoscalersRouteInjectable from "./horizontal-pod-autoscalers-route.injectable";
+import { configChildSidebarItemsInjectionToken } from "../+config/config-sidebar-items.injectable";
 
 const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
   id: "horizontal-pod-auto-scalers-sidebar-items",
@@ -23,7 +23,6 @@ const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
       {
         id: "hpa",
         title: "HPA",
-        parentId: "config",
         url: getUrl(route),
         isActive: isActiveRoute(route),
         isVisible: hasAccessToRoute(route),
@@ -31,7 +30,7 @@ const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: sidebarItemsInjectionToken,
+  injectionToken: configChildSidebarItemsInjectionToken,
 });
 
 export default horizontalPodAutoScalersSidebarItemsInjectable;

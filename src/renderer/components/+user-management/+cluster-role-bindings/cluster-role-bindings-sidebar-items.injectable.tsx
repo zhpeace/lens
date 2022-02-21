@@ -4,12 +4,14 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import { sidebarItemsInjectionToken } from "../../layout/sidebar-items.injectable";
 
 import isActiveRouteInjectable from "../../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../../routes/has-access-to-route.injectable";
 import clusterRoleBindingsRouteInjectable from "./cluster-role-bindings-route.injectable";
 import { getUrl } from "../../../routes/get-url";
+import {
+  userManagementChildSidebarItemsInjectionToken,
+} from "../user-management-sidebar-items.injectable";
 
 const clusterRoleBindingsSidebarItemsInjectable = getInjectable({
   id: "cluster-role-bindings-sidebar-items",
@@ -22,7 +24,6 @@ const clusterRoleBindingsSidebarItemsInjectable = getInjectable({
     return computed(() => [
       {
         id: "cluster-role-bindings",
-        parentId: "user-management",
         title: "Cluster Role Bindings",
         url: getUrl(route),
         isActive: isActiveRoute(route),
@@ -31,7 +32,7 @@ const clusterRoleBindingsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: sidebarItemsInjectionToken,
+  injectionToken: userManagementChildSidebarItemsInjectionToken,
 });
 
 export default clusterRoleBindingsSidebarItemsInjectable;

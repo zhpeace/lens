@@ -4,12 +4,12 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import { getUrl } from "../../routes/get-url";
 import helmChartsRouteInjectable from "./helm-charts-route.injectable";
+import { helmChildSidebarItemsInjectionToken } from "../+helm/helm-sidebar-items.injectable";
 
 const helmChartsSidebarItemsInjectable = getInjectable({
   id: "helm-charts-sidebar-items",
@@ -22,7 +22,6 @@ const helmChartsSidebarItemsInjectable = getInjectable({
     return computed(() => [
       {
         id: "helm-charts",
-        parentId: "helm",
         title: "Charts",
         url: getUrl(route),
         isActive: isActiveRoute(route),
@@ -31,7 +30,7 @@ const helmChartsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: sidebarItemsInjectionToken,
+  injectionToken: helmChildSidebarItemsInjectionToken,
 });
 
 export default helmChartsSidebarItemsInjectable;

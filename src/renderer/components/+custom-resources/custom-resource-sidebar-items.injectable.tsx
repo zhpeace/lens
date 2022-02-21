@@ -41,7 +41,7 @@ const customResourceSidebarItemsInjectable = getInjectable({
         title: "Custom Resources",
         getIcon: () => <Icon material="extension" />,
         url: getUrl(crdRoute),
-        isActive: true,
+        isActive: isActiveRoute(crdRoute),
         isVisible: hasAccessToRoute(crdRoute),
       };
 

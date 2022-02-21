@@ -14,43 +14,13 @@ export const sidebarItemsInjectionToken = getInjectionToken<
 const sidebarItemsInjectable = getInjectable({
   id: "sidebar-items",
 
-  instantiate: (di) => {
-    return computed((): ISidebarItem[] => {
-      // const mikkoRoutes = routes.get().filter((route) => route.mikko());
-      //
-      // const rootRoutes = mikkoRoutes.filter((item) => !item.parent);
-      //
-      // // TODO: .filter(x => x.children.length)
-      //
-      // const toSidebarItem = (rootRoute: Route): ISidebarItem => {
-      //   const isChild = matches({ parent: rootRoute });
-      //
-      //   const childSidebarItems = mikkoRoutes
-      //     .filter(isChild)
-      //     .map(toSidebarItem);
-      //
-      //   const childIsActive = some(
-      //     matches({ isActive: true }),
-      //     childSidebarItems,
-      //   );
-      //
-      //   return {
-      //     title: rootRoute.title,
-      //     url: rootRoute.path, // TODO: TÄMÄ ON VÄÄRIN
-      //     getIcon: rootRoute.getIcon,
-      //     isActive: childIsActive || !!matchRoute({ path: rootRoute.path }),
-      //     children: childSidebarItems,
-      //   };
-      // };
-      //
-      // const routeSidebarItems = rootRoutes.map(toSidebarItem);
-
-      return di
+  instantiate: (di) =>
+    computed((): ISidebarItem[] =>
+      di
         .injectMany(sidebarItemsInjectionToken)
         .flatMap((x) => x.get())
-        .filter(matches({ isVisible: true }));
-    });
-  },
+        .filter(matches({ isVisible: true })),
+    ),
 });
 
 export default sidebarItemsInjectable;

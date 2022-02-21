@@ -5,12 +5,12 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import { getUrl } from "../../routes/get-url";
 import secretsRouteInjectable from "./secrets-route.injectable";
+import { configChildSidebarItemsInjectionToken } from "../+config/config-sidebar-items.injectable";
 
 const secretsSidebarItemsInjectable = getInjectable({
   id: "secrets-sidebar-items",
@@ -23,7 +23,6 @@ const secretsSidebarItemsInjectable = getInjectable({
     return computed(() => [
       {
         id: "secrets",
-        parentId: "config",
         title: "Secrets",
         url: getUrl(route),
         isActive: isActiveRoute(route),
@@ -32,7 +31,7 @@ const secretsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: sidebarItemsInjectionToken,
+  injectionToken: configChildSidebarItemsInjectionToken,
 });
 
 export default secretsSidebarItemsInjectable;

@@ -4,12 +4,14 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import podSecurityPoliciesRouteInjectable from "./pod-security-policies-route.injectable";
 import { getUrl } from "../../routes/get-url";
+import {
+  userManagementChildSidebarItemsInjectionToken,
+} from "../+user-management/user-management-sidebar-items.injectable";
 
 const podSecurityPoliciesSidebarItemsInjectable = getInjectable({
   id: "pod-security-policies-sidebar-items",
@@ -22,7 +24,6 @@ const podSecurityPoliciesSidebarItemsInjectable = getInjectable({
     return computed(() => [
       {
         id: "pod-security-policies",
-        parentId: "user-management",
         title: "Pod Security Policies",
         url: getUrl(route),
         isActive: isActiveRoute(route),
@@ -31,7 +32,7 @@ const podSecurityPoliciesSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: sidebarItemsInjectionToken,
+  injectionToken: userManagementChildSidebarItemsInjectionToken,
 });
 
 export default podSecurityPoliciesSidebarItemsInjectable;
