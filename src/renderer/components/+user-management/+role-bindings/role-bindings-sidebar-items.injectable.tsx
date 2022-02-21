@@ -23,7 +23,6 @@ const roleBindingsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "role-bindings",
         title: "Role Bindings",
         url: getUrl(route),
         isActive: isActiveRoute(route),

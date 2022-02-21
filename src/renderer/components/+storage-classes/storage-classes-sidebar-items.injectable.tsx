@@ -23,7 +23,6 @@ const storageClassesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "storage-classes",
         title: "Storage Classes",
         url: getUrl(route),
         isActive: isActiveRoute(route),

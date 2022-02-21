@@ -23,7 +23,6 @@ const statefulsetsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "statefulsets",
         title: "StatefulSets",
         url: getUrl(route),
         isActive: isActiveRoute(route),

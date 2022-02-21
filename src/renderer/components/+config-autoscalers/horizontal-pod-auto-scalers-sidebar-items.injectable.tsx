@@ -21,7 +21,6 @@ const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
 
     return computed((): ISidebarItem[] => [
       {
-        id: "hpa",
         title: "HPA",
         url: getUrl(route),
         isActive: isActiveRoute(route),

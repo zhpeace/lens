@@ -23,23 +23,18 @@ const networkSidebarItemsInjectable = getInjectable({
     );
 
     return computed(() => {
-      const parentId = "network";
-
       const childItems = childSidebarItems
-        .flatMap((items) => items.get())
-        .map((item) => ({ ...item, parentId }));
+        .flatMap((items) => items.get());
 
       return [
         {
-          id: parentId,
           getIcon: () => <Icon material="device_hub" />,
           title: "Network",
           url: `asd`,
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
+          children: childItems,
         },
-
-        ...childItems,
       ];
     });
   },

@@ -23,7 +23,6 @@ const clusterRolesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "cluster-roles",
         title: "Cluster Roles",
         url: getUrl(route),
         isActive: isActiveRoute(route),

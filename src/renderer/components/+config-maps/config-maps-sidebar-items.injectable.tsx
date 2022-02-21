@@ -21,7 +21,6 @@ const configMapsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "config-maps",
         title: "ConfigMaps",
         url: getUrl(route),
         isActive: isActiveRoute(route),

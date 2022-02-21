@@ -10,7 +10,9 @@ import React from "react";
 import type { ISidebarItem } from "../layout/sidebar";
 import { some } from "lodash/fp";
 
-export const workloadsChildSidebarItemsInjectionToken = getInjectionToken<IComputedValue<ISidebarItem[]>>({
+export const workloadsChildSidebarItemsInjectionToken = getInjectionToken<
+  IComputedValue<ISidebarItem[]>
+>({
   id: "workloads-child-sidebar-items-injection-token",
 });
 
@@ -23,23 +25,17 @@ const workloadsSidebarItemsInjectable = getInjectable({
     );
 
     return computed(() => {
-      const parentId = "workloads";
-
-      const childItems = childSidebarItems
-        .flatMap((items) => items.get())
-        .map((item) => ({ ...item, parentId }));
+      const childItems = childSidebarItems.flatMap((items) => items.get());
 
       return [
         {
-          id: parentId,
           title: "Workloads",
           getIcon: () => <Icon svg="workloads" />,
           url: `asd`,
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
+          children: childItems,
         },
-
-        ...childItems,
       ];
     });
   },

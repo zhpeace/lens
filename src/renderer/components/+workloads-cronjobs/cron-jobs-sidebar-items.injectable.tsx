@@ -23,7 +23,6 @@ const cronJobsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "cron-jobs",
         title: "CronJobs",
         url: getUrl(route),
         isActive: isActiveRoute(route),

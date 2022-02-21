@@ -23,7 +23,6 @@ const rolesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "roles",
         title: "Roles",
         url: getUrl(route),
         isActive: isActiveRoute(route),

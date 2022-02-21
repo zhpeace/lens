@@ -21,7 +21,6 @@ const helmChartsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "helm-charts",
         title: "Charts",
         url: getUrl(route),
         isActive: isActiveRoute(route),

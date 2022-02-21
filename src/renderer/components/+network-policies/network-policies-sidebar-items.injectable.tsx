@@ -23,7 +23,6 @@ const networkPoliciesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "network-policies",
         title: "Network Policies",
         url: getUrl(route),
         isActive: isActiveRoute(route),

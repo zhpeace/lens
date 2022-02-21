@@ -13,7 +13,7 @@ import React from "react";
 import { getUrl } from "../../routes/get-url";
 import crdListRouteInjectable from "./crd-list-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import sidebarItemsForDefinitionsInjectable from "./sidebar-items-for-definitions.injectable";
+import sidebarItemsForDefinitionGroupsInjectable from "./sidebar-items-for-definition-groups.injectable";
 
 const customResourceSidebarItemsInjectable = getInjectable({
   id: "custom-resource-sidebar-items",
@@ -21,34 +21,40 @@ const customResourceSidebarItemsInjectable = getInjectable({
   instantiate: (di) => {
     const crdListRoute = di.inject(crdListRouteInjectable);
     const currentRoute = di.inject(currentRouteInjectable);
-    const sidebarItemsForDefinitions = di.inject(sidebarItemsForDefinitionsInjectable);
+
+    const definitionGroupSidebarItems = di.inject(
+      sidebarItemsForDefinitionGroupsInjectable,
+    );
 
     return computed(() => {
       const route = currentRoute.get();
 
-      const parentItemId = "custom-resources";
-
       const definitionsItem = {
-        id: "custom-resource-definitions",
         title: "Definitions",
-        parentId: parentItemId,
         url: getUrl(crdListRoute),
         isActive: route === crdListRoute,
         isVisible: crdListRoute.mikko(),
       };
 
-      const childItems = [definitionsItem, ...sidebarItemsForDefinitions.get()];
+      const definitionGroupItems = definitionGroupSidebarItems.get();
+
+      const childrenAndGrandChildren = [
+        definitionsItem,
+        ...definitionGroupItems.flatMap((item) => item.children),
+      ];
 
       const parentItem = {
-        id: parentItemId,
         title: "Custom Resources",
         getIcon: () => <Icon material="extension" />,
         url: "asd",
-        isActive: some({ isActive: true }, childItems),
-        isVisible: some({ isVisible: true }, childItems),
+
+        isActive: some({ isActive: true }, childrenAndGrandChildren),
+        isVisible: some({ isVisible: true }, childrenAndGrandChildren),
+
+        children: [definitionsItem, ...definitionGroupItems],
       };
 
-      return [parentItem, ...childItems];
+      return [parentItem];
     });
   },
 

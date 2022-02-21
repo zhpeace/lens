@@ -23,7 +23,6 @@ const endpointsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "endpoints",
         title: "Endpoints",
         url: getUrl(route),
         isActive: isActiveRoute(route),

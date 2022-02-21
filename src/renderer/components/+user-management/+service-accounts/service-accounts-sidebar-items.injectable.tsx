@@ -23,7 +23,6 @@ const serviceAccountsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "service-accounts",
         title: "Service Accounts",
         url: getUrl(route),
         isActive: isActiveRoute(route),

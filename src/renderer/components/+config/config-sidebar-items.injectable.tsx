@@ -10,7 +10,9 @@ import { computed, IComputedValue } from "mobx";
 import type { ISidebarItem } from "../layout/sidebar";
 import { some } from "lodash/fp";
 
-export const configChildSidebarItemsInjectionToken = getInjectionToken<IComputedValue<ISidebarItem[]>>({
+export const configChildSidebarItemsInjectionToken = getInjectionToken<
+  IComputedValue<ISidebarItem[]>
+>({
   id: "config-child-sidebar-items-injection-token",
 });
 
@@ -23,23 +25,17 @@ const configSidebarItemsInjectable = getInjectable({
     );
 
     return computed((): ISidebarItem[] => {
-      const parentId = "config";
-
-      const childItems = childSidebarItems
-        .flatMap((items) => items.get())
-        .map((item) => ({ ...item, parentId }));
+      const childItems = childSidebarItems.flatMap((items) => items.get());
 
       return [
         {
-          id: parentId,
           title: "Config",
           getIcon: () => <Icon material="list" />,
           url: "https://google.com",
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
+          children: childItems,
         },
-
-        ...childItems,
       ];
     });
   },

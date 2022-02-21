@@ -23,7 +23,6 @@ const persistentVolumeClaimsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "persistent-volume-claims",
         title: "Persistent Volume Claims",
         url: getUrl(route),
         isActive: isActiveRoute(route),

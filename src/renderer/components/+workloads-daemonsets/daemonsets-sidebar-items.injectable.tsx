@@ -23,7 +23,6 @@ const daemonsetsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "daemonsets",
         title: "DaemonSets",
         url: getUrl(route),
         isActive: isActiveRoute(route),

@@ -24,20 +24,17 @@ const helmSidebarItemsInjectable = getInjectable({
 
     return computed(() => {
       const childItems = childSidebarItems
-        .flatMap((items) => items.get())
-        .map((item) => ({ ...item, parentId: "helm" }));
+        .flatMap((items) => items.get());
 
       return [
         {
-          id: "helm",
           getIcon: () => <Icon material="apps" />,
           title: "Helm",
           url: `asd`,
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
+          children: childItems,
         },
-
-        ...childItems,
       ];
     });
   },

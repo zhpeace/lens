@@ -23,7 +23,6 @@ const podsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "pods",
         title: "Pods",
         url: getUrl(route),
         isActive: isActiveRoute(route),

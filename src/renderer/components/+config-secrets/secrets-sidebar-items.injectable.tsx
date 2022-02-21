@@ -22,7 +22,6 @@ const secretsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "secrets",
         title: "Secrets",
         url: getUrl(route),
         isActive: isActiveRoute(route),

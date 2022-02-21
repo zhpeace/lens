@@ -18,16 +18,14 @@ import { renderTabRoutesSidebarItems } from "./tab-routes-sidebar-items";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import sidebarItemsInjectable from "./sidebar-items.injectable";
 import type { IComputedValue } from "mobx";
-import { matches } from "lodash/fp";
 
 export interface ISidebarItem {
-  id: string;
   title: string;
   url: string;
   getIcon?: () => React.ReactNode
   isActive: boolean
   isVisible: boolean
-  parentId?: string
+  children?: ISidebarItem[]
 }
 
 interface Dependencies {
@@ -122,7 +120,7 @@ class NonInjectedSidebar extends React.Component<Dependencies> {
       <div className={cssNames("flex flex-col")} data-testid="cluster-sidebar">
         <SidebarCluster clusterEntity={this.clusterEntity} />
         <div className={styles.sidebarNav}>
-          {renderSidebarItems(this.props.sidebarItems)}
+          {this.props.sidebarItems.get().map(renderSidebarItem)}
         </div>
       </div>
     );
@@ -140,25 +138,21 @@ export const Sidebar = withInjectables<Dependencies>(
   },
 );
 
-const renderSidebarItems = (sidebarItems: IComputedValue<ISidebarItem[]>) => {
-  const _renderSidebarItems = (parent?: ISidebarItem) => {
-    const items = parent
-      ? sidebarItems.get().filter(matches({ parentId: parent.id }))
-      : sidebarItems.get().filter((x) => !x.parentId);
-
-    return items.map((item: ISidebarItem) => (
-      <SidebarItem
-        key={item.id}
-        id={item.title}
-        url={item.url}
-        isActive={item.isActive}
-        icon={item.getIcon ? item.getIcon() : null}
-        text={item.title}
-      >
-        {_renderSidebarItems(item)}
-      </SidebarItem>
-    ));
-  };
-
-  return _renderSidebarItems();
-};
+const renderSidebarItem = ({
+  children = [],
+  getIcon,
+  isActive,
+  title,
+  url,
+}: ISidebarItem) => (
+  <SidebarItem
+    key={`${url}-${title}`}
+    id={title}
+    url={url}
+    isActive={isActive}
+    icon={getIcon ? getIcon() : null}
+    text={title}
+  >
+    {children.map(renderSidebarItem)}
+  </SidebarItem>
+);

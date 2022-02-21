@@ -21,7 +21,6 @@ const limitRangesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "limit-ranges",
         title: "Limit Ranges",
         url: getUrl(route),
         isActive: isActiveRoute(route),

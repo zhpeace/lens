@@ -23,7 +23,6 @@ const eventsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "events",
         getIcon: () => <Icon material="access_time" />,
         title: "Events",
         url: getUrl(route),

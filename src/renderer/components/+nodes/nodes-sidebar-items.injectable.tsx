@@ -23,7 +23,6 @@ const nodesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "nodes",
         getIcon: () => <Icon svg="nodes" />,
         title: "Nodes",
         url: getUrl(route),

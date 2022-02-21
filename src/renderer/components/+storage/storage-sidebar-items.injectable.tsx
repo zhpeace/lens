@@ -23,23 +23,18 @@ const storageSidebarItemsInjectable = getInjectable({
     );
 
     return computed(() => {
-      const parentId = "storage";
-
       const childItems = childSidebarItems
-        .flatMap((items) => items.get())
-        .map((item) => ({ ...item, parentId }));
+        .flatMap((items) => items.get());
 
       return [
         {
-          id: parentId,
           getIcon: () => <Icon material="storage" />,
           title: "Storage",
           url: `asd`,
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
+          children: childItems,
         },
-
-        ...childItems,
       ];
     });
   },

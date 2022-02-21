@@ -23,7 +23,6 @@ const jobsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "jobs",
         title: "Jobs",
         url: getUrl(route),
         isActive: isActiveRoute(route),

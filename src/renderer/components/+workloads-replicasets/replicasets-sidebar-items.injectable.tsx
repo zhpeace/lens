@@ -23,7 +23,6 @@ const replicasetsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "replicasets",
         title: "ReplicaSets",
         url: getUrl(route),
         isActive: isActiveRoute(route),

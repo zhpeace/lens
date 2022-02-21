@@ -23,7 +23,6 @@ const podSecurityPoliciesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "pod-security-policies",
         title: "Pod Security Policies",
         url: getUrl(route),
         isActive: isActiveRoute(route),

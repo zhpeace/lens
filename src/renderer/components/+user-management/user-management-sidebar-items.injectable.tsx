@@ -24,23 +24,18 @@ const userManagementSidebarItemsInjectable = getInjectable({
     );
 
     return computed(() => {
-      const parentId = "user-management";
-
       const childItems = childSidebarItems
-        .flatMap((items) => items.get())
-        .map((item) => ({ ...item, parentId }));
+        .flatMap((items) => items.get());
 
       return [
         {
-          id: parentId,
           getIcon: () => <Icon material="security" />,
           title: "User Management",
           url: `asd`,
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
+          children: childItems,
         },
-
-        ...childItems,
       ];
     });
   },

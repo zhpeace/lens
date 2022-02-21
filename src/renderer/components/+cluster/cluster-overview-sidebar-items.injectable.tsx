@@ -23,7 +23,6 @@ const clusterOverviewSidebarItemsInjectable = getInjectable({
 
     return computed((): ISidebarItem[] => [
       {
-        id: "cluster-overview",
         title: "Overview",
         getIcon: () => <Icon svg="kube" />,
         url: getUrl(route),

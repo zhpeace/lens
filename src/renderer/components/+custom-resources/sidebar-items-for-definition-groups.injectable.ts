@@ -7,21 +7,23 @@ import { computed } from "mobx";
 import crdListRouteInjectable from "./crd-list-route.injectable";
 import { getUrl } from "../../routes/get-url";
 import customResourceDefinitionsInjectable from "./custom-resources.injectable";
-import { groupBy, matches, toPairs } from "lodash/fp";
+import { groupBy, matches, some, toPairs } from "lodash/fp";
 import customResourcesRouteInjectable from "./custom-resources-route.injectable";
 import pathParametersInjectable from "../../routes/path-parameters.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
 
-const sidebarItemsForDefinitionsInjectable = getInjectable({
-  id: "sidebar-items-for-definitions",
+const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
+  id: "sidebar-items-for-definition-groups",
 
   instantiate: (di) => {
-    const customResourceDefinitions = di.inject(customResourceDefinitionsInjectable);
+    const customResourceDefinitions = di.inject(
+      customResourceDefinitionsInjectable,
+    );
+
     const crdRoute = di.inject(customResourcesRouteInjectable);
     const crdListRoute = di.inject(crdListRouteInjectable);
     const pathParameters = di.inject(pathParametersInjectable);
     const currentRoute = di.inject(currentRouteInjectable);
-
 
     return computed(() => {
       const definitions = customResourceDefinitions.get();
@@ -33,47 +35,43 @@ const sidebarItemsForDefinitionsInjectable = getInjectable({
       );
 
       return groupedCrds.flatMap(([group, definitions]) => {
-        const parentGroupId = `custom-resources-group-${group}`;
+        const childItems = definitions.map((crd) => {
+          const title = crd.getResourceKind();
 
-        const groupParent = {
-          id: parentGroupId,
-          parentId: "custom-resources",
-          title: group,
-          url: getUrl(crdListRoute, { query: { groups: group }}),
-          isActive: false,
-          isVisible: true,
-        };
+          const crdPathParameters = {
+            group: crd.getGroup(),
+            name: crd.getPluralName(),
+          };
+
+          const definitionIsShown =
+            route === crdRoute &&
+            matches(crdPathParameters, currentPathParameters);
+
+          return {
+            title,
+
+            url: getUrl(crdRoute, {
+              path: crdPathParameters,
+            }),
+
+            isActive: definitionIsShown,
+            isVisible: crdListRoute.mikko(),
+          };
+        });
 
         return [
-          groupParent,
+          {
+            title: group,
+            url: getUrl(crdListRoute, { query: { groups: group }}),
+            isActive: false,
+            isVisible: some({ isVisible: true }, childItems),
 
-          ...definitions.map((crd) => {
-            const title = crd.getResourceKind();
-
-            const crdPathParameters = {
-              group: crd.getGroup(),
-              name: crd.getPluralName(),
-            };
-
-            const definitionIsShown = route === crdRoute && matches(crdPathParameters, currentPathParameters);
-
-            return {
-              id: `${parentGroupId}-${title}`,
-              parentId: parentGroupId,
-              title,
-
-              url: getUrl(crdRoute, {
-                path: crdPathParameters,
-              }),
-
-              isActive: definitionIsShown,
-              isVisible: crdListRoute.mikko(),
-            };
-          }),
+            children: childItems,
+          },
         ];
       });
     });
   },
 });
 
-export default sidebarItemsForDefinitionsInjectable;
+export default sidebarItemsForDefinitionGroupsInjectable;

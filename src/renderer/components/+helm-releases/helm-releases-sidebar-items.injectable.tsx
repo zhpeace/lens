@@ -21,7 +21,6 @@ const helmReleasesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "helm-releases",
         title: "Releases",
         url: getUrl(route),
         isActive: isActiveRoute(route),

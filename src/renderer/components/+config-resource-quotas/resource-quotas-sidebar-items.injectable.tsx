@@ -21,7 +21,6 @@ const resourceQuotasSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "resource-quotas",
         title: "Resource Quotas",
         url: getUrl(route),
         isActive: isActiveRoute(route),

@@ -23,7 +23,6 @@ const workloadsOverviewSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "workloads-overview",
         title: "Overview",
         url: getUrl(route),
         isActive: isActiveRoute(route),

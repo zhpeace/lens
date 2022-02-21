@@ -23,7 +23,6 @@ const namespacesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "namespaces",
         getIcon: () => <Icon material="layers" />,
         title: "Namespaces",
         url: getUrl(route),

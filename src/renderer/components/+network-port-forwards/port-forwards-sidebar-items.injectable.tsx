@@ -23,7 +23,6 @@ const portForwardsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "port-forwards",
         title: "Port Forwarding",
         url: getUrl(route),
         isActive: isActiveRoute(route),

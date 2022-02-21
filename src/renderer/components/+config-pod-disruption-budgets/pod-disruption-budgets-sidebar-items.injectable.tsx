@@ -21,7 +21,6 @@ const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
-        id: "pod-disruption-budgets",
         title: "Pod Disruption Budgets",
         url: getUrl(route),
         isActive: isActiveRoute(route),
