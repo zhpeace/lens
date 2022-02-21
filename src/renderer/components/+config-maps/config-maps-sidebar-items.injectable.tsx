@@ -6,20 +6,30 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
+import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
+import { getUrl } from "../../routes/get-url";
+import configMapsRouteInjectable from "./config-maps-route.injectable";
 
 const configMapsSidebarItemsInjectable = getInjectable({
   id: "config-maps-sidebar-items",
 
-  instantiate: () =>
-    computed(() => [
+  instantiate: (di) => {
+    const route = di.inject(configMapsRouteInjectable);
+    const isActiveRoute = di.inject(isActiveRouteInjectable);
+    const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+
+    return computed(() => [
       {
         id: "config-maps",
         parentId: "config",
         title: "ConfigMaps",
-        url: `asd`,
-        isActive: false,
+        url: getUrl(route),
+        isActive: isActiveRoute(route),
+        isVisible: hasAccessToRoute(route),
       },
-    ]),
+    ]);
+  },
 
   injectionToken: sidebarItemsInjectionToken,
 });

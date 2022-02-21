@@ -10,7 +10,7 @@ const customResourcesRouteInjectable = getInjectable({
   id: "custom-resources-route",
 
   instantiate: () => ({
-    path: "/crd",
+    path: "/crd/:group?/:name?",
     Component: CustomResourcesRoute,
     clusterFrame: true,
     mikko: () => true,

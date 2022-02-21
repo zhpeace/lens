@@ -5,20 +5,31 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import { getUrl } from "../../routes/get-url";
+
+import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
+import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
+import storageClassesRouteInjectable from "./storage-classes-route.injectable";
 
 const storageClassesSidebarItemsInjectable = getInjectable({
   id: "storage-classes-sidebar-items",
 
-  instantiate: () =>
-    computed(() => [
+  instantiate: (di) => {
+    const route = di.inject(storageClassesRouteInjectable);
+    const isActiveRoute = di.inject(isActiveRouteInjectable);
+    const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+
+    return computed(() => [
       {
         id: "storage-classes",
         parentId: "storage",
         title: "Storage Classes",
-        url: `asd`,
-        isActive: false,
+        url: getUrl(route),
+        isActive: isActiveRoute(route),
+        isVisible: hasAccessToRoute(route),
       },
-    ]),
+    ]);
+  },
 
   injectionToken: sidebarItemsInjectionToken,
 });

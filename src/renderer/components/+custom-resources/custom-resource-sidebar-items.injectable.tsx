@@ -12,25 +12,33 @@ import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 import React from "react";
 
+import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
+import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
+import { getUrl } from "../../routes/get-url";
+import customResourcesRouteInjectable from "./custom-resources-route.injectable";
+import crdListRouteInjectable from "./crd-list-route.injectable";
+
 const customResourceSidebarItemsInjectable = getInjectable({
   id: "custom-resource-sidebar-items",
 
   instantiate: (di) => {
-    const allCrds = di.inject(
-      customResourceDefinitionsInjectable,
-    );
+    const crdRoute = di.inject(customResourcesRouteInjectable);
+    const crdListRoute = di.inject(crdListRouteInjectable);
+    const isActiveRoute = di.inject(isActiveRouteInjectable);
+    const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+
+    const allCrds = di.inject(customResourceDefinitionsInjectable);
 
     return computed(() => {
-      const groupedCrds = toPairs(
-        groupBy((x) => x.getGroup(), allCrds.get()),
-      );
+      const groupedCrds = toPairs(groupBy((x) => x.getGroup(), allCrds.get()));
 
       const rootItem = {
         id: "custom-resources",
         title: "Custom Resources",
         getIcon: () => <Icon material="extension" />,
-        url: "/crd",
-        isActive: false,
+        url: getUrl(crdRoute),
+        isActive: isActiveRoute(crdRoute),
+        isVisible: hasAccessToRoute(crdRoute),
       };
 
       return [
@@ -43,8 +51,9 @@ const customResourceSidebarItemsInjectable = getInjectable({
             id: parentGroupId,
             parentId: "custom-resources",
             title: group,
-            url: `/crd/definitions?groups=${group}`,
-            isActive: false,
+            url: getUrl(crdListRoute, { query: { groups: group }}),
+            isActive: isActiveRoute(crdListRoute),
+            isVisible: hasAccessToRoute(crdListRoute),
           };
 
           return [
@@ -53,18 +62,22 @@ const customResourceSidebarItemsInjectable = getInjectable({
             ...definitions.map((crd) => {
               const title = crd.getResourceKind();
 
-              return ({
+              return {
                 id: `${parentGroupId}-${title}`,
                 parentId: parentGroupId,
                 title,
-                url: crd.getResourceUrl(),
-                isActive: false,
-              });
+
+                url: getUrl(crdRoute, {
+                  path: { group: crd.getGroup(), name: crd.getPluralName() },
+                }),
+
+                isActive: isActiveRoute(crdListRoute),
+                isVisible: hasAccessToRoute(crdListRoute),
+              };
             }),
           ];
         }),
       ];
-
     });
   },
 

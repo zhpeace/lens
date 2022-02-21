@@ -11,8 +11,8 @@ import React from "react";
 const networkSidebarItemsInjectable = getInjectable({
   id: "network-sidebar-items",
 
-  instantiate: () =>
-    computed(() => [
+  instantiate: () => {
+    return computed(() => [
       {
         id: "network",
         getIcon: () => <Icon material="device_hub" />,
@@ -20,7 +20,8 @@ const networkSidebarItemsInjectable = getInjectable({
         url: `asd`,
         isActive: false,
       },
-    ]),
+    ]);
+  },
 
   injectionToken: sidebarItemsInjectionToken,
 });

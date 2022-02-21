@@ -6,20 +6,30 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
+import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
+import { getUrl } from "../../routes/get-url";
+import limitRangesRouteInjectable from "./limit-ranges-route.injectable";
 
 const limitRangesSidebarItemsInjectable = getInjectable({
   id: "limit-ranges-sidebar-items",
 
-  instantiate: () =>
-    computed(() => [
+  instantiate: (di) => {
+    const route = di.inject(limitRangesRouteInjectable);
+    const isActiveRoute = di.inject(isActiveRouteInjectable);
+    const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+
+    return computed(() => [
       {
         id: "limit-ranges",
         parentId: "config",
         title: "Limit Ranges",
-        url: `asd`,
-        isActive: false,
+        url: getUrl(route),
+        isActive: isActiveRoute(route),
+        isVisible: hasAccessToRoute(route),
       },
-    ]),
+    ]);
+  },
 
   injectionToken: sidebarItemsInjectionToken,
 });

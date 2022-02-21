@@ -26,6 +26,7 @@ export interface ISidebarItem {
   url: string;
   getIcon?: () => React.ReactNode
   isActive: boolean
+  isVisible: boolean
   parentId?: string
 }
 

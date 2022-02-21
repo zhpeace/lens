@@ -8,19 +8,30 @@ import React from "react";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 
+import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
+import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
+import { getUrl } from "../../routes/get-url";
+import eventsRouteInjectable from "./events-route.injectable";
+
 const eventsSidebarItemsInjectable = getInjectable({
   id: "events-sidebar-items",
 
-  instantiate: () =>
-    computed(() => [
+  instantiate: (di) => {
+    const route = di.inject(eventsRouteInjectable);
+    const isActiveRoute = di.inject(isActiveRouteInjectable);
+    const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+
+    return computed(() => [
       {
         id: "events",
         getIcon: () => <Icon material="access_time" />,
         title: "Events",
-        url: `asd`,
-        isActive: false,
+        url: getUrl(route),
+        isActive: isActiveRoute(route),
+        isVisible: hasAccessToRoute(route),
       },
-    ]),
+    ]);
+  },
 
   injectionToken: sidebarItemsInjectionToken,
 });

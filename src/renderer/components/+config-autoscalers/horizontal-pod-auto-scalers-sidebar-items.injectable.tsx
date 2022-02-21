@@ -3,29 +3,27 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { computed } from "mobx";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
-import { Icon } from "../icon";
-import React from "react";
-
+import { computed } from "mobx";
+import type { ISidebarItem } from "../layout/sidebar";
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import { getUrl } from "../../routes/get-url";
-import namespacesRouteInjectable from "./namespaces-route.injectable";
+import horizontalPodAutoscalersRouteInjectable from "./horizontal-pod-autoscalers-route.injectable";
 
-const namespacesSidebarItemsInjectable = getInjectable({
-  id: "namespaces",
+const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
+  id: "horizontal-pod-auto-scalers-sidebar-items",
 
   instantiate: (di) => {
-    const route = di.inject(namespacesRouteInjectable);
+    const route = di.inject(horizontalPodAutoscalersRouteInjectable);
     const isActiveRoute = di.inject(isActiveRouteInjectable);
     const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
 
-    return computed(() => [
+    return computed((): ISidebarItem[] => [
       {
-        id: "namespaces",
-        getIcon: () => <Icon material="layers" />,
-        title: "Namespaces",
+        id: "hpa",
+        title: "HPA",
+        parentId: "config",
         url: getUrl(route),
         isActive: isActiveRoute(route),
         isVisible: hasAccessToRoute(route),
@@ -36,4 +34,4 @@ const namespacesSidebarItemsInjectable = getInjectable({
   injectionToken: sidebarItemsInjectionToken,
 });
 
-export default namespacesSidebarItemsInjectable;
+export default horizontalPodAutoScalersSidebarItemsInjectable;

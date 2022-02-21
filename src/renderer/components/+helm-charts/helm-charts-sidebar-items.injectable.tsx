@@ -6,19 +6,30 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
+import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
+import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
+import { getUrl } from "../../routes/get-url";
+import helmChartsRouteInjectable from "./helm-charts-route.injectable";
+
 const helmChartsSidebarItemsInjectable = getInjectable({
   id: "helm-charts-sidebar-items",
 
-  instantiate: () =>
-    computed(() => [
+  instantiate: (di) => {
+    const route = di.inject(helmChartsRouteInjectable);
+    const isActiveRoute = di.inject(isActiveRouteInjectable);
+    const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+
+    return computed(() => [
       {
         id: "helm-charts",
         parentId: "helm",
         title: "Charts",
-        url: `asd`,
-        isActive: false,
+        url: getUrl(route),
+        isActive: isActiveRoute(route),
+        isVisible: hasAccessToRoute(route),
       },
-    ]),
+    ]);
+  },
 
   injectionToken: sidebarItemsInjectionToken,
 });

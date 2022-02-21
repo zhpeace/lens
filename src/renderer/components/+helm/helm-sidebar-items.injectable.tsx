@@ -11,8 +11,8 @@ import { Icon } from "../icon";
 const helmSidebarItemsInjectable = getInjectable({
   id: "helm-sidebar-items",
 
-  instantiate: () =>
-    computed(() => [
+  instantiate: () => {
+    return computed(() => [
       {
         id: "helm",
         getIcon: () => <Icon material="apps" />,
@@ -20,7 +20,8 @@ const helmSidebarItemsInjectable = getInjectable({
         url: `asd`,
         isActive: false,
       },
-    ]),
+    ]);
+  },
 
   injectionToken: sidebarItemsInjectionToken,
 });
