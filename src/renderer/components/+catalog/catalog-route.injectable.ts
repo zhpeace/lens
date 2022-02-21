@@ -10,7 +10,6 @@ const catalogRouteInjectable = getInjectable({
   id: "catalog-route",
 
   instantiate: () => ({
-    title: "Catalog",
     path: "/catalog/:group?/:kind?",
     Component: Catalog,
     clusterFrame: false,

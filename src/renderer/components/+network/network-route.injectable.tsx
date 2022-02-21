@@ -5,16 +5,11 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { NetworkRoute } from "./route";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
-import { Icon } from "../icon";
-import React from "react";
 
 const networkRouteInjectable = getInjectable({
   id: "network-route",
 
   instantiate: () => ({
-    title: "Network",
-    getIcon: () => <Icon material="device_hub" />,
-
     path: "/services",
 
     // path: [

@@ -5,7 +5,6 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
 import { PodDisruptionBudgets } from "./pod-disruption-budgets";
-import configRouteInjectable from "../+config/config-route.injectable";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const podDisruptionBudgetsRouteInjectable = getInjectable({
@@ -15,10 +14,8 @@ const podDisruptionBudgetsRouteInjectable = getInjectable({
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
     return ({
-      title: "Pod Disruption Budgets",
       Component: PodDisruptionBudgets,
       path: "/poddisruptionbudgets",
-      parent: di.inject(configRouteInjectable),
       clusterFrame: true,
       mikko: () => isAllowedResource("poddisruptionbudgets"),
     });

@@ -5,11 +5,11 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { Extensions } from "./extensions";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
+
 const extensionsRouteInjectable = getInjectable({
   id: "extensions-route",
 
   instantiate: () => ({
-    title: "Extensions",
     path: "/extensions",
     Component: Extensions,
     clusterFrame: false,

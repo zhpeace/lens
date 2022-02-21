@@ -5,7 +5,6 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
 import { LimitRanges } from "./limit-ranges";
-import configRouteInjectable from "../+config/config-route.injectable";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const limitRangesRouteInjectable = getInjectable({
@@ -15,10 +14,8 @@ const limitRangesRouteInjectable = getInjectable({
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
     return {
-      title: "Limit Ranges",
       Component: LimitRanges,
       path: "/limitranges",
-      parent: di.inject(configRouteInjectable),
       clusterFrame: true,
       mikko: () => isAllowedResource("limitranges"),
     };

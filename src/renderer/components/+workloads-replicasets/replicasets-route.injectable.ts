@@ -5,7 +5,6 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
 import { ReplicaSets } from "./replicasets";
-import workloadsRouteInjectable from "../+workloads/workloads-route.injectable";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const replicasetsRouteInjectable = getInjectable({
@@ -15,10 +14,8 @@ const replicasetsRouteInjectable = getInjectable({
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
     return {
-      title: "ReplicaSets",
       Component: ReplicaSets,
       path: "/replicasets",
-      parent: di.inject(workloadsRouteInjectable),
       clusterFrame: true,
       mikko: () => isAllowedResource("replicasets"),
     };

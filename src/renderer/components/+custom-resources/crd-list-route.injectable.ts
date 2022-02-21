@@ -5,16 +5,13 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 import { CrdList } from "./crd-list";
-import customResourcesRouteInjectable from "./custom-resources-route.injectable";
 
 const crdListRouteInjectable = getInjectable({
   id: "crd-list-route",
 
-  instantiate: (di) => ({
-    title: "Definitions",
+  instantiate: () => ({
     Component: CrdList,
     path: "/crd/definitions",
-    parent: di.inject(customResourcesRouteInjectable),
     clusterFrame: true,
     mikko: () => true,
     exact: true,

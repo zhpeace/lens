@@ -5,8 +5,6 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { Events } from "./events";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
-import { Icon } from "../icon";
-import React from "react";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
 
 const eventsRouteInjectable = getInjectable({
@@ -16,8 +14,6 @@ const eventsRouteInjectable = getInjectable({
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
     return {
-      title: "Events",
-      getIcon: () => <Icon material="access_time" />,
       path: "/events",
       Component: Events,
       clusterFrame: true,

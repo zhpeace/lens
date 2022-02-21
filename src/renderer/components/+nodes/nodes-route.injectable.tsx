@@ -5,8 +5,6 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { NodesRoute } from "./route";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
-import { Icon } from "../icon";
-import React from "react";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
 
 const nodesRouteInjectable = getInjectable({
@@ -16,8 +14,6 @@ const nodesRouteInjectable = getInjectable({
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
     return {
-      title: "Nodes",
-      getIcon: () => <Icon svg="nodes" />,
       path: "/nodes",
       Component: NodesRoute,
       clusterFrame: true,

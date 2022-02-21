@@ -18,13 +18,15 @@ import { renderTabRoutesSidebarItems } from "./tab-routes-sidebar-items";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import sidebarItemsInjectable from "./sidebar-items.injectable";
 import type { IComputedValue } from "mobx";
+import { matches } from "lodash/fp";
 
 export interface ISidebarItem {
+  id: string;
   title: string;
-  path: string;
-  children: ISidebarItem[]
+  url: string;
   getIcon?: () => React.ReactNode
   isActive: boolean
+  parentId?: string
 }
 
 interface Dependencies {
@@ -115,36 +117,11 @@ class NonInjectedSidebar extends React.Component<Dependencies> {
   }
 
   render() {
-    const renderSidebarItems = (item: ISidebarItem) => (
-      <SidebarItem
-        key={item.path}
-        id={item.title}
-        url={item.path}
-        isActive={item.isActive}
-        icon={item.getIcon ? item.getIcon(): null}
-        text={item.title}>
-        {item.children.map(childItem => renderSidebarItems(childItem))}
-      </SidebarItem>
-    );
-
     return (
       <div className={cssNames("flex flex-col")} data-testid="cluster-sidebar">
         <SidebarCluster clusterEntity={this.clusterEntity} />
         <div className={styles.sidebarNav}>
-          {this.props.sidebarItems.get().map(renderSidebarItems)}
-
-          {/*<ClusterSidebarItem />*/}
-          {/*<NodesSidebarItem />*/}
-          {/*<WorkloadsSidebarItem />*/}
-          {/*<ConfigSidebarItem />*/}
-          {/*<NetworkSidebarItem />*/}
-          {/*<StorageSidebarItem />*/}
-          {/*<NamespacesSidebarItem />*/}
-          {/*<EventsSidebarItem />*/}
-          {/*/!*<HelmSidebarItem />*!/*/}
-          {/*<UserManagementSidebarItem />*/}
-          {/*<CustomResourcesSidebarItem />*/}
-          {/*{this.renderRegisteredMenus()}*/}
+          {renderSidebarItems(this.props.sidebarItems)}
         </div>
       </div>
     );
@@ -161,3 +138,26 @@ export const Sidebar = withInjectables<Dependencies>(
     }),
   },
 );
+
+const renderSidebarItems = (sidebarItems: IComputedValue<ISidebarItem[]>) => {
+  const _renderSidebarItems = (parent?: ISidebarItem) => {
+    const items = parent
+      ? sidebarItems.get().filter(matches({ parentId: parent.id }))
+      : sidebarItems.get().filter((x) => !x.parentId);
+
+    return items.map((item: ISidebarItem) => (
+      <SidebarItem
+        key={item.id}
+        id={item.title}
+        url={item.url}
+        isActive={item.isActive}
+        icon={item.getIcon ? item.getIcon() : null}
+        text={item.title}
+      >
+        {_renderSidebarItems(item)}
+      </SidebarItem>
+    ));
+  };
+
+  return _renderSidebarItems();
+};

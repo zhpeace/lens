@@ -5,7 +5,6 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
 import { StorageClasses } from "./storage-classes";
-import storageRouteInjectable from "../+storage/storage-route.injectable";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const storageClassesRouteInjectable = getInjectable({
@@ -15,10 +14,8 @@ const storageClassesRouteInjectable = getInjectable({
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
     return {
-      title: "Storage Classes",
       Component: StorageClasses,
       path: "/storage-classes",
-      parent: di.inject(storageRouteInjectable),
       clusterFrame: true,
       mikko: () => isAllowedResource("storageclasses"),
     };

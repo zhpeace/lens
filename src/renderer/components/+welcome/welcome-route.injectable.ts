@@ -10,8 +10,6 @@ const welcomeRouteInjectable = getInjectable({
   id: "welcome-route",
 
   instantiate: () => ({
-    title: "Welcome",
-
     path: "/welcome",
     Component: Welcome,
     clusterFrame: false,
