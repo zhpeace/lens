@@ -5,11 +5,10 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
-import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
-import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import resourceQuotasRouteInjectable from "./resource-quotas-route.injectable";
 import { configChildSidebarItemsInjectionToken } from "../+config/config-sidebar-items.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
+import currentRouteInjectable from "../../routes/current-route.injectable";
 
 const resourceQuotasSidebarItemsInjectable = getInjectable({
   id: "resource-quotas-sidebar-items",
@@ -17,15 +16,14 @@ const resourceQuotasSidebarItemsInjectable = getInjectable({
   instantiate: (di) => {
     const route = di.inject(resourceQuotasRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
-    const isActiveRoute = di.inject(isActiveRouteInjectable);
-    const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+    const currentRoute = di.inject(currentRouteInjectable);
 
     return computed(() => [
       {
         title: "Resource Quotas",
         onClick: () => navigateToRoute(route),
-        isActive: isActiveRoute(route),
-        isVisible: hasAccessToRoute(route),
+        isActive: route === currentRoute.get(),
+        isVisible: route.mikko(),
       },
     ]);
   },

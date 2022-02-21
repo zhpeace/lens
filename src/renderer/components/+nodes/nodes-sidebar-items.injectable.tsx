@@ -8,18 +8,16 @@ import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 import React from "react";
 
-import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
-import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import nodesRouteInjectable from "./nodes-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
+import currentRouteInjectable from "../../routes/current-route.injectable";
 
 const nodesSidebarItemsInjectable = getInjectable({
   id: "nodes-sidebar-items",
 
   instantiate: (di) => {
     const route = di.inject(nodesRouteInjectable);
-    const isActiveRoute = di.inject(isActiveRouteInjectable);
-    const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+    const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
 
     return computed(() => [
@@ -27,8 +25,8 @@ const nodesSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon svg="nodes" />,
         title: "Nodes",
         onClick: () => navigateToRoute(route),
-        isActive: isActiveRoute(route),
-        isVisible: hasAccessToRoute(route),
+        isActive: route === currentRoute.get(),
+        isVisible: route.mikko(),
       },
     ]);
   },
