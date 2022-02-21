@@ -6,12 +6,11 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
-import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import workloadsOverviewRouteInjectable from "./workloads-overview-route.injectable";
-import { getUrl } from "../../routes/get-url";
 import {
   workloadsChildSidebarItemsInjectionToken,
 } from "../+workloads/workloads-sidebar-items.injectable";
+import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 
 const workloadsOverviewSidebarItemsInjectable = getInjectable({
   id: "workloads-overview-sidebar-items",
@@ -19,14 +18,14 @@ const workloadsOverviewSidebarItemsInjectable = getInjectable({
   instantiate: (di) => {
     const route = di.inject(workloadsOverviewRouteInjectable);
     const isActiveRoute = di.inject(isActiveRouteInjectable);
-    const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+    const navigateToRoute = di.inject(navigateToRouteInjectable);
 
     return computed(() => [
       {
         title: "Overview",
-        url: getUrl(route),
+        onClick: () => navigateToRoute(route),
         isActive: isActiveRoute(route),
-        isVisible: hasAccessToRoute(route),
+        isVisible: route.mikko(),
       },
     ]);
   },

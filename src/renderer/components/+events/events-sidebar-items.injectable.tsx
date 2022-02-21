@@ -10,8 +10,8 @@ import { Icon } from "../icon";
 
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
-import { getUrl } from "../../routes/get-url";
 import eventsRouteInjectable from "./events-route.injectable";
+import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 
 const eventsSidebarItemsInjectable = getInjectable({
   id: "events-sidebar-items",
@@ -20,12 +20,13 @@ const eventsSidebarItemsInjectable = getInjectable({
     const route = di.inject(eventsRouteInjectable);
     const isActiveRoute = di.inject(isActiveRouteInjectable);
     const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+    const navigateToRoute = di.inject(navigateToRouteInjectable);
 
     return computed(() => [
       {
         getIcon: () => <Icon material="access_time" />,
         title: "Events",
-        url: getUrl(route),
+        onClick: () => navigateToRoute(route),
         isActive: isActiveRoute(route),
         isVisible: hasAccessToRoute(route),
       },

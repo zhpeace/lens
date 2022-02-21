@@ -10,8 +10,8 @@ import React from "react";
 
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
-import { getUrl } from "../../routes/get-url";
 import namespacesRouteInjectable from "./namespaces-route.injectable";
+import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 
 const namespacesSidebarItemsInjectable = getInjectable({
   id: "namespaces",
@@ -20,12 +20,13 @@ const namespacesSidebarItemsInjectable = getInjectable({
     const route = di.inject(namespacesRouteInjectable);
     const isActiveRoute = di.inject(isActiveRouteInjectable);
     const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+    const navigateToRoute = di.inject(navigateToRouteInjectable);
 
     return computed(() => [
       {
         getIcon: () => <Icon material="layers" />,
         title: "Namespaces",
-        url: getUrl(route),
+        onClick: () => navigateToRoute(route),
         isActive: isActiveRoute(route),
         isVisible: hasAccessToRoute(route),
       },

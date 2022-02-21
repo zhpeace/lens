@@ -8,7 +8,7 @@ import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 import React from "react";
 import type { ISidebarItem } from "../layout/sidebar";
-import { some } from "lodash/fp";
+import { noop, some } from "lodash/fp";
 
 export const storageChildSidebarItemsInjectionToken = getInjectionToken<IComputedValue<ISidebarItem[]>>({
   id: "storage-child-sidebar-items-injection-token",
@@ -30,7 +30,7 @@ const storageSidebarItemsInjectable = getInjectable({
         {
           getIcon: () => <Icon material="storage" />,
           title: "Storage",
-          url: `asd`,
+          onClick: noop,
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
           children: childItems,

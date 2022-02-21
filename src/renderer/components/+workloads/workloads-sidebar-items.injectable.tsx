@@ -8,7 +8,7 @@ import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 import React from "react";
 import type { ISidebarItem } from "../layout/sidebar";
-import { some } from "lodash/fp";
+import { noop, some } from "lodash/fp";
 
 export const workloadsChildSidebarItemsInjectionToken = getInjectionToken<
   IComputedValue<ISidebarItem[]>
@@ -31,7 +31,7 @@ const workloadsSidebarItemsInjectable = getInjectable({
         {
           title: "Workloads",
           getIcon: () => <Icon svg="workloads" />,
-          url: `asd`,
+          onClick: noop,
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
           children: childItems,

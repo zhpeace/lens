@@ -8,10 +8,10 @@ import { computed } from "mobx";
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import endpointsRouteInjectable from "./endpoints-route.injectable";
-import { getUrl } from "../../routes/get-url";
 import {
   networkChildSidebarItemsInjectionToken,
 } from "../+network/network-sidebar-items.injectable";
+import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 
 const endpointsSidebarItemsInjectable = getInjectable({
   id: "endpoints-sidebar-items",
@@ -20,11 +20,12 @@ const endpointsSidebarItemsInjectable = getInjectable({
     const route = di.inject(endpointsRouteInjectable);
     const isActiveRoute = di.inject(isActiveRouteInjectable);
     const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+    const navigateToRoute = di.inject(navigateToRouteInjectable);
 
     return computed(() => [
       {
         title: "Endpoints",
-        url: getUrl(route),
+        onClick: () => navigateToRoute(route),
         isActive: isActiveRoute(route),
         isVisible: hasAccessToRoute(route),
       },

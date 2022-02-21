@@ -22,7 +22,7 @@ import { matches } from "lodash/fp";
 
 export interface ISidebarItem {
   title: string;
-  url: string;
+  onClick: () => void;
   getIcon?: () => React.ReactNode
   isActive: boolean
   isVisible: boolean
@@ -140,11 +140,11 @@ export const Sidebar = withInjectables<Dependencies>(
 );
 
 const renderSidebarItems = (sidebarItems: ISidebarItem[]) => {
-  const _renderSiderbarItem = ({ children = [], getIcon, isActive, title, url }: ISidebarItem) => (
+  const _renderSiderbarItem = ({ children = [], getIcon, isActive, title, onClick }: ISidebarItem, index: number) => (
     <SidebarItem
-      key={`${url}-${title}`}
+      key={`${title}-${index}`}
       id={title}
-      url={url}
+      onClick={onClick}
       isActive={isActive}
       icon={getIcon ? getIcon() : null}
       text={title}

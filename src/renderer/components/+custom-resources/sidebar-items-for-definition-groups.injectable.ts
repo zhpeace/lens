@@ -5,12 +5,12 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import crdListRouteInjectable from "./crd-list-route.injectable";
-import { getUrl } from "../../routes/get-url";
 import customResourceDefinitionsInjectable from "./custom-resources.injectable";
 import { groupBy, matches, some, toPairs } from "lodash/fp";
 import customResourcesRouteInjectable from "./custom-resources-route.injectable";
 import pathParametersInjectable from "../../routes/path-parameters.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
+import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 
 const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
   id: "sidebar-items-for-definition-groups",
@@ -24,6 +24,7 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
     const crdListRoute = di.inject(crdListRouteInjectable);
     const pathParameters = di.inject(pathParametersInjectable);
     const currentRoute = di.inject(currentRouteInjectable);
+    const navigateToRoute = di.inject(navigateToRouteInjectable);
 
     return computed(() => {
       const definitions = customResourceDefinitions.get();
@@ -50,8 +51,8 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
           return {
             title,
 
-            url: getUrl(crdRoute, {
-              path: crdPathParameters,
+            onClick: () => navigateToRoute(crdRoute, {
+              params: crdPathParameters,
             }),
 
             isActive: definitionIsShown,
@@ -62,7 +63,7 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
         return [
           {
             title: group,
-            url: getUrl(crdListRoute, { query: { groups: group }}),
+            onClick: () => navigateToRoute(route, { query: { groups: group }}),
             isActive: false,
             isVisible: some({ isVisible: true }, childItems),
 

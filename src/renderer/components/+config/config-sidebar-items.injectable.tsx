@@ -8,7 +8,7 @@ import React from "react";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { computed, IComputedValue } from "mobx";
 import type { ISidebarItem } from "../layout/sidebar";
-import { some } from "lodash/fp";
+import { noop, some } from "lodash/fp";
 
 export const configChildSidebarItemsInjectionToken = getInjectionToken<
   IComputedValue<ISidebarItem[]>
@@ -31,7 +31,7 @@ const configSidebarItemsInjectable = getInjectable({
         {
           title: "Config",
           getIcon: () => <Icon material="list" />,
-          url: "https://google.com",
+          onClick: noop,
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
           children: childItems,

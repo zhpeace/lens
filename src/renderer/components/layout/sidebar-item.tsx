@@ -7,7 +7,7 @@ import "./sidebar-item.scss";
 
 import React from "react";
 import { computed, makeObservable } from "mobx";
-import { cssNames, prevDefault, StorageHelper } from "../../utils";
+import { cssNames, StorageHelper } from "../../utils";
 import { observer } from "mobx-react";
 import { NavLink } from "react-router-dom";
 import { Icon } from "../icon";
@@ -20,7 +20,7 @@ interface SidebarItemProps {
    * Unique id, used in storage and integration tests
    */
   id: string;
-  url: string;
+  url?: string;
   className?: string;
   text: React.ReactNode;
   icon?: React.ReactNode;
@@ -32,6 +32,7 @@ interface SidebarItemProps {
    * this item should be shown as active
    */
   isActive?: boolean;
+  onClick?: () => void
 }
 
 interface Dependencies {
@@ -87,7 +88,7 @@ class NonInjectedSidebarItem extends React.Component<SidebarItemProps & Dependen
   }
 
   render() {
-    const { isHidden, icon, text, url, className } = this.props;
+    const { isHidden, icon, text, onClick, className } = this.props;
 
     if (isHidden) return null;
 
@@ -97,16 +98,31 @@ class NonInjectedSidebarItem extends React.Component<SidebarItemProps & Dependen
     return (
       <div className={classNames} data-test-id={id}>
         <NavLink
-          to={url}
+          to={this.props.url || ""}
           isActive={() => isActive}
-          className={cssNames("nav-item flex gaps align-center", { expandable: isExpandable })}
-          onClick={isExpandable ? prevDefault(toggleExpand) : undefined}>
+          className={cssNames("nav-item flex gaps align-center", {
+            expandable: isExpandable,
+          })}
+
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (isExpandable) {
+              toggleExpand();
+            } else {
+              onClick();
+            }
+          }}
+        >
           {icon}
           <span className="link-text box grow">{text}</span>
-          {isExpandable && <Icon
-            className="expand-icon box right"
-            material={expanded ? "keyboard_arrow_up" : "keyboard_arrow_down"}
-          />}
+          {isExpandable && (
+            <Icon
+              className="expand-icon box right"
+              material={expanded ? "keyboard_arrow_up" : "keyboard_arrow_down"}
+            />
+          )}
         </NavLink>
         {this.renderSubMenu()}
       </div>

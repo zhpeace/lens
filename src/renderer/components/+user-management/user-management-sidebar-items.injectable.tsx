@@ -8,7 +8,7 @@ import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 import React from "react";
 import type { ISidebarItem } from "../layout/sidebar";
-import { some } from "lodash/fp";
+import { noop, some } from "lodash/fp";
 
 export const userManagementChildSidebarItemsInjectionToken = getInjectionToken<IComputedValue<ISidebarItem[]>>({
   id: "user-management-child-sidebar-items-injection-token",
@@ -31,7 +31,7 @@ const userManagementSidebarItemsInjectable = getInjectable({
         {
           getIcon: () => <Icon material="security" />,
           title: "User Management",
-          url: `asd`,
+          onClick: noop,
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
           children: childItems,

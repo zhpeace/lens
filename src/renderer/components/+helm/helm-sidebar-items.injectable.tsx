@@ -9,6 +9,7 @@ import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 import type { ISidebarItem } from "../layout/sidebar";
 import { some } from "lodash/fp";
+import { noop } from "../../../common/utils";
 
 export const helmChildSidebarItemsInjectionToken = getInjectionToken<IComputedValue<ISidebarItem[]>>({
   id: "helm-child-sidebar-items-injection-token",
@@ -30,7 +31,7 @@ const helmSidebarItemsInjectable = getInjectable({
         {
           getIcon: () => <Icon material="apps" />,
           title: "Helm",
-          url: `asd`,
+          onClick: noop,
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
           children: childItems,

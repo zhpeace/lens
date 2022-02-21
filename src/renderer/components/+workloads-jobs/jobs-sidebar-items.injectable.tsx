@@ -8,10 +8,10 @@ import { computed } from "mobx";
 import isActiveRouteInjectable from "../../routes/is-active-route.injectable";
 import hasAccessToRouteInjectable from "../../routes/has-access-to-route.injectable";
 import jobsRouteInjectable from "./jobs-route.injectable";
-import { getUrl } from "../../routes/get-url";
 import {
   workloadsChildSidebarItemsInjectionToken,
 } from "../+workloads/workloads-sidebar-items.injectable";
+import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 
 const jobsSidebarItemsInjectable = getInjectable({
   id: "jobs-sidebar-items",
@@ -20,11 +20,12 @@ const jobsSidebarItemsInjectable = getInjectable({
     const route = di.inject(jobsRouteInjectable);
     const isActiveRoute = di.inject(isActiveRouteInjectable);
     const hasAccessToRoute = di.inject(hasAccessToRouteInjectable);
+    const navigateToRoute = di.inject(navigateToRouteInjectable);
 
     return computed(() => [
       {
         title: "Jobs",
-        url: getUrl(route),
+        onClick: () => navigateToRoute(route),
         isActive: isActiveRoute(route),
         isVisible: hasAccessToRoute(route),
       },
