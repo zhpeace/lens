@@ -3,7 +3,6 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
-import { matches } from "lodash/fp";
 import { computed, IComputedValue } from "mobx";
 import type { ISidebarItem } from "./sidebar";
 
@@ -18,8 +17,7 @@ const sidebarItemsInjectable = getInjectable({
     computed((): ISidebarItem[] =>
       di
         .injectMany(sidebarItemsInjectionToken)
-        .flatMap((x) => x.get())
-        .filter(matches({ isVisible: true })),
+        .flatMap((x) => x.get()),
     ),
 });
 

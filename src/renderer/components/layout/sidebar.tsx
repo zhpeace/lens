@@ -18,6 +18,7 @@ import { renderTabRoutesSidebarItems } from "./tab-routes-sidebar-items";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import sidebarItemsInjectable from "./sidebar-items.injectable";
 import type { IComputedValue } from "mobx";
+import { matches } from "lodash/fp";
 
 export interface ISidebarItem {
   title: string;
@@ -120,7 +121,7 @@ class NonInjectedSidebar extends React.Component<Dependencies> {
       <div className={cssNames("flex flex-col")} data-testid="cluster-sidebar">
         <SidebarCluster clusterEntity={this.clusterEntity} />
         <div className={styles.sidebarNav}>
-          {this.props.sidebarItems.get().map(renderSidebarItem)}
+          {renderSidebarItems(this.props.sidebarItems.get())}
         </div>
       </div>
     );
@@ -138,21 +139,19 @@ export const Sidebar = withInjectables<Dependencies>(
   },
 );
 
-const renderSidebarItem = ({
-  children = [],
-  getIcon,
-  isActive,
-  title,
-  url,
-}: ISidebarItem) => (
-  <SidebarItem
-    key={`${url}-${title}`}
-    id={title}
-    url={url}
-    isActive={isActive}
-    icon={getIcon ? getIcon() : null}
-    text={title}
-  >
-    {children.map(renderSidebarItem)}
-  </SidebarItem>
-);
+const renderSidebarItems = (sidebarItems: ISidebarItem[]) => {
+  const _renderSiderbarItem = ({ children = [], getIcon, isActive, title, url }: ISidebarItem) => (
+    <SidebarItem
+      key={`${url}-${title}`}
+      id={title}
+      url={url}
+      isActive={isActive}
+      icon={getIcon ? getIcon() : null}
+      text={title}
+    >
+      {renderSidebarItems(children)}
+    </SidebarItem>
+  );
+
+  return sidebarItems.filter(matches({ isVisible: true })).map(_renderSiderbarItem);
+};
