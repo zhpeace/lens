@@ -16,6 +16,7 @@ import { navigation } from "../../navigation";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import portForwardStoreInjectable from "../../port-forward/port-forward-store/port-forward-store.injectable";
 import pathParametersInjectable from "../../routes/path-parameters.injectable";
+import { NetworkRoute } from "../+network/route";
 
 enum columnId {
   name = "name",
@@ -80,7 +81,7 @@ class NonInjectedPortForwards extends React.Component<Dependencies> {
 
   render() {
     return (
-      <>
+      <NetworkRoute>
         <ItemListLayout
           isConfigurable
           tableId="port_forwards"
@@ -136,7 +137,7 @@ class NonInjectedPortForwards extends React.Component<Dependencies> {
             hideDetails={this.hideDetails}
           />
         )}
-      </>
+      </NetworkRoute>
     );
   }
 }

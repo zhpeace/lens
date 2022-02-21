@@ -12,22 +12,28 @@ import type { IComputedValue } from "mobx";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import networkRouteTabsInjectable from "./route-tabs.injectable";
 
-export interface NetworksRouteProps {}
+export interface NetworksRouteProps {
+  children: React.ReactNode;
+}
 
 interface Dependencies {
   routes: IComputedValue<TabLayoutRoute[]>;
 }
 
-const NonInjectedNetworksRoute = observer(({ routes }: Dependencies & NetworksRouteProps) => (
-  <TabLayout
-    className="Network"
-    tabs={routes.get()}
-  />
-));
+const NonInjectedNetworksRoute = observer(
+  ({ routes, children }: Dependencies & NetworksRouteProps) => (
+    <TabLayout className="Network" tabs={routes.get()}>
+      {children}
+    </TabLayout>
+  ),
+);
 
-export const NetworkRoute = withInjectables<Dependencies, NetworksRouteProps>(NonInjectedNetworksRoute, {
-  getProps: (di, props) => ({
-    routes: di.inject(networkRouteTabsInjectable),
-    ...props,
-  }),
-});
+export const NetworkRoute = withInjectables<Dependencies, NetworksRouteProps>(
+  NonInjectedNetworksRoute,
+  {
+    getProps: (di, props) => ({
+      routes: di.inject(networkRouteTabsInjectable),
+      ...props,
+    }),
+  },
+);
