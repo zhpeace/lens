@@ -8,8 +8,17 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { BaseRegistry } from "./base-registry";
-import { LensExtension, LensExtensionId, sanitizeExtensionName } from "../lens-extension";
-import { createPageParam, PageParam, PageParamInit, searchParamsOptions } from "../../renderer/navigation";
+import {
+  LensExtension,
+  LensExtensionId,
+  sanitizeExtensionName,
+} from "../lens-extension";
+import {
+  createPageParam,
+  PageParam,
+  PageParamInit,
+  searchParamsOptions,
+} from "../../renderer/navigation";
 
 export interface PageRegistration {
   /**
@@ -83,13 +92,9 @@ class PageRegistry extends BaseRegistry<PageRegistration, RegisteredPage> {
     const components = this.normalizeComponents(page.components, params);
     const url = getExtensionPageUrl({ extensionId, pageId });
 
-    const asd = {
+    return {
       id: pageId, extensionId, params, components, url,
     };
-
-    console.log("mikko", { asd, page });
-
-    return asd;
   }
 
   protected normalizeComponents(components: PageComponents, params?: PageParams<PageParam>): PageComponents {
