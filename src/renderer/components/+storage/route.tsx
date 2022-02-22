@@ -12,23 +12,28 @@ import type { IComputedValue } from "mobx";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import storageRouteTabsInjectable from "./route-tabs.injectable";
 
-export interface StorageRouteProps {}
+export interface StorageRouteProps {
+  children: React.ReactNode;
+}
 
 interface Dependencies {
   routes: IComputedValue<TabLayoutRoute[]>;
 }
 
-const NonInjectedStorageRoute = observer(({ routes }: Dependencies & StorageRouteProps) => (
-  <TabLayout
-    className="Storage"
-    tabs={routes.get()}
-  />
-));
+const NonInjectedStorageRoute = observer(
+  ({ routes, children }: Dependencies & StorageRouteProps) => (
+    <TabLayout className="Storage" tabs={routes.get()}>
+      {children}
+    </TabLayout>
+  ),
+);
 
-export const StorageRoute = withInjectables<Dependencies, StorageRouteProps>(NonInjectedStorageRoute, {
-  getProps: (di, props) => ({
-    routes: di.inject(storageRouteTabsInjectable),
-    ...props,
-  }),
-});
-
+export const StorageRoute = withInjectables<Dependencies, StorageRouteProps>(
+  NonInjectedStorageRoute,
+  {
+    getProps: (di, props) => ({
+      routes: di.inject(storageRouteTabsInjectable),
+      ...props,
+    }),
+  },
+);

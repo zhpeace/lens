@@ -15,6 +15,7 @@ import { volumesStore } from "./volumes.store";
 import { pvcApi, storageClassApi } from "../../../common/k8s-api/endpoints";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { VolumesRouteParams } from "../../../common/routes";
+import { StorageRoute } from "../+storage/route";
 
 enum columnId {
   name = "name",
@@ -32,55 +33,67 @@ interface Props extends RouteComponentProps<VolumesRouteParams> {
 export class PersistentVolumes extends React.Component<Props> {
   render() {
     return (
-      <KubeObjectListLayout
-        isConfigurable
-        tableId="storage_volumes"
-        className="PersistentVolumes"
-        store={volumesStore}
-        sortingCallbacks={{
-          [columnId.name]: item => item.getName(),
-          [columnId.storageClass]: item => item.getStorageClass(),
-          [columnId.capacity]: item => item.getCapacity(true),
-          [columnId.status]: item => item.getStatus(),
-          [columnId.age]: item => item.getTimeDiffFromNow(),
-        }}
-        searchFilters={[
-          item => item.getSearchFields(),
-          item => item.getClaimRefName(),
-        ]}
-        renderHeaderTitle="Persistent Volumes"
-        renderTableHeader={[
-          { title: "Name", className: "name", sortBy: columnId.name, id: columnId.name },
-          { className: "warning", showWithColumn: columnId.name },
-          { title: "Storage Class", className: "storageClass", sortBy: columnId.storageClass, id: columnId.storageClass },
-          { title: "Capacity", className: "capacity", sortBy: columnId.capacity, id: columnId.capacity },
-          { title: "Claim", className: "claim", id: columnId.claim },
-          { title: "Age", className: "age", sortBy: columnId.age, id: columnId.age },
-          { title: "Status", className: "status", sortBy: columnId.status, id: columnId.status },
-        ]}
-        renderTableContents={volume => {
-          const { claimRef, storageClassName } = volume.spec;
-          const storageClassDetailsUrl = getDetailsUrl(storageClassApi.getUrl({
-            name: storageClassName,
-          }));
+      <StorageRoute>
+        <KubeObjectListLayout
+          isConfigurable
+          tableId="storage_volumes"
+          className="PersistentVolumes"
+          store={volumesStore}
+          sortingCallbacks={{
+            [columnId.name]: item => item.getName(),
+            [columnId.storageClass]: item => item.getStorageClass(),
+            [columnId.capacity]: item => item.getCapacity(true),
+            [columnId.status]: item => item.getStatus(),
+            [columnId.age]: item => item.getTimeDiffFromNow(),
+          }}
+          searchFilters={[
+            item => item.getSearchFields(),
+            item => item.getClaimRefName(),
+          ]}
+          renderHeaderTitle="Persistent Volumes"
+          renderTableHeader={[
+            { title: "Name", className: "name", sortBy: columnId.name, id: columnId.name },
+            { className: "warning", showWithColumn: columnId.name },
+            {
+              title: "Storage Class",
+              className: "storageClass",
+              sortBy: columnId.storageClass,
+              id: columnId.storageClass,
+            },
+            {
+              title: "Capacity",
+              className: "capacity",
+              sortBy: columnId.capacity,
+              id: columnId.capacity,
+            },
+            { title: "Claim", className: "claim", id: columnId.claim },
+            { title: "Age", className: "age", sortBy: columnId.age, id: columnId.age },
+            { title: "Status", className: "status", sortBy: columnId.status, id: columnId.status },
+          ]}
+          renderTableContents={volume => {
+            const { claimRef, storageClassName } = volume.spec;
+            const storageClassDetailsUrl = getDetailsUrl(storageClassApi.getUrl({
+              name: storageClassName,
+            }));
 
-          return [
-            volume.getName(),
-            <KubeObjectStatusIcon key="icon" object={volume} />,
-            <Link key="link" to={storageClassDetailsUrl} onClick={stopPropagation}>
-              {storageClassName}
-            </Link>,
-            volume.getCapacity(),
-            claimRef && (
-              <Link to={getDetailsUrl(pvcApi.getUrl(claimRef))} onClick={stopPropagation}>
-                {claimRef.name}
-              </Link>
-            ),
-            volume.getAge(),
-            { title: volume.getStatus(), className: volume.getStatus().toLowerCase() },
-          ];
-        }}
-      />
+            return [
+              volume.getName(),
+              <KubeObjectStatusIcon key="icon" object={volume} />,
+              <Link key="link" to={storageClassDetailsUrl} onClick={stopPropagation}>
+                {storageClassName}
+              </Link>,
+              volume.getCapacity(),
+              claimRef && (
+                <Link to={getDetailsUrl(pvcApi.getUrl(claimRef))} onClick={stopPropagation}>
+                  {claimRef.name}
+                </Link>
+              ),
+              volume.getAge(),
+              { title: volume.getStatus(), className: volume.getStatus().toLowerCase() },
+            ];
+          }}
+        />
+      </StorageRoute>
     );
   }
 }
