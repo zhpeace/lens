@@ -6,21 +6,38 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { TabLayout } from "../layout/tab-layout";
+import type { ISidebarItem } from "../layout/sidebar";
+import type { IComputedValue } from "mobx";
+import { withInjectables } from "@ogre-tools/injectable-react";
+import helmChildSidebarItemsInjectable from "./helm-child-sidebar-items.injectable";
 
-export interface HelmRouteProps {
+interface Props {
   children: React.ReactNode;
 }
 
-export const HelmRoute = observer(
-  ({ children }: HelmRouteProps) => (
+interface Dependencies {
+  sidebarItems: IComputedValue<ISidebarItem[]>
+}
+
+const NonInjectedHelmRoute = observer(
+  ({ children, sidebarItems }: Dependencies & Props) => (
     <TabLayout
       className="Apps"
-      newTabs={[
-        { title: "Charts", path: "/helm/charts" },
-        { title: "Releases", path: "/helm/releases" },
-      ]}
+      newTabs={sidebarItems.get()}
     >
       {children}
     </TabLayout>
   ),
 );
+
+export const HelmRoute = withInjectables<Dependencies, Props>(
+  NonInjectedHelmRoute,
+
+  {
+    getProps: (di, props) => ({
+      sidebarItems: di.inject(helmChildSidebarItemsInjectable),
+      ...props,
+    }),
+  },
+);
+

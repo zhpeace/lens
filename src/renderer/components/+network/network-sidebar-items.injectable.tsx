@@ -2,26 +2,19 @@
  * Copyright (c) OpenLens Authors. All rights reserved.
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
-import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
-import { computed, IComputedValue } from "mobx";
+import { getInjectable } from "@ogre-tools/injectable";
+import { computed } from "mobx";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 import React from "react";
-import type { ISidebarItem } from "../layout/sidebar";
 import { noop, some } from "lodash/fp";
-import { getSidebarItems } from "../layout/get-sidebar-items";
-
-
-export const networkChildSidebarItemsInjectionToken = getInjectionToken<IComputedValue<ISidebarItem[]>>({
-  id: "network-child-sidebar-items-injection-token",
-});
+import networkChildSidebarItemsInjectable from "./network-child-sidebar-items.injectable";
 
 const networkSidebarItemsInjectable = getInjectable({
   id: "network-sidebar-items",
 
   instantiate: (di) => {
-    const childRegistrations = di.injectMany(networkChildSidebarItemsInjectionToken);
-    const childSidebarItems = getSidebarItems(childRegistrations);
+    const childSidebarItems = di.inject(networkChildSidebarItemsInjectable);
 
     return computed(() => {
       const childItems = childSidebarItems.get();

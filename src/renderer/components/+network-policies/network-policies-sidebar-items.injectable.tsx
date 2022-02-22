@@ -6,11 +6,11 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import networkPoliciesRouteInjectable from "./network-policies-route.injectable";
-import {
-  networkChildSidebarItemsInjectionToken,
-} from "../+network/network-sidebar-items.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
+import {
+  networkChildSidebarItemsInjectionToken,
+} from "../+network/network-child-sidebar-items.injectable";
 
 const networkPoliciesSidebarItemsInjectable = getInjectable({
   id: "network-policies-sidebar-items",

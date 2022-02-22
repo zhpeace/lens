@@ -7,22 +7,23 @@ import "./network.scss";
 
 import React from "react";
 import { observer } from "mobx-react";
-import { TabLayout, TabLayoutRoute } from "../layout/tab-layout";
+import { TabLayout } from "../layout/tab-layout";
 import type { IComputedValue } from "mobx";
 import { withInjectables } from "@ogre-tools/injectable-react";
-import networkRouteTabsInjectable from "./route-tabs.injectable";
+import type { ISidebarItem } from "../layout/sidebar";
+import networkChildSidebarItemsInjectable from "./network-child-sidebar-items.injectable";
 
 export interface NetworksRouteProps {
   children: React.ReactNode;
 }
 
 interface Dependencies {
-  routes: IComputedValue<TabLayoutRoute[]>;
+  tabs: IComputedValue<ISidebarItem[]>;
 }
 
 const NonInjectedNetworksRoute = observer(
-  ({ routes, children }: Dependencies & NetworksRouteProps) => (
-    <TabLayout className="Network" tabs={routes.get()}>
+  ({ tabs, children }: Dependencies & NetworksRouteProps) => (
+    <TabLayout className="Network" newTabs={tabs.get()}>
       {children}
     </TabLayout>
   ),
@@ -32,7 +33,7 @@ export const NetworkRoute = withInjectables<Dependencies, NetworksRouteProps>(
   NonInjectedNetworksRoute,
   {
     getProps: (di, props) => ({
-      routes: di.inject(networkRouteTabsInjectable),
+      tabs: di.inject(networkChildSidebarItemsInjectable),
       ...props,
     }),
   },

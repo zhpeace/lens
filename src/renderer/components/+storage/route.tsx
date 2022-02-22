@@ -7,22 +7,23 @@ import "./storage.scss";
 
 import React from "react";
 import { observer } from "mobx-react";
-import { TabLayout, TabLayoutRoute } from "../layout/tab-layout";
+import { TabLayout } from "../layout/tab-layout";
 import type { IComputedValue } from "mobx";
 import { withInjectables } from "@ogre-tools/injectable-react";
-import storageRouteTabsInjectable from "./route-tabs.injectable";
+import type { ISidebarItem } from "../layout/sidebar";
+import storageChildSidebarItemsInjectable from "./storage-child-sidebar-items.injectable";
 
 export interface StorageRouteProps {
   children: React.ReactNode;
 }
 
 interface Dependencies {
-  routes: IComputedValue<TabLayoutRoute[]>;
+  tabs: IComputedValue<ISidebarItem[]>;
 }
 
 const NonInjectedStorageRoute = observer(
-  ({ routes, children }: Dependencies & StorageRouteProps) => (
-    <TabLayout className="Storage" tabs={routes.get()}>
+  ({ tabs, children }: Dependencies & StorageRouteProps) => (
+    <TabLayout className="Storage" newTabs={tabs.get()}>
       {children}
     </TabLayout>
   ),
@@ -32,7 +33,7 @@ export const StorageRoute = withInjectables<Dependencies, StorageRouteProps>(
   NonInjectedStorageRoute,
   {
     getProps: (di, props) => ({
-      routes: di.inject(storageRouteTabsInjectable),
+      tabs: di.inject(storageChildSidebarItemsInjectable),
       ...props,
     }),
   },

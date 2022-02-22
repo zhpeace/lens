@@ -6,9 +6,9 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import helmChartsRouteInjectable from "./helm-charts-route.injectable";
-import { helmChildSidebarItemsInjectionToken } from "../+helm/helm-sidebar-items.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
+import { helmChildSidebarItemsInjectionToken } from "../+helm/helm-child-sidebar-items.injectable";
 
 const helmChartsSidebarItemsInjectable = getInjectable({
   id: "helm-charts-sidebar-items",

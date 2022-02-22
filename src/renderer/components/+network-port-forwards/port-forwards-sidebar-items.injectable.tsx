@@ -6,11 +6,11 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import portForwardsRouteInjectable from "./port-forwards-route.injectable";
-import {
-  networkChildSidebarItemsInjectionToken,
-} from "../+network/network-sidebar-items.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
+import {
+  networkChildSidebarItemsInjectionToken,
+} from "../+network/network-child-sidebar-items.injectable";
 
 const portForwardsSidebarItemsInjectable = getInjectable({
   id: "port-forwards-sidebar-items",

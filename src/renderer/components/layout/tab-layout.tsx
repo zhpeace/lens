@@ -17,7 +17,7 @@ export interface TabLayoutProps {
   className?: IClassName;
   contentClass?: IClassName;
   tabs?: TabLayoutRoute[];
-  newTabs?: { title: string, path: string }[];
+  newTabs?: { title: string, onClick: () => void, isActive: boolean }[];
   children?: ReactNode;
 }
 
@@ -49,10 +49,9 @@ export const TabLayout = observer(({ className, contentClass, newTabs = [], tabs
       )}
 
       {hasNewTabs && (
-        <Tabs center onChange={(url) => navigate(url)}>
-          {newTabs.map(({ title, path }) => {
-            // const isActive = !!matchPath(currentLocation, { path: routePath, exact });
-            return <Tab key={path} label={title} value={path} active={false}/>;
+        <Tabs center>
+          {newTabs.map(({ title, onClick, isActive }) => {
+            return <Tab onClick={onClick} key={title} label={title} active={isActive} />;
           })}
         </Tabs>
       )}

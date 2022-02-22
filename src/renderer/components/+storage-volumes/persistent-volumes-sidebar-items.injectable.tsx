@@ -5,12 +5,12 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
-import {
-  storageChildSidebarItemsInjectionToken,
-} from "../+storage/storage-sidebar-items.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
 import persistentVolumesRouteInjectable from "./persistent-volumes-route.injectable";
+import {
+  storageChildSidebarItemsInjectionToken,
+} from "../+storage/storage-child-sidebar-items.injectable";
 
 const persistentVolumesSidebarItemsInjectable = getInjectable({
   id: "persistent-volumes-sidebar-items",

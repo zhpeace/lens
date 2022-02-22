@@ -6,11 +6,11 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import storageClassesRouteInjectable from "./storage-classes-route.injectable";
-import {
-  storageChildSidebarItemsInjectionToken,
-} from "../+storage/storage-sidebar-items.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
+import {
+  storageChildSidebarItemsInjectionToken,
+} from "../+storage/storage-child-sidebar-items.injectable";
 
 const storageClassesSidebarItemsInjectable = getInjectable({
   id: "storage-classes-sidebar-items",
