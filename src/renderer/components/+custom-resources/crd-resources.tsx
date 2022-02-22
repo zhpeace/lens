@@ -38,7 +38,6 @@ class NonInjectedCrdResources extends React.Component<Dependencies> {
   }
 
   @computed get crd() {
-    console.log(this.props.pathParameters.get());
     const { group, name } = this.props.pathParameters.get();
 
     return crdStore.getByGroup(group, name);
