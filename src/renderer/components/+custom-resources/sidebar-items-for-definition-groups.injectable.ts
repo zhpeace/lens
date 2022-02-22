@@ -57,6 +57,7 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
 
             isActive: definitionIsShown,
             isVisible: crdListRoute.isEnabled(),
+            priority: 10,
           };
         });
 
@@ -66,8 +67,8 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
             onClick: () => navigateToRoute(route, { query: { groups: group }}),
             isActive: false,
             isVisible: some({ isVisible: true }, childItems),
-
             children: childItems,
+            priority: 10,
           },
         ];
       });

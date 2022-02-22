@@ -18,6 +18,7 @@ const statefulsetsRouteInjectable = getInjectable({
       path: "/statefulsets",
       clusterFrame: true,
       isEnabled: () => isAllowedResource("statefulsets"),
+      priority: 50,
     };
   },
 

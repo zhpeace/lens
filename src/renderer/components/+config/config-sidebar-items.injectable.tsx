@@ -35,6 +35,7 @@ const configSidebarItemsInjectable = getInjectable({
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
           children: childItems,
+          priority: 40,
         },
       ];
     });

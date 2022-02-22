@@ -22,11 +22,12 @@ const clusterOverviewSidebarItemsInjectable = getInjectable({
 
     return computed((): ISidebarItem[] => [
       {
-        title: "Overview",
+        title: "Cluster",
         getIcon: () => <Icon svg="kube" />,
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
         isVisible: route.isEnabled(),
+        priority: 10,
       },
     ]);
   },

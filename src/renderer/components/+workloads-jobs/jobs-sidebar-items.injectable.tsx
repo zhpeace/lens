@@ -26,6 +26,7 @@ const jobsSidebarItemsInjectable = getInjectable({
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
         isVisible: route.isEnabled(),
+        priority: 70,
       },
     ]);
   },

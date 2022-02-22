@@ -24,6 +24,7 @@ const configMapsSidebarItemsInjectable = getInjectable({
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
         isVisible: route.isEnabled(),
+        priority: 10,
       },
     ]);
   },

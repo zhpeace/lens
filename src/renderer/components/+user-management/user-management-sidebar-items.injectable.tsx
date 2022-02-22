@@ -30,11 +30,12 @@ const userManagementSidebarItemsInjectable = getInjectable({
       return [
         {
           getIcon: () => <Icon material="security" />,
-          title: "User Management",
+          title: "Access Control",
           onClick: noop,
           isActive: some({ isActive: true }, childItems),
           isVisible: some({ isVisible: true }, childItems),
           children: childItems,
+          priority: 100,
         },
       ];
     });

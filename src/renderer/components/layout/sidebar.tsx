@@ -27,6 +27,7 @@ export interface ISidebarItem {
   isActive: boolean
   isVisible: boolean
   children?: ISidebarItem[]
+  priority: number
 }
 
 interface Dependencies {
