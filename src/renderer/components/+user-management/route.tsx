@@ -12,20 +12,28 @@ import type { IComputedValue } from "mobx";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import userManagementRouteTabsInjectable from "./route-tabs.injectable";
 
+interface Props {
+  children: React.ReactNode;
+}
+
 interface Dependencies {
   routes: IComputedValue<TabLayoutRoute[]>;
 }
 
-const NonInjectedUserManagementRoute = observer(({ routes }: Dependencies) => (
-  <TabLayout
-    className="UserManagement"
-    tabs={routes.get()}
-  />
-));
+const NonInjectedUserManagementRoute = observer(
+  ({ routes, children }: Dependencies & Props) => (
+    <TabLayout className="UserManagement" tabs={routes.get()}>
+      {children}
+    </TabLayout>
+  ),
+);
 
-export const UserManagementRoute = withInjectables<Dependencies>(NonInjectedUserManagementRoute, {
-  getProps: (di, props) => ({
-    routes: di.inject(userManagementRouteTabsInjectable),
-    ...props,
-  }),
-});
+export const UserManagementRoute = withInjectables<Dependencies, Props>(
+  NonInjectedUserManagementRoute,
+  {
+    getProps: (di, props) => ({
+      routes: di.inject(userManagementRouteTabsInjectable),
+      ...props,
+    }),
+  },
+);

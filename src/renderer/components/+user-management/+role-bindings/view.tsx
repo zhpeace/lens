@@ -15,6 +15,7 @@ import { rolesStore } from "../+roles/store";
 import { clusterRolesStore } from "../+cluster-roles/store";
 import { serviceAccountsStore } from "../+service-accounts/store";
 import type { RoleBindingsRouteParams } from "../../../../common/routes";
+import { UserManagementRoute } from "../route";
 
 enum columnId {
   name = "name",
@@ -30,7 +31,7 @@ interface Props extends RouteComponentProps<RoleBindingsRouteParams> {
 export class RoleBindings extends React.Component<Props> {
   render() {
     return (
-      <>
+      <UserManagementRoute>
         <KubeObjectListLayout
           isConfigurable
           tableId="access_role_bindings"
@@ -68,7 +69,7 @@ export class RoleBindings extends React.Component<Props> {
           }}
         />
         <RoleBindingDialog />
-      </>
+      </UserManagementRoute>
     );
   }
 }

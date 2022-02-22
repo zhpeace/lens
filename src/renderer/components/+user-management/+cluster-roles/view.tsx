@@ -13,6 +13,7 @@ import { KubeObjectStatusIcon } from "../../kube-object-status-icon";
 import { AddClusterRoleDialog } from "./add-dialog";
 import { clusterRolesStore } from "./store";
 import type { ClusterRolesRouteParams } from "../../../../common/routes";
+import { UserManagementRoute } from "../route";
 
 enum columnId {
   name = "name",
@@ -27,7 +28,7 @@ interface Props extends RouteComponentProps<ClusterRolesRouteParams> {
 export class ClusterRoles extends React.Component<Props> {
   render() {
     return (
-      <>
+      <UserManagementRoute>
         <KubeObjectListLayout
           isConfigurable
           tableId="access_cluster_roles"
@@ -57,7 +58,7 @@ export class ClusterRoles extends React.Component<Props> {
           }}
         />
         <AddClusterRoleDialog/>
-      </>
+      </UserManagementRoute>
     );
   }
 }

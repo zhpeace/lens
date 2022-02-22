@@ -15,6 +15,7 @@ import { clusterRoleBindingsStore } from "./store";
 import { clusterRolesStore } from "../+cluster-roles/store";
 import { serviceAccountsStore } from "../+service-accounts/store";
 import type { ClusterRoleBindingsRouteParams } from "../../../../common/routes";
+import { UserManagementRoute } from "../route";
 
 enum columnId {
   name = "name",
@@ -30,7 +31,7 @@ interface Props extends RouteComponentProps<ClusterRoleBindingsRouteParams> {
 export class ClusterRoleBindings extends React.Component<Props> {
   render() {
     return (
-      <>
+      <UserManagementRoute>
         <KubeObjectListLayout
           isConfigurable
           tableId="access_cluster_role_bindings"
@@ -65,7 +66,7 @@ export class ClusterRoleBindings extends React.Component<Props> {
           }}
         />
         <ClusterRoleBindingDialog />
-      </>
+      </UserManagementRoute>
     );
   }
 }

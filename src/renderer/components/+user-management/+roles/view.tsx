@@ -13,6 +13,7 @@ import { KubeObjectStatusIcon } from "../../kube-object-status-icon";
 import { AddRoleDialog } from "./add-dialog";
 import { rolesStore } from "./store";
 import type { RolesRouteParams } from "../../../../common/routes";
+import { UserManagementRoute } from "../route";
 
 enum columnId {
   name = "name",
@@ -27,7 +28,7 @@ interface Props extends RouteComponentProps<RolesRouteParams> {
 export class Roles extends React.Component<Props> {
   render() {
     return (
-      <>
+      <UserManagementRoute>
         <KubeObjectListLayout
           isConfigurable
           tableId="access_roles"
@@ -60,7 +61,7 @@ export class Roles extends React.Component<Props> {
           }}
         />
         <AddRoleDialog/>
-      </>
+      </UserManagementRoute>
     );
   }
 }
