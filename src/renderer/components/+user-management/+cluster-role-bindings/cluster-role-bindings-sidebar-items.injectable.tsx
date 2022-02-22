@@ -6,11 +6,11 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import clusterRoleBindingsRouteInjectable from "./cluster-role-bindings-route.injectable";
-import {
-  userManagementChildSidebarItemsInjectionToken,
-} from "../user-management-sidebar-items.injectable";
 import navigateToRouteInjectable from "../../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../../routes/current-route.injectable";
+import {
+  userManagementChildSidebarItemsInjectionToken,
+} from "../user-management-child-sidebar-items.injectable";
 
 const clusterRoleBindingsSidebarItemsInjectable = getInjectable({
   id: "cluster-role-bindings-sidebar-items",

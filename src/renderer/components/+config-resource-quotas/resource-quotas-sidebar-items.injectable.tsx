@@ -6,9 +6,11 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import resourceQuotasRouteInjectable from "./resource-quotas-route.injectable";
-import { configChildSidebarItemsInjectionToken } from "../+config/config-sidebar-items.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
+import {
+  configChildSidebarItemsInjectionToken,
+} from "../+config/config-child-sidebar-items.injectable";
 
 const resourceQuotasSidebarItemsInjectable = getInjectable({
   id: "resource-quotas-sidebar-items",

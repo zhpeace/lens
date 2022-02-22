@@ -6,11 +6,11 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import podSecurityPoliciesRouteInjectable from "./pod-security-policies-route.injectable";
-import {
-  userManagementChildSidebarItemsInjectionToken,
-} from "../+user-management/user-management-sidebar-items.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
+import {
+  userManagementChildSidebarItemsInjectionToken,
+} from "../+user-management/user-management-child-sidebar-items.injectable";
 
 const podSecurityPoliciesSidebarItemsInjectable = getInjectable({
   id: "pod-security-policies-sidebar-items",

@@ -6,11 +6,11 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import serviceAccountsRouteInjectable from "./service-accounts-route.injectable";
-import {
-  userManagementChildSidebarItemsInjectionToken,
-} from "../user-management-sidebar-items.injectable";
 import navigateToRouteInjectable from "../../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../../routes/current-route.injectable";
+import {
+  userManagementChildSidebarItemsInjectionToken,
+} from "../user-management-child-sidebar-items.injectable";
 
 const serviceAccountsSidebarItemsInjectable = getInjectable({
   id: "service-accounts-sidebar-items",

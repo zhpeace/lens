@@ -6,9 +6,11 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import replicasetsRouteInjectable from "./replicasets-route.injectable";
-import { workloadsChildSidebarItemsInjectionToken } from "../+workloads/workloads-sidebar-items.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
+import {
+  workloadsChildSidebarItemsInjectionToken,
+} from "../+workloads/workloads-child-sidebar-items.injectable";
 
 const replicasetsSidebarItemsInjectable = getInjectable({
   id: "replicasets-sidebar-items",

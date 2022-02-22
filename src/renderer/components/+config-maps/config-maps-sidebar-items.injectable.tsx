@@ -6,9 +6,11 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import configMapsRouteInjectable from "./config-maps-route.injectable";
-import { configChildSidebarItemsInjectionToken } from "../+config/config-sidebar-items.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
+import {
+  configChildSidebarItemsInjectionToken,
+} from "../+config/config-child-sidebar-items.injectable";
 
 const configMapsSidebarItemsInjectable = getInjectable({
   id: "config-maps-sidebar-items",

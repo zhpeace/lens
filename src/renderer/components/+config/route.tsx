@@ -5,22 +5,23 @@
 
 import React from "react";
 import { observer } from "mobx-react";
-import { TabLayout, TabLayoutRoute } from "../layout/tab-layout";
+import { TabLayout } from "../layout/tab-layout";
 import type { IComputedValue } from "mobx";
 import { withInjectables } from "@ogre-tools/injectable-react";
-import configRoutesInjectable from "./route-tabs.injectable";
+import type { ISidebarItem } from "../layout/sidebar";
+import configChildSidebarItemsInjectable from "./config-child-sidebar-items.injectable";
 
 export interface ConfigRouteProps {
   children: React.ReactNode;
 }
 
 interface Dependencies {
-  routes: IComputedValue<TabLayoutRoute[]>;
+  tabs: IComputedValue<ISidebarItem[]>;
 }
 
 const NonInjectedConfigRoute = observer(
-  ({ routes, children }: Dependencies & ConfigRouteProps) => (
-    <TabLayout className="Config" tabs={routes.get()}>
+  ({ tabs, children }: Dependencies & ConfigRouteProps) => (
+    <TabLayout className="Config" newTabs={tabs.get()}>
       {children}
     </TabLayout>
   ),
@@ -30,7 +31,7 @@ export const ConfigRoute = withInjectables<Dependencies, ConfigRouteProps>(
   NonInjectedConfigRoute,
   {
     getProps: (di, props) => ({
-      routes: di.inject(configRoutesInjectable),
+      tabs: di.inject(configChildSidebarItemsInjectable),
       ...props,
     }),
   },

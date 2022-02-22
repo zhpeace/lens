@@ -6,23 +6,24 @@
 import "./workloads.scss";
 
 import React from "react";
-import { TabLayout, TabLayoutRoute } from "../layout/tab-layout";
+import { TabLayout } from "../layout/tab-layout";
 import type { IComputedValue } from "mobx";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import { observer } from "mobx-react";
-import workloadsRouteTabsInjectable from "./route-tabs.injectable";
+import type { ISidebarItem } from "../layout/sidebar";
+import workloadsChildSidebarItemsInjectable from "./workloads-child-sidebar-items.injectable";
 
 export interface WorkloadsRouteProps {
   children: React.ReactNode;
 }
 
 interface Dependencies {
-  routes: IComputedValue<TabLayoutRoute[]>;
+  tabs: IComputedValue<ISidebarItem[]>;
 }
 
 const NonInjectedWorkloadsRoute = observer(
-  ({ routes, children }: Dependencies & WorkloadsRouteProps) => (
-    <TabLayout className="Workloads" tabs={routes.get()}>
+  ({ tabs, children }: Dependencies & WorkloadsRouteProps) => (
+    <TabLayout className="Workloads" newTabs={tabs.get()}>
       {children}
     </TabLayout>
   ),
@@ -33,7 +34,7 @@ export const WorkloadsRoute = withInjectables<
   WorkloadsRouteProps
 >(NonInjectedWorkloadsRoute, {
   getProps: (di, props) => ({
-    routes: di.inject(workloadsRouteTabsInjectable),
+    tabs: di.inject(workloadsChildSidebarItemsInjectable),
     ...props,
   }),
 });
