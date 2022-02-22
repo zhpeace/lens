@@ -9,6 +9,7 @@ import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { computed, IComputedValue } from "mobx";
 import type { ISidebarItem } from "../layout/sidebar";
 import { noop, some } from "lodash/fp";
+import { getSidebarItems } from "../layout/get-sidebar-items";
 
 export const configChildSidebarItemsInjectionToken = getInjectionToken<
   IComputedValue<ISidebarItem[]>
@@ -20,12 +21,11 @@ const configSidebarItemsInjectable = getInjectable({
   id: "config-sidebar-items",
 
   instantiate: (di) => {
-    const childSidebarItems = di.injectMany(
-      configChildSidebarItemsInjectionToken,
-    );
+    const childRegistrations = di.injectMany(configChildSidebarItemsInjectionToken);
+    const childSidebarItems = getSidebarItems(childRegistrations);
 
     return computed((): ISidebarItem[] => {
-      const childItems = childSidebarItems.flatMap((items) => items.get());
+      const childItems = childSidebarItems.get();
 
       return [
         {

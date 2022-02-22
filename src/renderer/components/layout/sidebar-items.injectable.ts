@@ -3,8 +3,9 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
-import { computed, IComputedValue } from "mobx";
+import type { IComputedValue } from "mobx";
 import type { ISidebarItem } from "./sidebar";
+import { getSidebarItems } from "./get-sidebar-items";
 
 export const sidebarItemsInjectionToken = getInjectionToken<
   IComputedValue<ISidebarItem[]>
@@ -13,12 +14,11 @@ export const sidebarItemsInjectionToken = getInjectionToken<
 const sidebarItemsInjectable = getInjectable({
   id: "sidebar-items",
 
-  instantiate: (di) =>
-    computed((): ISidebarItem[] =>
-      di
-        .injectMany(sidebarItemsInjectionToken)
-        .flatMap((x) => x.get()),
-    ),
+  instantiate: (di) => {
+    const sidebarItemRegistrations = di.injectMany(sidebarItemsInjectionToken);
+
+    return getSidebarItems(sidebarItemRegistrations);
+  },
 });
 
 export default sidebarItemsInjectable;

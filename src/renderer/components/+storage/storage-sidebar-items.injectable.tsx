@@ -9,6 +9,7 @@ import { Icon } from "../icon";
 import React from "react";
 import type { ISidebarItem } from "../layout/sidebar";
 import { noop, some } from "lodash/fp";
+import { getSidebarItems } from "../layout/get-sidebar-items";
 
 export const storageChildSidebarItemsInjectionToken = getInjectionToken<IComputedValue<ISidebarItem[]>>({
   id: "storage-child-sidebar-items-injection-token",
@@ -18,13 +19,11 @@ const storageSidebarItemsInjectable = getInjectable({
   id: "storage-sidebar-items",
 
   instantiate: (di) => {
-    const childSidebarItems = di.injectMany(
-      storageChildSidebarItemsInjectionToken,
-    );
+    const childRegistrations = di.injectMany(storageChildSidebarItemsInjectionToken);
+    const childSidebarItems = getSidebarItems(childRegistrations);
 
     return computed(() => {
-      const childItems = childSidebarItems
-        .flatMap((items) => items.get());
+      const childItems = childSidebarItems.get();
 
       return [
         {

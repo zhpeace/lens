@@ -10,6 +10,7 @@ import { Icon } from "../icon";
 import type { ISidebarItem } from "../layout/sidebar";
 import { some } from "lodash/fp";
 import { noop } from "../../../common/utils";
+import { getSidebarItems } from "../layout/get-sidebar-items";
 
 export const helmChildSidebarItemsInjectionToken = getInjectionToken<IComputedValue<ISidebarItem[]>>({
   id: "helm-child-sidebar-items-injection-token",
@@ -19,13 +20,11 @@ const helmSidebarItemsInjectable = getInjectable({
   id: "helm-sidebar-items",
 
   instantiate: (di) => {
-    const childSidebarItems = di.injectMany(
-      helmChildSidebarItemsInjectionToken,
-    );
+    const childRegistrations = di.injectMany(helmChildSidebarItemsInjectionToken);
+    const childSidebarItems = getSidebarItems(childRegistrations);
 
     return computed(() => {
-      const childItems = childSidebarItems
-        .flatMap((items) => items.get());
+      const childItems = childSidebarItems.get();
 
       return [
         {
