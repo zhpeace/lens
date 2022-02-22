@@ -13,6 +13,7 @@ import { AddQuotaDialog } from "./add-quota-dialog";
 import { resourceQuotaStore } from "./resource-quotas.store";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { ResourceQuotaRouteParams } from "../../../common/routes";
+import { ConfigRoute } from "../+config/route";
 
 enum columnId {
   name = "name",
@@ -27,7 +28,7 @@ interface Props extends RouteComponentProps<ResourceQuotaRouteParams> {
 export class ResourceQuotas extends React.Component<Props> {
   render() {
     return (
-      <>
+      <ConfigRoute>
         <KubeObjectListLayout
           isConfigurable
           tableId="configuration_quotas"
@@ -60,7 +61,7 @@ export class ResourceQuotas extends React.Component<Props> {
           }}
         />
         <AddQuotaDialog/>
-      </>
+      </ConfigRoute>
     );
   }
 }

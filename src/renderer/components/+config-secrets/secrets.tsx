@@ -14,6 +14,7 @@ import { Badge } from "../badge";
 import { secretsStore } from "./secrets.store";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { SecretsRouteParams } from "../../../common/routes";
+import { ConfigRoute } from "../+config/route";
 
 enum columnId {
   name = "name",
@@ -31,7 +32,7 @@ interface Props extends RouteComponentProps<SecretsRouteParams> {
 export class Secrets extends React.Component<Props> {
   render() {
     return (
-      <>
+      <ConfigRoute>
         <KubeObjectListLayout
           isConfigurable
           tableId="configuration_secrets"
@@ -73,7 +74,7 @@ export class Secrets extends React.Component<Props> {
           }}
         />
         <AddSecretDialog/>
-      </>
+      </ConfigRoute>
     );
   }
 }
