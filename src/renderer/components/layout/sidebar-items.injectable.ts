@@ -6,6 +6,7 @@ import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
 import type { IComputedValue } from "mobx";
 import type { ISidebarItem } from "./sidebar";
 import { getSidebarItems } from "./get-sidebar-items";
+import extensionSidebarItemRegistrationsInjectable from "./extension-sidebar-item-registrations.injectable";
 
 export const sidebarItemsInjectionToken = getInjectionToken<
   IComputedValue<ISidebarItem[]>
@@ -17,7 +18,9 @@ const sidebarItemsInjectable = getInjectable({
   instantiate: (di) => {
     const sidebarItemRegistrations = di.injectMany(sidebarItemsInjectionToken);
 
-    return getSidebarItems(sidebarItemRegistrations);
+    const extensionSidebarItemRegistrations = di.inject(extensionSidebarItemRegistrationsInjectable);
+
+    return getSidebarItems([...sidebarItemRegistrations, extensionSidebarItemRegistrations]);
   },
 });
 
