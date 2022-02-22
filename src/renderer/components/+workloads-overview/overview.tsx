@@ -30,6 +30,7 @@ import type { KubeObject } from "../../../common/k8s-api/kube-object";
 import type { Disposer } from "../../../common/utils";
 import kubeWatchApiInjectable from "../../kube-watch-api/kube-watch-api.injectable";
 import type { KubeWatchSubscribeStoreOptions } from "../../kube-watch-api/kube-watch-api";
+import { WorkloadsRoute } from "../+workloads/route";
 
 interface Props extends RouteComponentProps<WorkloadsOverviewRouteParams> {
 }
@@ -99,14 +100,16 @@ class NonInjectedWorkloadsOverview extends React.Component<Props & Dependencies>
       ));
 
     return (
-      <div className="WorkloadsOverview flex column gaps">
-        <div className="header flex gaps align-center">
-          <h5 className="box grow">Overview</h5>
-          {this.renderLoadErrors()}
-          <NamespaceSelectFilter />
+      <WorkloadsRoute>
+        <div className="WorkloadsOverview flex column gaps">
+          <div className="header flex gaps align-center">
+            <h5 className="box grow">Overview</h5>
+            {this.renderLoadErrors()}
+            <NamespaceSelectFilter />
+          </div>
+          {items}
         </div>
-        {items}
-      </div>
+      </WorkloadsRoute>
     );
   }
 }

@@ -17,6 +17,7 @@ import kebabCase from "lodash/kebabCase";
 import orderBy from "lodash/orderBy";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { DeploymentsRouteParams } from "../../../common/routes";
+import { WorkloadsRoute } from "../+workloads/route";
 
 enum columnId {
   name = "name",
@@ -50,42 +51,59 @@ export class Deployments extends React.Component<Props> {
 
   render() {
     return (
-      <KubeObjectListLayout
-        isConfigurable
-        tableId="workload_deployments"
-        className="Deployments" store={deploymentStore}
-        dependentStores={[eventStore]} // status icon component uses event store
-        sortingCallbacks={{
-          [columnId.name]: deployment => deployment.getName(),
-          [columnId.namespace]: deployment => deployment.getNs(),
-          [columnId.replicas]: deployment => deployment.getReplicas(),
-          [columnId.age]: deployment => deployment.getTimeDiffFromNow(),
-          [columnId.condition]: deployment => deployment.getConditionsText(),
-        }}
-        searchFilters={[
-          deployment => deployment.getSearchFields(),
-          deployment => deployment.getConditionsText(),
-        ]}
-        renderHeaderTitle="Deployments"
-        renderTableHeader={[
-          { title: "Name", className: "name", sortBy: columnId.name, id: columnId.name },
-          { className: "warning", showWithColumn: columnId.name },
-          { title: "Namespace", className: "namespace", sortBy: columnId.namespace, id: columnId.namespace },
-          { title: "Pods", className: "pods", id: columnId.pods },
-          { title: "Replicas", className: "replicas", sortBy: columnId.replicas, id: columnId.replicas },
-          { title: "Age", className: "age", sortBy: columnId.age, id: columnId.age },
-          { title: "Conditions", className: "conditions", sortBy: columnId.condition, id: columnId.condition },
-        ]}
-        renderTableContents={deployment => [
-          deployment.getName(),
-          <KubeObjectStatusIcon key="icon" object={deployment}/>,
-          deployment.getNs(),
-          this.renderPods(deployment),
-          deployment.getReplicas(),
-          deployment.getAge(),
-          this.renderConditions(deployment),
-        ]}
-      />
+      <WorkloadsRoute>
+        <KubeObjectListLayout
+          isConfigurable
+          tableId="workload_deployments"
+          className="Deployments" store={deploymentStore}
+          dependentStores={[eventStore]} // status icon component uses event store
+          sortingCallbacks={{
+            [columnId.name]: deployment => deployment.getName(),
+            [columnId.namespace]: deployment => deployment.getNs(),
+            [columnId.replicas]: deployment => deployment.getReplicas(),
+            [columnId.age]: deployment => deployment.getTimeDiffFromNow(),
+            [columnId.condition]: deployment => deployment.getConditionsText(),
+          }}
+          searchFilters={[
+            deployment => deployment.getSearchFields(),
+            deployment => deployment.getConditionsText(),
+          ]}
+          renderHeaderTitle="Deployments"
+          renderTableHeader={[
+            { title: "Name", className: "name", sortBy: columnId.name, id: columnId.name },
+            { className: "warning", showWithColumn: columnId.name },
+            {
+              title: "Namespace",
+              className: "namespace",
+              sortBy: columnId.namespace,
+              id: columnId.namespace,
+            },
+            { title: "Pods", className: "pods", id: columnId.pods },
+            {
+              title: "Replicas",
+              className: "replicas",
+              sortBy: columnId.replicas,
+              id: columnId.replicas,
+            },
+            { title: "Age", className: "age", sortBy: columnId.age, id: columnId.age },
+            {
+              title: "Conditions",
+              className: "conditions",
+              sortBy: columnId.condition,
+              id: columnId.condition,
+            },
+          ]}
+          renderTableContents={deployment => [
+            deployment.getName(),
+            <KubeObjectStatusIcon key="icon" object={deployment} />,
+            deployment.getNs(),
+            this.renderPods(deployment),
+            deployment.getReplicas(),
+            deployment.getAge(),
+            this.renderConditions(deployment),
+          ]}
+        />
+      </WorkloadsRoute>
     );
   }
 }

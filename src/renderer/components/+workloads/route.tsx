@@ -12,23 +12,28 @@ import { withInjectables } from "@ogre-tools/injectable-react";
 import { observer } from "mobx-react";
 import workloadsRouteTabsInjectable from "./route-tabs.injectable";
 
-export interface WorkloadsRouteProps {}
+export interface WorkloadsRouteProps {
+  children: React.ReactNode;
+}
 
 interface Dependencies {
   routes: IComputedValue<TabLayoutRoute[]>;
 }
 
-const NonInjectedWorkloadsRoute = observer(({ routes }: Dependencies & WorkloadsRouteProps) => (
-  <TabLayout
-    className="Workloads"
-    tabs={routes.get()}
-  />
-));
+const NonInjectedWorkloadsRoute = observer(
+  ({ routes, children }: Dependencies & WorkloadsRouteProps) => (
+    <TabLayout className="Workloads" tabs={routes.get()}>
+      {children}
+    </TabLayout>
+  ),
+);
 
-export const WorkloadsRoute = withInjectables<Dependencies, WorkloadsRouteProps>(NonInjectedWorkloadsRoute, {
+export const WorkloadsRoute = withInjectables<
+  Dependencies,
+  WorkloadsRouteProps
+>(NonInjectedWorkloadsRoute, {
   getProps: (di, props) => ({
     routes: di.inject(workloadsRouteTabsInjectable),
     ...props,
   }),
 });
-
