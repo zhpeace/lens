@@ -11,7 +11,7 @@ import type { IComputedValue } from "mobx";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import { observer } from "mobx-react";
 import type { ISidebarItem } from "../layout/sidebar";
-import workloadsChildSidebarItemsInjectable from "./workloads-child-sidebar-items.injectable";
+import siblingTabsInjectable from "../../routes/sibling-tabs.injectable";
 
 export interface WorkloadsRouteProps {
   children: React.ReactNode;
@@ -34,7 +34,7 @@ export const WorkloadsRoute = withInjectables<
   WorkloadsRouteProps
 >(NonInjectedWorkloadsRoute, {
   getProps: (di, props) => ({
-    tabs: di.inject(workloadsChildSidebarItemsInjectable),
+    tabs: di.inject(siblingTabsInjectable),
     ...props,
   }),
 });

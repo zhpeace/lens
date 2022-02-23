@@ -26,13 +26,7 @@ const routesInjectable = getInjectable({
     const extensionRoutes = di.inject(extensionRoutesInjectable);
     const coreRoutes = di.injectMany(routeInjectionToken);
 
-    return computed(() => {
-      const asd = [...coreRoutes, ...extensionRoutes.get()];
-
-      console.log(asd);
-
-      return asd;
-    });
+    return computed(() => [...coreRoutes, ...extensionRoutes.get()]);
   },
 });
 

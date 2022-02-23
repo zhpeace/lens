@@ -11,7 +11,7 @@ import { TabLayout } from "../layout/tab-layout";
 import type { IComputedValue } from "mobx";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import type { ISidebarItem } from "../layout/sidebar";
-import networkChildSidebarItemsInjectable from "./network-child-sidebar-items.injectable";
+import siblingTabsInjectable from "../../routes/sibling-tabs.injectable";
 
 export interface NetworksRouteProps {
   children: React.ReactNode;
@@ -33,7 +33,7 @@ export const NetworkRoute = withInjectables<Dependencies, NetworksRouteProps>(
   NonInjectedNetworksRoute,
   {
     getProps: (di, props) => ({
-      tabs: di.inject(networkChildSidebarItemsInjectable),
+      tabs: di.inject(siblingTabsInjectable),
       ...props,
     }),
   },

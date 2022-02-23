@@ -11,7 +11,7 @@ import { TabLayout } from "../layout/tab-layout";
 import type { IComputedValue } from "mobx";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import type { ISidebarItem } from "../layout/sidebar";
-import storageChildSidebarItemsInjectable from "./storage-child-sidebar-items.injectable";
+import siblingTabsInjectable from "../../routes/sibling-tabs.injectable";
 
 export interface StorageRouteProps {
   children: React.ReactNode;
@@ -33,7 +33,7 @@ export const StorageRoute = withInjectables<Dependencies, StorageRouteProps>(
   NonInjectedStorageRoute,
   {
     getProps: (di, props) => ({
-      tabs: di.inject(storageChildSidebarItemsInjectable),
+      tabs: di.inject(siblingTabsInjectable),
       ...props,
     }),
   },

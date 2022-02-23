@@ -129,6 +129,12 @@ export function sanitizeExtensionName(name: string) {
   return name.replace("@", "").replace("/", "--");
 }
 
+export const getSanitizedPath = (...parts: string[]) => parts
+  .filter(Boolean)
+  .join("/")
+  .replace(/\/+/g, "/")
+  .replace(/\/$/, ""); // normalize multi-slashes (e.g. coming from page.id)
+
 export function extensionDisplayName(name: string, version: string) {
   return `${name}@${version}`;
 }

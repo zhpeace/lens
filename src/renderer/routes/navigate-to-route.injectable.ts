@@ -11,12 +11,12 @@ const navigateToRouteInjectable = getInjectable({
   id: "navigate-to-route",
 
   instantiate: (di) => {
-    const navigation = di.inject(observableHistoryInjectable);
+    const observableHistory = di.inject(observableHistoryInjectable);
 
     return (route: Route, parameters = {}) => {
       const url = buildURL(route.path)(parameters);
 
-      navigation.push(url);
+      observableHistory.push(url);
     };
   },
 });

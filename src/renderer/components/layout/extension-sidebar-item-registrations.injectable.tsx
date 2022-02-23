@@ -5,65 +5,87 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import type { ISidebarItem } from "./sidebar";
-import rendererExtensionsInjectable from "../../../extensions/renderer-extensions.injectable";
+import observableHistoryInjectable from "../../navigation/observable-history.injectable";
+import { matches, some } from "lodash/fp";
 import React from "react";
-import allRoutesInjectable from "../../routes/all-routes.injectable";
-import { matches } from "lodash/fp";
-import { sanitizeExtensionName } from "../../../extensions/lens-extension";
-import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
+import rendererExtensionsInjectable from "../../../extensions/renderer-extensions.injectable";
+import {
+  getSanitizedPath,
+  sanitizeExtensionName,
+} from "../../../extensions/lens-extension";
 import type { ClusterPageMenuRegistration } from "../../../extensions/registries";
+import type { ObservableHistory } from "mobx-observable-history";
 
 const extensionSidebarItemRegistrationsInjectable = getInjectable({
   id: "extension-sidebar-item-registrations",
 
   instantiate: (di) => {
+    const observableHistory = di.inject(observableHistoryInjectable);
     const extensions = di.inject(rendererExtensionsInjectable);
-    const allRoutes = di.inject(allRoutesInjectable);
-    const navigateToRoute = di.inject(navigateToRouteInjectable);
-    const route = di.inject(currentRouteInjectable);
 
     return computed((): ISidebarItem[] => {
-      const routes = allRoutes.get();
-      const currentRoute = route.get();
+      const registrations = extensions
+        .get()
 
-      return extensions.get().flatMap((extension) => {
-        const extensionId = sanitizeExtensionName(extension.name);
-
-        const registrationsForExtension = extension.clusterPageMenus
-          .map(({ target = {}, ...registration }) => ({
+        .flatMap((extension) =>
+          extension.clusterPageMenus.map((registration) => ({
             ...registration,
-            target: { ...target, extensionId },
-          }));
 
-        const toSidebarItem = (
-          registration: ClusterPageMenuRegistration,
-        ): ISidebarItem => {
-          const targetRoute = routes.find(
-            matches({ id: `${extensionId}-${registration.target.pageId}` }),
-          );
+            target: {
+              ...registration.target,
+              extensionId: sanitizeExtensionName(extension.name),
+            },
+          })),
+        );
 
-          const childItems = registrationsForExtension.filter(matches({ parentId: registration.id }));
+      const rootItems = registrations.filter((x) => !x.parentId);
 
-          return {
-            title: registration.title.toString(),
-            getIcon: () => <registration.components.Icon />,
-            isActive: currentRoute === targetRoute,
-            onClick: () => navigateToRoute(targetRoute),
-            isVisible: true,
-            priority: 9999,
-            children: registration.id
-              ? childItems.map(toSidebarItem)
-              : [],
-          };
-        };
+      const toSidebarItem = toSidebarItemFor(registrations, observableHistory);
 
-        const rootItems = registrationsForExtension.filter(x => !x.parentId);
-
-        return rootItems.map(toSidebarItem);
-      });
+      return rootItems.map(toSidebarItem);
     });
   },
 });
 
 export default extensionSidebarItemRegistrationsInjectable;
+
+const toSidebarItemFor = (
+  registrations: ClusterPageMenuRegistration[],
+  observableHistory: ObservableHistory<unknown>,
+) => {
+  const toSidebarItem = (
+    registration: ClusterPageMenuRegistration,
+  ): ISidebarItem => {
+    const targetPath = getSanitizedPath(
+      "/extension",
+      registration.target.extensionId,
+      registration.target.pageId,
+    );
+
+    const children = registration.id
+      ? registrations
+        .filter(matches({ parentId: registration.id }))
+        .map(toSidebarItem)
+      : [];
+
+    const childrenIsActive = some(matches({ isActive: true }), children);
+    const currentPathMatches =
+      observableHistory.location.pathname === targetPath;
+
+    return {
+      title: registration.title.toString(), // TODO: MIKKO
+      getIcon: () => <registration.components.Icon />,
+      isActive: childrenIsActive || currentPathMatches,
+
+      onClick: () => {
+        observableHistory.push(targetPath);
+      },
+
+      isVisible: true,
+      priority: 9999,
+      children,
+    };
+  };
+
+  return toSidebarItem;
+};

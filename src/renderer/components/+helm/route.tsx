@@ -9,7 +9,7 @@ import { TabLayout } from "../layout/tab-layout";
 import type { ISidebarItem } from "../layout/sidebar";
 import type { IComputedValue } from "mobx";
 import { withInjectables } from "@ogre-tools/injectable-react";
-import helmChildSidebarItemsInjectable from "./helm-child-sidebar-items.injectable";
+import siblingTabsInjectable from "../../routes/sibling-tabs.injectable";
 
 interface Props {
   children: React.ReactNode;
@@ -35,7 +35,7 @@ export const HelmRoute = withInjectables<Dependencies, Props>(
 
   {
     getProps: (di, props) => ({
-      sidebarItems: di.inject(helmChildSidebarItemsInjectable),
+      sidebarItems: di.inject(siblingTabsInjectable),
       ...props,
     }),
   },
