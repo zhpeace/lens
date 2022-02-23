@@ -8,7 +8,7 @@ import styles from "./sidebar.module.scss";
 import React from "react";
 import { observer } from "mobx-react";
 import { cssNames } from "../../utils";
-import { ISidebarItem, SidebarItem } from "./sidebar-item";
+import { SidebarItemProps, SidebarItem } from "./sidebar-item";
 import { catalogEntityRegistry } from "../../api/catalog-entity-registry";
 import { SidebarCluster } from "./sidebar-cluster";
 import { withInjectables } from "@ogre-tools/injectable-react";
@@ -17,7 +17,7 @@ import type { IComputedValue } from "mobx";
 import { matches } from "lodash/fp";
 
 interface Dependencies {
-  sidebarItems: IComputedValue<ISidebarItem[]>
+  sidebarItems: IComputedValue<SidebarItemProps[]>
 }
 
 @observer
@@ -126,8 +126,8 @@ export const Sidebar = withInjectables<Dependencies>(
   },
 );
 
-const renderSidebarItems = (sidebarItems: ISidebarItem[]) => {
-  const _renderSiderbarItem = (sidebarItem: ISidebarItem) => (
+const renderSidebarItems = (sidebarItems: SidebarItemProps[]) => {
+  const _renderSiderbarItem = (sidebarItem: SidebarItemProps) => (
     <SidebarItem
       key={sidebarItem.id}
       {...sidebarItem}

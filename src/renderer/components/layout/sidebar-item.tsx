@@ -18,7 +18,7 @@ interface Dependencies {
   sidebarStorage: StorageHelper<SidebarStorageState>
 }
 
-export interface ISidebarItem {
+export interface SidebarItemProps {
   title: string;
   onClick: () => void;
   getIcon?: () => React.ReactNode
@@ -28,10 +28,10 @@ export interface ISidebarItem {
 }
 
 @observer
-class NonInjectedSidebarItem extends React.Component<ISidebarItem & Dependencies> {
+class NonInjectedSidebarItem extends React.Component<SidebarItemProps & Dependencies> {
   static displayName = "SidebarItem";
 
-  constructor(props: ISidebarItem & Dependencies) {
+  constructor(props: SidebarItemProps & Dependencies) {
     super(props);
     makeObservable(this);
   }
@@ -110,7 +110,7 @@ class NonInjectedSidebarItem extends React.Component<ISidebarItem & Dependencies
   }
 }
 
-export const SidebarItem = withInjectables<Dependencies, ISidebarItem>(
+export const SidebarItem = withInjectables<Dependencies, SidebarItemProps>(
   NonInjectedSidebarItem,
 
   {

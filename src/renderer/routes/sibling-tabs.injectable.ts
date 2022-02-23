@@ -7,7 +7,7 @@ import { getInjectable } from "@ogre-tools/injectable";
 
 import sidebarItemsInjectable from "../components/layout/sidebar-items.injectable";
 import { matches } from "lodash/fp";
-import type { ISidebarItem } from "../components/layout/sidebar-item";
+import type { SidebarItemProps } from "../components/layout/sidebar-item";
 
 const siblingTabsInjectable = getInjectable({
   id: "sibling-tabs",
@@ -15,7 +15,7 @@ const siblingTabsInjectable = getInjectable({
   instantiate: (di) => {
     const sidebarItems = di.inject(sidebarItemsInjectable);
 
-    return computed((): ISidebarItem[] => {
+    return computed((): SidebarItemProps[] => {
       const dereferencedSidebarItems = sidebarItems.get();
 
       const activeSidebarItem = dereferencedSidebarItems.find(
