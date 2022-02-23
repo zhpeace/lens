@@ -2,43 +2,30 @@
  * Copyright (c) OpenLens Authors. All rights reserved.
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
-import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
-import { computed, IComputedValue } from "mobx";
+import { getInjectable } from "@ogre-tools/injectable";
+import { computed } from "mobx";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 import React from "react";
-import { noop, some } from "lodash/fp";
+import { noop } from "lodash/fp";
 import type { ISidebarItem } from "../layout/sidebar";
-import { getSidebarItems } from "../layout/get-sidebar-items";
 
-export const workloadsChildSidebarItemsInjectionToken = getInjectionToken<
-  IComputedValue<ISidebarItem[]>
->({
-  id: "workloads-child-sidebar-items-injection-token",
-});
+export const workloadsSidebarItemId = "workloads";
 
 const workloadsSidebarItemsInjectable = getInjectable({
   id: "workloads-sidebar-items",
 
-  instantiate: (di) => {
-    const childRegistrations = di.injectMany(workloadsChildSidebarItemsInjectionToken);
-
-    return computed(() => {
-      const childItems = getSidebarItems(childRegistrations);
-
-      return [
-        {
-          title: "Workloads",
-          getIcon: () => <Icon svg="workloads" />,
-          onClick: noop,
-          isActive: some({ isActive: true }, childItems),
-          isVisible: some({ isVisible: true }, childItems),
-          children: childItems,
-          priority: 20,
-        },
-      ];
-    });
-  },
+  instantiate: () =>
+    computed((): ISidebarItem[] => [
+      {
+        id: workloadsSidebarItemId,
+        parentId: null,
+        title: "Workloads",
+        getIcon: () => <Icon svg="workloads" />,
+        onClick: noop,
+        priority: 20,
+      },
+    ]),
 
   injectionToken: sidebarItemsInjectionToken,
 });

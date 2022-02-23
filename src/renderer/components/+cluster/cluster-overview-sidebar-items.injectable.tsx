@@ -22,6 +22,8 @@ const clusterOverviewSidebarItemsInjectable = getInjectable({
 
     return computed((): ISidebarItem[] => [
       {
+        id: "cluster-overview",
+        parentId: null,
         title: "Cluster",
         getIcon: () => <Icon svg="kube" />,
         onClick: () => navigateToRoute(route),

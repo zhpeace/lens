@@ -11,6 +11,7 @@ import React from "react";
 import nodesRouteInjectable from "./nodes-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
+import type { ISidebarItem } from "../layout/sidebar";
 
 const nodesSidebarItemsInjectable = getInjectable({
   id: "nodes-sidebar-items",
@@ -20,8 +21,10 @@ const nodesSidebarItemsInjectable = getInjectable({
     const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
 
-    return computed(() => [
+    return computed((): ISidebarItem[] => [
       {
+        id: "nodes",
+        parentId: null,
         getIcon: () => <Icon svg="nodes" />,
         title: "Nodes",
         onClick: () => navigateToRoute(route),

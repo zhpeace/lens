@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import statefulsetsRouteInjectable from "./statefulsets-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import {
-  workloadsChildSidebarItemsInjectionToken,
-} from "../+workloads/workloads-sidebar-items.injectable";
+import { workloadsSidebarItemId } from "../+workloads/workloads-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const statefulsetsSidebarItemsInjectable = getInjectable({
   id: "statefulsets-sidebar-items",
@@ -22,6 +21,8 @@ const statefulsetsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "stateful-sets",
+        parentId: workloadsSidebarItemId,
         title: "StatefulSets",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const statefulsetsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: workloadsChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default statefulsetsSidebarItemsInjectable;

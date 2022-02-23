@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import daemonsetsRouteInjectable from "./daemonsets-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import {
-  workloadsChildSidebarItemsInjectionToken,
-} from "../+workloads/workloads-sidebar-items.injectable";
+import { workloadsSidebarItemId } from "../+workloads/workloads-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const daemonsetsSidebarItemsInjectable = getInjectable({
   id: "daemonsets-sidebar-items",
@@ -22,6 +21,8 @@ const daemonsetsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "daemon-sets",
+        parentId: workloadsSidebarItemId,
         title: "DaemonSets",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const daemonsetsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: workloadsChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default daemonsetsSidebarItemsInjectable;

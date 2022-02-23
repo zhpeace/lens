@@ -8,7 +8,8 @@ import { computed } from "mobx";
 import helmReleasesRouteInjectable from "./helm-releases-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import { helmChildSidebarItemsInjectionToken } from "../+helm/helm-sidebar-items.injectable";
+import { helmSidebarItemId } from "../+helm/helm-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const helmReleasesSidebarItemsInjectable = getInjectable({
   id: "helm-releases-sidebar-items",
@@ -20,6 +21,8 @@ const helmReleasesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "releases",
+        parentId: helmSidebarItemId,
         title: "Releases",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -29,7 +32,7 @@ const helmReleasesSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: helmChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default helmReleasesSidebarItemsInjectable;

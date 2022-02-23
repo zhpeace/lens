@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import clusterRoleBindingsRouteInjectable from "./cluster-role-bindings-route.injectable";
 import navigateToRouteInjectable from "../../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../../routes/current-route.injectable";
-import {
-  userManagementChildSidebarItemsInjectionToken,
-} from "../user-management-sidebar-items.injectable";
+import { userManagementSidebarItemId } from "../user-management-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../../layout/sidebar-items.injectable";
 
 const clusterRoleBindingsSidebarItemsInjectable = getInjectable({
   id: "cluster-role-bindings-sidebar-items",
@@ -22,6 +21,8 @@ const clusterRoleBindingsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "cluster-role-bindings",
+        parentId: userManagementSidebarItemId,
         title: "Cluster Role Bindings",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const clusterRoleBindingsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: userManagementChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default clusterRoleBindingsSidebarItemsInjectable;

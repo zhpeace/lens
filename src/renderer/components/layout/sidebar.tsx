@@ -24,10 +24,11 @@ export interface ISidebarItem {
   title: string;
   onClick: () => void;
   getIcon?: () => React.ReactNode
-  isActive: boolean
-  isVisible: boolean
-  children?: ISidebarItem[]
+  isActive?: boolean
+  isVisible?: boolean
   priority: number
+  id: string;
+  parentId: string | null
 }
 
 interface Dependencies {
@@ -141,18 +142,18 @@ export const Sidebar = withInjectables<Dependencies>(
 );
 
 const renderSidebarItems = (sidebarItems: ISidebarItem[]) => {
-  const _renderSiderbarItem = ({ children = [], getIcon, isActive, title, onClick }: ISidebarItem, index: number) => (
+  const _renderSiderbarItem = ({ id, getIcon, isActive, title, onClick }: ISidebarItem) => (
     <SidebarItem
-      key={`${title}-${index}`}
+      key={id}
       id={title}
       onClick={onClick}
       isActive={isActive}
       icon={getIcon ? getIcon() : null}
       text={title}
     >
-      {renderSidebarItems(children)}
+      {sidebarItems.filter(matches({ parentId: id })).map(_renderSiderbarItem)}
     </SidebarItem>
   );
 
-  return sidebarItems.filter(matches({ isVisible: true })).map(_renderSiderbarItem);
+  return sidebarItems.map(_renderSiderbarItem);
 };

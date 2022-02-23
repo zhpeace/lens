@@ -2,43 +2,30 @@
  * Copyright (c) OpenLens Authors. All rights reserved.
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
-import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
+import { getInjectable } from "@ogre-tools/injectable";
 import { Icon } from "../icon";
 import React from "react";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
-import { computed, IComputedValue } from "mobx";
+import { computed } from "mobx";
 import type { ISidebarItem } from "../layout/sidebar";
-import { noop, some } from "lodash/fp";
-import { getSidebarItems } from "../layout/get-sidebar-items";
+import { noop } from "lodash/fp";
 
-export const configChildSidebarItemsInjectionToken = getInjectionToken<
-  IComputedValue<ISidebarItem[]>
->({
-  id: "config-child-sidebar-items-injection-token",
-});
+export const configSidebarItemId = "config";
 
 const configSidebarItemsInjectable = getInjectable({
   id: "config-sidebar-items",
 
-  instantiate: (di) => {
-    const childItems = di.injectMany(configChildSidebarItemsInjectionToken);
-
-    return computed((): ISidebarItem[] => {
-      const dereferencedChildItems = getSidebarItems(childItems);
-
-      return [
-        {
-          title: "Config",
-          getIcon: () => <Icon material="list" />,
-          onClick: noop,
-          isActive: some({ isActive: true }, dereferencedChildItems),
-          isVisible: some({ isVisible: true }, dereferencedChildItems),
-          children: dereferencedChildItems,
-          priority: 40,
-        },
-      ];
-    });
-  },
+  instantiate: () =>
+    computed((): ISidebarItem[] => [
+      {
+        id: configSidebarItemId,
+        parentId: null,
+        title: "Config",
+        getIcon: () => <Icon material="list" />,
+        onClick: noop,
+        priority: 40,
+      },
+    ]),
 
   injectionToken: sidebarItemsInjectionToken,
 });

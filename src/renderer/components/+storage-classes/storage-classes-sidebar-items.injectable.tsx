@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import storageClassesRouteInjectable from "./storage-classes-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import {
-  storageChildSidebarItemsInjectionToken,
-} from "../+storage/storage-sidebar-items.injectable";
+import { storageSidebarItemId } from "../+storage/storage-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const storageClassesSidebarItemsInjectable = getInjectable({
   id: "storage-classes-sidebar-items",
@@ -22,6 +21,8 @@ const storageClassesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "storage-classes",
+        parentId: storageSidebarItemId,
         title: "Storage Classes",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const storageClassesSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: storageChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default storageClassesSidebarItemsInjectable;

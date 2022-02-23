@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import persistentVolumeClaimsRouteInjectable from "./persistent-volume-claims-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import {
-  storageChildSidebarItemsInjectionToken,
-} from "../+storage/storage-sidebar-items.injectable";
+import { storageSidebarItemId } from "../+storage/storage-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const persistentVolumeClaimsSidebarItemsInjectable = getInjectable({
   id: "persistent-volume-claims-sidebar-items",
@@ -22,6 +21,8 @@ const persistentVolumeClaimsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "persistent-volume-claims",
+        parentId: storageSidebarItemId,
         title: "Persistent Volume Claims",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const persistentVolumeClaimsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: storageChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default persistentVolumeClaimsSidebarItemsInjectable;

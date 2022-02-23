@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import jobsRouteInjectable from "./jobs-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import {
-  workloadsChildSidebarItemsInjectionToken,
-} from "../+workloads/workloads-sidebar-items.injectable";
+import { workloadsSidebarItemId } from "../+workloads/workloads-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const jobsSidebarItemsInjectable = getInjectable({
   id: "jobs-sidebar-items",
@@ -22,6 +21,8 @@ const jobsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "jobs",
+        parentId: workloadsSidebarItemId,
         title: "Jobs",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const jobsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: workloadsChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default jobsSidebarItemsInjectable;

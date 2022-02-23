@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import serviceAccountsRouteInjectable from "./service-accounts-route.injectable";
 import navigateToRouteInjectable from "../../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../../routes/current-route.injectable";
-import {
-  userManagementChildSidebarItemsInjectionToken,
-} from "../user-management-sidebar-items.injectable";
+import { userManagementSidebarItemId } from "../user-management-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../../layout/sidebar-items.injectable";
 
 const serviceAccountsSidebarItemsInjectable = getInjectable({
   id: "service-accounts-sidebar-items",
@@ -22,6 +21,8 @@ const serviceAccountsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "service-accounts",
+        parentId: userManagementSidebarItemId,
         title: "Service Accounts",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const serviceAccountsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: userManagementChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default serviceAccountsSidebarItemsInjectable;

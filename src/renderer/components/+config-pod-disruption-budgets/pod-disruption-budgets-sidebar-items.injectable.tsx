@@ -8,7 +8,8 @@ import { computed } from "mobx";
 import podDisruptionBudgetsRouteInjectable from "./pod-disruption-budgets-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import { configChildSidebarItemsInjectionToken } from "../+config/config-sidebar-items.injectable";
+import { configSidebarItemId } from "../+config/config-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
   id: "pod-disruption-budgets-sidebar-items",
@@ -20,6 +21,8 @@ const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "pod-disruption-budgets",
+        parentId: configSidebarItemId,
         title: "Pod Disruption Budgets",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -29,7 +32,7 @@ const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: configChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default podDisruptionBudgetsSidebarItemsInjectable;

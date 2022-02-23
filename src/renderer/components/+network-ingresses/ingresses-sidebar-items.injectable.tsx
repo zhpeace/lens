@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import ingressesRouteInjectable from "./ingresses-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import {
-  networkChildSidebarItemsInjectionToken,
-} from "../+network/network-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import { networkSidebarItemId } from "../+network/network-sidebar-items.injectable";
 
 const ingressesSidebarItemsInjectable = getInjectable({
   id: "ingresses-sidebar-items",
@@ -22,6 +21,8 @@ const ingressesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "ingresses",
+        parentId: networkSidebarItemId,
         title: "Ingresses",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const ingressesSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: networkChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default ingressesSidebarItemsInjectable;

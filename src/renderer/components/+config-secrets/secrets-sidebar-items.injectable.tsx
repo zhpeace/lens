@@ -8,7 +8,8 @@ import { computed } from "mobx";
 import secretsRouteInjectable from "./secrets-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import { configChildSidebarItemsInjectionToken } from "../+config/config-sidebar-items.injectable";
+import { configSidebarItemId } from "../+config/config-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const secretsSidebarItemsInjectable = getInjectable({
   id: "secrets-sidebar-items",
@@ -20,6 +21,8 @@ const secretsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "secrets",
+        parentId: configSidebarItemId,
         title: "Secrets",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -29,7 +32,7 @@ const secretsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: configChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default secretsSidebarItemsInjectable;

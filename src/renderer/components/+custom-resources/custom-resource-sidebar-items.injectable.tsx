@@ -14,6 +14,7 @@ import crdListRouteInjectable from "./crd-list-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
 import sidebarItemsForDefinitionGroupsInjectable from "./sidebar-items-for-definition-groups.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
+import type { ISidebarItem } from "../layout/sidebar";
 
 const customResourceSidebarItemsInjectable = getInjectable({
   id: "custom-resource-sidebar-items",
@@ -27,10 +28,12 @@ const customResourceSidebarItemsInjectable = getInjectable({
       sidebarItemsForDefinitionGroupsInjectable,
     );
 
-    return computed(() => {
+    return computed((): ISidebarItem[] => {
       const route = currentRoute.get();
 
       const definitionsItem = {
+        id: "definitions",
+        parentId: "custom-resources",
         title: "Definitions",
         onClick: () => navigateToRoute(crdListRoute),
         isActive: route === crdListRoute,
@@ -42,22 +45,22 @@ const customResourceSidebarItemsInjectable = getInjectable({
 
       const childrenAndGrandChildren = [
         definitionsItem,
-        ...definitionGroupItems.flatMap((item) => item.children),
+        ...definitionGroupItems,
       ];
 
-      const parentItem = {
+      const parentItem: ISidebarItem = {
+        id: "custom-resources",
+        parentId: null,
         title: "Custom Resources",
         getIcon: () => <Icon material="extension" />,
         onClick: noop,
 
         isActive: some({ isActive: true }, childrenAndGrandChildren),
         isVisible: some({ isVisible: true }, childrenAndGrandChildren),
-
-        children: [definitionsItem, ...definitionGroupItems],
         priority: 110,
       };
 
-      return [parentItem];
+      return [parentItem, definitionsItem, ...definitionGroupItems];
     });
   },
 

@@ -11,6 +11,7 @@ import customResourcesRouteInjectable from "./custom-resources-route.injectable"
 import pathParametersInjectable from "../../routes/path-parameters.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
+import type { ISidebarItem } from "../layout/sidebar";
 
 const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
   id: "sidebar-items-for-definition-groups",
@@ -26,7 +27,7 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
     const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
 
-    return computed(() => {
+    return computed((): ISidebarItem[] => {
       const definitions = customResourceDefinitions.get();
       const route = currentRoute.get();
       const currentPathParameters = pathParameters.get();
@@ -49,6 +50,8 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
             matches(crdPathParameters, currentPathParameters);
 
           return {
+            id: `custom-resource-definition-group-${group}-crd-${crd.getId()}`,
+            parentId: `custom-resource-definition-group-${group}`,
             title,
 
             onClick: () => navigateToRoute(crdRoute, {
@@ -63,13 +66,16 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
 
         return [
           {
+            id: `custom-resource-definition-group-${group}`,
+            parentId: "custom-resources",
             title: group,
             onClick: () => navigateToRoute(route, { query: { groups: group }}),
             isActive: false,
             isVisible: some({ isVisible: true }, childItems),
-            children: childItems,
             priority: 10,
           },
+
+          ...childItems,
         ];
       });
     });

@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import cronJobsRouteInjectable from "./cron-jobs-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import {
-  workloadsChildSidebarItemsInjectionToken,
-} from "../+workloads/workloads-sidebar-items.injectable";
+import { workloadsSidebarItemId } from "../+workloads/workloads-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const cronJobsSidebarItemsInjectable = getInjectable({
   id: "cron-jobs-sidebar-items",
@@ -22,6 +21,8 @@ const cronJobsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "cron-jobs",
+        parentId: workloadsSidebarItemId,
         title: "CronJobs",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const cronJobsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: workloadsChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default cronJobsSidebarItemsInjectable;

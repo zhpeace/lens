@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import replicasetsRouteInjectable from "./replicasets-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import {
-  workloadsChildSidebarItemsInjectionToken,
-} from "../+workloads/workloads-sidebar-items.injectable";
+import { workloadsSidebarItemId } from "../+workloads/workloads-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const replicasetsSidebarItemsInjectable = getInjectable({
   id: "replicasets-sidebar-items",
@@ -22,6 +21,8 @@ const replicasetsSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "replica-sets",
+        parentId: workloadsSidebarItemId,
         title: "ReplicaSets",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const replicasetsSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: workloadsChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default replicasetsSidebarItemsInjectable;

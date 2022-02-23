@@ -16,13 +16,19 @@ const siblingTabsInjectable = getInjectable({
     const sidebarItems = di.inject(sidebarItemsInjectable);
 
     return computed((): ISidebarItem[] => {
-      const activeSidebarItem = sidebarItems.get().find(matches({ isActive: true }));
+      const dereferencedSidebarItems = sidebarItems.get();
+
+      const activeSidebarItem = dereferencedSidebarItems.find(
+        matches({ isActive: true }),
+      );
 
       if (!activeSidebarItem) {
         return [];
       }
 
-      return activeSidebarItem.children;
+      return dereferencedSidebarItems.filter(
+        matches({ parentId: activeSidebarItem.id }),
+      );
     });
   },
 });

@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import networkPoliciesRouteInjectable from "./network-policies-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import {
-  networkChildSidebarItemsInjectionToken,
-} from "../+network/network-sidebar-items.injectable";
+import { networkSidebarItemId } from "../+network/network-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const networkPoliciesSidebarItemsInjectable = getInjectable({
   id: "network-policies-sidebar-items",
@@ -22,6 +21,8 @@ const networkPoliciesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "network-policies",
+        parentId: networkSidebarItemId,
         title: "Network Policies",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const networkPoliciesSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: networkChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default networkPoliciesSidebarItemsInjectable;

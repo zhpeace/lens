@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
 import persistentVolumesRouteInjectable from "./persistent-volumes-route.injectable";
-import {
-  storageChildSidebarItemsInjectionToken,
-} from "../+storage/storage-sidebar-items.injectable";
+import { storageSidebarItemId } from "../+storage/storage-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const persistentVolumesSidebarItemsInjectable = getInjectable({
   id: "persistent-volumes-sidebar-items",
@@ -22,6 +21,8 @@ const persistentVolumesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "persistent-volumes",
+        parentId: storageSidebarItemId,
         title: "Persistent Volumes",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const persistentVolumesSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: storageChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default persistentVolumesSidebarItemsInjectable;

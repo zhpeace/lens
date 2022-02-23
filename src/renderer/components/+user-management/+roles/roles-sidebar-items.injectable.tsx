@@ -8,9 +8,8 @@ import { computed } from "mobx";
 import rolesRouteInjectable from "./roles-route.injectable";
 import navigateToRouteInjectable from "../../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../../routes/current-route.injectable";
-import {
-  userManagementChildSidebarItemsInjectionToken,
-} from "../user-management-sidebar-items.injectable";
+import { userManagementSidebarItemId } from "../user-management-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../../layout/sidebar-items.injectable";
 
 const rolesSidebarItemsInjectable = getInjectable({
   id: "roles-sidebar-items",
@@ -22,6 +21,8 @@ const rolesSidebarItemsInjectable = getInjectable({
 
     return computed(() => [
       {
+        id: "roles",
+        parentId: userManagementSidebarItemId,
         title: "Roles",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -31,7 +32,7 @@ const rolesSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: userManagementChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default rolesSidebarItemsInjectable;

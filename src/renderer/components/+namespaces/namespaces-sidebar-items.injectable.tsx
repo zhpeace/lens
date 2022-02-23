@@ -11,6 +11,7 @@ import React from "react";
 import namespacesRouteInjectable from "./namespaces-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
+import type { ISidebarItem } from "../layout/sidebar";
 
 const namespacesSidebarItemsInjectable = getInjectable({
   id: "namespaces",
@@ -20,8 +21,10 @@ const namespacesSidebarItemsInjectable = getInjectable({
     const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
 
-    return computed(() => [
+    return computed((): ISidebarItem[] => [
       {
+        id: "namespaces",
+        parentId: null,
         getIcon: () => <Icon material="layers" />,
         title: "Namespaces",
         onClick: () => navigateToRoute(route),

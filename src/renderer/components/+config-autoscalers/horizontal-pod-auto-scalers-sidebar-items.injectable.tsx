@@ -8,7 +8,8 @@ import type { ISidebarItem } from "../layout/sidebar";
 import horizontalPodAutoscalersRouteInjectable from "./horizontal-pod-autoscalers-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import { configChildSidebarItemsInjectionToken } from "../+config/config-sidebar-items.injectable";
+import { configSidebarItemId } from "../+config/config-sidebar-items.injectable";
+import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 
 const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
   id: "horizontal-pod-auto-scalers-sidebar-items",
@@ -20,6 +21,8 @@ const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
 
     return computed((): ISidebarItem[] => [
       {
+        id: "horizontal-pod-auto-scalers",
+        parentId: configSidebarItemId,
         title: "HPA",
         onClick: () => navigateToRoute(route),
         isActive: route === currentRoute.get(),
@@ -29,7 +32,7 @@ const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
     ]);
   },
 
-  injectionToken: configChildSidebarItemsInjectionToken,
+  injectionToken: sidebarItemsInjectionToken,
 });
 
 export default horizontalPodAutoScalersSidebarItemsInjectable;

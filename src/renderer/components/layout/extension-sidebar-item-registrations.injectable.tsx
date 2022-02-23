@@ -6,7 +6,6 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import type { ISidebarItem } from "./sidebar";
 import observableHistoryInjectable from "../../navigation/observable-history.injectable";
-import { matches, some } from "lodash/fp";
 import React from "react";
 import rendererExtensionsInjectable from "../../../extensions/renderer-extensions.injectable";
 import {
@@ -24,7 +23,7 @@ const extensionSidebarItemRegistrationsInjectable = getInjectable({
     const extensions = di.inject(rendererExtensionsInjectable);
 
     return computed((): ISidebarItem[] => {
-      const registrations = extensions
+      return extensions
         .get()
 
         .flatMap((extension) =>
@@ -36,46 +35,36 @@ const extensionSidebarItemRegistrationsInjectable = getInjectable({
               extensionId: sanitizeExtensionName(extension.name),
             },
           })),
-        );
-
-      const rootItems = registrations.filter((x) => !x.parentId);
-
-      const toSidebarItem = toSidebarItemFor(registrations, observableHistory);
-
-      return rootItems.map(toSidebarItem);
+        )
+        .map(toSidebarItemFor(observableHistory));
     });
   },
 });
 
 export default extensionSidebarItemRegistrationsInjectable;
 
-const toSidebarItemFor = (
-  registrations: ClusterPageMenuRegistration[],
-  observableHistory: ObservableHistory<unknown>,
-) => {
-  const toSidebarItem = (
-    registration: ClusterPageMenuRegistration,
-  ): ISidebarItem => {
+const toSidebarItemFor = (observableHistory: ObservableHistory<unknown>) => {
+  return (registration: ClusterPageMenuRegistration): ISidebarItem => {
     const targetPath = getSanitizedPath(
       "/extension",
       registration.target.extensionId,
       registration.target.pageId,
     );
 
-    const children = registration.id
-      ? registrations
-        .filter(matches({ parentId: registration.id }))
-        .map(toSidebarItem)
-      : [];
-
-    const childrenIsActive = some(matches({ isActive: true }), children);
     const currentPathMatches =
       observableHistory.location.pathname === targetPath;
 
     return {
+      id: `${registration.target.extensionId}-${registration.id}`,
+
+      parentId: registration.parentId
+        ? `${registration.target.extensionId}-${registration.parentId}`
+        : null,
+
       title: registration.title.toString(), // TODO: MIKKO
       getIcon: () => <registration.components.Icon />,
-      isActive: childrenIsActive || currentPathMatches,
+
+      isActive: currentPathMatches,
 
       onClick: () => {
         observableHistory.push(targetPath);
@@ -83,9 +72,6 @@ const toSidebarItemFor = (
 
       isVisible: true,
       priority: 9999,
-      children,
     };
   };
-
-  return toSidebarItem;
 };
