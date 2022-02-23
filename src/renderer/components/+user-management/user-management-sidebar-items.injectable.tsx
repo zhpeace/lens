@@ -22,7 +22,7 @@ const userManagementSidebarItemsInjectable = getInjectable({
     const childRegistrations = di.injectMany(userManagementChildSidebarItemsInjectionToken);
 
     return computed(() => {
-      const childItems = getSidebarItems(childRegistrations).get();
+      const childItems = getSidebarItems(childRegistrations);
 
       return [
         {

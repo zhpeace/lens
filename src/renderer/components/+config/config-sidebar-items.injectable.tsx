@@ -24,7 +24,7 @@ const configSidebarItemsInjectable = getInjectable({
     const childItems = di.injectMany(configChildSidebarItemsInjectionToken);
 
     return computed((): ISidebarItem[] => {
-      const dereferencedChildItems = getSidebarItems(childItems).get();
+      const dereferencedChildItems = getSidebarItems(childItems);
 
       return [
         {

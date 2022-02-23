@@ -24,7 +24,7 @@ const workloadsSidebarItemsInjectable = getInjectable({
     const childRegistrations = di.injectMany(workloadsChildSidebarItemsInjectionToken);
 
     return computed(() => {
-      const childItems = getSidebarItems(childRegistrations).get();
+      const childItems = getSidebarItems(childRegistrations);
 
       return [
         {

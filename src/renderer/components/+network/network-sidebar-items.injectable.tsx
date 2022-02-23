@@ -22,7 +22,7 @@ const networkSidebarItemsInjectable = getInjectable({
     const childRegistrations = di.injectMany(networkChildSidebarItemsInjectionToken);
 
     return computed(() => {
-      const childItems = getSidebarItems(childRegistrations).get();
+      const childItems = getSidebarItems(childRegistrations);
 
       return [
         {
