@@ -8,9 +8,7 @@ import type { ISidebarItem } from "../layout/sidebar";
 import horizontalPodAutoscalersRouteInjectable from "./horizontal-pod-autoscalers-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import {
-  configChildSidebarItemsInjectionToken,
-} from "../+config/config-child-sidebar-items.injectable";
+import { configChildSidebarItemsInjectionToken } from "../+config/config-sidebar-items.injectable";
 
 const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
   id: "horizontal-pod-auto-scalers-sidebar-items",

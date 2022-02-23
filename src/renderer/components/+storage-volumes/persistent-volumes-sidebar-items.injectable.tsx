@@ -10,7 +10,7 @@ import currentRouteInjectable from "../../routes/current-route.injectable";
 import persistentVolumesRouteInjectable from "./persistent-volumes-route.injectable";
 import {
   storageChildSidebarItemsInjectionToken,
-} from "../+storage/storage-child-sidebar-items.injectable";
+} from "../+storage/storage-sidebar-items.injectable";
 
 const persistentVolumesSidebarItemsInjectable = getInjectable({
   id: "persistent-volumes-sidebar-items",

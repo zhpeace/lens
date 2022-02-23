@@ -2,22 +2,29 @@
  * Copyright (c) OpenLens Authors. All rights reserved.
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
-import { getInjectable } from "@ogre-tools/injectable";
-import { computed } from "mobx";
+import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
+import { computed, IComputedValue } from "mobx";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 import React from "react";
 import { noop, some } from "lodash/fp";
-import workloadsChildSidebarItemsInjectable from "./workloads-child-sidebar-items.injectable";
+import type { ISidebarItem } from "../layout/sidebar";
+import { getSidebarItems } from "../layout/get-sidebar-items";
+
+export const workloadsChildSidebarItemsInjectionToken = getInjectionToken<
+  IComputedValue<ISidebarItem[]>
+>({
+  id: "workloads-child-sidebar-items-injection-token",
+});
 
 const workloadsSidebarItemsInjectable = getInjectable({
   id: "workloads-sidebar-items",
 
   instantiate: (di) => {
-    const childSidebarItems = di.inject(workloadsChildSidebarItemsInjectable);
+    const childRegistrations = di.injectMany(workloadsChildSidebarItemsInjectionToken);
 
     return computed(() => {
-      const childItems = childSidebarItems.get();
+      const childItems = getSidebarItems(childRegistrations).get();
 
       return [
         {

@@ -10,7 +10,7 @@ import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable
 import currentRouteInjectable from "../../routes/current-route.injectable";
 import {
   networkChildSidebarItemsInjectionToken,
-} from "../+network/network-child-sidebar-items.injectable";
+} from "../+network/network-sidebar-items.injectable";
 
 const networkPoliciesSidebarItemsInjectable = getInjectable({
   id: "network-policies-sidebar-items",

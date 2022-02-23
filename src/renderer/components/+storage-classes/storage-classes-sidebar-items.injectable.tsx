@@ -10,7 +10,7 @@ import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable
 import currentRouteInjectable from "../../routes/current-route.injectable";
 import {
   storageChildSidebarItemsInjectionToken,
-} from "../+storage/storage-child-sidebar-items.injectable";
+} from "../+storage/storage-sidebar-items.injectable";
 
 const storageClassesSidebarItemsInjectable = getInjectable({
   id: "storage-classes-sidebar-items",

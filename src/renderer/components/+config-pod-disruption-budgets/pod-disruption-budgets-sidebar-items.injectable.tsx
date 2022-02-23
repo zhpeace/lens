@@ -8,9 +8,7 @@ import { computed } from "mobx";
 import podDisruptionBudgetsRouteInjectable from "./pod-disruption-budgets-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import {
-  configChildSidebarItemsInjectionToken,
-} from "../+config/config-child-sidebar-items.injectable";
+import { configChildSidebarItemsInjectionToken } from "../+config/config-sidebar-items.injectable";
 
 const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
   id: "pod-disruption-budgets-sidebar-items",

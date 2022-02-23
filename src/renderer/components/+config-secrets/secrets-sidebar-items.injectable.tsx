@@ -8,9 +8,7 @@ import { computed } from "mobx";
 import secretsRouteInjectable from "./secrets-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import {
-  configChildSidebarItemsInjectionToken,
-} from "../+config/config-child-sidebar-items.injectable";
+import { configChildSidebarItemsInjectionToken } from "../+config/config-sidebar-items.injectable";
 
 const secretsSidebarItemsInjectable = getInjectable({
   id: "secrets-sidebar-items",

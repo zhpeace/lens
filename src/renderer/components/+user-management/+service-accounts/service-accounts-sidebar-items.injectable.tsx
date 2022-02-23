@@ -10,7 +10,7 @@ import navigateToRouteInjectable from "../../../routes/navigate-to-route.injecta
 import currentRouteInjectable from "../../../routes/current-route.injectable";
 import {
   userManagementChildSidebarItemsInjectionToken,
-} from "../user-management-child-sidebar-items.injectable";
+} from "../user-management-sidebar-items.injectable";
 
 const serviceAccountsSidebarItemsInjectable = getInjectable({
   id: "service-accounts-sidebar-items",

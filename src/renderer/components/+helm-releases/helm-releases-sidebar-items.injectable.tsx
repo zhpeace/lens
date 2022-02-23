@@ -8,7 +8,7 @@ import { computed } from "mobx";
 import helmReleasesRouteInjectable from "./helm-releases-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import { helmChildSidebarItemsInjectionToken } from "../+helm/helm-child-sidebar-items.injectable";
+import { helmChildSidebarItemsInjectionToken } from "../+helm/helm-sidebar-items.injectable";
 
 const helmReleasesSidebarItemsInjectable = getInjectable({
   id: "helm-releases-sidebar-items",

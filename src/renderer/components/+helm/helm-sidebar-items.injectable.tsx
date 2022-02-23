@@ -2,23 +2,27 @@
  * Copyright (c) OpenLens Authors. All rights reserved.
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
-import { getInjectable } from "@ogre-tools/injectable";
-import { computed } from "mobx";
+import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
+import { computed, IComputedValue } from "mobx";
 import React from "react";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
-import { some } from "lodash/fp";
-import { noop } from "../../../common/utils";
-import helmChildSidebarItemsInjectable from "./helm-child-sidebar-items.injectable";
+import { noop, some } from "lodash/fp";
+import type { ISidebarItem } from "../layout/sidebar";
+import { getSidebarItems } from "../layout/get-sidebar-items";
+
+export const helmChildSidebarItemsInjectionToken = getInjectionToken<IComputedValue<ISidebarItem[]>>({
+  id: "helm-child-sidebar-items-injection-token",
+});
 
 const helmSidebarItemsInjectable = getInjectable({
   id: "helm-sidebar-items",
 
   instantiate: (di) => {
-    const childSidebarItems = di.inject(helmChildSidebarItemsInjectable);
-
+    const childRegistrations = di.injectMany(helmChildSidebarItemsInjectionToken);
+    
     return computed(() => {
-      const childItems = childSidebarItems.get();
+      const childItems = getSidebarItems(childRegistrations).get();
 
       return [
         {

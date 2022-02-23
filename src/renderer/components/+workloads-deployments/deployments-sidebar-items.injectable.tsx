@@ -10,7 +10,7 @@ import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable
 import currentRouteInjectable from "../../routes/current-route.injectable";
 import {
   workloadsChildSidebarItemsInjectionToken,
-} from "../+workloads/workloads-child-sidebar-items.injectable";
+} from "../+workloads/workloads-sidebar-items.injectable";
 
 const deploymentsSidebarItemsInjectable = getInjectable({
   id: "deployments-sidebar-items",
