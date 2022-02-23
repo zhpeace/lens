@@ -11,39 +11,19 @@ import { cssNames, StorageHelper } from "../../utils";
 import { observer } from "mobx-react";
 import { NavLink } from "react-router-dom";
 import { Icon } from "../icon";
-import { isActiveRoute } from "../../navigation";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import sidebarStorageInjectable, { SidebarStorageState } from "./sidebar-storage/sidebar-storage.injectable";
-
-interface SidebarItemProps {
-  /**
-   * Unique id, used in storage and integration tests
-   */
-  id: string;
-  url?: string;
-  className?: string;
-  text: React.ReactNode;
-  icon?: React.ReactNode;
-  isHidden?: boolean;
-  /**
-   * Forces this item to be also show as active or not.
-   *
-   * Default: dynamically checks the location against the `url` props to determine if
-   * this item should be shown as active
-   */
-  isActive?: boolean;
-  onClick?: () => void
-}
+import type { ISidebarItem } from "./sidebar";
 
 interface Dependencies {
   sidebarStorage: StorageHelper<SidebarStorageState>
 }
 
 @observer
-class NonInjectedSidebarItem extends React.Component<SidebarItemProps & Dependencies> {
+class NonInjectedSidebarItem extends React.Component<ISidebarItem & Dependencies> {
   static displayName = "SidebarItem";
 
-  constructor(props: SidebarItemProps & Dependencies) {
+  constructor(props: ISidebarItem & Dependencies) {
     super(props);
     makeObservable(this);
   }
@@ -54,13 +34,6 @@ class NonInjectedSidebarItem extends React.Component<SidebarItemProps & Dependen
 
   @computed get expanded(): boolean {
     return Boolean(this.props.sidebarStorage.get().expanded[this.id]);
-  }
-
-  @computed get isActive(): boolean {
-    return this.props.isActive ?? isActiveRoute({
-      path: this.props.url,
-      exact: true,
-    });
   }
 
   @computed get isExpandable(): boolean {
@@ -74,32 +47,31 @@ class NonInjectedSidebarItem extends React.Component<SidebarItemProps & Dependen
   };
 
   renderSubMenu() {
-    const { isExpandable, expanded, isActive } = this;
+    const { isExpandable, expanded } = this;
 
     if (!isExpandable || !expanded) {
       return null;
     }
 
     return (
-      <ul className={cssNames("sub-menu", { active: isActive })}>
+      <ul className={cssNames("sub-menu", { active: this.props.isActive })}>
         {this.props.children}
       </ul>
     );
   }
 
   render() {
-    const { isHidden, icon, text, onClick, className } = this.props;
+    const { onClick } = this.props;
 
-    if (isHidden) return null;
+    const { id, expanded, isExpandable, toggleExpand } = this;
 
-    const { isActive, id, expanded, isExpandable, toggleExpand } = this;
-    const classNames = cssNames("SidebarItem", className);
+    const classNames = cssNames("SidebarItem");
 
     return (
       <div className={classNames} data-test-id={id}>
         <NavLink
-          to={this.props.url || ""}
-          isActive={() => isActive}
+          to={""}
+          isActive={() => this.props.isActive}
           className={cssNames("nav-item flex gaps align-center", {
             expandable: isExpandable,
           })}
@@ -115,8 +87,8 @@ class NonInjectedSidebarItem extends React.Component<SidebarItemProps & Dependen
             }
           }}
         >
-          {icon}
-          <span className="link-text box grow">{text}</span>
+          {this.props.getIcon?.()}
+          <span className="link-text box grow">{this.props.title}</span>
           {isExpandable && (
             <Icon
               className="expand-icon box right"
@@ -130,7 +102,7 @@ class NonInjectedSidebarItem extends React.Component<SidebarItemProps & Dependen
   }
 }
 
-export const SidebarItem = withInjectables<Dependencies, SidebarItemProps>(
+export const SidebarItem = withInjectables<Dependencies, ISidebarItem>(
   NonInjectedSidebarItem,
 
   {
