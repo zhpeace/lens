@@ -6,7 +6,10 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { noop, some } from "lodash/fp";
 import { computed } from "mobx";
 
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import {
+  SidebarItemRegistration,
+  sidebarItemsInjectionToken,
+} from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 import React from "react";
 
@@ -14,7 +17,6 @@ import crdListRouteInjectable from "./crd-list-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
 import sidebarItemsForDefinitionGroupsInjectable from "./sidebar-items-for-definition-groups.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import type { ISidebarItem } from "../layout/sidebar";
 
 const customResourceSidebarItemsInjectable = getInjectable({
   id: "custom-resource-sidebar-items",
@@ -28,7 +30,7 @@ const customResourceSidebarItemsInjectable = getInjectable({
       sidebarItemsForDefinitionGroupsInjectable,
     );
 
-    return computed((): ISidebarItem[] => {
+    return computed((): SidebarItemRegistration[] => {
       const route = currentRoute.get();
 
       const definitionsItem = {
@@ -48,7 +50,7 @@ const customResourceSidebarItemsInjectable = getInjectable({
         ...definitionGroupItems,
       ];
 
-      const parentItem: ISidebarItem = {
+      const parentItem: SidebarItemRegistration = {
         id: "custom-resources",
         parentId: null,
         title: "Custom Resources",

@@ -4,12 +4,14 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import type { ISidebarItem } from "../layout/sidebar";
 import horizontalPodAutoscalersRouteInjectable from "./horizontal-pod-autoscalers-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
 import { configSidebarItemId } from "../+config/config-sidebar-items.injectable";
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import {
+  SidebarItemRegistration,
+  sidebarItemsInjectionToken,
+} from "../layout/sidebar-items.injectable";
 
 const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
   id: "horizontal-pod-auto-scalers-sidebar-items",
@@ -19,7 +21,7 @@ const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
     const navigateToRoute = di.inject(navigateToRouteInjectable);
     const currentRoute = di.inject(currentRouteInjectable);
 
-    return computed((): ISidebarItem[] => [
+    return computed((): SidebarItemRegistration[] => [
       {
         id: "horizontal-pod-auto-scalers",
         parentId: configSidebarItemId,

@@ -4,7 +4,6 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import type { ISidebarItem } from "./sidebar";
 import observableHistoryInjectable from "../../navigation/observable-history.injectable";
 import React from "react";
 import rendererExtensionsInjectable from "../../../extensions/renderer-extensions.injectable";
@@ -14,6 +13,7 @@ import {
 } from "../../../extensions/lens-extension";
 import type { ClusterPageMenuRegistration } from "../../../extensions/registries";
 import type { ObservableHistory } from "mobx-observable-history";
+import type { SidebarItemRegistration } from "./sidebar-items.injectable";
 
 const extensionSidebarItemRegistrationsInjectable = getInjectable({
   id: "extension-sidebar-item-registrations",
@@ -22,7 +22,7 @@ const extensionSidebarItemRegistrationsInjectable = getInjectable({
     const observableHistory = di.inject(observableHistoryInjectable);
     const extensions = di.inject(rendererExtensionsInjectable);
 
-    return computed((): ISidebarItem[] => {
+    return computed((): SidebarItemRegistration[] => {
       return extensions
         .get()
 
@@ -44,7 +44,7 @@ const extensionSidebarItemRegistrationsInjectable = getInjectable({
 export default extensionSidebarItemRegistrationsInjectable;
 
 const toSidebarItemFor = (observableHistory: ObservableHistory<unknown>) => {
-  return (registration: ClusterPageMenuRegistration): ISidebarItem => {
+  return (registration: ClusterPageMenuRegistration): SidebarItemRegistration => {
     const targetPath = getSanitizedPath(
       "/extension",
       registration.target.extensionId,
@@ -70,7 +70,6 @@ const toSidebarItemFor = (observableHistory: ObservableHistory<unknown>) => {
         observableHistory.push(targetPath);
       },
 
-      isVisible: true,
       priority: 9999,
     };
   };

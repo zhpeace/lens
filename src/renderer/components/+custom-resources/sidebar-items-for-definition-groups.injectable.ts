@@ -11,7 +11,7 @@ import customResourcesRouteInjectable from "./custom-resources-route.injectable"
 import pathParametersInjectable from "../../routes/path-parameters.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import type { ISidebarItem } from "../layout/sidebar";
+import type { SidebarItemRegistration } from "../layout/sidebar-items.injectable";
 
 const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
   id: "sidebar-items-for-definition-groups",
@@ -27,7 +27,7 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
     const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
 
-    return computed((): ISidebarItem[] => {
+    return computed((): SidebarItemRegistration[] => {
       const definitions = customResourceDefinitions.get();
       const route = currentRoute.get();
       const currentPathParameters = pathParameters.get();

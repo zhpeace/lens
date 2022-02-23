@@ -4,11 +4,13 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import {
+  SidebarItemRegistration,
+  sidebarItemsInjectionToken,
+} from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 import React from "react";
 import { noop } from "lodash/fp";
-import type { ISidebarItem } from "../layout/sidebar";
 
 export const storageSidebarItemId = "storage";
 
@@ -16,7 +18,7 @@ const storageSidebarItemsInjectable = getInjectable({
   id: "storage-sidebar-items",
 
   instantiate: () =>
-    computed((): ISidebarItem[] => [
+    computed((): SidebarItemRegistration[] => [
       {
         id: storageSidebarItemId,
         parentId: null,

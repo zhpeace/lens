@@ -19,7 +19,7 @@ const siblingTabsInjectable = getInjectable({
       const dereferencedSidebarItems = sidebarItems.get();
 
       const activeSidebarItem = dereferencedSidebarItems.find(
-        matches({ isActive: true }),
+        matches({ isActive: true, parentId: null }),
       );
 
       if (!activeSidebarItem) {

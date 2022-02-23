@@ -5,13 +5,15 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import React from "react";
-import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import {
+  SidebarItemRegistration,
+  sidebarItemsInjectionToken,
+} from "../layout/sidebar-items.injectable";
 import { Icon } from "../icon";
 
 import eventsRouteInjectable from "./events-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import currentRouteInjectable from "../../routes/current-route.injectable";
-import type { ISidebarItem } from "../layout/sidebar";
 
 const eventsSidebarItemsInjectable = getInjectable({
   id: "events-sidebar-items",
@@ -21,7 +23,7 @@ const eventsSidebarItemsInjectable = getInjectable({
     const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
 
-    return computed((): ISidebarItem[] => [
+    return computed((): SidebarItemRegistration[] => [
       {
         id: "events",
         parentId: null,

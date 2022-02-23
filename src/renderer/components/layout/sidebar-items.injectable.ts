@@ -4,7 +4,6 @@
  */
 import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
 import { computed, IComputedValue } from "mobx";
-import type { ISidebarItem } from "./sidebar";
 import extensionSidebarItemRegistrationsInjectable from "./extension-sidebar-item-registrations.injectable";
 // @ts-ignore
 import { pipeline } from "@ogre-tools/fp";
@@ -19,6 +18,8 @@ import {
   orderBy,
   some,
 } from "lodash/fp";
+import type { ISidebarItem } from "./sidebar";
+import type { SetRequired } from "type-fest";
 
 interface Pipeline {
   <A, R1, R2, R3, R4, R5, R6, R7, R8, R9>(
@@ -88,10 +89,21 @@ interface Pipeline {
   <A, R1>(arg: A, f1: (arg: A) => R1): R1;
 }
 
+export interface SidebarItemRegistration {
+  id: string;
+  parentId: string | null
+  title: string;
+  onClick: () => void;
+  getIcon?: () => React.ReactNode
+  isActive?: boolean
+  isVisible?: boolean
+  priority: number
+}
+
 const mikkoPipeline: Pipeline = pipeline;
 
 export const sidebarItemsInjectionToken = getInjectionToken<
-  IComputedValue<ISidebarItem[]>
+  IComputedValue<SidebarItemRegistration[]>
 >({ id: "sidebar-items-injection-token" });
 
 const sidebarItemsInjectable = getInjectable({
@@ -108,12 +120,12 @@ const sidebarItemsInjectable = getInjectable({
       const registrations = mikkoPipeline(
         [...sidebarItemRegistrations, extensionSidebarItemRegistrations],
         flatMap(dereference),
+        map(defaults({ isVisible: true, isActive: true })),
       );
 
       return mikkoPipeline(
         registrations,
         map(asParents(registrations)),
-        map(defaults({ isVisible: true })),
         filter((item) => item.isVisible),
         (items) => orderBy(["priority", "title"], ["asc", "asc"], items),
       );
@@ -121,9 +133,11 @@ const sidebarItemsInjectable = getInjectable({
   },
 });
 
-const dereference = (items: IComputedValue<ISidebarItem[]>) => items.get();
+const dereference = (items: IComputedValue<SidebarItemRegistration[]>) => items.get();
 
-const asParents = (allItems: ISidebarItem[]) => (item: ISidebarItem) => {
+type StrictItemRegistration = SetRequired<SidebarItemRegistration, "isActive" | "isVisible">;
+
+const asParents = (allItems: SidebarItemRegistration[]) => (item: StrictItemRegistration): StrictItemRegistration => {
   const children = allItems.filter(matches({ parentId: item.id }));
 
   if (isEmpty(children)) {

@@ -24,9 +24,7 @@ export interface ISidebarItem {
   title: string;
   onClick: () => void;
   getIcon?: () => React.ReactNode
-  isActive?: boolean
-  isVisible?: boolean
-  priority: number
+  isActive: boolean
   id: string;
   parentId: string | null
 }
