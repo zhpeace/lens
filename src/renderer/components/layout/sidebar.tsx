@@ -8,22 +8,13 @@ import styles from "./sidebar.module.scss";
 import React from "react";
 import { observer } from "mobx-react";
 import { cssNames } from "../../utils";
-import { SidebarItem } from "./sidebar-item";
+import { ISidebarItem, SidebarItem } from "./sidebar-item";
 import { catalogEntityRegistry } from "../../api/catalog-entity-registry";
 import { SidebarCluster } from "./sidebar-cluster";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import sidebarItemsInjectable from "./sidebar-items.injectable";
 import type { IComputedValue } from "mobx";
 import { matches } from "lodash/fp";
-
-export interface ISidebarItem {
-  title: string;
-  onClick: () => void;
-  getIcon?: () => React.ReactNode
-  isActive: boolean
-  id: string;
-  parentId: string | null
-}
 
 interface Dependencies {
   sidebarItems: IComputedValue<ISidebarItem[]>

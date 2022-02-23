@@ -13,10 +13,18 @@ import { NavLink } from "react-router-dom";
 import { Icon } from "../icon";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import sidebarStorageInjectable, { SidebarStorageState } from "./sidebar-storage/sidebar-storage.injectable";
-import type { ISidebarItem } from "./sidebar";
 
 interface Dependencies {
   sidebarStorage: StorageHelper<SidebarStorageState>
+}
+
+export interface ISidebarItem {
+  title: string;
+  onClick: () => void;
+  getIcon?: () => React.ReactNode
+  isActive: boolean
+  id: string;
+  parentId: string | null
 }
 
 @observer

@@ -4,10 +4,10 @@
  */
 import { computed } from "mobx";
 import { getInjectable } from "@ogre-tools/injectable";
-import type { ISidebarItem } from "../components/layout/sidebar";
 
 import sidebarItemsInjectable from "../components/layout/sidebar-items.injectable";
 import { matches } from "lodash/fp";
+import type { ISidebarItem } from "../components/layout/sidebar-item";
 
 const siblingTabsInjectable = getInjectable({
   id: "sibling-tabs",

@@ -6,9 +6,9 @@ import { withInjectables } from "@ogre-tools/injectable-react";
 import type { IComputedValue } from "mobx";
 import { observer } from "mobx-react";
 import React from "react";
-import type { ISidebarItem } from "./sidebar";
 import siblingTabsInjectable from "../../routes/sibling-tabs.injectable";
 import { TabLayout } from "./tab-layout";
+import type { ISidebarItem } from "./sidebar-item";
 
 interface Props {
   children: React.ReactNode;

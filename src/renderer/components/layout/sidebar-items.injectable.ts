@@ -18,8 +18,8 @@ import {
   orderBy,
   some,
 } from "lodash/fp";
-import type { ISidebarItem } from "./sidebar";
 import type { SetRequired } from "type-fest";
+import type { ISidebarItem } from "./sidebar-item";
 
 interface Pipeline {
   <A, R1, R2, R3, R4, R5, R6, R7, R8, R9>(
