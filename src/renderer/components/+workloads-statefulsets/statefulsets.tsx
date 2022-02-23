@@ -15,7 +15,7 @@ import { eventStore } from "../+events/event.store";
 import { KubeObjectListLayout } from "../kube-object-list-layout";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { StatefulSetsRouteParams } from "../../../common/routes";
-import { WorkloadsRoute } from "../+workloads/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -38,7 +38,7 @@ export class StatefulSets extends React.Component<Props> {
 
   render() {
     return (
-      <WorkloadsRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="workload_statefulsets"
@@ -81,7 +81,7 @@ export class StatefulSets extends React.Component<Props> {
             statefulSet.getAge(),
           ]}
         />
-      </WorkloadsRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

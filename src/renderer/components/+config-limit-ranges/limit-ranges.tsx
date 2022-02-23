@@ -12,7 +12,7 @@ import { limitRangeStore } from "./limit-ranges.store";
 import React from "react";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { LimitRangeRouteParams } from "../../../common/routes";
-import { ConfigRoute } from "../+config/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -27,7 +27,7 @@ interface Props extends RouteComponentProps<LimitRangeRouteParams> {
 export class LimitRanges extends React.Component<Props> {
   render() {
     return (
-      <ConfigRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="configuration_limitranges"
@@ -61,7 +61,7 @@ export class LimitRanges extends React.Component<Props> {
             limitRange.getAge(),
           ]}
         />
-      </ConfigRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

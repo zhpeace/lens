@@ -24,7 +24,7 @@ import type { RemovableHelmRelease } from "./removable-releases";
 import type { IComputedValue } from "mobx";
 import releasesInjectable from "./releases.injectable";
 import pathParametersInjectable from "../../routes/path-parameters.injectable";
-import { HelmRoute } from "../+helm/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -142,7 +142,7 @@ class NonInjectedHelmReleases extends Component<Dependencies> {
     } as ItemStore<RemovableHelmRelease>;
 
     return (
-      <HelmRoute>
+      <SiblingsInTabLayout>
         <ItemListLayout
           store={legacyReleaseStore}
           getItems={() => legacyReleaseStore.items}
@@ -216,7 +216,7 @@ class NonInjectedHelmReleases extends Component<Dependencies> {
         />
 
         <ReleaseRollbackDialog/>
-      </HelmRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

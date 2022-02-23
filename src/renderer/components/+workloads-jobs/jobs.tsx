@@ -14,7 +14,7 @@ import { KubeObjectListLayout } from "../kube-object-list-layout";
 import kebabCase from "lodash/kebabCase";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { JobsRouteParams } from "../../../common/routes";
-import { WorkloadsRoute } from "../+workloads/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -31,7 +31,7 @@ interface Props extends RouteComponentProps<JobsRouteParams> {
 export class Jobs extends React.Component<Props> {
   render() {
     return (
-      <WorkloadsRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="workload_jobs"
@@ -81,7 +81,7 @@ export class Jobs extends React.Component<Props> {
             ];
           }}
         />
-      </WorkloadsRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

@@ -15,7 +15,7 @@ import { Badge } from "../badge";
 import { cssNames } from "../../utils";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { HpaRouteParams } from "../../../common/routes";
-import { ConfigRoute } from "../+config/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -47,7 +47,7 @@ export class HorizontalPodAutoscalers extends React.Component<Props> {
 
   render() {
     return (
-      <ConfigRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="configuration_hpa"
@@ -120,7 +120,7 @@ export class HorizontalPodAutoscalers extends React.Component<Props> {
             }),
           ]}
         />
-      </ConfigRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

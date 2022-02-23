@@ -12,7 +12,7 @@ import type { PodDisruptionBudget } from "../../../common/k8s-api/endpoints/podd
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { KubeObjectDetailsProps } from "../kube-object-details";
 import { KubeObjectListLayout } from "../kube-object-list-layout";
-import { ConfigRoute } from "../+config/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -31,7 +31,7 @@ interface Props extends KubeObjectDetailsProps<PodDisruptionBudget> {
 export class PodDisruptionBudgets extends React.Component<Props> {
   render() {
     return (
-      <ConfigRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="configuration_distribution_budgets"
@@ -98,7 +98,7 @@ export class PodDisruptionBudgets extends React.Component<Props> {
             ];
           }}
         />
-      </ConfigRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

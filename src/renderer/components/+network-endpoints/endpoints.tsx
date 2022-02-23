@@ -12,7 +12,7 @@ import { endpointStore } from "./endpoints.store";
 import { KubeObjectListLayout } from "../kube-object-list-layout";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { EndpointRouteParams } from "../../../common/routes";
-import { NetworkRoute } from "../+network/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -28,7 +28,7 @@ interface Props extends RouteComponentProps<EndpointRouteParams> {
 export class Endpoints extends React.Component<Props> {
   render() {
     return (
-      <NetworkRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="network_endpoints"
@@ -68,7 +68,7 @@ export class Endpoints extends React.Component<Props> {
               return lines * lineHeight + paddings;
             },
           }}
-        /></NetworkRoute>
+        /></SiblingsInTabLayout>
     );
   }
 }

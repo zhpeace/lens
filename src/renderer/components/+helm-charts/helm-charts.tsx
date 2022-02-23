@@ -16,7 +16,7 @@ import { helmChartsURL } from "../../../common/routes";
 import type { IComputedValue } from "mobx";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import pathParametersInjectable from "../../routes/path-parameters.injectable";
-import { HelmRoute } from "../+helm/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -70,7 +70,7 @@ class NonInjectedHelmCharts extends Component<Dependencies> {
 
   render() {
     return (
-      <HelmRoute>
+      <SiblingsInTabLayout>
         <ItemListLayout
           isConfigurable
           tableId="helm_charts"
@@ -125,7 +125,7 @@ class NonInjectedHelmCharts extends Component<Dependencies> {
             hideDetails={this.hideDetails}
           />
         )}
-      </HelmRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

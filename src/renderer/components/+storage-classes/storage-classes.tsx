@@ -12,7 +12,7 @@ import { KubeObjectListLayout } from "../kube-object-list-layout";
 import { storageClassStore } from "./storage-class.store";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { StorageClassesRouteParams } from "../../../common/routes";
-import { StorageRoute } from "../+storage/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -29,7 +29,7 @@ interface Props extends RouteComponentProps<StorageClassesRouteParams> {
 export class StorageClasses extends React.Component<Props> {
   render() {
     return (
-      <StorageRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="storage_classes"
@@ -73,7 +73,7 @@ export class StorageClasses extends React.Component<Props> {
             storageClass.getAge(),
           ]}
         />
-      </StorageRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

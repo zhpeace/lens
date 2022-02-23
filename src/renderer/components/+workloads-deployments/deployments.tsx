@@ -17,7 +17,7 @@ import kebabCase from "lodash/kebabCase";
 import orderBy from "lodash/orderBy";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { DeploymentsRouteParams } from "../../../common/routes";
-import { WorkloadsRoute } from "../+workloads/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -51,7 +51,7 @@ export class Deployments extends React.Component<Props> {
 
   render() {
     return (
-      <WorkloadsRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="workload_deployments"
@@ -103,7 +103,7 @@ export class Deployments extends React.Component<Props> {
             this.renderConditions(deployment),
           ]}
         />
-      </WorkloadsRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

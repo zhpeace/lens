@@ -12,7 +12,7 @@ import { KubeObjectListLayout } from "../kube-object-list-layout";
 import { networkPolicyStore } from "./network-policy.store";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { NetworkPoliciesRouteParams } from "../../../common/routes";
-import { NetworkRoute } from "../+network/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -28,7 +28,7 @@ interface Props extends RouteComponentProps<NetworkPoliciesRouteParams> {
 export class NetworkPolicies extends React.Component<Props> {
   render() {
     return (
-      <NetworkRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="network_policies"
@@ -62,7 +62,7 @@ export class NetworkPolicies extends React.Component<Props> {
             item.getAge(),
           ]}
         />
-      </NetworkRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

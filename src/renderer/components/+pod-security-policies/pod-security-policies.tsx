@@ -10,7 +10,7 @@ import { observer } from "mobx-react";
 import { KubeObjectListLayout } from "../kube-object-list-layout";
 import { podSecurityPoliciesStore } from "./pod-security-policies.store";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
-import { UserManagementRoute } from "../+user-management/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -23,7 +23,7 @@ enum columnId {
 export class PodSecurityPolicies extends React.Component {
   render() {
     return (
-      <UserManagementRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="access_pod_security_policies"
@@ -68,7 +68,7 @@ export class PodSecurityPolicies extends React.Component {
             ];
           }}
         />
-      </UserManagementRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

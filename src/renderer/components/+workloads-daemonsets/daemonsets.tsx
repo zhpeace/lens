@@ -16,7 +16,7 @@ import { KubeObjectListLayout } from "../kube-object-list-layout";
 import { Badge } from "../badge";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { DaemonSetsRouteParams } from "../../../common/routes";
-import { WorkloadsRoute } from "../+workloads/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -37,7 +37,7 @@ export class DaemonSets extends React.Component<Props> {
 
   render() {
     return (
-      <WorkloadsRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="workload_daemonsets"
@@ -78,7 +78,7 @@ export class DaemonSets extends React.Component<Props> {
             daemonSet.getAge(),
           ]}
         />
-      </WorkloadsRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

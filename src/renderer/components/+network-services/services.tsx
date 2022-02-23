@@ -13,7 +13,7 @@ import { Badge } from "../badge";
 import { serviceStore } from "./services.store";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { ServicesRouteParams } from "../../../common/routes";
-import { NetworkRoute } from "../+network/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -34,7 +34,7 @@ interface Props extends RouteComponentProps<ServicesRouteParams> {
 export class Services extends React.Component<Props> {
   render() {
     return (
-      <NetworkRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="network_services"
@@ -103,7 +103,7 @@ export class Services extends React.Component<Props> {
             ];
           }}
         />
-      </NetworkRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

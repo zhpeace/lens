@@ -17,7 +17,7 @@ import { storageClassApi } from "../../../common/k8s-api/endpoints";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { VolumeClaimsRouteParams } from "../../../common/routes";
 import { getDetailsUrl } from "../kube-detail-params";
-import { StorageRoute } from "../+storage/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -36,7 +36,7 @@ interface Props extends RouteComponentProps<VolumeClaimsRouteParams> {
 export class PersistentVolumeClaims extends React.Component<Props> {
   render() {
     return (
-      <StorageRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="storage_volume_claims"
@@ -102,7 +102,7 @@ export class PersistentVolumeClaims extends React.Component<Props> {
             ];
           }}
         />
-      </StorageRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

@@ -12,7 +12,7 @@ import { configMapsStore } from "./config-maps.store";
 import { KubeObjectListLayout } from "../kube-object-list-layout";
 import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import type { ConfigMapsRouteParams } from "../../../common/routes";
-import { ConfigRoute } from "../+config/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -28,7 +28,7 @@ interface Props extends RouteComponentProps<ConfigMapsRouteParams> {
 export class ConfigMaps extends React.Component<Props> {
   render() {
     return (
-      <ConfigRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="configuration_configmaps"
@@ -64,7 +64,7 @@ export class ConfigMaps extends React.Component<Props> {
             configMap.getAge(),
           ]}
         />
-      </ConfigRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

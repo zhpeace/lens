@@ -13,7 +13,7 @@ import { KubeObjectStatusIcon } from "../../kube-object-status-icon";
 import { CreateServiceAccountDialog } from "./create-dialog";
 import { serviceAccountsStore } from "./store";
 import type { ServiceAccountsRouteParams } from "../../../../common/routes";
-import { UserManagementRoute } from "../route";
+import { SiblingsInTabLayout } from "../../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -28,7 +28,7 @@ interface Props extends RouteComponentProps<ServiceAccountsRouteParams> {
 export class ServiceAccounts extends React.Component<Props> {
   render() {
     return (
-      <UserManagementRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="access_service_accounts"
@@ -60,7 +60,7 @@ export class ServiceAccounts extends React.Component<Props> {
           }}
         />
         <CreateServiceAccountDialog/>
-      </UserManagementRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

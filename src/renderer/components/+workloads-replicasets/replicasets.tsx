@@ -13,7 +13,7 @@ import type { RouteComponentProps } from "react-router";
 import { KubeObjectListLayout } from "../kube-object-list-layout";
 import type { ReplicaSetsRouteParams } from "../../../common/routes";
 import { eventStore } from "../+events/event.store";
-import { WorkloadsRoute } from "../+workloads/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -31,7 +31,7 @@ interface Props extends RouteComponentProps<ReplicaSetsRouteParams> {
 export class ReplicaSets extends React.Component<Props> {
   render() {
     return (
-      <WorkloadsRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           isConfigurable
           tableId="workload_replicasets"
@@ -83,7 +83,7 @@ export class ReplicaSets extends React.Component<Props> {
             replicaSet.getAge(),
           ]}
         />
-      </WorkloadsRoute>
+      </SiblingsInTabLayout>
     );
   }
 }

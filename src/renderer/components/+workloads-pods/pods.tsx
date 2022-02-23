@@ -23,7 +23,7 @@ import { KubeObjectStatusIcon } from "../kube-object-status-icon";
 import { Badge } from "../badge";
 import type { PodsRouteParams } from "../../../common/routes";
 import { getDetailsUrl } from "../kube-detail-params";
-import { WorkloadsRoute } from "../+workloads/route";
+import { SiblingsInTabLayout } from "../layout/siblings-in-tab-layout";
 
 enum columnId {
   name = "name",
@@ -76,7 +76,7 @@ export class Pods extends React.Component<Props> {
 
   render() {
     return (
-      <WorkloadsRoute>
+      <SiblingsInTabLayout>
         <KubeObjectListLayout
           className="Pods"
           store={podsStore}
@@ -168,7 +168,7 @@ export class Pods extends React.Component<Props> {
             { title: pod.getStatusMessage(), className: kebabCase(pod.getStatusMessage()) },
           ]}
         />
-      </WorkloadsRoute>
+      </SiblingsInTabLayout>
     );
   }
 }
