@@ -11,15 +11,15 @@ import { SiblingsInTabLayout } from "../components/layout/siblings-in-tab-layout
 import type { PageParams } from "../../extensions/registries";
 
 interface Dependencies {
-  asd: IComputedValue<{
+  extensionPage: IComputedValue<{
     Component: React.ComponentType<any>;
     pageParams: PageParams;
     shouldRenderTabLayout: boolean;
   }>;
 }
 
-const NonInjectedExtensionPage = observer(({ asd }: Dependencies) => {
-  const { Component, pageParams, shouldRenderTabLayout } = asd.get();
+const NonInjectedExtensionPage = observer(({ extensionPage }: Dependencies) => {
+  const { Component, pageParams, shouldRenderTabLayout } = extensionPage.get();
 
   if (!shouldRenderTabLayout) {
     return <Component params={pageParams} />;
@@ -37,7 +37,7 @@ export const ExtensionPage = withInjectables<Dependencies>(
 
   {
     getProps: (di) => ({
-      asd: di.inject(extensionPageInjectable),
+      extensionPage: di.inject(extensionPageInjectable),
     }),
   },
 );

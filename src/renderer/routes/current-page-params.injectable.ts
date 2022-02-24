@@ -5,8 +5,6 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import { pipeline } from "@ogre-tools/fp";
-
-
 import observableHistoryInjectable from "../navigation/observable-history.injectable";
 import { fromPairs, map, toPairs } from "lodash/fp";
 import { PageParam, PageParamInit } from "../navigation";
