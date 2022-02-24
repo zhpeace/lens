@@ -38,7 +38,7 @@ const toGlobalRouteFor =
 
       return {
         path: pagePath,
-        Component: registration.components.Page,
+        Component: ExtensionPage,
         clusterFrame: false,
         isEnabled: () => true,
         exact: true,

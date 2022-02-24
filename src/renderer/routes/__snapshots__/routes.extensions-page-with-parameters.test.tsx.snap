@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`routes - extensions - page with parameters when accessing route renders 1`] = `
+<div>
+  <div>
+    <span
+      data-testid="test-value"
+    >
+      some-initial-value
+    </span>
+    <button
+      data-testid="some-button"
+    />
+  </div>
+</div>
+`;
+
+exports[`routes - extensions - page with parameters when accessing route when page parameter is changed renders 1`] = `
+<div>
+  <div>
+    <span
+      data-testid="test-value"
+    >
+      some-changed-value
+    </span>
+    <button
+      data-testid="some-button"
+    />
+  </div>
+</div>
+`;

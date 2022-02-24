@@ -7,33 +7,22 @@ import type { IComputedValue } from "mobx";
 import { observer } from "mobx-react";
 import React from "react";
 import extensionPageInjectable from "./extension-page.injectable";
-import { SiblingsInTabLayout } from "../components/layout/siblings-in-tab-layout";
 import type { PageParams } from "../../extensions/registries";
 
 interface Dependencies {
-  asd: IComputedValue<{
-    Component: React.ComponentType<any>;
-    pageParams: PageParams;
-    shouldRenderTabLayout: boolean;
-  }>;
+  asd: IComputedValue<{ Component: React.ComponentType<any>; pageParams: PageParams }>;
 }
 
-const NonInjectedExtensionPage = observer(({ asd }: Dependencies) => {
-  const { Component, pageParams, shouldRenderTabLayout } = asd.get();
+const NonInjectedExtensionPageForRootFrame = observer(
+  ({ asd }: Dependencies) => {
+    const { Component, pageParams } = asd.get();
 
-  if (!shouldRenderTabLayout) {
     return <Component params={pageParams} />;
-  }
+  },
+);
 
-  return (
-    <SiblingsInTabLayout>
-      <Component params={pageParams} />
-    </SiblingsInTabLayout>
-  );
-});
-
-export const ExtensionPage = withInjectables<Dependencies>(
-  NonInjectedExtensionPage,
+export const ExtensionPageForRootFrame = withInjectables<Dependencies>(
+  NonInjectedExtensionPageForRootFrame,
 
   {
     getProps: (di) => ({
