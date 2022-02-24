@@ -32,7 +32,7 @@ const extensionPageComponentInjectable = getInjectable({
       );
 
       const { registration } = clusterPageRegistrations.find(({ path }) =>
-        matchPath(observableHistory.location.pathname, { path }),
+        matchPath(observableHistory.location.pathname, { path, exact: true }),
       );
 
       return registration.components.Page;

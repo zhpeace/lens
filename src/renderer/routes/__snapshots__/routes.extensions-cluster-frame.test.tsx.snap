@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`routes - extensions - cluster frame when navigating to extension front page renders 1`] = `
+<div>
+  <div
+    data-testid="some-route-from-extension"
+  />
+</div>
+`;
+
+exports[`routes - extensions - cluster frame when navigating to extension front page when navigating to extension child page renders 1`] = `
+<div>
+  <div
+    class="TabLayout"
+  >
+    <div
+      class="Tabs center scrollable"
+    >
+      <div
+        class="Tab flex gaps align-center active"
+        tabindex="0"
+      >
+        <div
+          class="label"
+        >
+          Child 1
+        </div>
+      </div>
+      <div
+        class="Tab flex gaps align-center"
+        tabindex="0"
+      >
+        <div
+          class="label"
+        >
+          Child 2
+        </div>
+      </div>
+    </div>
+    <main
+      class=""
+    >
+      <div
+        data-testid="some-child-page-from-extension"
+      />
+    </main>
+  </div>
+</div>
+`;

@@ -41,6 +41,7 @@ const toGlobalRouteFor =
         Component: registration.components.Page,
         clusterFrame: false,
         isEnabled: () => true,
+        exact: true,
       };
     };
 
@@ -55,5 +56,6 @@ const toClusterFrameRouteFor =
         Component: ExtensionPage,
         clusterFrame: true,
         isEnabled: () => true,
+        exact: true,
       };
     };

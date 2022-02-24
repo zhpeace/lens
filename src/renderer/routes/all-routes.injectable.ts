@@ -17,6 +17,7 @@ export interface Route {
   clusterFrame: boolean;
   isEnabled: () => boolean;
   id?: string
+  exact?: boolean
 }
 
 const routesInjectable = getInjectable({
