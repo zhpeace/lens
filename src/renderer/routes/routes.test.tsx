@@ -4,9 +4,7 @@
  */
 import { DiContainer, getInjectable } from "@ogre-tools/injectable";
 import { getDiForUnitTesting } from "../getDiForUnitTesting";
-import {
-  routeInjectionToken,
-} from "./all-routes.injectable";
+import { routeInjectionToken } from "./all-routes.injectable";
 import React from "react";
 import { computed, runInAction } from "mobx";
 import rendererExtensionsInjectable from "../../extensions/renderer-extensions.injectable";
@@ -18,6 +16,9 @@ import { createObservableHistory } from "mobx-observable-history";
 import queryParametersInjectable from "./query-parameters.injectable";
 import pathParametersInjectable from "./path-parameters.injectable";
 import currentlyInClusterFrameInjectable from "./currently-in-cluster-frame.injectable";
+import mockFs from "mock-fs";
+import directoryForUserDataInjectable
+  from "../../common/app-paths/directory-for-user-data/directory-for-user-data.injectable";
 
 describe("routes", () => {
   let history: MemoryHistory;
@@ -25,6 +26,10 @@ describe("routes", () => {
 
   beforeEach(async () => {
     di = getDiForUnitTesting({ doGeneralOverrides: true });
+
+    mockFs();
+
+    di.override(directoryForUserDataInjectable, () => "some-directory-for-user-data");
 
     di.override(rendererExtensionsInjectable, () =>
       computed((): LensRendererExtension[] => []),
@@ -37,6 +42,10 @@ describe("routes", () => {
     di.override(currentlyInClusterFrameInjectable, () => false);
   });
 
+  afterEach(() => {
+    mockFs.restore();
+  });
+
   describe("given route without path parameters", () => {
     beforeEach(async () => {
       const routeWithoutPathParameters = getInjectable({
@@ -44,9 +53,6 @@ describe("routes", () => {
         injectionToken: routeInjectionToken,
 
         instantiate: () => ({
-          title: "some-title",
-          icon: "some-icon",
-
           path: "/some-path",
           Component: () => <div />,
           clusterFrame: false,
@@ -69,11 +75,7 @@ describe("routes", () => {
       it("knows current route", () => {
         const currentRoute = di.inject(currentRouteInjectable);
 
-        expect(currentRoute.get()).toEqual({
-          path: "/some-path",
-          Component: expect.any(Function),
-          clusterFrame: false,
-        });
+        expect(currentRoute.get().path).toBe("/some-path");
       });
 
       it("does not have query parameters", () => {
@@ -110,9 +112,6 @@ describe("routes", () => {
         injectionToken: routeInjectionToken,
 
         instantiate: () => ({
-          title: "some-title",
-          icon: "some-icon",
-
           path: "/some-path/:someParameter?/:someOtherParameter?",
           Component: () => <div />,
           clusterFrame: false,
@@ -137,11 +136,7 @@ describe("routes", () => {
       it("knows current route", () => {
         const currentRoute = di.inject(currentRouteInjectable);
 
-        expect(currentRoute.get()).toEqual({
-          path: "/some-path/:someParameter?/:someOtherParameter?",
-          Component: expect.any(Function),
-          clusterFrame: false,
-        });
+        expect(currentRoute.get().path).toBe("/some-path/:someParameter?/:someOtherParameter?");
       });
 
       it("knows path parameters", () => {
@@ -166,11 +161,7 @@ describe("routes", () => {
       it("knows current route", () => {
         const currentRoute = di.inject(currentRouteInjectable);
 
-        expect(currentRoute.get()).toEqual({
-          path: "/some-path/:someParameter?/:someOtherParameter?",
-          Component: expect.any(Function),
-          clusterFrame: false,
-        });
+        expect(currentRoute.get().path).toBe("/some-path/:someParameter?/:someOtherParameter?");
       });
 
       it("knows path parameters", () => {

@@ -14,13 +14,24 @@ import { routeInjectionToken } from "./all-routes.injectable";
 import React from "react";
 import currentRouteInjectable from "./current-route.injectable";
 import currentlyInClusterFrameInjectable from "./currently-in-cluster-frame.injectable";
+import directoryForUserDataInjectable from "../../common/app-paths/directory-for-user-data/directory-for-user-data.injectable";
+import mockFs from "mock-fs";
+import hostedClusterInjectable from "../../common/cluster-store/hosted-cluster.injectable";
+import type { Cluster } from "../../common/cluster/cluster";
 
-describe("routes, given in cluster frame", () => {
+describe("routes, communication between frames", () => {
   let history: MemoryHistory;
   let di: DiContainer;
 
   beforeEach(async () => {
     di = getDiForUnitTesting({ doGeneralOverrides: true });
+
+    mockFs();
+
+    di.override(
+      directoryForUserDataInjectable,
+      () => "some-directory-for-user-data",
+    );
 
     di.override(rendererExtensionsInjectable, () =>
       computed((): LensRendererExtension[] => []),
@@ -30,17 +41,11 @@ describe("routes, given in cluster frame", () => {
     const observableHistory = createObservableHistory(history);
 
     di.override(observableHistoryInjectable, () => observableHistory);
-    di.override(currentlyInClusterFrameInjectable, () => true);
-  });
 
-  it("given same route is registered for both frames, when navigating, knows route in cluster frame", async () => {
     const routeInRootFrame = getInjectable({
       id: "some-route-in-root-frame",
 
       instantiate: () => ({
-        title: "some-title",
-        icon: "some-icon",
-
         path: "/some-path",
         Component: () => <div />,
         clusterFrame: false,
@@ -54,8 +59,6 @@ describe("routes, given in cluster frame", () => {
       id: "some-route-in-cluster-frame",
 
       instantiate: () => ({
-        title: "some-title",
-        icon: "some-icon",
         path: "/some-path",
         Component: () => <div />,
         clusterFrame: true,
@@ -69,13 +72,48 @@ describe("routes, given in cluster frame", () => {
     di.register(routeInClusterFrame);
 
     await di.runSetups();
+  });
 
-    runInAction(() => {
-      history.replace("/some-path");
+  afterEach(() => {
+    mockFs.restore();
+  });
+
+  describe("given in cluster frame", () => {
+    beforeEach(() => {
+      di.override(currentlyInClusterFrameInjectable, () => true);
+
+      const clusterStub = {
+        allowedResources: [],
+      } as Cluster;
+
+      di.override(hostedClusterInjectable, () => clusterStub);
     });
 
-    const currentRoute = di.inject(currentRouteInjectable);
+    it("when navigating to path existing in both frames, knows route from cluster frame", async () => {
+      runInAction(() => {
+        history.replace("/some-path");
+      });
 
-    expect(currentRoute.get().clusterFrame).toBe(true);
+      const currentRoute = di.inject(currentRouteInjectable);
+
+      expect(currentRoute.get().clusterFrame).toBe(true);
+    });
+  });
+
+  describe("given in root frame", () => {
+    beforeEach(() => {
+      di.override(currentlyInClusterFrameInjectable, () => false);
+      di.override(hostedClusterInjectable, () => null);
+    });
+
+    it("when navigating to path existing in both frames, knows route from root frame", async () => {
+      runInAction(() => {
+        history.replace("/some-path");
+      });
+
+      const currentRoute = di.inject(currentRouteInjectable);
+
+      expect(currentRoute.get().clusterFrame).toBe(false);
+    });
   });
 });
