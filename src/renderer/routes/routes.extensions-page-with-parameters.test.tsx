@@ -7,7 +7,7 @@ import "@testing-library/jest-dom/extend-expect";
 import type { DiContainer } from "@ogre-tools/injectable";
 import { getDiForUnitTesting } from "../getDiForUnitTesting";
 import React from "react";
-import { computed, runInAction } from "mobx";
+import { computed } from "mobx";
 import rendererExtensionsInjectable from "../../extensions/renderer-extensions.injectable";
 import { LensRendererExtension } from "../../extensions/lens-renderer-extension";
 import observableHistoryInjectable from "../navigation/observable-history.injectable";
@@ -26,6 +26,7 @@ describe("routes - extensions - page with parameters", () => {
   let historyFake: MemoryHistory;
   let di: DiContainer;
   let rendered: RenderResult;
+  let extension: TestExtension;
 
   beforeEach(async () => {
     di = getDiForUnitTesting({ doGeneralOverrides: true });
@@ -35,7 +36,7 @@ describe("routes - extensions - page with parameters", () => {
       () => "some-directory-for-user-data",
     );
 
-    const extension = new TestExtension({
+    extension = new TestExtension({
       id: "some-extension-id",
       clusterPages: [],
 
@@ -44,35 +45,44 @@ describe("routes - extensions - page with parameters", () => {
           components: {
             Page: ({ params }) => {
               return (
-                <div>
-                  <span data-testid="test-value">
-                    {params.someNonNormalizedParameter.get()}
-                  </span>
+                <Observer>
+                  {() => (
+                    <div>
+                      <span data-testid="non-normalized-parameter-value">
+                        {params.someNonNormalizedParameter.get()}
+                      </span>
 
-                  {params.someNormalizedParameter.get()}
+                      <span data-testid="normalized-parameter-value">
+                        {params.someNormalizedParameter.get()}
+                      </span>
 
-                  <button
-                    data-testid="some-button"
-                    onClick={() =>
-                      params.someNonNormalizedParameter.set(
-                        "some-changed-value",
-                      )
-                    }
-                  />
-                </div>
+                      <button
+                        data-testid="change-non-normalized-parameter-value"
+                        onClick={() =>
+                          params.someNonNormalizedParameter.set(
+                            "some-changed-value-for-non-normalized-parameter",
+                          )
+                        }
+                      />
+                    </div>
+                  )}
+                </Observer>
               );
             },
           },
 
           params: {
-            someNonNormalizedParameter: "some-initial-value",
+            someNonNormalizedParameter: "some-initial-value-for-non-normalized-parameter",
 
             someNormalizedParameter: {
-              defaultValue: "some-initial-value",
-              stringify: (asd) =>
-                asd === "uusi-arvo" && "uusi-stringified-arvo",
-              parse: (asd) =>
-                asd === "uusi-stringified-arvo" && "some-changed-value",
+              defaultValue: "some-initial-value-for-normalized-parameter",
+
+              stringify: (value) =>
+                value === "some-value-to-be-stringified" &&
+                "some-stringified-value",
+
+              parse: (value) =>
+                value === "some-stringified-value" ? "some-parsed-value" : value,
             },
           },
         },
@@ -110,18 +120,55 @@ describe("routes - extensions - page with parameters", () => {
     );
   });
 
-  describe("when accessing route", () => {
-    beforeEach(() => {
-      runInAction(() => {
-        historyFake.replace("/extension/some-extension-id");
+  describe("when navigating to any route from extension with parameters", () => {
+    beforeEach(async () => {
+      const irrelevant = "";
+
+      await extension.navigate(irrelevant, {
+        someNonNormalizedParameter: ["some-value", "some-other-value"],
+        someNormalizedParameter: "some-value-to-be-stringified",
       });
+
+    });
+
+    it("updates URL", () => {
+      const url = historyFake.location.pathname + historyFake.location.search;
+
+      expect(url).toBe(
+        "/extension/some-extension-id?some-extension-id%3AsomeNonNormalizedParameter=some-value%2Csome-other-value&some-extension-id%3AsomeNormalizedParameter=some-stringified-value",
+      );
+    });
+
+    it("has value for non normalized parameter", () => {
+      expect(screen.getByTestId("non-normalized-parameter-value")).toHaveTextContent(
+        "some-value,some-other-value",
+      );
+    });
+
+    it("has value for normalized parameter", () => {
+      expect(screen.getByTestId("normalized-parameter-value")).toHaveTextContent(
+        "some-parsed-value",
+      );
+    });
+  });
+
+  describe("when navigating to front page of extension", () => {
+    beforeEach(async () => {
+      await extension.navigate();
     });
 
     it("has value", () => {
-      expect(screen.getByTestId("test-value")).toHaveTextContent(
-        "some-initial-value",
+      expect(screen.getByTestId("non-normalized-parameter-value")).toHaveTextContent(
+        "some-initial-value-for-non-normalized-parameter",
       );
     });
+
+    it("has value for normalized parameter", () => {
+      expect(screen.getByTestId("normalized-parameter-value")).toHaveTextContent(
+        "some-initial-value-for-normalized-parameter",
+      );
+    });
+
 
     it("renders", () => {
       expect(rendered.container).toMatchSnapshot();
@@ -129,7 +176,7 @@ describe("routes - extensions - page with parameters", () => {
 
     describe("when page parameter is changed", () => {
       beforeEach(() => {
-        const button = rendered.getByTestId("some-button");
+        const button = rendered.getByTestId("change-non-normalized-parameter-value");
 
         fireEvent.click(button);
       });
@@ -138,13 +185,13 @@ describe("routes - extensions - page with parameters", () => {
         const url = historyFake.location.pathname + historyFake.location.search;
 
         expect(url).toBe(
-          "/extension/some-extension-id?some-extension-id%3AsomeNonNormalizedParameter=some-changed-value",
+          "/extension/some-extension-id?some-extension-id%3AsomeNonNormalizedParameter=some-changed-value-for-non-normalized-parameter",
         );
       });
 
       it("has value", () => {
-        expect(rendered.getByTestId("test-value")).toHaveTextContent(
-          "some-changed-value",
+        expect(rendered.getByTestId("non-normalized-parameter-value")).toHaveTextContent(
+          "some-changed-value-for-non-normalized-parameter",
         );
       });
 

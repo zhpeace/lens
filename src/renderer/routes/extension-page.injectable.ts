@@ -5,7 +5,6 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import currentRouteRegistrationInjectable from "./current-route-registration.injectable";
-import currentPageParamsInjectable from "./current-page-params.injectable";
 import currentlyInClusterFrameInjectable from "./currently-in-cluster-frame.injectable";
 
 const extensionPageInjectable = getInjectable({
@@ -13,15 +12,14 @@ const extensionPageInjectable = getInjectable({
 
   instantiate: (di) => {
     const currentRouteRegistration = di.inject(currentRouteRegistrationInjectable);
-    const currentPageParams = di.inject(currentPageParamsInjectable);
     const currentlyInClusterFrame = di.inject(currentlyInClusterFrameInjectable);
 
     return computed(() => {
-      const { registration } = currentRouteRegistration.get();
+      const { registration, normalizedParams } = currentRouteRegistration.get();
 
       return {
         Component: registration.components.Page,
-        pageParams: currentPageParams.get(),
+        pageParams: normalizedParams,
         shouldRenderTabLayout: currentlyInClusterFrame,
       };
     });

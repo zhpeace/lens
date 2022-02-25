@@ -9,6 +9,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { BaseRegistry } from "./base-registry";
 import {
+  getSanitizedPath,
   LensExtension,
   LensExtensionId,
   sanitizeExtensionName,
@@ -17,7 +18,6 @@ import {
   createPageParam,
   PageParam,
   PageParamInit,
-  searchParamsOptions,
 } from "../../renderer/navigation";
 
 export interface PageRegistration {
@@ -59,27 +59,11 @@ export interface RegisteredPage {
 }
 
 export function getExtensionPageUrl(target: PageTarget): string {
-  const { extensionId, pageId = "", params: targetParams = {}} = target;
+  const { extensionId, pageId = "", params } = target;
 
-  const pagePath = ["/extension", sanitizeExtensionName(extensionId), pageId]
-    .filter(Boolean)
-    .join("/").replace(/\/+/g, "/").replace(/\/$/, ""); // normalize multi-slashes (e.g. coming from page.id)
+  const pagePath = getSanitizedPath("/extension", sanitizeExtensionName(extensionId), pageId);
 
   const pageUrl = new URL(pagePath, `http://localhost`);
-
-  // stringify params to matched target page
-  const registeredPage = GlobalPageRegistry.getInstance().getByPageTarget(target) || ClusterPageRegistry.getInstance().getByPageTarget(target);
-
-  if (registeredPage?.params) {
-    Object.entries(registeredPage.params).forEach(([name, param]) => {
-      pageUrl.searchParams.delete(name); // first off, clear existing value(s)
-
-      param.stringify(targetParams[name]).forEach(value => {
-        if (searchParamsOptions.skipEmpty && !value) return;
-        pageUrl.searchParams.append(name, value);
-      });
-    });
-  }
 
   return pageUrl.href.replace(pageUrl.origin, "");
 }

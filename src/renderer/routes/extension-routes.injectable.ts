@@ -10,6 +10,7 @@ import type { Route } from "./all-routes.injectable";
 import type { LensRendererExtension } from "../../extensions/lens-renderer-extension";
 import type { PageRegistration } from "../../extensions/registries";
 import { ExtensionPage } from "./extension-page";
+import { getExtensionRouteId } from "./get-extension-route-id";
 
 const extensionRoutesInjectable = getInjectable({
   id: "extension-routes",
@@ -34,9 +35,11 @@ const toGlobalRouteFor =
   (extension: LensRendererExtension) =>
     (registration: PageRegistration): Route => {
       const extensionId = sanitizeExtensionName(extension.name);
-      const pagePath = getSanitizedPath("/extension", extensionId, registration.id);
+      const routeId = getExtensionRouteId(extensionId, registration.id);
+      const pagePath = getSanitizedPath("/extension", routeId);
 
       return {
+        id: routeId,
         path: pagePath,
         Component: ExtensionPage,
         clusterFrame: false,
@@ -49,9 +52,11 @@ const toClusterFrameRouteFor =
   (extension: LensRendererExtension) =>
     (registration: PageRegistration): Route => {
       const extensionId = sanitizeExtensionName(extension.name);
-      const pagePath = getSanitizedPath("/extension", extensionId, registration.id);
+      const routeId = getExtensionRouteId(extensionId, registration.id);
+      const pagePath = getSanitizedPath("/extension", routeId);
 
       return {
+        id: routeId,
         path: pagePath,
         Component: ExtensionPage,
         clusterFrame: true,

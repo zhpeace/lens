@@ -5,11 +5,16 @@
 
 import type * as registries from "./registries";
 import { Disposers, LensExtension } from "./lens-extension";
-import { getExtensionPageUrl } from "./registries/page-registry";
 import type { CatalogEntity } from "../common/catalog";
 import type { Disposer } from "../common/utils";
-import { catalogEntityRegistry, EntityFilter } from "../renderer/api/catalog-entity-registry";
-import { catalogCategoryRegistry, CategoryFilter } from "../renderer/api/catalog-category-registry";
+import {
+  catalogEntityRegistry,
+  EntityFilter,
+} from "../renderer/api/catalog-entity-registry";
+import {
+  catalogCategoryRegistry,
+  CategoryFilter,
+} from "../renderer/api/catalog-category-registry";
 import type { TopBarRegistration } from "../renderer/components/layout/top-bar/top-bar-registration";
 import type { KubernetesCluster } from "../common/catalog-entities";
 import type { WelcomeMenuRegistration } from "../renderer/components/+welcome/welcome-menu-items/welcome-menu-registration";
@@ -20,6 +25,14 @@ import type { AdditionalCategoryColumnRegistration } from "../renderer/component
 import type { CustomCategoryViewRegistration } from "../renderer/components/+catalog/custom-views";
 import type { StatusBarRegistration } from "../renderer/components/status-bar/status-bar-registration";
 import type { KubeObjectMenuRegistration } from "../renderer/components/kube-object-menu/dependencies/kube-object-menu-items/kube-object-menu-registration";
+import { getLegacyGlobalDiForExtensionApi } from "./as-legacy-globals-for-extension-api/legacy-global-di-for-extension-api";
+import routesInjectable from "../renderer/routes/routes.injectable";
+import { fromPairs, map, matches, toPairs } from "lodash/fp";
+import navigateToRouteInjectable from "../renderer/routes/navigate-to-route.injectable";
+import { runInAction } from "mobx";
+import { pipeline } from "@ogre-tools/fp";
+import routeRegistrationsInjectable from "../renderer/routes/route-registrations.injectable";
+import { getExtensionRouteId } from "../renderer/routes/get-extension-route-id";
 
 export class LensRendererExtension extends LensExtension {
   globalPages: registries.PageRegistration[] = [];
@@ -41,14 +54,43 @@ export class LensRendererExtension extends LensExtension {
   customCategoryViews: CustomCategoryViewRegistration[] = [];
 
   async navigate<P extends object>(pageId?: string, params?: P) {
-    const { navigate } = await import("../renderer/navigation");
-    const pageUrl = getExtensionPageUrl({
-      extensionId: this.name,
-      pageId,
-      params: params ?? {}, // compile to url with params
-    });
+    const di = getLegacyGlobalDiForExtensionApi();
 
-    navigate(pageUrl);
+    const navigateToRoute = di.inject(navigateToRouteInjectable);
+    const routes = di.inject(routesInjectable).get();
+    const routeRegistrations = di.inject(routeRegistrationsInjectable).get();
+
+    const targetRouteId = getExtensionRouteId(this.name, pageId);
+    const targetRoute = routes.find(matches({ id: targetRouteId }));
+
+    if (targetRoute) {
+      const targetRouteRegistration = routeRegistrations.find(
+        matches({ routeId: targetRouteId }),
+      );
+
+      const query = pipeline(
+        params,
+
+        toPairs,
+
+        map(([key, value]) => {
+          const normalizedParam = targetRouteRegistration.normalizedParams[key];
+
+          return [
+            normalizedParam.name,
+            normalizedParam.stringify(value),
+          ];
+        }),
+
+        fromPairs,
+      );
+
+      runInAction(() => {
+        navigateToRoute(targetRoute, {
+          query,
+        });
+      });
+    }
   }
 
   /**
