@@ -5,7 +5,7 @@
 import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import type React from "react";
-import extensionRoutesInjectable from "./extension-routes.injectable";
+import rendererExtensionsInjectable from "../../extensions/renderer-extensions.injectable";
 
 export const routeInjectionToken = getInjectionToken<Route>({
   id: "route-injection-token",
@@ -16,18 +16,25 @@ export interface Route {
   Component: React.ElementType;
   clusterFrame: boolean;
   isEnabled: () => boolean;
-  id?: string
-  exact?: boolean
+  id?: string;
+  exact?: boolean;
 }
 
 const routesInjectable = getInjectable({
   id: "all-routes",
 
   instantiate: (di) => {
-    const extensionRoutes = di.inject(extensionRoutesInjectable);
-    const coreRoutes = di.injectMany(routeInjectionToken);
+    const extensions = di.inject(rendererExtensionsInjectable);
 
-    return computed(() => [...coreRoutes, ...extensionRoutes.get()]);
+    return computed(() => {
+      extensions.get();
+
+      const asd = di.injectMany(routeInjectionToken);
+
+      console.log("mikko", asd);
+
+      return asd;
+    });
   },
 });
 

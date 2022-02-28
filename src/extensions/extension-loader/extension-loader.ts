@@ -247,7 +247,7 @@ export class ExtensionLoader {
 
     return this.autoInitExtensions(async (extension: LensRendererExtension) => {
       const removeItems = [
-        registries.GlobalPageRegistry.getInstance().add(extension.globalPages, extension),
+        // registries.GlobalPageRegistry.getInstance().add(extension.globalPages, extension),
         registries.CatalogEntityDetailRegistry.getInstance().add(extension.catalogEntityDetailItems),
       ];
 
@@ -273,7 +273,7 @@ export class ExtensionLoader {
       }
 
       const removeItems = [
-        registries.ClusterPageRegistry.getInstance().add(extension.clusterPages, extension),
+        // registries.ClusterPageRegistry.getInstance().add(extension.clusterPages, extension),
         registries.ClusterPageMenuRegistry.getInstance().add(extension.clusterPageMenus, extension),
         registries.KubeObjectDetailRegistry.getInstance().add(extension.kubeObjectDetailItems),
         registries.KubeObjectStatusRegistry.getInstance().add(extension.kubeObjectStatusTexts),

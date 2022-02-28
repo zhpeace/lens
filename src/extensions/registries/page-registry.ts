@@ -59,7 +59,7 @@ export interface RegisteredPage {
 }
 
 export function getExtensionPageUrl(target: PageTarget): string {
-  const { extensionId, pageId = "", params } = target;
+  const { extensionId, pageId = "" } = target;
 
   const pagePath = getSanitizedPath("/extension", sanitizeExtensionName(extensionId), pageId);
 

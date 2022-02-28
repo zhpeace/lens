@@ -8,6 +8,7 @@ import updateExtensionsStateInjectable from "./update-extensions-state/update-ex
 import createExtensionInstanceInjectable
   from "./create-extension-instance/create-extension-instance.injectable";
 
+
 const extensionLoaderInjectable = getInjectable({
   id: "extension-loader",
 
