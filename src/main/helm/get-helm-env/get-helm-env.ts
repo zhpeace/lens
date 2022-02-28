@@ -3,7 +3,7 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 interface Dependencies {
-  execHelm: (args: string[]) => Promise<string>
+  execHelm: (args: string[]) => Promise<string>;
 }
 
 export type HelmEnv = Record<string, string> & {

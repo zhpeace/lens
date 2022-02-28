@@ -8,8 +8,8 @@ import type { BaseEncodingOptions } from "fs";
 import logger from "../../logger";
 
 interface Dependencies {
-  helmCli: HelmCli
-  execFile: (path: string, args: string[], options: BaseEncodingOptions & ExecFileOptions) => Promise<{ stdout: string }>
+  helmCli: HelmCli;
+  execFile: (path: string, args: string[], options: BaseEncodingOptions & ExecFileOptions) => Promise<{ stdout: string }>;
 }
 
 export const execHelm = ({ helmCli, execFile } : Dependencies) =>  async (args: string[], options?: BaseEncodingOptions & ExecFileOptions): Promise<string> => {

@@ -16,8 +16,8 @@ interface GetReleaseValuesArgs {
 }
 
 interface Dependencies {
-  getRepositories: () => Promise<HelmRepo[]>
-  getRepository: (name: string) => Promise<HelmRepo>
+  getRepositories: () => Promise<HelmRepo[]>;
+  getRepository: (name: string) => Promise<HelmRepo>;
 }
 
 export class HelmService {

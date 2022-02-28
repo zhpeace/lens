@@ -6,7 +6,7 @@ import yaml from "js-yaml";
 import type { HelmRepo } from "../../../../../common/helm-repo";
 
 export interface HelmRepoConfig {
-  repositories: HelmRepo[]
+  repositories: HelmRepo[];
 }
 
 interface Dependencies {
