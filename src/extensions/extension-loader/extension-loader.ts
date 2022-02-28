@@ -25,6 +25,7 @@ const logModule = "[EXTENSIONS-LOADER]";
 interface Dependencies {
   updateExtensionsState: (extensionsState: Record<LensExtensionId, LensExtensionState>) => void
   createExtensionInstance: (ExtensionClass: LensExtensionConstructor, extension: InstalledExtension) => LensExtension,
+  extensionRegistrators: ((extension: LensExtension) => Promise<void>)[]
 }
 
 export interface ExtensionLoading {
@@ -299,8 +300,8 @@ export class ExtensionLoader {
     // 3. Call .enable for each extension
     // 4. Return ExtensionLoading[]
 
-    const extensions = [...installedExtensions.entries()]
-      .map(([extId, extension]) => {
+    const extensionInstallationPromises = [...installedExtensions.entries()]
+      .map(async ([extId, extension]) => {
         const alreadyInit = this.instances.has(extId) || this.nonInstancesByName.has(extension.manifest.name);
 
         if (extension.isCompatible && extension.isEnabled && !alreadyInit) {
@@ -318,6 +319,8 @@ export class ExtensionLoader {
               extension,
             );
 
+            await Promise.all(this.dependencies.extensionRegistrators.map(x => x(instance)));
+
             this.instances.set(extId, instance);
 
             return {
@@ -333,9 +336,11 @@ export class ExtensionLoader {
         }
 
         return null;
-      })
-      // Remove null values
-      .filter(extension => Boolean(extension));
+      });
+
+    const blaa = (await Promise.all(extensionInstallationPromises));
+
+    const extensions = blaa.filter(extension => Boolean(extension));
 
     // We first need to wait until each extension's `onActivate` is resolved or rejected,
     // as this might register new catalog categories. Afterwards we can safely .enable the extension.
@@ -362,7 +367,7 @@ export class ExtensionLoader {
   }
 
   protected autoInitExtensions(register: (ext: LensExtension) => Promise<Disposer[]>) {
-    // Setup reaction to load extensions on JSON changes
+    // // Setup reaction to load extensions on JSON changes
     reaction(() => this.toJSON(), installedExtensions => this.loadExtensions(installedExtensions, register));
 
     // Load initial extensions

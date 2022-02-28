@@ -3,9 +3,11 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
+import { overSome } from "lodash/fp";
 import { computed } from "mobx";
 import type React from "react";
 import rendererExtensionsInjectable from "../../extensions/renderer-extensions.injectable";
+import type { LensRendererExtension } from "../../extensions/lens-renderer-extension";
 
 export const routeInjectionToken = getInjectionToken<Route>({
   id: "route-injection-token",
@@ -18,24 +20,34 @@ export interface Route {
   isEnabled: () => boolean;
   id?: string;
   exact?: boolean;
+  extension?: LensRendererExtension;
 }
 
-const routesInjectable = getInjectable({
+const allRoutesInjectable = getInjectable({
   id: "all-routes",
 
   instantiate: (di) => {
     const extensions = di.inject(rendererExtensionsInjectable);
 
     return computed(() => {
-      extensions.get();
+      const enabledExtensions = extensions.get();
 
-      const asd = di.injectMany(routeInjectionToken);
-
-      console.log("mikko", asd);
-
-      return asd;
+      return di
+        .injectMany(routeInjectionToken)
+        .filter((route) =>
+          overSome([
+            isNonExtensionRoute,
+            isEnabledExtensionRouteFor(enabledExtensions),
+          ])(route),
+        );
     });
   },
 });
 
-export default routesInjectable;
+const isNonExtensionRoute = (route: Route) => !route.extension;
+
+const isEnabledExtensionRouteFor =
+  (enabledExtensions: LensRendererExtension[]) => (route: Route) =>
+    !!enabledExtensions.find((x) => x === route.extension);
+
+export default allRoutesInjectable;

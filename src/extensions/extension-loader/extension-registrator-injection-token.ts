@@ -5,11 +5,8 @@
 import { getInjectionToken } from "@ogre-tools/injectable";
 import type { LensExtension } from "../lens-extension";
 
-export const extensionRegistratorInjectionToken = getInjectionToken<ExtensionRegistrator>({
-  id: "extension-registrator-token",
-});
-
-export interface ExtensionRegistrator {
-  onEnable: (extension: LensExtension) => Promise<void>
-  onDisable: (extension: LensExtension) => void
-}
+export const extensionRegistratorInjectionToken = getInjectionToken<
+  (extension: LensExtension) => Promise<void>
+    >({
+      id: "extension-registrator-token",
+    });

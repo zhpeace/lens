@@ -2,20 +2,12 @@
  * Copyright (c) OpenLens Authors. All rights reserved.
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
-import {
-  DiContainer,
-  getInjectable,
-} from "@ogre-tools/injectable";
+import { DiContainer, getInjectable } from "@ogre-tools/injectable";
 
 import type { LensRendererExtension } from "../../extensions/lens-renderer-extension";
-import {
-  routeInjectionToken,
-} from "./all-routes.injectable";
+import { routeInjectionToken } from "./all-routes.injectable";
 import { getExtensionRouteId } from "./get-extension-route-id";
-import {
-  getSanitizedPath,
-  sanitizeExtensionName,
-} from "../../extensions/lens-extension";
+import { getSanitizedPath } from "../../extensions/lens-extension";
 import { observer } from "mobx-react";
 import React from "react";
 import { fromPairs, isEmpty, map, toPairs } from "lodash/fp";
@@ -24,45 +16,37 @@ import { PageParam, PageParamInit } from "../navigation";
 import type { PageParams, PageRegistration } from "../../extensions/registries";
 import observableHistoryInjectable from "../navigation/observable-history.injectable";
 import type { ObservableHistory } from "mobx-observable-history";
-import {
-  extensionRegistratorInjectionToken,
-} from "../../extensions/extension-loader/extension-registrator-injection-token";
+import { extensionRegistratorInjectionToken } from "../../extensions/extension-loader/extension-registrator-injection-token";
+import extensionInstallationCounterInjectable from "./extension-installation-counter.injectable";
 
 const extensionRouteRegistratorInjectable = getInjectable({
   id: "extension-route-registrator",
 
   instantiate: (di: DiContainer) => {
-    // @ts-ignore
-    // const routes = di.inject(allRoutesInjectable);
     const observableHistory = di.inject(observableHistoryInjectable);
 
+    const extensionInstallationCounter = di.inject(
+      extensionInstallationCounterInjectable,
+    );
 
-    return {
-      onEnable: async (extension: LensRendererExtension) => {
-        const toRouteInjectable = toRouteInjectableFor(extension, observableHistory);
+    return async (extension: LensRendererExtension) => {
+      const toRouteInjectable = toRouteInjectableFor(
+        extension,
+        observableHistory,
+        extensionInstallationCounter,
+      );
 
-        const routeInjectables = [
-          ...extension.globalPages.map(toRouteInjectable(false)),
-          ...extension.clusterPages.map(toRouteInjectable(true)),
-        ];
+      const routeInjectables = [
+        ...extension.globalPages.map(toRouteInjectable(false)),
+        ...extension.clusterPages.map(toRouteInjectable(true)),
+      ];
 
-        routeInjectables.forEach(di.register);
+      console.log(routeInjectables);
 
-        // await Promise.all(routeInjectables.map(di.register));
+      // TODO: Transactional register
+      routeInjectables.forEach(di.register);
 
-        // routes.invalidate();
-      },
-
-      onDisable: (extension: LensRendererExtension) => {
-        const extensionId = sanitizeExtensionName(extension.name);
-
-        const routeInjectableIds = [...extension.globalPages, ...extension.clusterPages].map(registration =>`route-${getExtensionRouteId(extensionId, registration.id)}`);
-
-        // @ts-ignore
-        routeInjectableIds.forEach(di.deregister);
-
-        // routes.invalidate();
-      },
+      // await Promise.all(routeInjectables.map(di.register));
     };
   },
 
@@ -72,17 +56,31 @@ const extensionRouteRegistratorInjectable = getInjectable({
 export default extensionRouteRegistratorInjectable;
 
 const toRouteInjectableFor =
-  (extension: LensRendererExtension, observableHistory: ObservableHistory) =>
+  (
+    extension: LensRendererExtension,
+    observableHistory: ObservableHistory,
+    extensionInstallationCounter: Map<string, number>,
+  ) =>
     (clusterFrame: boolean) => {
-      const extensionId = sanitizeExtensionName(extension.name);
+      const extensionInstallationCount =
+      (extensionInstallationCounter.get(extension.sanitizedExtensionId) || 0) +
+      1;
 
       return (registration: PageRegistration) => {
-        const routeId = getExtensionRouteId(extensionId, registration.id);
+        extensionInstallationCounter.set(
+          extension.sanitizedExtensionId,
+          extensionInstallationCount,
+        );
+
+        const routeId = getExtensionRouteId(
+          extension.sanitizedExtensionId,
+          registration.id,
+        );
         const routePath = getSanitizedPath("/extension", routeId);
 
         const normalizedParams = getNormalizedParams(
           registration.params,
-          extensionId,
+          extension.sanitizedExtensionId,
           observableHistory,
         );
 
@@ -95,7 +93,7 @@ const toRouteInjectableFor =
           );
 
         return getInjectable({
-          id: `route-${routeId}`,
+          id: `route-${routeId}-from-extension-instance-${extensionInstallationCount}`,
 
           instantiate: () => ({
             id: routeId,
@@ -103,6 +101,7 @@ const toRouteInjectableFor =
             Component,
             clusterFrame,
             isEnabled: () => true,
+            extension,
           }),
 
           injectionToken: routeInjectionToken,

@@ -13,12 +13,6 @@ import {
   LensExtensionDependencies,
   setLensExtensionDependencies,
 } from "./lens-extension-set-dependencies";
-import {
-  getLegacyGlobalDiForExtensionApi,
-} from "./as-legacy-globals-for-extension-api/legacy-global-di-for-extension-api";
-import {
-  extensionRegistratorInjectionToken,
-} from "./extension-loader/extension-registrator-injection-token";
 
 export type LensExtensionId = string; // path to manifest (package.json)
 export type LensExtensionConstructor = new (...args: ConstructorParameters<typeof LensExtension>) => LensExtension;
@@ -37,6 +31,10 @@ export class LensExtension {
   readonly manifest: LensExtensionManifest;
   readonly manifestPath: string;
   readonly isBundled: boolean;
+
+  get sanitizedExtensionId() {
+    return sanitizeExtensionName(this.name);
+  }
 
   protocolHandlers: ProtocolHandlerRegistration[] = [];
 
@@ -92,11 +90,6 @@ export class LensExtension {
     }
 
     try {
-      const di = getLegacyGlobalDiForExtensionApi();
-      const extensionRegistrators = di.injectMany(extensionRegistratorInjectionToken);
-
-      await Promise.all(extensionRegistrators.map(x => x.onEnable(this)));
-
       this._isEnabled = true;
 
       this[Disposers].push(...await register(this));
@@ -114,11 +107,6 @@ export class LensExtension {
     }
 
     this._isEnabled = false;
-
-    const di = getLegacyGlobalDiForExtensionApi();
-    const extensionRegistrators = di.injectMany(extensionRegistratorInjectionToken);
-
-    extensionRegistrators.map(x => x.onDisable(this));
 
     try {
       await this.onDeactivate();
