@@ -41,7 +41,7 @@ export interface LensApiRequest<P = any> {
 }
 
 interface Dependencies {
-  parseRequest: (request: http.IncomingMessage, _: null, options: { parse: boolean, output: string }) => Promise<{ payload: any }>
+  parseRequest: (request: http.IncomingMessage, _: null, options: { parse: boolean; output: string }) => Promise<{ payload: any }>;
 }
 
 export class Router {
