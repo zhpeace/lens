@@ -25,7 +25,8 @@ const logModule = "[EXTENSIONS-LOADER]";
 interface Dependencies {
   updateExtensionsState: (extensionsState: Record<LensExtensionId, LensExtensionState>) => void
   createExtensionInstance: (ExtensionClass: LensExtensionConstructor, extension: InstalledExtension) => LensExtension,
-  extensionRegistrators: ((extension: LensExtension) => Promise<void>)[]
+  extensionRegistrators: ((extension: LensExtension, extensionInstallationCount: number) => Promise<void>)[]
+  extensionInstallationCounter: Map<string, number>
 }
 
 export interface ExtensionLoading {
@@ -319,7 +320,11 @@ export class ExtensionLoader {
               extension,
             );
 
-            await Promise.all(this.dependencies.extensionRegistrators.map(x => x(instance)));
+            const installationCount = (this.dependencies.extensionInstallationCounter.get(instance.sanitizedExtensionId) | 0) + 1;
+
+            this.dependencies.extensionInstallationCounter.set(instance.sanitizedExtensionId, installationCount);
+
+            await Promise.all(this.dependencies.extensionRegistrators.map(x => x(instance, installationCount)));
 
             this.instances.set(extId, instance);
 

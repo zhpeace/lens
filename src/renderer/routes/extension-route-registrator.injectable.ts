@@ -17,7 +17,6 @@ import type { PageParams, PageRegistration } from "../../extensions/registries";
 import observableHistoryInjectable from "../navigation/observable-history.injectable";
 import type { ObservableHistory } from "mobx-observable-history";
 import { extensionRegistratorInjectionToken } from "../../extensions/extension-loader/extension-registrator-injection-token";
-import extensionInstallationCounterInjectable from "./extension-installation-counter.injectable";
 
 const extensionRouteRegistratorInjectable = getInjectable({
   id: "extension-route-registrator",
@@ -25,23 +24,17 @@ const extensionRouteRegistratorInjectable = getInjectable({
   instantiate: (di: DiContainer) => {
     const observableHistory = di.inject(observableHistoryInjectable);
 
-    const extensionInstallationCounter = di.inject(
-      extensionInstallationCounterInjectable,
-    );
-
-    return async (extension: LensRendererExtension) => {
+    return async (extension: LensRendererExtension, extensionInstallationCount: number) => {
       const toRouteInjectable = toRouteInjectableFor(
         extension,
         observableHistory,
-        extensionInstallationCounter,
+        extensionInstallationCount,
       );
 
       const routeInjectables = [
         ...extension.globalPages.map(toRouteInjectable(false)),
         ...extension.clusterPages.map(toRouteInjectable(true)),
       ];
-
-      console.log(routeInjectables);
 
       // TODO: Transactional register
       routeInjectables.forEach(di.register);
@@ -59,19 +52,10 @@ const toRouteInjectableFor =
   (
     extension: LensRendererExtension,
     observableHistory: ObservableHistory,
-    extensionInstallationCounter: Map<string, number>,
+    extensionInstallationCount: number,
   ) =>
     (clusterFrame: boolean) => {
-      const extensionInstallationCount =
-      (extensionInstallationCounter.get(extension.sanitizedExtensionId) || 0) +
-      1;
-
       return (registration: PageRegistration) => {
-        extensionInstallationCounter.set(
-          extension.sanitizedExtensionId,
-          extensionInstallationCount,
-        );
-
         const routeId = getExtensionRouteId(
           extension.sanitizedExtensionId,
           registration.id,
@@ -93,7 +77,7 @@ const toRouteInjectableFor =
           );
 
         return getInjectable({
-          id: `route-${routeId}-from-extension-instance-${extensionInstallationCount}`,
+          id: `route-${routeId}-for-extension-instance-${extensionInstallationCount}`,
 
           instantiate: () => ({
             id: routeId,

@@ -15,20 +15,24 @@ import {
   map,
   matches,
   orderBy,
+  overSome,
   some,
 } from "lodash/fp";
 import type { SetRequired } from "type-fest";
 import type { SidebarItemProps } from "./sidebar-item";
+import rendererExtensionsInjectable from "../../../extensions/renderer-extensions.injectable";
+import type { LensRendererExtension } from "../../../extensions/lens-renderer-extension";
 
 export interface SidebarItemRegistration {
   id: string;
-  parentId: string | null
+  parentId: string | null;
   title: string;
   onClick: () => void;
-  getIcon?: () => React.ReactNode
-  isActive?: boolean
-  isVisible?: boolean
-  priority: number
+  getIcon?: () => React.ReactNode;
+  isActive?: boolean;
+  isVisible?: boolean;
+  priority: number;
+  extension?: LensRendererExtension;
 }
 
 export const sidebarItemsInjectionToken = getInjectionToken<
@@ -39,16 +43,26 @@ const sidebarItemsInjectable = getInjectable({
   id: "sidebar-items",
 
   instantiate: (di) => {
-    const sidebarItemRegistrations = di.injectMany(sidebarItemsInjectionToken);
-
-    // const extensionSidebarItemRegistrations = di.inject(
-    //   extensionSidebarItemRegistrationsInjectable,
-    // );
+    const extensions = di.inject(rendererExtensionsInjectable);
 
     return computed((): SidebarItemProps[] => {
+      const enabledExtensions = extensions.get();
+
+      const sidebarItemRegistrations = di.injectMany(
+        sidebarItemsInjectionToken,
+      );
+
       const registrations = pipeline(
         sidebarItemRegistrations,
         flatMap(dereference),
+
+        filter(
+          overSome([
+            isNonExtensionSidebarItem,
+            isEnabledExtensionSidebarItemFor(enabledExtensions),
+          ]),
+        ),
+
         map(defaults({ isVisible: true, isActive: true })),
       );
 
@@ -62,22 +76,36 @@ const sidebarItemsInjectable = getInjectable({
   },
 });
 
-const dereference = (items: IComputedValue<SidebarItemRegistration[]>) => items.get();
+const isNonExtensionSidebarItem = (sidebarItem: SidebarItemRegistration) =>
+  !sidebarItem.extension;
 
-type StrictItemRegistration = SetRequired<SidebarItemRegistration, "isActive" | "isVisible">;
+const isEnabledExtensionSidebarItemFor =
+  (enabledExtensions: LensRendererExtension[]) =>
+    (sidebarItem: SidebarItemRegistration) =>
+      !!enabledExtensions.find((x) => x === sidebarItem.extension);
 
-const asParents = (allItems: SidebarItemRegistration[]) => (item: StrictItemRegistration): StrictItemRegistration => {
-  const children = allItems.filter(matches({ parentId: item.id }));
+const dereference = (items: IComputedValue<SidebarItemRegistration[]>) =>
+  items.get();
 
-  if (isEmpty(children)) {
-    return item;
-  }
+type StrictItemRegistration = SetRequired<
+  SidebarItemRegistration,
+  "isActive" | "isVisible"
+>;
 
-  return {
-    ...item,
-    isActive: some({ isActive: true }, children),
-    isVisible: some({ isVisible: true }, children),
-  };
-};
+const asParents =
+  (allItems: SidebarItemRegistration[]) =>
+    (item: StrictItemRegistration): StrictItemRegistration => {
+      const children = allItems.filter(matches({ parentId: item.id }));
+
+      if (isEmpty(children)) {
+        return item;
+      }
+
+      return {
+        ...item,
+        isActive: some({ isActive: true }, children),
+        isVisible: some({ isVisible: true }, children),
+      };
+    };
 
 export default sidebarItemsInjectable;
