@@ -10,9 +10,7 @@ import logger from "../logger";
 import { routeInjectionToken } from "../router/router.injectable";
 import {
   appName,
-  isDevelopment,
   publicPath,
-  webpackDevServerPort,
 } from "../../common/vars";
 import path from "path";
 import readFileInjectable from "../../common/fs/read-file.injectable";
@@ -20,15 +18,13 @@ import type { SupportedFileExtension } from "../router-content-types";
 import { contentTypes } from "../router-content-types";
 
 interface Dependencies {
-  readFile: (path: string) => Promise<Buffer>
+  readFile: (path: string) => Promise<Buffer>;
 }
 
 const staticFileRoute = ({ readFile }: Dependencies) => async ({
   params,
-  raw: { req },
 }: LensApiRequest) => {
   const staticPath = path.resolve(__static);
-
 
   let filePath = params.path;
 
@@ -42,24 +38,6 @@ const staticFileRoute = ({ readFile }: Dependencies) => async ({
     }
 
     try {
-      const filename = path.basename(req.url);
-
-      // redirect requests to [appName].js, [appName].html /sockjs-node/ to webpack-dev-server (for hot-reload support)
-      const toWebpackDevServer =
-        filename.includes(appName) ||
-        filename.includes("hot-update") ||
-        req.url.includes("sockjs-node");
-
-      if (isDevelopment && toWebpackDevServer) {
-        return {
-          statusCode: 307,
-
-          headers: {
-            Location: `http://localhost:${webpackDevServerPort}${req.url}`,
-          },
-        };
-      }
-
       const fileExtension = path
         .extname(asset)
         .slice(1) as SupportedFileExtension;
