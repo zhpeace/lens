@@ -8,7 +8,6 @@ import { computed, IComputedValue } from "mobx";
 import { pipeline } from "@ogre-tools/fp";
 
 import {
-  defaults,
   filter,
   flatMap,
   isEmpty,
@@ -18,10 +17,10 @@ import {
   overSome,
   some,
 } from "lodash/fp";
-import type { SetRequired } from "type-fest";
 import type { SidebarItemProps } from "./sidebar-item";
 import rendererExtensionsInjectable from "../../../extensions/renderer-extensions.injectable";
 import type { LensRendererExtension } from "../../../extensions/lens-renderer-extension";
+import type { SetRequired } from "type-fest";
 
 export interface SidebarItemRegistration {
   id: string;
@@ -62,8 +61,6 @@ const sidebarItemsInjectable = getInjectable({
             isEnabledExtensionSidebarItemFor(enabledExtensions),
           ]),
         ),
-
-        map(defaults({ isVisible: true, isActive: true })),
       );
 
       return pipeline(
@@ -94,17 +91,17 @@ type StrictItemRegistration = SetRequired<
 
 const asParents =
   (allItems: SidebarItemRegistration[]) =>
-    (item: StrictItemRegistration): StrictItemRegistration => {
+    (item: SidebarItemRegistration): StrictItemRegistration => {
       const children = allItems.filter(matches({ parentId: item.id }));
 
       if (isEmpty(children)) {
-        return item;
+        return { isActive: false, isVisible: true, ...item };
       }
 
       return {
-        ...item,
         isActive: some({ isActive: true }, children),
         isVisible: some({ isVisible: true }, children),
+        ...item,
       };
     };
 

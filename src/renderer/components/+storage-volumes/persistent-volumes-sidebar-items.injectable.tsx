@@ -6,18 +6,18 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
 import persistentVolumesRouteInjectable from "./persistent-volumes-route.injectable";
 import { storageSidebarItemId } from "../+storage/storage-sidebar-items.injectable";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const persistentVolumesSidebarItemsInjectable = getInjectable({
   id: "persistent-volumes-sidebar-items",
 
   instantiate: (di) => {
     const route = di.inject(persistentVolumesRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
+    const routeIsActive = di.inject(routeIsActiveInjectable, route);
 
     return computed(() => [
       {
@@ -25,7 +25,7 @@ const persistentVolumesSidebarItemsInjectable = getInjectable({
         parentId: storageSidebarItemId,
         title: "Persistent Volumes",
         onClick: () => navigateToRoute(route),
-        isActive: route === currentRoute.get(),
+        isActive: routeIsActive.get(),
         isVisible: route.isEnabled(),
         priority: 20,
       },

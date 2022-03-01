@@ -7,17 +7,17 @@ import { computed } from "mobx";
 
 import servicesRouteInjectable from "./services-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
 import { networkSidebarItemId } from "../+network/network-sidebar-items.injectable";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const servicesSidebarItemsInjectable = getInjectable({
   id: "services-sidebar-items",
 
   instantiate: (di) => {
     const route = di.inject(servicesRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
+    const routeIsActive = di.inject(routeIsActiveInjectable, route);
 
     return computed(() => [
       {
@@ -25,7 +25,7 @@ const servicesSidebarItemsInjectable = getInjectable({
         parentId: networkSidebarItemId,
         title: "Services",
         onClick: () => navigateToRoute(route),
-        isActive: route === currentRoute.get(),
+        isActive: routeIsActive.get(),
         isVisible: route.isEnabled(),
         priority: 10,
       },

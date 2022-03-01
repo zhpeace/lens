@@ -7,17 +7,17 @@ import { computed } from "mobx";
 
 import replicasetsRouteInjectable from "./replicasets-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
 import { workloadsSidebarItemId } from "../+workloads/workloads-sidebar-items.injectable";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const replicasetsSidebarItemsInjectable = getInjectable({
   id: "replicasets-sidebar-items",
 
   instantiate: (di) => {
     const route = di.inject(replicasetsRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
+    const routeIsActive = di.inject(routeIsActiveInjectable, route);
 
     return computed(() => [
       {
@@ -25,7 +25,7 @@ const replicasetsSidebarItemsInjectable = getInjectable({
         parentId: workloadsSidebarItemId,
         title: "ReplicaSets",
         onClick: () => navigateToRoute(route),
-        isActive: route === currentRoute.get(),
+        isActive: routeIsActive.get(),
         isVisible: route.isEnabled(),
         priority: 60,
       },

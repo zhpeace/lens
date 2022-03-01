@@ -12,7 +12,7 @@ import {
 import { computed } from "mobx";
 import clusterOverviewRouteInjectable from "./cluster-overview-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const clusterOverviewSidebarItemsInjectable = getInjectable({
   id: "cluster-overview-sidebar-items",
@@ -20,7 +20,7 @@ const clusterOverviewSidebarItemsInjectable = getInjectable({
   instantiate: (di) => {
     const route = di.inject(clusterOverviewRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
+    const routeIsActive = di.inject(routeIsActiveInjectable, route);
 
     return computed((): SidebarItemRegistration[] => [
       {
@@ -29,7 +29,7 @@ const clusterOverviewSidebarItemsInjectable = getInjectable({
         title: "Cluster",
         getIcon: () => <Icon svg="kube" />,
         onClick: () => navigateToRoute(route),
-        isActive: route === currentRoute.get(),
+        isActive: routeIsActive.get(),
         isVisible: route.isEnabled(),
         priority: 10,
       },

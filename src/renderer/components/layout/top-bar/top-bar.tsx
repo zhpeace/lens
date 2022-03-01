@@ -21,7 +21,7 @@ import isLinuxInjectable from "../../../../common/vars/is-linux.injectable";
 import isWindowsInjectable from "../../../../common/vars/is-windows.injectable";
 import navigateToCatalogInjectable from "../../+catalog/navigate-to-catalog.injectable";
 import catalogRouteInjectable from "../../+catalog/catalog-route.injectable";
-import isActiveRouteInjectable from "../../../routes/is-active-route.injectable";
+import routeIsActiveInjectable from "../../../routes/route-is-active.injectable";
 
 export interface TopBarProps extends React.HTMLAttributes<any> {}
 
@@ -180,7 +180,7 @@ export const TopBar = withInjectables<Dependencies, TopBarProps>(
         isWindows: di.inject(isWindowsInjectable),
 
         catalogRouteIsActive: di.inject(
-          isActiveRouteInjectable,
+          routeIsActiveInjectable,
           catalogRoute,
         ),
         ...props,

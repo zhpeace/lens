@@ -7,8 +7,8 @@ import { computed } from "mobx";
 import type { Route } from "./all-routes.injectable";
 import currentRouteInjectable from "./current-route.injectable";
 
-const isActiveRouteInjectable = getInjectable({
-  id: "is-active-route",
+const routeIsActiveInjectable = getInjectable({
+  id: "route-is-active",
 
   instantiate: (di, route: Route) => {
     const currentRoute = di.inject(currentRouteInjectable);
@@ -17,8 +17,14 @@ const isActiveRouteInjectable = getInjectable({
   },
 
   lifecycle: lifecycleEnum.keyedSingleton({
-    getInstanceKey: (di, route: Route) => route.path,
+    getInstanceKey: (di, route: Route) => {
+      const path = route.path;
+
+      console.log({ path });
+
+      return path;
+    },
   }),
 });
 
-export default isActiveRouteInjectable;
+export default routeIsActiveInjectable;

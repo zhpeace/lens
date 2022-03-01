@@ -6,12 +6,12 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import horizontalPodAutoscalersRouteInjectable from "./horizontal-pod-autoscalers-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
 import { configSidebarItemId } from "../+config/config-sidebar-items.injectable";
 import {
   SidebarItemRegistration,
   sidebarItemsInjectionToken,
 } from "../layout/sidebar-items.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
   id: "horizontal-pod-auto-scalers-sidebar-items",
@@ -19,7 +19,7 @@ const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
   instantiate: (di) => {
     const route = di.inject(horizontalPodAutoscalersRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
+    const routeIsActive = di.inject(routeIsActiveInjectable, route);
 
     return computed((): SidebarItemRegistration[] => [
       {
@@ -27,7 +27,7 @@ const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
         parentId: configSidebarItemId,
         title: "HPA",
         onClick: () => navigateToRoute(route),
-        isActive: route === currentRoute.get(),
+        isActive: routeIsActive.get(),
         isVisible: route.isEnabled(),
         priority: 50,
       },

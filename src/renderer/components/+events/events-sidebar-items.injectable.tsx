@@ -13,15 +13,15 @@ import { Icon } from "../icon";
 
 import eventsRouteInjectable from "./events-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const eventsSidebarItemsInjectable = getInjectable({
   id: "events-sidebar-items",
 
   instantiate: (di) => {
     const route = di.inject(eventsRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
+    const routeIsActive = di.inject(routeIsActiveInjectable, route);
 
     return computed((): SidebarItemRegistration[] => [
       {
@@ -30,7 +30,7 @@ const eventsSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon material="access_time" />,
         title: "Events",
         onClick: () => navigateToRoute(route),
-        isActive: route === currentRoute.get(),
+        isActive: routeIsActive.get(),
         isVisible: route.isEnabled(),
         priority: 80,
       },

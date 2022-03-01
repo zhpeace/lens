@@ -12,9 +12,9 @@ import {
 } from "./sidebar-items.injectable";
 import { computed } from "mobx";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
 import routesInjectable from "../../routes/routes.injectable";
-import { matches } from "lodash/fp";
+import { matches, noop } from "lodash/fp";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const extensionSidebarItemRegistratorInjectable = getInjectable({
   id: "extension-sidebar-item-registrator",
@@ -27,7 +27,6 @@ const extensionSidebarItemRegistratorInjectable = getInjectable({
 
         instantiate: (di) => {
           const navigateToRoute = di.inject(navigateToRouteInjectable);
-          const currentRoute = di.inject(currentRouteInjectable);
           const routes = di.inject(routesInjectable);
 
           return computed((): SidebarItemRegistration[] => {
@@ -39,9 +38,11 @@ const extensionSidebarItemRegistratorInjectable = getInjectable({
                   ? `${extension.sanitizedExtensionId}/${registration.target.pageId}`
                   : extension.sanitizedExtensionId;
 
-                const route = extensionRoutes.find(
+                const targetRoute = extensionRoutes.find(
                   matches({ id: targetRouteId }),
                 );
+
+                const isActiveRoute = targetRoute ? di.inject(routeIsActiveInjectable, targetRoute).get() : false;
 
                 return {
                   id: `${extension.sanitizedExtensionId}-${registration.id}`,
@@ -54,11 +55,11 @@ const extensionSidebarItemRegistratorInjectable = getInjectable({
                   title: registration.title.toString(),
                   getIcon: () => <registration.components.Icon />,
 
-                  onClick: () => {
-                    navigateToRoute(route);
-                  },
+                  onClick: targetRoute ? () => {
+                    navigateToRoute(targetRoute);
+                  }: noop,
 
-                  isActive: route === currentRoute.get(),
+                  isActive: isActiveRoute,
 
                   priority: 9999,
                 };

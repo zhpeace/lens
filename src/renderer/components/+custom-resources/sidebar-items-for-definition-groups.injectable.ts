@@ -6,12 +6,12 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import crdListRouteInjectable from "./crd-list-route.injectable";
 import customResourceDefinitionsInjectable from "./custom-resources.injectable";
-import { groupBy, matches, some, toPairs } from "lodash/fp";
+import { groupBy, matches, noop, some, toPairs } from "lodash/fp";
 import customResourcesRouteInjectable from "./custom-resources-route.injectable";
 import pathParametersInjectable from "../../routes/path-parameters.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
 import type { SidebarItemRegistration } from "../layout/sidebar-items.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
   id: "sidebar-items-for-definition-groups",
@@ -22,14 +22,13 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
     );
 
     const crdRoute = di.inject(customResourcesRouteInjectable);
+    const crdRouteIsActive = di.inject(routeIsActiveInjectable, crdRoute);
     const crdListRoute = di.inject(crdListRouteInjectable);
     const pathParameters = di.inject(pathParametersInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
 
     return computed((): SidebarItemRegistration[] => {
       const definitions = customResourceDefinitions.get();
-      const route = currentRoute.get();
       const currentPathParameters = pathParameters.get();
 
       const groupedCrds = toPairs(
@@ -46,7 +45,7 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
           };
 
           const definitionIsShown =
-            route === crdRoute &&
+            crdRouteIsActive.get() &&
             matches(crdPathParameters, currentPathParameters);
 
           return {
@@ -69,7 +68,7 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
             id: `custom-resource-definition-group-${group}`,
             parentId: "custom-resources",
             title: group,
-            onClick: () => navigateToRoute(route, { query: { groups: group }}),
+            onClick: noop,
             isActive: false,
             isVisible: some({ isVisible: true }, childItems),
             priority: 10,

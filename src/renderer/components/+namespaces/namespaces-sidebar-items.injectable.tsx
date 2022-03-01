@@ -13,15 +13,15 @@ import React from "react";
 
 import namespacesRouteInjectable from "./namespaces-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const namespacesSidebarItemsInjectable = getInjectable({
   id: "namespaces",
 
   instantiate: (di) => {
     const route = di.inject(namespacesRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
+    const routeIsActive = di.inject(routeIsActiveInjectable, route);
 
     return computed((): SidebarItemRegistration[] => [
       {
@@ -30,7 +30,7 @@ const namespacesSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon material="layers" />,
         title: "Namespaces",
         onClick: () => navigateToRoute(route),
-        isActive: route === currentRoute.get(),
+        isActive: routeIsActive.get(),
         isVisible: route.isEnabled(),
         priority: 70,
       },

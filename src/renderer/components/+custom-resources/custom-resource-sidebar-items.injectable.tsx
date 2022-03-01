@@ -14,9 +14,9 @@ import { Icon } from "../icon";
 import React from "react";
 
 import crdListRouteInjectable from "./crd-list-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
 import sidebarItemsForDefinitionGroupsInjectable from "./sidebar-items-for-definition-groups.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const customResourceSidebarItemsInjectable = getInjectable({
   id: "custom-resource-sidebar-items",
@@ -24,21 +24,19 @@ const customResourceSidebarItemsInjectable = getInjectable({
   instantiate: (di) => {
     const navigateToRoute = di.inject(navigateToRouteInjectable);
     const crdListRoute = di.inject(crdListRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
+    const crdListRouteIsActive = di.inject(routeIsActiveInjectable, crdListRoute);
 
     const definitionGroupSidebarItems = di.inject(
       sidebarItemsForDefinitionGroupsInjectable,
     );
 
     return computed((): SidebarItemRegistration[] => {
-      const route = currentRoute.get();
-
       const definitionsItem = {
         id: "definitions",
         parentId: "custom-resources",
         title: "Definitions",
         onClick: () => navigateToRoute(crdListRoute),
-        isActive: route === crdListRoute,
+        isActive: crdListRouteIsActive.get(),
         isVisible: crdListRoute.isEnabled(),
         priority: 10,
       };
@@ -56,7 +54,6 @@ const customResourceSidebarItemsInjectable = getInjectable({
         title: "Custom Resources",
         getIcon: () => <Icon material="extension" />,
         onClick: noop,
-
         isActive: some({ isActive: true }, childrenAndGrandChildren),
         isVisible: some({ isVisible: true }, childrenAndGrandChildren),
         priority: 110,

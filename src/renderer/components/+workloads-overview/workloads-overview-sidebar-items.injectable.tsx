@@ -7,17 +7,17 @@ import { computed } from "mobx";
 
 import workloadsOverviewRouteInjectable from "./workloads-overview-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
 import { workloadsSidebarItemId } from "../+workloads/workloads-sidebar-items.injectable";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const workloadsOverviewSidebarItemsInjectable = getInjectable({
   id: "workloads-overview-sidebar-items",
 
   instantiate: (di) => {
     const route = di.inject(workloadsOverviewRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
+    const routeIsActive = di.inject(routeIsActiveInjectable, route);
 
     return computed(() => [
       {
@@ -25,7 +25,7 @@ const workloadsOverviewSidebarItemsInjectable = getInjectable({
         parentId: workloadsSidebarItemId,
         title: "Overview",
         onClick: () => navigateToRoute(route),
-        isActive: route === currentRoute.get(),
+        isActive: routeIsActive.get(),
         isVisible: route.isEnabled(),
         priority: 10,
       },

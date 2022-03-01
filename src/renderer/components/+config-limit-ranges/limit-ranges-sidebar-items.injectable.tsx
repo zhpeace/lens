@@ -7,9 +7,9 @@ import { computed } from "mobx";
 
 import limitRangesRouteInjectable from "./limit-ranges-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
 import { configSidebarItemId } from "../+config/config-sidebar-items.injectable";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const limitRangesSidebarItemsInjectable = getInjectable({
   id: "limit-ranges-sidebar-items",
@@ -17,7 +17,7 @@ const limitRangesSidebarItemsInjectable = getInjectable({
   instantiate: (di) => {
     const route = di.inject(limitRangesRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
+    const routeIsActive = di.inject(routeIsActiveInjectable, route);
 
     return computed(() => [
       {
@@ -25,7 +25,7 @@ const limitRangesSidebarItemsInjectable = getInjectable({
         parentId: configSidebarItemId,
         title: "Limit Ranges",
         onClick: () => navigateToRoute(route),
-        isActive: route === currentRoute.get(),
+        isActive: routeIsActive.get(),
         isVisible: route.isEnabled(),
         priority: 40,
       },

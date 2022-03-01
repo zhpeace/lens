@@ -7,9 +7,9 @@ import { computed } from "mobx";
 
 import podDisruptionBudgetsRouteInjectable from "./pod-disruption-budgets-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
 import { configSidebarItemId } from "../+config/config-sidebar-items.injectable";
 import { sidebarItemsInjectionToken } from "../layout/sidebar-items.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
   id: "pod-disruption-budgets-sidebar-items",
@@ -17,7 +17,7 @@ const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
   instantiate: (di) => {
     const route = di.inject(podDisruptionBudgetsRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
+    const routeIsActive = di.inject(routeIsActiveInjectable, route);
 
     return computed(() => [
       {
@@ -25,7 +25,7 @@ const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
         parentId: configSidebarItemId,
         title: "Pod Disruption Budgets",
         onClick: () => navigateToRoute(route),
-        isActive: route === currentRoute.get(),
+        isActive: routeIsActive.get(),
         isVisible: route.isEnabled(),
         priority: 60,
       },

@@ -7,17 +7,17 @@ import { computed } from "mobx";
 
 import serviceAccountsRouteInjectable from "./service-accounts-route.injectable";
 import navigateToRouteInjectable from "../../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../../routes/current-route.injectable";
 import { userManagementSidebarItemId } from "../user-management-sidebar-items.injectable";
 import { sidebarItemsInjectionToken } from "../../layout/sidebar-items.injectable";
+import routeIsActiveInjectable from "../../../routes/route-is-active.injectable";
 
 const serviceAccountsSidebarItemsInjectable = getInjectable({
   id: "service-accounts-sidebar-items",
 
   instantiate: (di) => {
     const route = di.inject(serviceAccountsRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
+    const routeIsActive = di.inject(routeIsActiveInjectable, route);
 
     return computed(() => [
       {
@@ -25,7 +25,7 @@ const serviceAccountsSidebarItemsInjectable = getInjectable({
         parentId: userManagementSidebarItemId,
         title: "Service Accounts",
         onClick: () => navigateToRoute(route),
-        isActive: route === currentRoute.get(),
+        isActive: routeIsActive.get(),
         isVisible: route.isEnabled(),
         priority: 10,
       },

@@ -13,15 +13,15 @@ import React from "react";
 
 import nodesRouteInjectable from "./nodes-route.injectable";
 import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
+import routeIsActiveInjectable from "../../routes/route-is-active.injectable";
 
 const nodesSidebarItemsInjectable = getInjectable({
   id: "nodes-sidebar-items",
 
   instantiate: (di) => {
     const route = di.inject(nodesRouteInjectable);
-    const currentRoute = di.inject(currentRouteInjectable);
     const navigateToRoute = di.inject(navigateToRouteInjectable);
+    const routeIsActive = di.inject(routeIsActiveInjectable, route);
 
     return computed((): SidebarItemRegistration[] => [
       {
@@ -30,7 +30,7 @@ const nodesSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon svg="nodes" />,
         title: "Nodes",
         onClick: () => navigateToRoute(route),
-        isActive: route === currentRoute.get(),
+        isActive: routeIsActive.get(),
         isVisible: route.isEnabled(),
         priority: 20,
       },
