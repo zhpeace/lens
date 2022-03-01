@@ -28,11 +28,11 @@ import type { KubeObjectMenuRegistration } from "../renderer/components/kube-obj
 import { getLegacyGlobalDiForExtensionApi } from "./as-legacy-globals-for-extension-api/legacy-global-di-for-extension-api";
 import routesInjectable from "../renderer/routes/routes.injectable";
 import { fromPairs, map, matches, toPairs } from "lodash/fp";
-import navigateToRouteInjectable from "../renderer/routes/navigate-to-route.injectable";
-import { runInAction } from "mobx";
-import { pipeline } from "@ogre-tools/fp";
-import routeRegistrationsInjectable from "../renderer/routes/route-registrations.injectable";
 import { getExtensionRouteId } from "../renderer/routes/get-extension-route-id";
+import { runInAction } from "mobx";
+import navigateToRouteInjectable from "../renderer/routes/navigate-to-route.injectable";
+import extensionPageParametersInjectable from "../renderer/routes/extension-page-parameters.injectable";
+import { pipeline } from "@ogre-tools/fp";
 
 export class LensRendererExtension extends LensExtension {
   globalPages: registries.PageRegistration[] = [];
@@ -58,26 +58,34 @@ export class LensRendererExtension extends LensExtension {
 
     const navigateToRoute = di.inject(navigateToRouteInjectable);
     const routes = di.inject(routesInjectable).get();
-    const routeRegistrations = di.inject(routeRegistrationsInjectable).get();
+    const extensionRoutes = routes.filter(matches({ extension: this }));
 
-    const targetRouteId = getExtensionRouteId(this.name, pageId);
-    const targetRoute = routes.find(matches({ id: targetRouteId }));
+    const targetRouteId = getExtensionRouteId(
+      this.sanitizedExtensionId,
+      pageId,
+    );
+    const targetRoute = extensionRoutes.find(matches({ id: targetRouteId }));
+
+    const targetRegistration = [...this.globalPages, ...this.clusterPages].find(
+      matches({ id: pageId }),
+    );
+
+    const normalizedParams = di.inject(extensionPageParametersInjectable, {
+      extension: this,
+      registration: targetRegistration,
+    });
 
     if (targetRoute) {
-      const targetRouteRegistration = routeRegistrations.find(
-        matches({ routeId: targetRouteId }),
-      );
-
       const query = pipeline(
         params,
 
         toPairs,
 
         map(([key, value]) => {
-          const normalizedParam = targetRouteRegistration.normalizedParams[key];
+          const normalizedParam = normalizedParams[key];
 
           return [
-            normalizedParam.name,
+            key,
             normalizedParam.stringify(value),
           ];
         }),

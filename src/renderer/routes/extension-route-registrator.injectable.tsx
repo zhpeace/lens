@@ -10,14 +10,13 @@ import { getExtensionRouteId } from "./get-extension-route-id";
 import { getSanitizedPath } from "../../extensions/lens-extension";
 import { observer } from "mobx-react";
 import React from "react";
-import { fromPairs, isEmpty, map, matches, toPairs } from "lodash/fp";
-import { pipeline } from "@ogre-tools/fp";
-import { PageParam, PageParamInit } from "../navigation";
-import type { PageParams, PageRegistration } from "../../extensions/registries";
+import { isEmpty, matches } from "lodash/fp";
+import type { PageRegistration } from "../../extensions/registries";
 import observableHistoryInjectable from "../navigation/observable-history.injectable";
 import type { ObservableHistory } from "mobx-observable-history";
 import { extensionRegistratorInjectionToken } from "../../extensions/extension-loader/extension-registrator-injection-token";
 import { SiblingsInTabLayout } from "../components/layout/siblings-in-tab-layout";
+import extensionPageParametersInjectable from "./extension-page-parameters.injectable";
 
 const extensionRouteRegistratorInjectable = getInjectable({
   id: "extension-route-registrator",
@@ -30,6 +29,7 @@ const extensionRouteRegistratorInjectable = getInjectable({
       extensionInstallationCount: number,
     ) => {
       const toRouteInjectable = toRouteInjectableFor(
+        di,
         extension,
         observableHistory,
         extensionInstallationCount,
@@ -54,6 +54,7 @@ export default extensionRouteRegistratorInjectable;
 
 const toRouteInjectableFor =
   (
+    di: DiContainer,
     extension: LensRendererExtension,
     observableHistory: ObservableHistory,
     extensionInstallationCount: number,
@@ -77,11 +78,10 @@ const toRouteInjectableFor =
 
         const routePath = getSanitizedPath("/extension", routeId);
 
-        const normalizedParams = getNormalizedParams(
-          registration.params,
-          extension.sanitizedExtensionId,
-          observableHistory,
-        );
+        const normalizedParams = di.inject(extensionPageParametersInjectable, {
+          extension,
+          registration,
+        });
 
         const ObserverPage = observer(registration.components.Page);
 
@@ -113,47 +113,3 @@ const toRouteInjectableFor =
         });
       };
     };
-
-const getNormalizedParams = (
-  params: PageParams,
-  extensionId: string,
-  observableHistory: ObservableHistory,
-) =>
-  pipeline(
-    params,
-    (params) => toPairs(params),
-
-    map(([key, value]): [string, PageParamInit] => [
-      key,
-
-      typeof value === "string"
-        ? convertStringToPageParam(key, value, extensionId)
-        : asdasd(key, value as PageParamInit, extensionId),
-    ]),
-
-    map(([key, value]) => [key, new PageParam(value, observableHistory)]),
-
-    (paramsTuple) => fromPairs(paramsTuple),
-  );
-
-const asdasd = (
-  key: string,
-  value: PageParamInit,
-  extensionId: string,
-): PageParamInit => ({
-  name: key,
-  prefix: `${extensionId}:`,
-  defaultValue: value.defaultValue,
-  stringify: value.stringify,
-  parse: value.parse,
-});
-
-const convertStringToPageParam = (
-  key: string,
-  value: string,
-  extensionId: string,
-): PageParamInit => ({
-  name: key,
-  defaultValue: value,
-  prefix: `${extensionId}:`,
-});
