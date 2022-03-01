@@ -10,13 +10,14 @@ import { getExtensionRouteId } from "./get-extension-route-id";
 import { getSanitizedPath } from "../../extensions/lens-extension";
 import { observer } from "mobx-react";
 import React from "react";
-import { fromPairs, isEmpty, map, toPairs } from "lodash/fp";
+import { fromPairs, isEmpty, map, matches, toPairs } from "lodash/fp";
 import { pipeline } from "@ogre-tools/fp";
 import { PageParam, PageParamInit } from "../navigation";
 import type { PageParams, PageRegistration } from "../../extensions/registries";
 import observableHistoryInjectable from "../navigation/observable-history.injectable";
 import type { ObservableHistory } from "mobx-observable-history";
 import { extensionRegistratorInjectionToken } from "../../extensions/extension-loader/extension-registrator-injection-token";
+import { SiblingsInTabLayout } from "../components/layout/siblings-in-tab-layout";
 
 const extensionRouteRegistratorInjectable = getInjectable({
   id: "extension-route-registrator",
@@ -24,7 +25,10 @@ const extensionRouteRegistratorInjectable = getInjectable({
   instantiate: (di: DiContainer) => {
     const observableHistory = di.inject(observableHistoryInjectable);
 
-    return async (extension: LensRendererExtension, extensionInstallationCount: number) => {
+    return async (
+      extension: LensRendererExtension,
+      extensionInstallationCount: number,
+    ) => {
       const toRouteInjectable = toRouteInjectableFor(
         extension,
         observableHistory,
@@ -60,6 +64,17 @@ const toRouteInjectableFor =
           extension.sanitizedExtensionId,
           registration.id,
         );
+
+        const currentSidebarRegistration = extension.clusterPageMenus.find(
+          matches({ target: { pageId: registration.id }}),
+        );
+
+        const siblingRegistrations = currentSidebarRegistration?.parentId
+          ? extension.clusterPageMenus.filter(
+            matches({ parentId: currentSidebarRegistration.parentId }),
+          )
+          : [];
+
         const routePath = getSanitizedPath("/extension", routeId);
 
         const normalizedParams = getNormalizedParams(
@@ -68,13 +83,19 @@ const toRouteInjectableFor =
           observableHistory,
         );
 
-        const Component = isEmpty(normalizedParams)
-          ? registration.components.Page
-          : observer(() =>
-            React.createElement(registration.components.Page, {
-              params: normalizedParams,
-            }),
+        const ObserverPage = observer(registration.components.Page);
+
+        const Component = () => {
+          if (isEmpty(siblingRegistrations)) {
+            return <ObserverPage params={normalizedParams} />;
+          }
+
+          return (
+            <SiblingsInTabLayout>
+              <ObserverPage params={normalizedParams} />
+            </SiblingsInTabLayout>
           );
+        };
 
         return getInjectable({
           id: `route-${routeId}-for-extension-instance-${extensionInstallationCount}`,
