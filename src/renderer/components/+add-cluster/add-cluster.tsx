@@ -14,19 +14,17 @@ import path from "path";
 import React from "react";
 import * as uuid from "uuid";
 
-import { catalogURL } from "../../../common/routes";
 import { appEventBus } from "../../../common/app-event-bus/event-bus";
 import { loadConfigFromString, splitConfig } from "../../../common/kube-helpers";
 import { docsUrl } from "../../../common/vars";
-import { navigate } from "../../navigation";
 import { iter } from "../../utils";
 import { Button } from "../button";
 import { Notifications } from "../notifications";
 import { SettingLayout } from "../layout/setting-layout";
 import { MonacoEditor } from "../monaco-editor";
 import { withInjectables } from "@ogre-tools/injectable-react";
-import getCustomKubeConfigDirectoryInjectable
-  from "../../../common/app-paths/get-custom-kube-config-directory/get-custom-kube-config-directory.injectable";
+import getCustomKubeConfigDirectoryInjectable from "../../../common/app-paths/get-custom-kube-config-directory/get-custom-kube-config-directory.injectable";
+import navigateToCatalogInjectable from "../+catalog/navigate-to-catalog.injectable";
 
 interface Option {
   config: KubeConfig;
@@ -35,6 +33,7 @@ interface Option {
 
 interface Dependencies {
   getCustomKubeConfigDirectory: (directoryName: string) => string
+  navigateToCatalog: () => void
 }
 
 function getContexts(config: KubeConfig): Map<string, Option> {
@@ -96,7 +95,7 @@ class NonInjectedAddCluster extends React.Component<Dependencies> {
 
       Notifications.ok(`Successfully added ${this.kubeContexts.size} new cluster(s)`);
 
-      return navigate(catalogURL());
+      return this.props.navigateToCatalog();
     } catch (error) {
       Notifications.error(`Failed to add clusters: ${error}`);
     }
@@ -149,5 +148,7 @@ export const AddCluster = withInjectables<Dependencies>(NonInjectedAddCluster, {
     getCustomKubeConfigDirectory: di.inject(
       getCustomKubeConfigDirectoryInjectable,
     ),
+
+    navigateToCatalog: di.inject(navigateToCatalogInjectable),
   }),
 });

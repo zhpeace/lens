@@ -35,14 +35,14 @@ import kubeWatchApiInjectable from "../../kube-watch-api/kube-watch-api.injectab
 import type { IsAllowedResource } from "../../../common/utils/is-allowed-resource.injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
 import type { KubeResource } from "../../../common/rbac";
-import currentRouteInjectable from "../../routes/current-route.injectable";
+import currentRouteComponentInjectable from "../../routes/current-route-component.injectable";
 
 interface Dependencies {
   namespaceStore: NamespaceStore;
   hostedClusterId: ClusterId;
   subscribeStores: (stores: KubeObjectStore<KubeObject>[]) => Disposer;
   isAllowedResource: IsAllowedResource;
-  currentRoute: IComputedValue<any>
+  currentRouteComponent: IComputedValue<React.ElementType>
 }
 
 @observer
@@ -127,14 +127,11 @@ class NonInjectedClusterFrame extends React.Component<Dependencies> {
   // }
 
   render() {
-    const currentRoute = this.props.currentRoute.get();
+    const Component = this.props.currentRouteComponent.get();
 
-    if (!currentRoute) {
+    if (!Component) {
       return <Redirect to={this.startUrl} />;
     }
-
-    const { Component } = currentRoute;
-
 
     return (
       <ErrorBoundary>
@@ -174,6 +171,6 @@ export const ClusterFrame = withInjectables<Dependencies>(NonInjectedClusterFram
     hostedClusterId: di.inject(hostedClusterInjectable).id,
     subscribeStores: di.inject(kubeWatchApiInjectable).subscribeStores,
     isAllowedResource: di.inject(isAllowedResourceInjectable),
-    currentRoute: di.inject(currentRouteInjectable),
+    currentRouteComponent: di.inject(currentRouteComponentInjectable),
   }),
 });

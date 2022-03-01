@@ -15,7 +15,7 @@ export const routeInjectionToken = getInjectionToken<Route>({
 
 export interface Route {
   path: string;
-  Component: React.ElementType;
+  Component?: React.ElementType;
   clusterFrame: boolean;
   isEnabled: () => boolean;
   id?: string;

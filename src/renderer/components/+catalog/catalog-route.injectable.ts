@@ -4,14 +4,12 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
-import { Catalog } from "./catalog";
 
 const catalogRouteInjectable = getInjectable({
   id: "catalog-route",
 
   instantiate: () => ({
     path: "/catalog/:group?/:kind?",
-    Component: Catalog,
     clusterFrame: false,
     isEnabled: () => true,
   }),

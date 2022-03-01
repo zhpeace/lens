@@ -6,6 +6,7 @@ import { getInjectable } from "@ogre-tools/injectable";
 import type { Route } from "./all-routes.injectable";
 import observableHistoryInjectable from "../navigation/observable-history.injectable";
 import { buildURL } from "../../common/utils/buildUrl";
+import { runInAction } from "mobx";
 
 const navigateToRouteInjectable = getInjectable({
   id: "navigate-to-route",
@@ -16,7 +17,9 @@ const navigateToRouteInjectable = getInjectable({
     return (route: Route, parameters = {}) => {
       const url = buildURL(route.path)(parameters);
 
-      observableHistory.push(url);
+      runInAction(() => {
+        observableHistory.push(url);
+      });
     };
   },
 });

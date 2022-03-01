@@ -8,7 +8,16 @@ import styles from "./catalog.module.scss";
 import React from "react";
 import { disposeOnUnmount, observer } from "mobx-react";
 import { ItemListLayout } from "../item-object-list";
-import { action, IComputedValue, makeObservable, observable, reaction, runInAction, when } from "mobx";
+import {
+  action,
+  computed,
+  IComputedValue,
+  makeObservable,
+  observable,
+  reaction,
+  runInAction,
+  when,
+} from "mobx";
 import type { CatalogEntityStore } from "./catalog-entity-store/catalog-entity.store";
 import { navigate } from "../../navigation";
 import { MenuItem, MenuActions } from "../menu";
@@ -22,7 +31,10 @@ import { Notifications } from "../notifications";
 import { MainLayout } from "../layout/main-layout";
 import { prevDefault } from "../../utils";
 import { CatalogEntityDetails } from "./catalog-entity-details";
-import { browseCatalogTab, catalogURL, CatalogViewRouteParam } from "../../../common/routes";
+import {
+  browseCatalogTab,
+  CatalogViewRouteParam,
+} from "../../../common/routes";
 import { CatalogMenu } from "./catalog-menu";
 import { RenderDelay } from "../render-delay/render-delay";
 import { Icon } from "../icon";
@@ -37,6 +49,7 @@ import type { RegisteredCustomCategoryViewDecl } from "./custom-views.injectable
 import customCategoryViewsInjectable from "./custom-views.injectable";
 import type { CustomCategoryViewComponents } from "./custom-views";
 import pathParametersInjectable from "../../routes/path-parameters.injectable";
+import navigateToCatalogInjectable from "./navigate-to-catalog.injectable";
 
 interface Props extends RouteComponentProps<CatalogViewRouteParam> {}
 
@@ -46,10 +59,12 @@ interface Dependencies {
   getCategoryColumns: (params: GetCategoryColumnsParams) => CategoryColumns;
   customCategoryViews: IComputedValue<Map<string, Map<string, RegisteredCustomCategoryViewDecl>>>;
 
-  pathParameters: {
+  pathParameters: IComputedValue<{
     group?: string
     kind?: string
   }
+>
+  navigateToCatalog: (parameters: { group: string, kind?: string }) => void
 }
 
 @observer
@@ -62,8 +77,9 @@ class NonInjectedCatalog extends React.Component<Props & Dependencies> {
     makeObservable(this);
   }
 
+  @computed
   get routeActiveTab(): string {
-    const { group, kind } = this.props.pathParameters;
+    const { group, kind } = this.props.pathParameters.get();
 
     if (group && kind) {
       return `${group}/${kind}`;
@@ -153,9 +169,10 @@ class NonInjectedCatalog extends React.Component<Props & Dependencies> {
     const activeCategory = this.categories.find(category => category.getId() === tabId);
 
     if (activeCategory) {
-      navigate(catalogURL({ params: { group: activeCategory.spec.group, kind: activeCategory.spec.names.kind }}));
+
+      this.props.navigateToCatalog({ group: activeCategory.spec.group, kind: activeCategory.spec.names.kind });
     } else {
-      navigate(catalogURL({ params: { group: browseCatalogTab }}));
+      this.props.navigateToCatalog({ group: browseCatalogTab });
     }
   });
 
@@ -318,6 +335,7 @@ export const Catalog = withInjectables<Dependencies, Props>( NonInjectedCatalog,
     getCategoryColumns: di.inject(getCategoryColumnsInjectable),
     customCategoryViews: di.inject(customCategoryViewsInjectable),
     pathParameters: di.inject(pathParametersInjectable),
+    navigateToCatalog: di.inject(navigateToCatalogInjectable),
     ...props,
   }),
 });

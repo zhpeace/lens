@@ -12,14 +12,15 @@ import { ClusterFrameHandler } from "./lens-views";
 import type { Cluster } from "../../../common/cluster/cluster";
 import { ClusterStore } from "../../../common/cluster-store/cluster-store";
 import { catalogEntityRegistry } from "../../api/catalog-entity-registry";
-import { navigate } from "../../navigation";
-import { catalogURL, ClusterViewRouteParams } from "../../../common/routes";
+import type { ClusterViewRouteParams } from "../../../common/routes";
 import { requestClusterActivation } from "../../ipc";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import pathParametersInjectable from "../../routes/path-parameters.injectable";
+import navigateToCatalogInjectable from "../+catalog/navigate-to-catalog.injectable";
 
 interface Dependencies {
   pathParameters: IComputedValue<ClusterViewRouteParams>
+  navigateToCatalog: () => void
 }
 
 @observer
@@ -67,7 +68,7 @@ class NonInjectedClusterView extends React.Component<Dependencies> {
 
       reaction(() => [this.cluster?.ready, this.cluster?.disconnected], ([, disconnected]) => {
         if (ClusterFrameHandler.getInstance().hasLoadedView(this.clusterId) && disconnected) {
-          navigate(catalogURL()); // redirect to catalog when active cluster get disconnected/not available
+          this.props.navigateToCatalog(); // redirect to catalog when active cluster get disconnected/not available
         }
       }),
     ]);
@@ -98,6 +99,7 @@ export const ClusterView = withInjectables<Dependencies>(
   {
     getProps: (di) => ({
       pathParameters: di.inject(pathParametersInjectable) as IComputedValue<ClusterViewRouteParams>,
+      navigateToCatalog: di.inject(navigateToCatalogInjectable),
     }),
   },
 );

@@ -15,13 +15,12 @@ import { DeleteClusterDialog } from "../delete-cluster-dialog";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import { TopBar } from "../layout/top-bar/top-bar";
 import catalogPreviousActiveTabStorageInjectable from "../+catalog/catalog-previous-active-tab-storage/catalog-previous-active-tab-storage.injectable";
-import currentRouteInjectable from "../../routes/current-route.injectable";
-import type { Route } from "../../routes/all-routes.injectable";
 import type { IComputedValue } from "mobx";
+import currentRouteComponentInjectable from "../../routes/current-route-component.injectable";
 
 interface Dependencies {
   catalogPreviousActiveTabStorage: { get: () => string }
-  currentRoute: IComputedValue<Route>
+  currentRouteComponent: IComputedValue<React.ElementType>
 }
 
 @observer
@@ -33,13 +32,11 @@ class NonInjectedClusterManager extends React.Component<Dependencies> {
   }
 
   render() {
-    const currentRoute = this.props.currentRoute.get();
+    const Component = this.props.currentRouteComponent.get();
 
-    if (!currentRoute) {
+    if (!Component) {
       return <Redirect exact to={routes.welcomeURL()} />;
     }
-
-    const { Component } = currentRoute;
 
     return (
       <div className="ClusterManager">
@@ -77,6 +74,6 @@ class NonInjectedClusterManager extends React.Component<Dependencies> {
 export const ClusterManager = withInjectables<Dependencies>(NonInjectedClusterManager, {
   getProps: di => ({
     catalogPreviousActiveTabStorage: di.inject(catalogPreviousActiveTabStorageInjectable),
-    currentRoute: di.inject(currentRouteInjectable),
+    currentRouteComponent: di.inject(currentRouteComponentInjectable),
   }),
 });
