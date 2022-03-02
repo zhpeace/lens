@@ -5,9 +5,10 @@
 import { computed } from "mobx";
 import { getInjectable } from "@ogre-tools/injectable";
 
-import sidebarItemsInjectable from "../components/layout/sidebar-items.injectable";
+import sidebarItemsInjectable, {
+  HierarchicalSidebarItem,
+} from "../components/layout/sidebar-items.injectable";
 import { matches } from "lodash/fp";
-import type { SidebarItemProps } from "../components/layout/sidebar-item";
 
 const siblingTabsInjectable = getInjectable({
   id: "sibling-tabs",
@@ -15,11 +16,11 @@ const siblingTabsInjectable = getInjectable({
   instantiate: (di) => {
     const sidebarItems = di.inject(sidebarItemsInjectable);
 
-    return computed((): SidebarItemProps[] => {
+    return computed((): HierarchicalSidebarItem[] => {
       const dereferencedSidebarItems = sidebarItems.get();
 
       const activeSidebarItem = dereferencedSidebarItems.find(
-        matches({ isActive: true, parentId: null }),
+        (x) => x.isActive.get() && x.item.parentId === null,
       );
 
       if (!activeSidebarItem) {
@@ -27,7 +28,7 @@ const siblingTabsInjectable = getInjectable({
       }
 
       return dereferencedSidebarItems.filter(
-        matches({ parentId: activeSidebarItem.id }),
+        matches({ item: { parentId: activeSidebarItem.item.id }}),
       );
     });
   },

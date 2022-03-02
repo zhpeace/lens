@@ -27,6 +27,8 @@ const matchingRouteInjectable = getInjectable({
         };
       });
 
+      // console.log(matchedRoutes);
+
       return matchedRoutes.find(matches({ isMatching: true }));
     });
   },

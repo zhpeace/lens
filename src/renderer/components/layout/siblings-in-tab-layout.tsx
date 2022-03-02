@@ -8,14 +8,14 @@ import { observer } from "mobx-react";
 import React from "react";
 import siblingTabsInjectable from "../../routes/sibling-tabs.injectable";
 import { TabLayout } from "./tab-layout";
-import type { SidebarItemProps } from "./sidebar-item";
+import type { HierarchicalSidebarItem } from "./sidebar-items.injectable";
 
 interface Props {
   children: React.ReactNode;
 }
 
 interface Dependencies {
-  tabs: IComputedValue<SidebarItemProps[]>;
+  tabs: IComputedValue<HierarchicalSidebarItem[]>;
 }
 
 const NonInjectedSiblingsInTabLayout = observer(

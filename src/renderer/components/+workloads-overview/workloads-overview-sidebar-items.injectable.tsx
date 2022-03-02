@@ -25,7 +25,7 @@ const workloadsOverviewSidebarItemsInjectable = getInjectable({
         parentId: workloadsSidebarItemId,
         title: "Overview",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 10,
       },

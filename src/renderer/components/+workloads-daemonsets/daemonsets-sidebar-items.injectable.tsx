@@ -25,7 +25,7 @@ const daemonsetsSidebarItemsInjectable = getInjectable({
         parentId: workloadsSidebarItemId,
         title: "DaemonSets",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 40,
       },

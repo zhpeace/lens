@@ -25,7 +25,7 @@ const resourceQuotasSidebarItemsInjectable = getInjectable({
         parentId: configSidebarItemId,
         title: "Resource Quotas",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 30,
       },

@@ -29,7 +29,6 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
 
     return computed((): SidebarItemRegistration[] => {
       const definitions = customResourceDefinitions.get();
-      const currentPathParameters = pathParameters.get();
 
       const groupedCrds = toPairs(
         groupBy((crd) => crd.getGroup(), definitions),
@@ -44,20 +43,22 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
             name: crd.getPluralName(),
           };
 
-          const definitionIsShown =
-            crdRouteIsActive.get() &&
-            matches(crdPathParameters, currentPathParameters);
-
           return {
             id: `custom-resource-definition-group-${group}-crd-${crd.getId()}`,
             parentId: `custom-resource-definition-group-${group}`,
             title,
 
-            onClick: () => navigateToRoute(crdRoute, {
-              params: crdPathParameters,
-            }),
+            onClick: () =>
+              navigateToRoute(crdRoute, {
+                params: crdPathParameters,
+              }),
 
-            isActive: definitionIsShown,
+            isActive: computed(
+              () =>
+                crdRouteIsActive.get() &&
+                matches(crdPathParameters, pathParameters.get()),
+            ),
+
             isVisible: crdListRoute.isEnabled(),
             priority: 10,
           };
@@ -69,7 +70,6 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
             parentId: "custom-resources",
             title: group,
             onClick: noop,
-            isActive: false,
             isVisible: some({ isVisible: true }, childItems),
             priority: 10,
           },

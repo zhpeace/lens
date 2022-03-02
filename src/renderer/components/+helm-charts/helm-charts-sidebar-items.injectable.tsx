@@ -25,7 +25,7 @@ const helmChartsSidebarItemsInjectable = getInjectable({
         parentId: helmSidebarItemId,
         title: "Charts",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 10,
       },

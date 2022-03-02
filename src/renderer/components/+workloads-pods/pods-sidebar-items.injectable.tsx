@@ -25,7 +25,7 @@ const podsSidebarItemsInjectable = getInjectable({
         parentId: workloadsSidebarItemId,
         title: "Pods",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 20,
       },

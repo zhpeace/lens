@@ -25,7 +25,7 @@ const cronJobsSidebarItemsInjectable = getInjectable({
         parentId: workloadsSidebarItemId,
         title: "CronJobs",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 80,
       },

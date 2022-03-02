@@ -30,7 +30,7 @@ const eventsSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon material="access_time" />,
         title: "Events",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 80,
       },

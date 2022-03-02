@@ -25,7 +25,7 @@ const ingressesSidebarItemsInjectable = getInjectable({
         parentId: networkSidebarItemId,
         title: "Ingresses",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 30,
       },

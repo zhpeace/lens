@@ -25,7 +25,7 @@ const storageClassesSidebarItemsInjectable = getInjectable({
         parentId: storageSidebarItemId,
         title: "Storage Classes",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 30,
       },

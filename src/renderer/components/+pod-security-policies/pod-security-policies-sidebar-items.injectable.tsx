@@ -25,7 +25,7 @@ const podSecurityPoliciesSidebarItemsInjectable = getInjectable({
         parentId: userManagementSidebarItemId,
         title: "Pod Security Policies",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 60,
       },

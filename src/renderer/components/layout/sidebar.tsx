@@ -8,16 +8,17 @@ import styles from "./sidebar.module.scss";
 import React from "react";
 import { observer } from "mobx-react";
 import { cssNames } from "../../utils";
-import { SidebarItemProps, SidebarItem } from "./sidebar-item";
+import { SidebarItem } from "./sidebar-item";
 import { catalogEntityRegistry } from "../../api/catalog-entity-registry";
 import { SidebarCluster } from "./sidebar-cluster";
 import { withInjectables } from "@ogre-tools/injectable-react";
-import sidebarItemsInjectable from "./sidebar-items.injectable";
+import sidebarItemsInjectable, {
+  HierarchicalSidebarItem,
+} from "./sidebar-items.injectable";
 import type { IComputedValue } from "mobx";
-import { matches } from "lodash/fp";
 
 interface Dependencies {
-  sidebarItems: IComputedValue<SidebarItemProps[]>
+  sidebarItems: IComputedValue<HierarchicalSidebarItem[]>;
 }
 
 @observer
@@ -32,8 +33,16 @@ class NonInjectedSidebar extends React.Component<Dependencies> {
     return (
       <div className={cssNames("flex flex-col")} data-testid="cluster-sidebar">
         <SidebarCluster clusterEntity={this.clusterEntity} />
+
         <div className={styles.sidebarNav}>
-          {renderSidebarItems(this.props.sidebarItems.get())}
+          {this.props.sidebarItems.get().map((
+            hierarchicalSidebarItem: HierarchicalSidebarItem,
+          ) => (
+            <SidebarItem
+              asd={hierarchicalSidebarItem}
+              key={hierarchicalSidebarItem.item.id}
+            />
+          ))}
         </div>
       </div>
     );
@@ -51,15 +60,5 @@ export const Sidebar = withInjectables<Dependencies>(
   },
 );
 
-const renderSidebarItems = (sidebarItems: SidebarItemProps[]) => {
-  const _renderSiderbarItem = (sidebarItem: SidebarItemProps) => (
-    <SidebarItem
-      key={sidebarItem.id}
-      {...sidebarItem}
-    >
-      {sidebarItems.filter(matches({ parentId: sidebarItem.id })).map(_renderSiderbarItem)}
-    </SidebarItem>
-  );
 
-  return sidebarItems.filter(matches({ parentId: null })).map(_renderSiderbarItem);
-};
+

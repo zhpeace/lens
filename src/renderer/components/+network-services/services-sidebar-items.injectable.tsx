@@ -25,7 +25,7 @@ const servicesSidebarItemsInjectable = getInjectable({
         parentId: networkSidebarItemId,
         title: "Services",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 10,
       },

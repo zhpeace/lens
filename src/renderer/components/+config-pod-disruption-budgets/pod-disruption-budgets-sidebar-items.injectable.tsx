@@ -25,7 +25,7 @@ const podDisruptionBudgetsSidebarItemsInjectable = getInjectable({
         parentId: configSidebarItemId,
         title: "Pod Disruption Budgets",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 60,
       },

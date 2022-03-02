@@ -10,17 +10,15 @@ import { pipeline } from "@ogre-tools/fp";
 import {
   filter,
   flatMap,
+  identity,
+  invokeMap,
   isEmpty,
   map,
-  matches,
-  orderBy,
   overSome,
   some,
 } from "lodash/fp";
-import type { SidebarItemProps } from "./sidebar-item";
 import rendererExtensionsInjectable from "../../../extensions/renderer-extensions.injectable";
 import type { LensRendererExtension } from "../../../extensions/lens-renderer-extension";
-import type { SetRequired } from "type-fest";
 
 export interface SidebarItemRegistration {
   id: string;
@@ -28,7 +26,7 @@ export interface SidebarItemRegistration {
   title: string;
   onClick: () => void;
   getIcon?: () => React.ReactNode;
-  isActive?: boolean;
+  isActive?: IComputedValue<boolean>;
   isVisible?: boolean;
   priority: number;
   extension?: LensRendererExtension;
@@ -38,13 +36,19 @@ export const sidebarItemsInjectionToken = getInjectionToken<
   IComputedValue<SidebarItemRegistration[]>
 >({ id: "sidebar-items-injection-token" });
 
+export interface HierarchicalSidebarItem {
+  item: SidebarItemRegistration;
+  children: HierarchicalSidebarItem[];
+  isActive: IComputedValue<boolean>;
+}
+
 const sidebarItemsInjectable = getInjectable({
   id: "sidebar-items",
 
   instantiate: (di) => {
     const extensions = di.inject(rendererExtensionsInjectable);
 
-    return computed((): SidebarItemProps[] => {
+    return computed((): HierarchicalSidebarItem[] => {
       const enabledExtensions = extensions.get();
 
       const sidebarItemRegistrations = di.injectMany(
@@ -61,14 +65,58 @@ const sidebarItemsInjectable = getInjectable({
             isEnabledExtensionSidebarItemFor(enabledExtensions),
           ]),
         ),
+
+        // filter((x) => !!x.extension),
       );
 
-      return pipeline(
-        registrations,
-        map(asParents(registrations)),
-        filter((item) => item.isVisible),
-        (items) => orderBy(["priority", "title"], ["asc", "asc"], items),
-      );
+      const getSidebarItemsHierarchy = (
+        registrations: SidebarItemRegistration[],
+      ) => {
+        const _getSidebarItemsHierarchy = (
+          parentId: string,
+        ): HierarchicalSidebarItem[] =>
+          pipeline(
+            registrations,
+
+            filter((item) => item.parentId === parentId),
+
+            map((item) => {
+              const children = _getSidebarItemsHierarchy(item.id);
+
+              return {
+                item,
+                children,
+
+                isActive: computed(() => {
+                  if (isEmpty(children)) {
+                    if (!item.isActive.get) {
+                      console.log(item);
+                    }
+
+                    return item.isActive.get();
+                  }
+
+                  return pipeline(
+                    children,
+                    invokeMap("isActive.get"),
+                    some(identity),
+                  );
+                }),
+              };
+            }),
+          );
+
+        return _getSidebarItemsHierarchy(null);
+      };
+
+      return getSidebarItemsHierarchy(registrations);
+
+      // return pipeline(
+      //   registrations,
+      //   map(asParents(registrations)),
+      //   filter((item) => item.isVisible),
+      //   (items) => orderBy(["priority", "title"], ["asc", "asc"], items),
+      // );
     });
   },
 });
@@ -84,25 +132,25 @@ const isEnabledExtensionSidebarItemFor =
 const dereference = (items: IComputedValue<SidebarItemRegistration[]>) =>
   items.get();
 
-type StrictItemRegistration = SetRequired<
-  SidebarItemRegistration,
-  "isActive" | "isVisible"
->;
+// type StrictItemRegistration = SetRequired<
+//   SidebarItemRegistration,
+//   "isActive" | "isVisible"
+// >;
 
-const asParents =
-  (allItems: SidebarItemRegistration[]) =>
-    (item: SidebarItemRegistration): StrictItemRegistration => {
-      const children = allItems.filter(matches({ parentId: item.id }));
-
-      if (isEmpty(children)) {
-        return { isActive: false, isVisible: true, ...item };
-      }
-
-      return {
-        isActive: some({ isActive: true }, children),
-        isVisible: true, // some({ isVisible: true }, children),
-        ...item,
-      };
-    };
+// const asParents =
+//   (allItems: SidebarItemRegistration[]) =>
+//     (item: SidebarItemRegistration): StrictItemRegistration => {
+//       const children = allItems.filter(matches({ parentId: item.id }));
+//
+//       if (isEmpty(children)) {
+//         return { isActive: false, isVisible: true, ...item };
+//       }
+//
+//       return {
+//         isActive: some({ isActive: true }, children),
+//         isVisible: true, // some({ isVisible: true }, children),
+//         ...item,
+//       };
+//     };
 
 export default sidebarItemsInjectable;

@@ -30,7 +30,7 @@ const nodesSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon svg="nodes" />,
         title: "Nodes",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 20,
       },

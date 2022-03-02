@@ -25,7 +25,7 @@ const roleBindingsSidebarItemsInjectable = getInjectable({
         parentId: userManagementSidebarItemId,
         title: "Role Bindings",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 50,
       },

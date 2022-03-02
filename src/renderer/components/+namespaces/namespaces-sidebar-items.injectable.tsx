@@ -30,7 +30,7 @@ const namespacesSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon material="layers" />,
         title: "Namespaces",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 70,
       },

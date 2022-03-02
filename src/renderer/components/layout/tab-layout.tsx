@@ -12,12 +12,13 @@ import { cssNames, IClassName } from "../../utils";
 import { Tab, Tabs } from "../tabs";
 import { ErrorBoundary } from "../error-boundary";
 import { navigate, navigation } from "../../navigation";
+import type { HierarchicalSidebarItem } from "./sidebar-items.injectable";
 
 export interface TabLayoutProps {
   className?: IClassName;
   contentClass?: IClassName;
   tabs?: TabLayoutRoute[];
-  newTabs?: { title: string, onClick: () => void, isActive: boolean }[];
+  newTabs?: HierarchicalSidebarItem[];
   children?: ReactNode;
 }
 
@@ -50,8 +51,8 @@ export const TabLayout = observer(({ className, contentClass, newTabs = [], tabs
 
       {hasNewTabs && (
         <Tabs center>
-          {newTabs.map(({ title, onClick, isActive }) => {
-            return <Tab onClick={onClick} key={title} label={title} active={isActive} />;
+          {newTabs.map(({ item, isActive }) => {
+            return <Tab onClick={item.onClick} key={item.title} label={item.title} active={isActive.get()} />;
           })}
         </Tabs>
       )}

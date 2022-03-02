@@ -25,7 +25,7 @@ const persistentVolumeClaimsSidebarItemsInjectable = getInjectable({
         parentId: storageSidebarItemId,
         title: "Persistent Volume Claims",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 10,
       },

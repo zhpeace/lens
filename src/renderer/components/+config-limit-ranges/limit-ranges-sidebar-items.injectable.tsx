@@ -25,7 +25,7 @@ const limitRangesSidebarItemsInjectable = getInjectable({
         parentId: configSidebarItemId,
         title: "Limit Ranges",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 40,
       },

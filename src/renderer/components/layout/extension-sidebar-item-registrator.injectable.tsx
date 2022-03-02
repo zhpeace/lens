@@ -20,20 +20,23 @@ const extensionSidebarItemRegistratorInjectable = getInjectable({
   id: "extension-sidebar-item-registrator",
 
   instantiate:
-    (di: DiContainer) => async (extension: LensRendererExtension, extensionInstallationCount: number) => {
-      const sidebarItemsForExtensionInjectable = getInjectable({
-        id: `sidebar-items-for-extension-${extension.sanitizedExtensionId}-instance-${extensionInstallationCount}`,
-        injectionToken: sidebarItemsInjectionToken,
+    (di: DiContainer) =>
+      async (
+        extension: LensRendererExtension,
+        extensionInstallationCount: number,
+      ) => {
+        const sidebarItemsForExtensionInjectable = getInjectable({
+          id: `sidebar-items-for-extension-${extension.sanitizedExtensionId}-instance-${extensionInstallationCount}`,
+          injectionToken: sidebarItemsInjectionToken,
 
-        instantiate: (di) => {
-          const navigateToRoute = di.inject(navigateToRouteInjectable);
-          const routes = di.inject(routesInjectable);
+          instantiate: (di) => {
+            const navigateToRoute = di.inject(navigateToRouteInjectable);
+            const routes = di.inject(routesInjectable);
 
-          return computed((): SidebarItemRegistration[] => {
-            const extensionRoutes = routes.get().filter(matches({ extension }));
+            return computed((): SidebarItemRegistration[] => {
+              const extensionRoutes = routes.get().filter(matches({ extension }));
 
-            return extension.clusterPageMenus.map(
-              (registration) => {
+              return extension.clusterPageMenus.map((registration) => {
                 const targetRouteId = registration.target?.pageId
                   ? `${extension.sanitizedExtensionId}/${registration.target.pageId}`
                   : extension.sanitizedExtensionId;
@@ -41,8 +44,6 @@ const extensionSidebarItemRegistratorInjectable = getInjectable({
                 const targetRoute = extensionRoutes.find(
                   matches({ id: targetRouteId }),
                 );
-
-                const isActiveRoute = targetRoute ? di.inject(routeIsActiveInjectable, targetRoute).get() : false;
 
                 return {
                   id: `${extension.sanitizedExtensionId}-${registration.id}`,
@@ -53,25 +54,28 @@ const extensionSidebarItemRegistratorInjectable = getInjectable({
                     : null,
 
                   title: registration.title.toString(),
-                  getIcon: () => <registration.components.Icon />,
+                  getIcon: registration.components.Icon
+                    ? () => <registration.components.Icon />
+                    : null,
 
-                  onClick: targetRoute ? () => {
-                    navigateToRoute(targetRoute);
-                  }: noop,
+                  onClick: targetRoute
+                    ? () => {
+                      navigateToRoute(targetRoute);
+                    }
+                    : noop,
 
-                  isActive: isActiveRoute,
+                  isActive: di.inject(routeIsActiveInjectable, targetRoute),
 
                   priority: 9999,
                 };
-              },
-            );
-          });
-        },
-      });
+              });
+            });
+          },
+        });
 
-      // TODO: Transactional register
-      di.register(sidebarItemsForExtensionInjectable);
-    },
+        // TODO: Transactional register
+        di.register(sidebarItemsForExtensionInjectable);
+      },
 
   injectionToken: extensionRegistratorInjectionToken,
 });

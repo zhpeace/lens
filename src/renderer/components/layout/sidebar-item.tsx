@@ -12,23 +12,30 @@ import { observer } from "mobx-react";
 import { NavLink } from "react-router-dom";
 import { Icon } from "../icon";
 import { withInjectables } from "@ogre-tools/injectable-react";
-import sidebarStorageInjectable, { SidebarStorageState } from "./sidebar-storage/sidebar-storage.injectable";
+import sidebarStorageInjectable, {
+  SidebarStorageState,
+} from "./sidebar-storage/sidebar-storage.injectable";
+import type { HierarchicalSidebarItem } from "./sidebar-items.injectable";
 
 interface Dependencies {
-  sidebarStorage: StorageHelper<SidebarStorageState>
+  sidebarStorage: StorageHelper<SidebarStorageState>;
 }
 
 export interface SidebarItemProps {
-  title: string;
-  onClick: () => void;
-  getIcon?: () => React.ReactNode
-  isActive: boolean
-  id: string;
-  parentId: string | null
+  // title?: string;
+  // onClick?: () => void;
+  // getIcon?: () => React.ReactNode;
+  // isActive?: boolean;
+  // id?: string;
+  // parentId?: string | null;
+
+  asd: HierarchicalSidebarItem;
 }
 
 @observer
-class NonInjectedSidebarItem extends React.Component<SidebarItemProps & Dependencies> {
+class NonInjectedSidebarItem extends React.Component<
+  SidebarItemProps & Dependencies
+> {
   static displayName = "SidebarItem";
 
   constructor(props: SidebarItemProps & Dependencies) {
@@ -37,7 +44,7 @@ class NonInjectedSidebarItem extends React.Component<SidebarItemProps & Dependen
   }
 
   get id(): string {
-    return this.props.id;
+    return this.props.asd.item.id;
   }
 
   @computed get expanded(): boolean {
@@ -45,11 +52,15 @@ class NonInjectedSidebarItem extends React.Component<SidebarItemProps & Dependen
   }
 
   @computed get isExpandable(): boolean {
-    return React.Children.count(this.props.children) > 0;
+    return this.props.asd.children.length > 0;
+  }
+
+  @computed get isActive(): boolean {
+    return this.props.asd.isActive.get();
   }
 
   toggleExpand = () => {
-    this.props.sidebarStorage.merge(draft => {
+    this.props.sidebarStorage.merge((draft) => {
       draft.expanded[this.id] = !draft.expanded[this.id];
     });
   };
@@ -62,45 +73,48 @@ class NonInjectedSidebarItem extends React.Component<SidebarItemProps & Dependen
     }
 
     return (
-      <ul className={cssNames("sub-menu", { active: this.props.isActive })}>
-        {this.props.children}
+      <ul className={cssNames("sub-menu", { active: this.isActive })}>
+        {this.props.asd.children.map(x => <SidebarItem key={x.item.id} asd={x} />)}
       </ul>
     );
   }
 
   render() {
-    const { onClick } = this.props;
-
-    const { id, expanded, isExpandable, toggleExpand } = this;
-
-    const classNames = cssNames("SidebarItem");
-
     return (
-      <div className={classNames} data-test-id={id}>
+      <div
+        className={cssNames("SidebarItem")}
+        data-testid={`sidebar-item-for-${this.id}`}
+        data-test-id={this.id}
+        data-is-active={this.isActive}
+      >
         <NavLink
           to={""}
-          isActive={() => this.props.isActive}
+          isActive={() => this.isActive}
+
           className={cssNames("nav-item flex gaps align-center", {
-            expandable: isExpandable,
+            expandable: this.isExpandable,
           })}
 
           onClick={(event) => {
             event.preventDefault();
             event.stopPropagation();
 
-            if (isExpandable) {
-              toggleExpand();
+            if (this.isExpandable) {
+              this.toggleExpand();
             } else {
-              onClick();
+              this.props.asd.item.onClick();
             }
           }}
+          data-testid={`sidebar-item-link-for-${this.id}`}
         >
-          {this.props.getIcon?.()}
-          <span className="link-text box grow">{this.props.title}</span>
-          {isExpandable && (
+          {this.props.asd.item.getIcon?.()}
+          <span className="link-text box grow">{this.props.asd.item.title}</span>
+          {this.isExpandable && (
             <Icon
               className="expand-icon box right"
-              material={expanded ? "keyboard_arrow_up" : "keyboard_arrow_down"}
+              material={
+                this.expanded ? "keyboard_arrow_up" : "keyboard_arrow_down"
+              }
             />
           )}
         </NavLink>

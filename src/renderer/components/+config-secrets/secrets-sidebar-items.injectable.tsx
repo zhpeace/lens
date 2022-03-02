@@ -25,7 +25,7 @@ const secretsSidebarItemsInjectable = getInjectable({
         parentId: configSidebarItemId,
         title: "Secrets",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 20,
       },

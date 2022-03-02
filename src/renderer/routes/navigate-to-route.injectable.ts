@@ -18,7 +18,6 @@ const navigateToRouteInjectable = getInjectable({
       const url = buildURL(route.path)(parameters);
 
       runInAction(() => {
-        console.log("mikko2", url);
         observableHistory.push(url);
       });
     };

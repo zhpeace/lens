@@ -25,7 +25,7 @@ const serviceAccountsSidebarItemsInjectable = getInjectable({
         parentId: userManagementSidebarItemId,
         title: "Service Accounts",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 10,
       },

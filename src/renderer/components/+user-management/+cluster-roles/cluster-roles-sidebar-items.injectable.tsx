@@ -25,7 +25,7 @@ const clusterRolesSidebarItemsInjectable = getInjectable({
         parentId: userManagementSidebarItemId,
         title: "Cluster Roles",
         onClick: () => navigateToRoute(route),
-        isActive: routeIsActive.get(),
+        isActive: routeIsActive,
         isVisible: route.isEnabled(),
         priority: 20,
       },
