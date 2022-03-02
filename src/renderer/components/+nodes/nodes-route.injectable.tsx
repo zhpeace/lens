@@ -3,7 +3,6 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { NodesRoute } from "./route";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
 
@@ -15,7 +14,6 @@ const nodesRouteInjectable = getInjectable({
 
     return {
       path: "/nodes",
-      Component: NodesRoute,
       clusterFrame: true,
       isEnabled: () => isAllowedResource("nodes"),
     };

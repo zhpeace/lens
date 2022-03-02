@@ -4,7 +4,6 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
-import { PodSecurityPolicies } from "./pod-security-policies";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const podSecurityPoliciesRouteInjectable = getInjectable({
@@ -14,7 +13,6 @@ const podSecurityPoliciesRouteInjectable = getInjectable({
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
     return {
-      Component: PodSecurityPolicies,
       path: "/pod-security-policies",
       clusterFrame: true,
       isEnabled: () => isAllowedResource("podsecuritypolicies"),

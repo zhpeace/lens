@@ -4,7 +4,6 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
-import { LimitRanges } from "./limit-ranges";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const limitRangesRouteInjectable = getInjectable({
@@ -14,7 +13,6 @@ const limitRangesRouteInjectable = getInjectable({
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
     return {
-      Component: LimitRanges,
       path: "/limitranges",
       clusterFrame: true,
       isEnabled: () => isAllowedResource("limitranges"),

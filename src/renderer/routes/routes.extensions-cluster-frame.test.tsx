@@ -21,11 +21,11 @@ import type {
 } from "../../extensions/registries";
 import { renderFor } from "../components/test-utils/renderFor";
 import { Observer } from "mobx-react";
-import currentRouteInjectable from "./current-route.injectable";
 import type { Cluster } from "../../common/cluster/cluster";
 import hostedClusterInjectable from "../../common/cluster-store/hosted-cluster.injectable";
 import customResourceDefinitionsInjectable from "../components/+custom-resources/custom-resources.injectable";
 import type { CustomResourceDefinition } from "../../common/k8s-api/endpoints";
+import currentRouteComponentInjectable from "./current-route-component.injectable";
 
 describe("routes - extensions - cluster frame", () => {
   let history: MemoryHistory;
@@ -119,18 +119,18 @@ describe("routes - extensions - cluster frame", () => {
 
     const render = renderFor(di);
 
-    const currentRoute = di.inject(currentRouteInjectable);
+    const currentRouteComponent = di.inject(currentRouteComponentInjectable);
 
     rendered = render(
       <Observer>
         {() => {
-          const route = currentRoute.get();
+          const Component = currentRouteComponent.get();
 
-          if (!route) {
+          if (!Component) {
             return <div data-testid="no-active-route" />;
           }
 
-          return <route.Component />;
+          return <Component />;
         }}
       </Observer>,
     );

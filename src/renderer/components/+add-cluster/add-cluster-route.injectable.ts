@@ -3,7 +3,6 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { AddCluster } from "./add-cluster";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const addClusterRouteInjectable = getInjectable({
@@ -11,7 +10,6 @@ const addClusterRouteInjectable = getInjectable({
 
   instantiate: () => ({
     path: "/add-cluster",
-    Component: AddCluster,
     clusterFrame: false,
     isEnabled: () => true,
   }),

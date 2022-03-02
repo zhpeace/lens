@@ -4,7 +4,6 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
-import { PodDisruptionBudgets } from "./pod-disruption-budgets";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const podDisruptionBudgetsRouteInjectable = getInjectable({
@@ -13,12 +12,11 @@ const podDisruptionBudgetsRouteInjectable = getInjectable({
   instantiate: (di) => {
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
-    return ({
-      Component: PodDisruptionBudgets,
+    return {
       path: "/poddisruptionbudgets",
       clusterFrame: true,
       isEnabled: () => isAllowedResource("poddisruptionbudgets"),
-    });
+    };
   },
 
   injectionToken: routeInjectionToken,

@@ -4,7 +4,6 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { routeInjectionToken } from "../../../routes/all-routes.injectable";
-import { ClusterRoles } from "./view";
 import isAllowedResourceInjectable from "../../../../common/utils/is-allowed-resource.injectable";
 
 const clusterRolesRouteInjectable = getInjectable({
@@ -15,7 +14,6 @@ const clusterRolesRouteInjectable = getInjectable({
 
     return {
       path: "/cluster-roles",
-      Component: ClusterRoles,
       clusterFrame: true,
       isEnabled: () => isAllowedResource("clusterroles"),
     };

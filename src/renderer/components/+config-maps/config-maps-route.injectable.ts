@@ -4,7 +4,6 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
-import { ConfigMaps } from "./config-maps";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const configMapsRouteInjectable = getInjectable({
@@ -13,12 +12,11 @@ const configMapsRouteInjectable = getInjectable({
   instantiate: (di) => {
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
-    return ({
-      Component: ConfigMaps,
+    return {
       path: "/configmaps",
       clusterFrame: true,
       isEnabled: () => isAllowedResource("configmaps"),
-    });
+    };
   },
 
   injectionToken: routeInjectionToken,

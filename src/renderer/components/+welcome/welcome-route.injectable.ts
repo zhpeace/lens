@@ -3,7 +3,6 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { Welcome } from "./welcome";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const welcomeRouteInjectable = getInjectable({
@@ -11,7 +10,6 @@ const welcomeRouteInjectable = getInjectable({
 
   instantiate: () => ({
     path: "/welcome",
-    Component: Welcome,
     clusterFrame: false,
     isEnabled: () => true,
   }),

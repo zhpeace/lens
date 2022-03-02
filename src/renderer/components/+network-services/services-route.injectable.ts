@@ -4,7 +4,6 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
-import { Services } from "./services";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const servicesRouteInjectable = getInjectable({
@@ -14,7 +13,6 @@ const servicesRouteInjectable = getInjectable({
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
     return {
-      Component: Services,
       path: "/services",
       clusterFrame: true,
       isEnabled: () => isAllowedResource("services"),

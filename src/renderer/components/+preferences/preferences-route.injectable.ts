@@ -3,7 +3,6 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { Preferences } from "./preferences";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const preferencesRouteInjectable = getInjectable({
@@ -11,7 +10,6 @@ const preferencesRouteInjectable = getInjectable({
 
   instantiate: () => ({
     path: "/preferences",
-    Component: Preferences,
     clusterFrame: false,
     isEnabled: () => true,
   }),

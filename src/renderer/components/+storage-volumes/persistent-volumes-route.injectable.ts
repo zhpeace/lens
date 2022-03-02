@@ -4,7 +4,6 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
-import { PersistentVolumes } from "./volumes";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const persistentVolumesRouteInjectable = getInjectable({
@@ -14,7 +13,6 @@ const persistentVolumesRouteInjectable = getInjectable({
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
     return {
-      Component: PersistentVolumes,
       path: "/persistent-volumes",
       clusterFrame: true,
       isEnabled: () => isAllowedResource("persistentvolumes"),

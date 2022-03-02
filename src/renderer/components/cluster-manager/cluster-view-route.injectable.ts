@@ -4,7 +4,6 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
-import { ClusterView } from "./cluster-view";
 
 const clusterViewRouteInjectable = getInjectable({
   id: "cluster-view-route",
@@ -12,7 +11,6 @@ const clusterViewRouteInjectable = getInjectable({
   instantiate: () => ({
     exact: true,
     path: "/cluster/:clusterId",
-    Component: ClusterView,
     clusterFrame: false,
     isEnabled: () => true,
   }),

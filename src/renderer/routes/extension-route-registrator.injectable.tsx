@@ -17,6 +17,7 @@ import type { ObservableHistory } from "mobx-observable-history";
 import { extensionRegistratorInjectionToken } from "../../extensions/extension-loader/extension-registrator-injection-token";
 import { SiblingsInTabLayout } from "../components/layout/siblings-in-tab-layout";
 import extensionPageParametersInjectable from "./extension-page-parameters.injectable";
+import { routeSpecificComponentInjectionToken } from "./route-specific-component-injection-token";
 
 const extensionRouteRegistratorInjectable = getInjectable({
   id: "extension-route-registrator",
@@ -38,7 +39,7 @@ const extensionRouteRegistratorInjectable = getInjectable({
       const routeInjectables = [
         ...extension.globalPages.map(toRouteInjectable(false)),
         ...extension.clusterPages.map(toRouteInjectable(true)),
-      ];
+      ].flat();
 
       // TODO: Transactional register
       routeInjectables.forEach(di.register);
@@ -66,6 +67,27 @@ const toRouteInjectableFor =
           registration.id,
         );
 
+        const routePath = getSanitizedPath("/extension", routeId);
+
+        const routeInjectable = getInjectable({
+          id: `route-${routeId}-for-extension-instance-${extensionInstallationCount}`,
+
+          instantiate: () => ({
+            id: routeId,
+            path: routePath,
+            clusterFrame,
+            isEnabled: () => true,
+            extension,
+          }),
+
+          injectionToken: routeInjectionToken,
+        });
+
+        const normalizedParams = di.inject(extensionPageParametersInjectable, {
+          extension,
+          registration,
+        });
+
         const currentSidebarRegistration = extension.clusterPageMenus.find(
           matches({ target: { pageId: registration.id }}),
         );
@@ -75,13 +97,6 @@ const toRouteInjectableFor =
             matches({ parentId: currentSidebarRegistration.parentId }),
           )
           : [];
-
-        const routePath = getSanitizedPath("/extension", routeId);
-
-        const normalizedParams = di.inject(extensionPageParametersInjectable, {
-          extension,
-          registration,
-        });
 
         const ObserverPage = observer(registration.components.Page);
 
@@ -97,19 +112,17 @@ const toRouteInjectableFor =
           );
         };
 
-        return getInjectable({
-          id: `route-${routeId}-for-extension-instance-${extensionInstallationCount}`,
+        const routeSpecificComponentInjectable = getInjectable({
+          id: `route-${routeId}-component-for-extension-instance-${extensionInstallationCount}`,
 
-          instantiate: () => ({
-            id: routeId,
-            path: routePath,
+          instantiate: (di) => ({
+            route: di.inject(routeInjectable),
             Component,
-            clusterFrame,
-            isEnabled: () => true,
-            extension,
           }),
 
-          injectionToken: routeInjectionToken,
+          injectionToken: routeSpecificComponentInjectionToken,
         });
+
+        return [routeInjectable, routeSpecificComponentInjectable];
       };
     };

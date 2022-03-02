@@ -4,7 +4,6 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
-import { StatefulSets } from "./statefulsets";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const statefulsetsRouteInjectable = getInjectable({
@@ -14,7 +13,6 @@ const statefulsetsRouteInjectable = getInjectable({
     const isAllowedResource = di.inject(isAllowedResourceInjectable);
 
     return {
-      Component: StatefulSets,
       path: "/statefulsets",
       clusterFrame: true,
       isEnabled: () => isAllowedResource("statefulsets"),

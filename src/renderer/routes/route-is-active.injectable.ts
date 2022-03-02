@@ -17,13 +17,7 @@ const routeIsActiveInjectable = getInjectable({
   },
 
   lifecycle: lifecycleEnum.keyedSingleton({
-    getInstanceKey: (di, route: Route) => {
-      const path = route.path;
-
-      console.log({ path });
-
-      return path;
-    },
+    getInstanceKey: (di, route: Route) => route.path,
   }),
 });
 

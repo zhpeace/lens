@@ -19,8 +19,8 @@ import directoryForUserDataInjectable from "../../common/app-paths/directory-for
 import type { PageRegistration } from "../../extensions/registries";
 import { renderFor } from "../components/test-utils/renderFor";
 import { Observer } from "mobx-react";
-import currentRouteInjectable from "./current-route.injectable";
 import type { RenderResult } from "@testing-library/react";
+import currentRouteComponentInjectable from "./current-route-component.injectable";
 
 describe("routes - extensions - page with parameters", () => {
   let historyFake: MemoryHistory;
@@ -103,18 +103,18 @@ describe("routes - extensions - page with parameters", () => {
 
     const render = renderFor(di);
 
-    const currentRoute = di.inject(currentRouteInjectable);
+    const currentRouteComponent = di.inject(currentRouteComponentInjectable);
 
     rendered = render(
       <Observer>
         {() => {
-          const route = currentRoute.get();
+          const Component = currentRouteComponent.get();
 
-          if (!route) {
+          if (!Component) {
             return <div data-testid="no-active-route" />;
           }
 
-          return <route.Component />;
+          return <Component />;
         }}
       </Observer>,
     );

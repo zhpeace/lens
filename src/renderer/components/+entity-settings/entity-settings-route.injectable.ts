@@ -3,7 +3,6 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import { EntitySettings } from "./entity-settings";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const entitySettingsRouteInjectable = getInjectable({
@@ -11,8 +10,7 @@ const entitySettingsRouteInjectable = getInjectable({
 
   instantiate: () => ({
     title: "Entity Settings",
-    path: `/entity/:entityId/settings`,
-    Component: EntitySettings,
+    path: "/entity/:entityId/settings",
     clusterFrame: false,
     isEnabled: () => true,
   }),

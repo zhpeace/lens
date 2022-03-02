@@ -4,14 +4,12 @@
  */
 import { getInjectable } from "@ogre-tools/injectable";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
-import { HelmReleases } from "./releases";
 
 const helmReleasesRouteInjectable = getInjectable({
   id: "helm-releases-route",
 
   instantiate: () => ({
     path: `/helm/releases/:repo?/:chartName?`,
-    Component: HelmReleases,
     clusterFrame: true,
     isEnabled: () => true,
   }),
