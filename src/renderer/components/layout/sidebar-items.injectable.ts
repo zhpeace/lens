@@ -89,10 +89,6 @@ const sidebarItemsInjectable = getInjectable({
 
                 isActive: computed(() => {
                   if (isEmpty(children)) {
-                    if (!item.isActive.get) {
-                      console.log(item);
-                    }
-
                     return item.isActive.get();
                   }
 

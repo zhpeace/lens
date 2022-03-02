@@ -5,7 +5,7 @@
 
 import "./tab-layout.scss";
 
-import React, { ReactNode } from "react";
+import React from "react";
 import { matchPath, Redirect, Route, Switch } from "react-router";
 import { observer } from "mobx-react";
 import { cssNames, IClassName } from "../../utils";
@@ -19,7 +19,7 @@ export interface TabLayoutProps {
   contentClass?: IClassName;
   tabs?: TabLayoutRoute[];
   newTabs?: HierarchicalSidebarItem[];
-  children?: ReactNode;
+  children?: React.ReactNode;
 }
 
 export interface TabLayoutRoute {
@@ -38,7 +38,7 @@ export const TabLayout = observer(({ className, contentClass, newTabs = [], tabs
   const startTabUrl = hasTabs ? (tabs.find(tab => tab.default) || tabs[0])?.url : null;
 
   return (
-    <div className={cssNames("TabLayout", className)}>
+    <div className={cssNames("TabLayout", className)} data-testid="tab-layout">
       {hasTabs && (
         <Tabs center onChange={(url) => navigate(url)}>
           {tabs.map(({ title, routePath, url = routePath, exact }) => {

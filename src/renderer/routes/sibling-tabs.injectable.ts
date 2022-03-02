@@ -8,7 +8,8 @@ import { getInjectable } from "@ogre-tools/injectable";
 import sidebarItemsInjectable, {
   HierarchicalSidebarItem,
 } from "../components/layout/sidebar-items.injectable";
-import { matches } from "lodash/fp";
+import { find } from "lodash/fp";
+import { pipeline } from "@ogre-tools/fp";
 
 const siblingTabsInjectable = getInjectable({
   id: "sibling-tabs",
@@ -16,21 +17,13 @@ const siblingTabsInjectable = getInjectable({
   instantiate: (di) => {
     const sidebarItems = di.inject(sidebarItemsInjectable);
 
-    return computed((): HierarchicalSidebarItem[] => {
-      const dereferencedSidebarItems = sidebarItems.get();
-
-      const activeSidebarItem = dereferencedSidebarItems.find(
-        (x) => x.isActive.get() && x.item.parentId === null,
-      );
-
-      if (!activeSidebarItem) {
-        return [];
-      }
-
-      return dereferencedSidebarItems.filter(
-        matches({ item: { parentId: activeSidebarItem.item.id }}),
-      );
-    });
+    return computed((): HierarchicalSidebarItem[] =>
+      pipeline(
+        sidebarItems.get(),
+        find((asd) => asd.isActive.get()),
+        (asd) => asd.children || [],
+      ),
+    );
   },
 });
 

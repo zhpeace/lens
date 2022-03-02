@@ -23,7 +23,13 @@ const NonInjectedSiblingsInTabLayout = observer(
     const dereferencedTabs = tabs.get();
 
     if (dereferencedTabs.length) {
-      return <TabLayout newTabs={dereferencedTabs}>{children}</TabLayout>;
+      return (
+        <TabLayout
+          newTabs={dereferencedTabs}
+        >
+          {children}
+        </TabLayout>
+      );
     }
 
     return <>{children}</>;

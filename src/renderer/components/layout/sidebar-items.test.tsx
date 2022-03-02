@@ -11,7 +11,6 @@ import type { KubeWatchApi } from "../../kube-watch-api/kube-watch-api";
 import hostedClusterInjectable from "../../../common/cluster-store/hosted-cluster.injectable";
 import type { Cluster } from "../../../common/cluster/cluster";
 import { renderFor } from "../test-utils/renderFor";
-import { Sidebar } from "./sidebar";
 import React from "react";
 import { fireEvent, RenderResult } from "@testing-library/react";
 import { Router } from "react-router";
@@ -28,6 +27,9 @@ import rendererExtensionsInjectable from "../../../extensions/renderer-extension
 
 import extensionSidebarItemRegistratorInjectable from "./extension-sidebar-item-registrator.injectable";
 import extensionRouteRegistratorInjectable from "../../routes/extension-route-registrator.injectable";
+import { Sidebar } from "./sidebar";
+import currentRouteComponentInjectable from "../../routes/current-route-component.injectable";
+import { Observer } from "mobx-react";
 
 describe("sidebar-items", () => {
   let di: DiContainer;
@@ -61,11 +63,12 @@ describe("sidebar-items", () => {
             },
           },
         },
+
         {
           id: "some-child-page-id",
 
           components: {
-            Page: () => <div>Some child page</div>,
+            Page: () => <div data-testid="child-page">Some child page</div>,
           },
         },
       ],
@@ -104,9 +107,9 @@ describe("sidebar-items", () => {
       ],
     });
 
-    di.override(rendererExtensionsInjectable, () => {
-      return computed(() => [testExtension]);
-    });
+    di.override(rendererExtensionsInjectable, () =>
+      computed(() => [testExtension]),
+    );
 
     sidebarStorageStateStub = observable({
       expanded: {},
@@ -118,8 +121,8 @@ describe("sidebar-items", () => {
       () =>
         ({
           get: () => sidebarStorageStateStub,
-          merge: (asd: (state: any) => void) => {
-            asd(sidebarStorageStateStub);
+          merge: (doMerge: (state: any) => void) => {
+            doMerge(sidebarStorageStateStub);
           },
         } as StorageHelper<any>),
     );
@@ -142,10 +145,23 @@ describe("sidebar-items", () => {
     const render = renderFor(di);
 
     const history = di.inject(observableHistoryInjectable);
+    const currentRouteComponent = di.inject(currentRouteComponentInjectable);
 
     rendered = render(
       <Router history={history}>
         <Sidebar />
+
+        <Observer>
+          {() => {
+            const Component = currentRouteComponent.get();
+
+            if (!Component) {
+              return null;
+            }
+
+            return <Component />;
+          }}
+        </Observer>
       </Router>,
     );
   });
@@ -154,7 +170,7 @@ describe("sidebar-items", () => {
     expect(rendered.container).toMatchSnapshot();
   });
 
-  it("initially a parent observes as inactive", () => {
+  it("parent is not highlighted", () => {
     const parent = rendered.getByTestId(
       "sidebar-item-for-some-extension-id-some-parent-id",
     );
@@ -162,28 +178,84 @@ describe("sidebar-items", () => {
     expect(parent.dataset.isActive).toBe("false");
   });
 
-  it("when child is active, a parent observes as active", () => {
-    const parentLink = rendered.getByTestId(
-      "sidebar-item-link-for-some-extension-id-some-parent-id",
-    );
-
-    fireEvent.click(parentLink);
-
-    const childLink = rendered.getByTestId(
-      "sidebar-item-link-for-some-extension-id-some-child-id",
-    );
-
-    fireEvent.click(childLink);
-
-    const parent = rendered.getByTestId(
-      "sidebar-item-for-some-extension-id-some-parent-id",
-    );
-    const child = rendered.getByTestId(
+  it("child of parent is not rendered", () => {
+    const child = rendered.queryByTestId(
       "sidebar-item-for-some-extension-id-some-child-id",
     );
 
-    expect(parent.dataset.isActive).toBe("true");
-    expect(child.dataset.isActive).toBe("true");
+    expect(child).toBe(null);
+  });
+
+  describe("when a parent item is opened", () => {
+    beforeEach(() => {
+      const parentLink = rendered.getByTestId(
+        "sidebar-item-link-for-some-extension-id-some-parent-id",
+      );
+
+      fireEvent.click(parentLink);
+    });
+
+    it("renders", () => {
+      expect(rendered.container).toMatchSnapshot();
+    });
+
+    it("parent is not highlighted", () => {
+      const parent = rendered.getByTestId(
+        "sidebar-item-for-some-extension-id-some-parent-id",
+      );
+
+      expect(parent.dataset.isActive).toBe("false");
+    });
+
+    it("child of parent is rendered", () => {
+      const child = rendered.queryByTestId(
+        "sidebar-item-for-some-extension-id-some-child-id",
+      );
+
+      expect(child).not.toBe(null);
+    });
+
+    describe("when a child of the parent is selected", () => {
+      beforeEach(() => {
+        const childLink = rendered.getByTestId(
+          "sidebar-item-link-for-some-extension-id-some-child-id",
+        );
+
+        fireEvent.click(childLink);
+      });
+
+      it("renders", () => {
+        expect(rendered.container).toMatchSnapshot();
+      });
+
+      it("parent is highlighted", () => {
+        const parent = rendered.getByTestId(
+          "sidebar-item-for-some-extension-id-some-parent-id",
+        );
+
+        expect(parent.dataset.isActive).toBe("true");
+      });
+
+      it("child is highlighted", () => {
+        const child = rendered.getByTestId(
+          "sidebar-item-for-some-extension-id-some-child-id",
+        );
+
+        expect(child.dataset.isActive).toBe("true");
+      });
+
+      it("child page is shown", () => {
+        expect(rendered.getByTestId("child-page")).not.toBeNull();
+      });
+
+      it("renders tabs", () => {
+        expect(rendered.getByTestId("tab-layout")).not.toBeNull();
+      });
+
+      describe("sidebar", () => {
+
+      });
+    });
   });
 });
 

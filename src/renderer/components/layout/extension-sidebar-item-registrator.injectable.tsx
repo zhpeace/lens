@@ -45,6 +45,13 @@ const extensionSidebarItemRegistratorInjectable = getInjectable({
                   matches({ id: targetRouteId }),
                 );
 
+                const asd = targetRoute
+                  ? {
+                    onClick: () => navigateToRoute(targetRoute),
+                    isActive: di.inject(routeIsActiveInjectable, targetRoute),
+                  }
+                  : { onClick: noop };
+
                 return {
                   id: `${extension.sanitizedExtensionId}-${registration.id}`,
                   extension,
@@ -58,13 +65,7 @@ const extensionSidebarItemRegistratorInjectable = getInjectable({
                     ? () => <registration.components.Icon />
                     : null,
 
-                  onClick: targetRoute
-                    ? () => {
-                      navigateToRoute(targetRoute);
-                    }
-                    : noop,
-
-                  isActive: di.inject(routeIsActiveInjectable, targetRoute),
+                  ...asd,
 
                   priority: 9999,
                 };
