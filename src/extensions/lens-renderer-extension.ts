@@ -29,7 +29,6 @@ import { getLegacyGlobalDiForExtensionApi } from "./as-legacy-globals-for-extens
 import routesInjectable from "../renderer/routes/routes.injectable";
 import { fromPairs, map, matches, toPairs } from "lodash/fp";
 import { getExtensionRouteId } from "../renderer/routes/get-extension-route-id";
-import { runInAction } from "mobx";
 import navigateToRouteInjectable from "../renderer/routes/navigate-to-route.injectable";
 import extensionPageParametersInjectable from "../renderer/routes/extension-page-parameters.injectable";
 import { pipeline } from "@ogre-tools/fp";
@@ -93,10 +92,8 @@ export class LensRendererExtension extends LensExtension {
         fromPairs,
       );
 
-      runInAction(() => {
-        navigateToRoute(targetRoute, {
-          query,
-        });
+      navigateToRoute(targetRoute, {
+        query,
       });
     }
   }

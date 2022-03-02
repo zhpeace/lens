@@ -29,8 +29,8 @@ const extensionPageParametersInjectable = getInjectable({
         key,
 
         typeof value === "string"
-          ? convertStringToPageParam(key, value, extension.sanitizedExtensionId)
-          : asdasd(key, value as PageParamInit, extension.sanitizedExtensionId),
+          ? convertStringToPageParam(key, value)
+          : asdasd(key, value as PageParamInit),
       ]),
 
       map(([key, value]) => [key, new PageParam(value, observableHistory)]),
@@ -50,10 +50,8 @@ const extensionPageParametersInjectable = getInjectable({
 const asdasd = (
   key: string,
   value: PageParamInit,
-  extensionId: string,
 ): PageParamInit => ({
   name: key,
-  prefix: `${extensionId}:`,
   defaultValue: value.defaultValue,
   stringify: value.stringify,
   parse: value.parse,
@@ -62,11 +60,9 @@ const asdasd = (
 const convertStringToPageParam = (
   key: string,
   value: string,
-  extensionId: string,
 ): PageParamInit => ({
   name: key,
   defaultValue: value,
-  prefix: `${extensionId}:`,
 });
 
 export default extensionPageParametersInjectable;

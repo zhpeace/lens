@@ -88,6 +88,8 @@ const toRouteInjectableFor =
           registration,
         });
 
+        console.log("mikko5", normalizedParams);
+
         const currentSidebarRegistration = extension.clusterPageMenus.find(
           matches({ target: { pageId: registration.id }}),
         );
@@ -98,6 +100,7 @@ const toRouteInjectableFor =
           )
           : [];
 
+        console.log(siblingRegistrations);
         const ObserverPage = observer(registration.components.Page);
 
         const Component = () => {

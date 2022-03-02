@@ -100,7 +100,7 @@ const asParents =
 
       return {
         isActive: some({ isActive: true }, children),
-        isVisible: some({ isVisible: true }, children),
+        isVisible: true, // some({ isVisible: true }, children),
         ...item,
       };
     };
