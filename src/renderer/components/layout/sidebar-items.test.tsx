@@ -15,9 +15,7 @@ import React from "react";
 import { fireEvent, RenderResult } from "@testing-library/react";
 import { Router } from "react-router";
 import observableHistoryInjectable from "../../navigation/observable-history.injectable";
-import sidebarStorageInjectable from "./sidebar-storage/sidebar-storage.injectable";
-import type { StorageHelper } from "../../utils";
-import { computed, observable } from "mobx";
+import { computed } from "mobx";
 import { LensRendererExtension } from "../../../extensions/lens-renderer-extension";
 import type {
   ClusterPageMenuRegistration,
@@ -30,11 +28,13 @@ import extensionRouteRegistratorInjectable from "../../routes/extension-route-re
 import { Sidebar } from "./sidebar";
 import currentRouteComponentInjectable from "../../routes/current-route-component.injectable";
 import { Observer } from "mobx-react";
+import readJsonFileInjectable from "../../../common/fs/read-json-file.injectable";
+import writeJsonFileInjectable from "../../../common/fs/write-json-file.injectable";
+import directoryForLensLocalStorageInjectable from "../../../common/directory-for-lens-local-storage/directory-for-lens-local-storage.injectable";
 
 describe("sidebar-items", () => {
   let di: DiContainer;
   let rendered: RenderResult;
-  let sidebarStorageStateStub: { expanded: {}; width: number };
 
   beforeEach(async () => {
     di = getDiForUnitTesting({ doGeneralOverrides: true });
@@ -68,7 +68,9 @@ describe("sidebar-items", () => {
           id: "some-child-page-id",
 
           components: {
-            Page: () => <div data-testid="some-child-page">Some child page</div>,
+            Page: () => (
+              <div data-testid="some-child-page">Some child page</div>
+            ),
           },
         },
 
@@ -76,7 +78,11 @@ describe("sidebar-items", () => {
           id: "some-other-child-page-id",
 
           components: {
-            Page: () => <div data-testid="some-other-child-page">Some other child page</div>,
+            Page: () => (
+              <div data-testid="some-other-child-page">
+                Some other child page
+              </div>
+            ),
           },
         },
       ],
@@ -119,20 +125,27 @@ describe("sidebar-items", () => {
       computed(() => [testExtension]),
     );
 
-    sidebarStorageStateStub = observable({
-      expanded: {},
-      width: 420,
+    // TODO: Add explicit tests for timing of file read
+    di.override(readJsonFileInjectable, () => (filePath) => {
+      if (filePath !== "/some-directory-for-lens-local-storage/app.json") {
+        throw new Error(`Missing stub for "${filePath}"`);
+      }
+
+      return Promise.resolve({});
+    });
+
+    // TODO: Add explicit tests for timing of file write
+    di.override(writeJsonFileInjectable, () => (filePath) => {
+      if (filePath !== "/some-directory-for-lens-local-storage/app.json") {
+        throw new Error(`Missing stub for "${filePath}"`);
+      }
+
+      return Promise.resolve();
     });
 
     di.override(
-      sidebarStorageInjectable,
-      () =>
-        ({
-          get: () => sidebarStorageStateStub,
-          merge: (doMerge: (state: any) => void) => {
-            doMerge(sidebarStorageStateStub);
-          },
-        } as StorageHelper<any>),
+      directoryForLensLocalStorageInjectable,
+      () => "/some-directory-for-lens-local-storage",
     );
 
     await di.runSetups();

@@ -6,21 +6,17 @@
 // Keeps window.localStorage state in external JSON-files.
 // Because app creates random port between restarts => storage session wiped out each time.
 import path from "path";
-import { comparer, observable, reaction, toJS, when } from "mobx";
+import { comparer, reaction, toJS, when } from "mobx";
 import { StorageHelper } from "../storageHelper";
-import logger from "../../../main/logger";
 import { isTestEnv } from "../../../common/vars";
 
 import { getHostedClusterId } from "../../../common/utils";
 import type { JsonObject } from "type-fest";
-
-const storage = observable({
-  initialized: false,
-  loaded: false,
-  data: {} as Record<string/*key*/, any>, // json-serializable
-});
+import type { Logger } from "../../../common/logger";
 
 interface Dependencies {
+  storage: { initialized: boolean, loaded: boolean, data: Record<string, any> };
+  logger: Logger
   directoryForLensLocalStorage: string;
   readJsonFile: (filePath: string) => Promise<JsonObject>;
   writeJsonFile: (filePath: string, contentObject: JsonObject) => Promise<void>;
@@ -29,7 +25,7 @@ interface Dependencies {
 /**
  * Creates a helper for saving data under the "key" intended for window.localStorage
  */
-export const createStorage = ({ directoryForLensLocalStorage, readJsonFile, writeJsonFile }: Dependencies) => <T>(key: string, defaultValue: T) => {
+export const createStorage = ({ storage, logger, directoryForLensLocalStorage, readJsonFile, writeJsonFile }: Dependencies) => <T>(key: string, defaultValue: T) => {
   const { logPrefix } = StorageHelper;
 
   if (!storage.initialized) {

@@ -4,7 +4,7 @@
  */
 
 import glob from "glob";
-import { memoize } from "lodash/fp";
+import { memoize, noop } from "lodash/fp";
 import { createContainer } from "@ogre-tools/injectable";
 import { setLegacyGlobalDiForExtensionApi } from "../extensions/as-legacy-globals-for-extension-api/legacy-global-di-for-extension-api";
 import getValueFromRegisteredChannelInjectable from "./app-paths/get-value-from-registered-channel/get-value-from-registered-channel.injectable";
@@ -12,6 +12,7 @@ import writeJsonFileInjectable from "../common/fs/write-json-file.injectable";
 import readJsonFileInjectable from "../common/fs/read-json-file.injectable";
 import readDirInjectable from "../common/fs/read-dir.injectable";
 import readFileInjectable from "../common/fs/read-file.injectable";
+import loggerInjectable from "../common/logger.injectable";
 
 export const getDiForUnitTesting = ({ doGeneralOverrides } = { doGeneralOverrides: false }) => {
   const di = createContainer();
@@ -47,6 +48,14 @@ export const getDiForUnitTesting = ({ doGeneralOverrides } = { doGeneralOverride
     di.override(readJsonFileInjectable, () => () => {
       throw new Error("Tried to read JSON file from file system without specifying explicit override.");
     });
+
+    di.override(loggerInjectable, () => ({
+      warn: noop,
+      debug: noop,
+      log: noop,
+      error: (...args: any) => console.error(...args),
+      info: noop,
+    }));
   }
 
   return di;
