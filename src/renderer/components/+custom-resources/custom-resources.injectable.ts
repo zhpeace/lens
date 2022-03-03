@@ -6,15 +6,15 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import { crdStore } from "./crd.store";
-import kubeWatchApiInjectable from "../../kube-watch-api/kube-watch-api.injectable";
+import subscribeStoresInjectable from "../../kube-watch-api/subscribe-stores.injectable";
 
 const customResourceDefinitionsInjectable = getInjectable({
   id: "custom-resource-definitions",
 
   instantiate: (di) => {
-    const kubeWatchApi = di.inject(kubeWatchApiInjectable);
+    const subscribeStores = di.inject(subscribeStoresInjectable);
 
-    kubeWatchApi.subscribeStores([crdStore]);
+    subscribeStores([crdStore]);
 
     return computed(() => [...crdStore.items]);
   },

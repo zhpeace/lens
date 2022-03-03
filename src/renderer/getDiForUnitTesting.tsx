@@ -4,17 +4,28 @@
  */
 
 import glob from "glob";
-import { memoize, noop } from "lodash/fp";
+import {
+  join,
+  memoize,
+  split,
+  noop,
+  slice,
+  filter,
+  last,
+  map,
+  tap,
+} from "lodash/fp";
 import { createContainer } from "@ogre-tools/injectable";
 import { setLegacyGlobalDiForExtensionApi } from "../extensions/as-legacy-globals-for-extension-api/legacy-global-di-for-extension-api";
 import getValueFromRegisteredChannelInjectable from "./app-paths/get-value-from-registered-channel/get-value-from-registered-channel.injectable";
-import writeJsonFileInjectable from "../common/fs/write-json-file.injectable";
-import readJsonFileInjectable from "../common/fs/read-json-file.injectable";
-import readDirInjectable from "../common/fs/read-dir.injectable";
-import readFileInjectable from "../common/fs/read-file.injectable";
 import loggerInjectable from "../common/logger.injectable";
+import fsInjectable from "../common/fs/fs.injectable";
+import type fse from "fs-extra";
+import { pipeline } from "@ogre-tools/fp";
 
-export const getDiForUnitTesting = ({ doGeneralOverrides } = { doGeneralOverrides: false }) => {
+export const getDiForUnitTesting = (
+  { doGeneralOverrides } = { doGeneralOverrides: false },
+) => {
   const di = createContainer();
 
   setLegacyGlobalDiForExtensionApi(di);
@@ -33,21 +44,7 @@ export const getDiForUnitTesting = ({ doGeneralOverrides } = { doGeneralOverride
   if (doGeneralOverrides) {
     di.override(getValueFromRegisteredChannelInjectable, () => () => undefined);
 
-    di.override(readDirInjectable, () => () => {
-      throw new Error("Tried to read contents of a directory from file system without specifying explicit override.");
-    });
-
-    di.override(readFileInjectable, () => () => {
-      throw new Error("Tried to read a file from file system without specifying explicit override.");
-    });
-
-    di.override(writeJsonFileInjectable, () => () => {
-      throw new Error("Tried to write JSON file to file system without specifying explicit override.");
-    });
-
-    di.override(readJsonFileInjectable, () => () => {
-      throw new Error("Tried to read JSON file from file system without specifying explicit override.");
-    });
+    di.override(fsInjectable, () => getFsFake());
 
     di.override(loggerInjectable, () => ({
       warn: noop,
@@ -66,3 +63,60 @@ const getInjectableFilePaths = memoize(() => [
   ...glob.sync("../common/**/*.injectable.{ts,tsx}", { cwd: __dirname }),
   ...glob.sync("../extensions/**/*.injectable.{ts,tsx}", { cwd: __dirname }),
 ]);
+
+const getFsFake = () => {
+  const state = new Map();
+
+  const readFile = (filePath: string) => {
+    const fileContent = state.get(filePath);
+
+    if (!fileContent) {
+      const existingFilePaths = [...state.keys()].join('", "');
+
+      throw new Error(
+        `Tried to access file ${filePath} which does not exist. Existing file paths are: "${existingFilePaths}"`,
+      );
+    }
+
+    return Promise.resolve(Buffer.from(fileContent));
+  };
+
+  return {
+    ensureDir: () => Promise.resolve(),
+
+    writeJson: (filePath: string, contents: object) => {
+      state.set(filePath, JSON.stringify(contents));
+
+      return Promise.resolve();
+    },
+
+    readJson: async (filePath: string) => {
+      const fileContent = await readFile(filePath);
+
+      return JSON.parse(fileContent.toString());
+    },
+
+    readFile,
+
+    readdir: (directoryPath: string) => {
+      const fileNames = pipeline(
+        [...state.keys()],
+
+        filter((x) =>
+          pipeline(
+            x,
+            split("/"),
+            slice(0, -1),
+            join("/"),
+          ),
+        ),
+
+        tap(console.log),
+
+        map((x) => pipeline(x, split("/"), last)),
+      );
+
+      return Promise.resolve(fileNames);
+    },
+  } as unknown as typeof fse;
+};

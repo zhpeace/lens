@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`sidebar-items renders 1`] = `
+exports[`sidebar-items given extension renders 1`] = `
 <div>
   <div
     class="flex flex-col"
@@ -427,7 +427,7 @@ exports[`sidebar-items renders 1`] = `
 </div>
 `;
 
-exports[`sidebar-items when a parent item is opened renders 1`] = `
+exports[`sidebar-items given extension when a parent item is opened renders 1`] = `
 <div>
   <div
     class="flex flex-col"
@@ -894,7 +894,7 @@ exports[`sidebar-items when a parent item is opened renders 1`] = `
 </div>
 `;
 
-exports[`sidebar-items when a parent item is opened when a child of the parent is selected renders 1`] = `
+exports[`sidebar-items given extension when a parent item is opened when a child of the parent is selected renders 1`] = `
 <div>
   <div
     class="flex flex-col"
@@ -1403,7 +1403,7 @@ exports[`sidebar-items when a parent item is opened when a child of the parent i
 </div>
 `;
 
-exports[`sidebar-items when a parent item is opened when a child of the parent is selected when selecting sibling tab renders 1`] = `
+exports[`sidebar-items given extension when a parent item is opened when a child of the parent is selected when selecting sibling tab renders 1`] = `
 <div>
   <div
     class="flex flex-col"
