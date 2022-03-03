@@ -68,7 +68,15 @@ describe("sidebar-items", () => {
           id: "some-child-page-id",
 
           components: {
-            Page: () => <div data-testid="child-page">Some child page</div>,
+            Page: () => <div data-testid="some-child-page">Some child page</div>,
+          },
+        },
+
+        {
+          id: "some-other-child-page-id",
+
+          components: {
+            Page: () => <div data-testid="some-other-child-page">Some other child page</div>,
           },
         },
       ],
@@ -96,7 +104,7 @@ describe("sidebar-items", () => {
 
         {
           id: "some-other-child-id",
-          target: { pageId: "some-child-page-id" },
+          target: { pageId: "some-other-child-page-id" },
           parentId: "some-parent-id",
           title: "Child 2",
 
@@ -245,15 +253,29 @@ describe("sidebar-items", () => {
       });
 
       it("child page is shown", () => {
-        expect(rendered.getByTestId("child-page")).not.toBeNull();
+        expect(rendered.getByTestId("some-child-page")).not.toBeNull();
       });
 
       it("renders tabs", () => {
         expect(rendered.getByTestId("tab-layout")).not.toBeNull();
       });
 
-      describe("sidebar", () => {
+      describe("when selecting sibling tab", () => {
+        beforeEach(() => {
+          const childTabLink = rendered.getByTestId(
+            "tab-link-for-some-extension-id-some-other-child-id",
+          );
 
+          fireEvent.click(childTabLink);
+        });
+
+        it("renders", () => {
+          expect(rendered.container).toMatchSnapshot();
+        });
+
+        it("sibling child page is shown", () => {
+          expect(rendered.getByTestId("some-other-child-page")).not.toBeNull();
+        });
       });
     });
   });
