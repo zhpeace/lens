@@ -4,7 +4,6 @@
  */
 import type { DiContainer } from "@ogre-tools/injectable";
 import { getDiForUnitTesting } from "../../getDiForUnitTesting";
-import directoryForUserDataInjectable from "../../../common/app-paths/directory-for-user-data/directory-for-user-data.injectable";
 import currentlyInClusterFrameInjectable from "../../routes/currently-in-cluster-frame.injectable";
 import kubeWatchApiInjectable from "../../kube-watch-api/kube-watch-api.injectable";
 import type { KubeWatchApi } from "../../kube-watch-api/kube-watch-api";
@@ -39,7 +38,6 @@ describe("sidebar-items", () => {
   beforeEach(async () => {
     di = getDiForUnitTesting({ doGeneralOverrides: true });
 
-    di.override(directoryForUserDataInjectable, () => "irrelevant");
     di.override(currentlyInClusterFrameInjectable, () => true);
 
     di.override(
