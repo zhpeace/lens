@@ -20,6 +20,7 @@ interface Dependencies {
 export class LogStore {
   protected podLogs = observable.map<TabId, PodLogLine[]>();
   protected refreshers = new Map<TabId, IntervalFn>();
+  loaders = observable.set<TabId>();
 
   constructor(private dependencies: Dependencies) {}
 
@@ -44,10 +45,14 @@ export class LogStore {
    * messages
    */
   public async load(tabId: TabId, computedPod: IComputedValue<Pod | undefined>, logTabData: IComputedValue<LogTabData>): Promise<void> {
+    this.loaders.add(tabId);
+
     try {
       const logs = await this.loadLogs(computedPod, logTabData, {
         tailLines: this.getLogLines(tabId) + logLinesToLoad,
       });
+
+      this.loaders.delete(tabId);
 
       this.getRefresher(tabId, computedPod, logTabData).start();
       this.podLogs.set(tabId, logs);

@@ -7,6 +7,7 @@ import { computed, IComputedValue } from "mobx";
 import type { TabId } from "../dock/store";
 import type { SearchStore } from "../../../search-store/search-store";
 import type { Pod } from "../../../../common/k8s-api/endpoints";
+import type { LogStore } from "./store";
 
 export interface LogTabViewModelDependencies {
   getLogs: (tabId: TabId) => string[];
@@ -22,6 +23,7 @@ export interface LogTabViewModelDependencies {
   getPodsByOwnerId: (id: string) => Pod[];
   areLogsPresent: (tabId: TabId) => boolean;
   searchStore: SearchStore;
+  logStore: LogStore;
 }
 
 export class LogTabViewModel {
@@ -31,7 +33,7 @@ export class LogTabViewModel {
     return this.dependencies.searchStore;
   }
 
-  readonly isLoading = computed(() => this.dependencies.areLogsPresent(this.tabId));
+  readonly isLoading = computed(() => this.dependencies.logStore.loaders.has(this.tabId));
   readonly logs = computed(() => this.dependencies.getLogs(this.tabId));
   readonly logsWithoutTimestamps = computed(() => this.dependencies.getLogsWithoutTimestamps(this.tabId));
   readonly timestampSplitLogs = computed(() => this.dependencies.getTimestampSplitLogs(this.tabId));
