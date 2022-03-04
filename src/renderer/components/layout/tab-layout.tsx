@@ -31,45 +31,81 @@ export interface TabLayoutRoute {
   default?: boolean; // initial tab to open with provided `url, by default tabs[0] is used
 }
 
-export const TabLayout = observer(({ className, contentClass, newTabs = [], tabs = [], children }: TabLayoutProps) => {
-  const currentLocation = navigation.location.pathname;
-  const hasTabs = tabs.length > 0;
-  const hasNewTabs = newTabs.length > 0;
-  const startTabUrl = hasTabs ? (tabs.find(tab => tab.default) || tabs[0])?.url : null;
+export const TabLayout = observer(
+  ({
+    className,
+    contentClass,
+    newTabs = [],
+    tabs = [],
+    children,
+  }: TabLayoutProps) => {
+    const currentLocation = navigation.location.pathname;
+    const hasTabs = tabs.length > 0;
+    const hasNewTabs = newTabs.length > 0;
+    const startTabUrl = hasTabs
+      ? (tabs.find((tab) => tab.default) || tabs[0])?.url
+      : null;
 
-  return (
-    <div className={cssNames("TabLayout", className)} data-testid="tab-layout">
-      {hasTabs && (
-        <Tabs center onChange={(url) => navigate(url)}>
-          {tabs.map(({ title, routePath, url = routePath, exact }) => {
-            const isActive = !!matchPath(currentLocation, { path: routePath, exact });
+    return (
+      <div
+        className={cssNames("TabLayout", className)}
+        data-testid="tab-layout"
+      >
+        {hasTabs && (
+          <Tabs center onChange={(url) => navigate(url)}>
+            {tabs.map(({ title, routePath, url = routePath, exact }) => {
+              const isActive = !!matchPath(currentLocation, {
+                path: routePath,
+                exact,
+              });
 
-            return <Tab key={url} label={title} value={url} active={isActive}/>;
-          })}
-        </Tabs>
-      )}
+              return (
+                <Tab key={url} label={title} value={url} active={isActive} />
+              );
+            })}
+          </Tabs>
+        )}
 
-      {hasNewTabs && (
-        <Tabs center>
-          {newTabs.map(({ item, isActive }) => {
-            return <Tab onClick={item.onClick} key={item.title} label={item.title} active={isActive.get()} data-testid={`tab-link-for-${item.id}`} />;
-          })}
-        </Tabs>
-      )}
+        {hasNewTabs && (
+          <Tabs center>
+            {newTabs.map(({ item, isActive }) => {
+              const active = isActive.get();
 
-      <main className={cssNames(contentClass)}>
-        <ErrorBoundary>
-          {hasTabs && (
-            <Switch>
-              {tabs.map(({ routePath, exact, component }) => {
-                return <Route key={routePath} exact={exact} path={routePath} component={component}/>;
-              })}
-              <Redirect to={startTabUrl}/>
-            </Switch>
-          )}
-          {children}
-        </ErrorBoundary>
-      </main>
-    </div>
-  );
-});
+              return (
+                <Tab
+                  onClick={item.onClick}
+                  key={item.title}
+                  label={item.title}
+                  active={active}
+                  data-is-active-test={active}
+                  data-testid={`tab-link-for-${item.id}`}
+                />
+              );
+            })}
+          </Tabs>
+        )}
+
+        <main className={cssNames(contentClass)}>
+          <ErrorBoundary>
+            {hasTabs && (
+              <Switch>
+                {tabs.map(({ routePath, exact, component }) => {
+                  return (
+                    <Route
+                      key={routePath}
+                      exact={exact}
+                      path={routePath}
+                      component={component}
+                    />
+                  );
+                })}
+                <Redirect to={startTabUrl} />
+              </Switch>
+            )}
+            {children}
+          </ErrorBoundary>
+        </main>
+      </div>
+    );
+  },
+);

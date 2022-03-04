@@ -77,7 +77,7 @@ describe("sidebar-items", () => {
           "sidebar-item-for-some-extension-id-some-parent-id",
         );
 
-        expect(parent.dataset.isActive).toBe("true");
+        expect(parent.dataset.isActiveTest).toBe("true");
       });
 
       it("parent sidebar item is not expanded", () => {
@@ -114,7 +114,7 @@ describe("sidebar-items", () => {
           "sidebar-item-for-some-extension-id-some-parent-id",
         );
 
-        expect(parent.dataset.isActive).toBe("false");
+        expect(parent.dataset.isActiveTest).toBe("false");
       });
 
       it("parent sidebar item is expanded", () => {
@@ -187,7 +187,7 @@ describe("sidebar-items", () => {
           "sidebar-item-for-some-extension-id-some-parent-id",
         );
 
-        expect(parent.dataset.isActive).toBe("false");
+        expect(parent.dataset.isActiveTest).toBe("false");
       });
 
       it("parent sidebar item is not expanded", () => {
@@ -216,7 +216,7 @@ describe("sidebar-items", () => {
             "sidebar-item-for-some-extension-id-some-parent-id",
           );
 
-          expect(parent.dataset.isActive).toBe("false");
+          expect(parent.dataset.isActiveTest).toBe("false");
         });
 
         it("parent sidebar item is expanded", () => {
@@ -245,7 +245,7 @@ describe("sidebar-items", () => {
               "sidebar-item-for-some-extension-id-some-parent-id",
             );
 
-            expect(parent.dataset.isActive).toBe("true");
+            expect(parent.dataset.isActiveTest).toBe("true");
           });
 
           it("child is highlighted", () => {
@@ -253,7 +253,7 @@ describe("sidebar-items", () => {
               "sidebar-item-for-some-extension-id-some-child-id",
             );
 
-            expect(child.dataset.isActive).toBe("true");
+            expect(child.dataset.isActiveTest).toBe("true");
           });
 
           it("child page is shown", () => {
@@ -262,6 +262,22 @@ describe("sidebar-items", () => {
 
           it("renders tabs", () => {
             expect(rendered.getByTestId("tab-layout")).not.toBeNull();
+          });
+
+          it("tab for child page is active", () => {
+            const tabLink = rendered.getByTestId(
+              "tab-link-for-some-extension-id-some-child-id",
+            );
+
+            expect(tabLink.dataset.isActiveTest).toBe("true");
+          });
+
+          it("tab for sibling page is not active", () => {
+            const tabLink = rendered.getByTestId(
+              "tab-link-for-some-extension-id-some-other-child-id",
+            );
+
+            expect(tabLink.dataset.isActiveTest).toBe("false");
           });
 
           it("when not enough time passes, does not store state for expanded sidebar items to file system yet", async () => {
@@ -306,6 +322,22 @@ describe("sidebar-items", () => {
               expect(
                 rendered.getByTestId("some-other-child-page"),
               ).not.toBeNull();
+            });
+
+            it("tab for sibling page is active", () => {
+              const tabLink = rendered.getByTestId(
+                "tab-link-for-some-extension-id-some-other-child-id",
+              );
+
+              expect(tabLink.dataset.isActiveTest).toBe("true");
+            });
+
+            it("tab for previous page is not active", () => {
+              const tabLink = rendered.getByTestId(
+                "tab-link-for-some-extension-id-some-child-id",
+              );
+
+              expect(tabLink.dataset.isActiveTest).toBe("false");
             });
           });
         });

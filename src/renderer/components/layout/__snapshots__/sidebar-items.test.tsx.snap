@@ -18,7 +18,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
     <div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="cluster-overview"
         data-testid="sidebar-item-for-cluster-overview"
       >
@@ -45,7 +45,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="config"
         data-testid="sidebar-item-for-config"
       >
@@ -83,7 +83,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="custom-resources"
         data-testid="sidebar-item-for-custom-resources"
       >
@@ -121,7 +121,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="events"
         data-testid="sidebar-item-for-events"
       >
@@ -149,7 +149,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="helm"
         data-testid="sidebar-item-for-helm"
       >
@@ -187,7 +187,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="namespaces"
         data-testid="sidebar-item-for-namespaces"
       >
@@ -215,7 +215,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="network"
         data-testid="sidebar-item-for-network"
       >
@@ -253,7 +253,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="nodes"
         data-testid="sidebar-item-for-nodes"
       >
@@ -280,7 +280,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="storage"
         data-testid="sidebar-item-for-storage"
       >
@@ -318,7 +318,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="user-management"
         data-testid="sidebar-item-for-user-management"
       >
@@ -356,7 +356,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="workloads"
         data-testid="sidebar-item-for-workloads"
       >
@@ -393,7 +393,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="some-extension-id-some-parent-id"
         data-testid="sidebar-item-for-some-extension-id-some-parent-id"
       >
@@ -445,7 +445,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
     <div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="cluster-overview"
         data-testid="sidebar-item-for-cluster-overview"
       >
@@ -472,7 +472,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="config"
         data-testid="sidebar-item-for-config"
       >
@@ -510,7 +510,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="custom-resources"
         data-testid="sidebar-item-for-custom-resources"
       >
@@ -548,7 +548,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="events"
         data-testid="sidebar-item-for-events"
       >
@@ -576,7 +576,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="helm"
         data-testid="sidebar-item-for-helm"
       >
@@ -614,7 +614,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="namespaces"
         data-testid="sidebar-item-for-namespaces"
       >
@@ -642,7 +642,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="network"
         data-testid="sidebar-item-for-network"
       >
@@ -680,7 +680,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="nodes"
         data-testid="sidebar-item-for-nodes"
       >
@@ -707,7 +707,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="storage"
         data-testid="sidebar-item-for-storage"
       >
@@ -745,7 +745,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="user-management"
         data-testid="sidebar-item-for-user-management"
       >
@@ -783,7 +783,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="workloads"
         data-testid="sidebar-item-for-workloads"
       >
@@ -820,7 +820,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="some-extension-id-some-parent-id"
         data-testid="sidebar-item-for-some-extension-id-some-parent-id"
       >
@@ -872,7 +872,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
     <div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="cluster-overview"
         data-testid="sidebar-item-for-cluster-overview"
       >
@@ -899,7 +899,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="config"
         data-testid="sidebar-item-for-config"
       >
@@ -937,7 +937,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="custom-resources"
         data-testid="sidebar-item-for-custom-resources"
       >
@@ -975,7 +975,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="events"
         data-testid="sidebar-item-for-events"
       >
@@ -1003,7 +1003,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="helm"
         data-testid="sidebar-item-for-helm"
       >
@@ -1041,7 +1041,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="namespaces"
         data-testid="sidebar-item-for-namespaces"
       >
@@ -1069,7 +1069,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="network"
         data-testid="sidebar-item-for-network"
       >
@@ -1107,7 +1107,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="nodes"
         data-testid="sidebar-item-for-nodes"
       >
@@ -1134,7 +1134,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="storage"
         data-testid="sidebar-item-for-storage"
       >
@@ -1172,7 +1172,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="user-management"
         data-testid="sidebar-item-for-user-management"
       >
@@ -1210,7 +1210,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="workloads"
         data-testid="sidebar-item-for-workloads"
       >
@@ -1247,7 +1247,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="some-extension-id-some-parent-id"
         data-testid="sidebar-item-for-some-extension-id-some-parent-id"
       >
@@ -1280,7 +1280,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
         >
           <div
             class="SidebarItem"
-            data-is-active="false"
+            data-is-active-test="false"
             data-test-id="some-extension-id-some-child-id"
             data-testid="sidebar-item-for-some-extension-id-some-child-id"
           >
@@ -1298,7 +1298,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
           </div>
           <div
             class="SidebarItem"
-            data-is-active="false"
+            data-is-active-test="false"
             data-test-id="some-extension-id-some-other-child-id"
             data-testid="sidebar-item-for-some-extension-id-some-other-child-id"
           >
@@ -1339,7 +1339,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
     <div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="cluster-overview"
         data-testid="sidebar-item-for-cluster-overview"
       >
@@ -1366,7 +1366,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="config"
         data-testid="sidebar-item-for-config"
       >
@@ -1404,7 +1404,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="custom-resources"
         data-testid="sidebar-item-for-custom-resources"
       >
@@ -1442,7 +1442,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="events"
         data-testid="sidebar-item-for-events"
       >
@@ -1470,7 +1470,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="helm"
         data-testid="sidebar-item-for-helm"
       >
@@ -1508,7 +1508,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="namespaces"
         data-testid="sidebar-item-for-namespaces"
       >
@@ -1536,7 +1536,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="network"
         data-testid="sidebar-item-for-network"
       >
@@ -1574,7 +1574,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="nodes"
         data-testid="sidebar-item-for-nodes"
       >
@@ -1601,7 +1601,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="storage"
         data-testid="sidebar-item-for-storage"
       >
@@ -1639,7 +1639,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="user-management"
         data-testid="sidebar-item-for-user-management"
       >
@@ -1677,7 +1677,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="workloads"
         data-testid="sidebar-item-for-workloads"
       >
@@ -1714,7 +1714,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="true"
+        data-is-active-test="true"
         data-test-id="some-extension-id-some-parent-id"
         data-testid="sidebar-item-for-some-extension-id-some-parent-id"
       >
@@ -1748,7 +1748,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
         >
           <div
             class="SidebarItem"
-            data-is-active="true"
+            data-is-active-test="true"
             data-test-id="some-extension-id-some-child-id"
             data-testid="sidebar-item-for-some-extension-id-some-child-id"
           >
@@ -1767,7 +1767,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
           </div>
           <div
             class="SidebarItem"
-            data-is-active="false"
+            data-is-active-test="false"
             data-test-id="some-extension-id-some-other-child-id"
             data-testid="sidebar-item-for-some-extension-id-some-other-child-id"
           >
@@ -1796,6 +1796,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
     >
       <div
         class="Tab flex gaps align-center active"
+        data-is-active-test="true"
         data-testid="tab-link-for-some-extension-id-some-child-id"
         tabindex="0"
       >
@@ -1807,6 +1808,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="Tab flex gaps align-center"
+        data-is-active-test="false"
         data-testid="tab-link-for-some-extension-id-some-other-child-id"
         tabindex="0"
       >
@@ -1848,7 +1850,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
     <div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="cluster-overview"
         data-testid="sidebar-item-for-cluster-overview"
       >
@@ -1875,7 +1877,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="config"
         data-testid="sidebar-item-for-config"
       >
@@ -1913,7 +1915,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="custom-resources"
         data-testid="sidebar-item-for-custom-resources"
       >
@@ -1951,7 +1953,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="events"
         data-testid="sidebar-item-for-events"
       >
@@ -1979,7 +1981,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="helm"
         data-testid="sidebar-item-for-helm"
       >
@@ -2017,7 +2019,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="namespaces"
         data-testid="sidebar-item-for-namespaces"
       >
@@ -2045,7 +2047,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="network"
         data-testid="sidebar-item-for-network"
       >
@@ -2083,7 +2085,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="nodes"
         data-testid="sidebar-item-for-nodes"
       >
@@ -2110,7 +2112,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="storage"
         data-testid="sidebar-item-for-storage"
       >
@@ -2148,7 +2150,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="user-management"
         data-testid="sidebar-item-for-user-management"
       >
@@ -2186,7 +2188,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="workloads"
         data-testid="sidebar-item-for-workloads"
       >
@@ -2223,7 +2225,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="true"
+        data-is-active-test="true"
         data-test-id="some-extension-id-some-parent-id"
         data-testid="sidebar-item-for-some-extension-id-some-parent-id"
       >
@@ -2257,7 +2259,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
         >
           <div
             class="SidebarItem"
-            data-is-active="false"
+            data-is-active-test="false"
             data-test-id="some-extension-id-some-child-id"
             data-testid="sidebar-item-for-some-extension-id-some-child-id"
           >
@@ -2275,7 +2277,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
           </div>
           <div
             class="SidebarItem"
-            data-is-active="true"
+            data-is-active-test="true"
             data-test-id="some-extension-id-some-other-child-id"
             data-testid="sidebar-item-for-some-extension-id-some-other-child-id"
           >
@@ -2305,6 +2307,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
     >
       <div
         class="Tab flex gaps align-center"
+        data-is-active-test="false"
         data-testid="tab-link-for-some-extension-id-some-child-id"
         tabindex="0"
       >
@@ -2316,6 +2319,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="Tab flex gaps align-center active"
+        data-is-active-test="true"
         data-testid="tab-link-for-some-extension-id-some-other-child-id"
         tabindex="0"
       >
@@ -2357,7 +2361,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
     <div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="cluster-overview"
         data-testid="sidebar-item-for-cluster-overview"
       >
@@ -2384,7 +2388,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="config"
         data-testid="sidebar-item-for-config"
       >
@@ -2422,7 +2426,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="custom-resources"
         data-testid="sidebar-item-for-custom-resources"
       >
@@ -2460,7 +2464,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="events"
         data-testid="sidebar-item-for-events"
       >
@@ -2488,7 +2492,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="helm"
         data-testid="sidebar-item-for-helm"
       >
@@ -2526,7 +2530,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="namespaces"
         data-testid="sidebar-item-for-namespaces"
       >
@@ -2554,7 +2558,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="network"
         data-testid="sidebar-item-for-network"
       >
@@ -2592,7 +2596,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="nodes"
         data-testid="sidebar-item-for-nodes"
       >
@@ -2619,7 +2623,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="storage"
         data-testid="sidebar-item-for-storage"
       >
@@ -2657,7 +2661,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="user-management"
         data-testid="sidebar-item-for-user-management"
       >
@@ -2695,7 +2699,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="workloads"
         data-testid="sidebar-item-for-workloads"
       >
@@ -2732,7 +2736,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="true"
+        data-is-active-test="true"
         data-test-id="some-extension-id-some-parent-id"
         data-testid="sidebar-item-for-some-extension-id-some-parent-id"
       >
@@ -2773,6 +2777,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
     >
       <div
         class="Tab flex gaps align-center active"
+        data-is-active-test="true"
         data-testid="tab-link-for-some-extension-id-some-child-id"
         tabindex="0"
       >
@@ -2784,6 +2789,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="Tab flex gaps align-center"
+        data-is-active-test="false"
         data-testid="tab-link-for-some-extension-id-some-other-child-id"
         tabindex="0"
       >
@@ -2825,7 +2831,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
     <div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="cluster-overview"
         data-testid="sidebar-item-for-cluster-overview"
       >
@@ -2852,7 +2858,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="config"
         data-testid="sidebar-item-for-config"
       >
@@ -2890,7 +2896,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="custom-resources"
         data-testid="sidebar-item-for-custom-resources"
       >
@@ -2928,7 +2934,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="events"
         data-testid="sidebar-item-for-events"
       >
@@ -2956,7 +2962,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="helm"
         data-testid="sidebar-item-for-helm"
       >
@@ -2994,7 +3000,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="namespaces"
         data-testid="sidebar-item-for-namespaces"
       >
@@ -3022,7 +3028,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="network"
         data-testid="sidebar-item-for-network"
       >
@@ -3060,7 +3066,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="nodes"
         data-testid="sidebar-item-for-nodes"
       >
@@ -3087,7 +3093,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="storage"
         data-testid="sidebar-item-for-storage"
       >
@@ -3125,7 +3131,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="user-management"
         data-testid="sidebar-item-for-user-management"
       >
@@ -3163,7 +3169,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="workloads"
         data-testid="sidebar-item-for-workloads"
       >
@@ -3200,7 +3206,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="some-extension-id-some-parent-id"
         data-testid="sidebar-item-for-some-extension-id-some-parent-id"
       >
@@ -3233,7 +3239,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
         >
           <div
             class="SidebarItem"
-            data-is-active="false"
+            data-is-active-test="false"
             data-test-id="some-extension-id-some-child-id"
             data-testid="sidebar-item-for-some-extension-id-some-child-id"
           >
@@ -3251,7 +3257,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
           </div>
           <div
             class="SidebarItem"
-            data-is-active="false"
+            data-is-active-test="false"
             data-test-id="some-extension-id-some-other-child-id"
             data-testid="sidebar-item-for-some-extension-id-some-other-child-id"
           >
@@ -3292,7 +3298,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
     <div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="cluster-overview"
         data-testid="sidebar-item-for-cluster-overview"
       >
@@ -3319,7 +3325,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="config"
         data-testid="sidebar-item-for-config"
       >
@@ -3357,7 +3363,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="custom-resources"
         data-testid="sidebar-item-for-custom-resources"
       >
@@ -3395,7 +3401,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="events"
         data-testid="sidebar-item-for-events"
       >
@@ -3423,7 +3429,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="helm"
         data-testid="sidebar-item-for-helm"
       >
@@ -3461,7 +3467,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="namespaces"
         data-testid="sidebar-item-for-namespaces"
       >
@@ -3489,7 +3495,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="network"
         data-testid="sidebar-item-for-network"
       >
@@ -3527,7 +3533,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="nodes"
         data-testid="sidebar-item-for-nodes"
       >
@@ -3554,7 +3560,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="storage"
         data-testid="sidebar-item-for-storage"
       >
@@ -3592,7 +3598,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="user-management"
         data-testid="sidebar-item-for-user-management"
       >
@@ -3630,7 +3636,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="workloads"
         data-testid="sidebar-item-for-workloads"
       >
@@ -3667,7 +3673,7 @@ exports[`sidebar-items given extension with cluster pages and cluster page menus
       </div>
       <div
         class="SidebarItem"
-        data-is-active="false"
+        data-is-active-test="false"
         data-test-id="some-extension-id-some-parent-id"
         data-testid="sidebar-item-for-some-extension-id-some-parent-id"
       >
