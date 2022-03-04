@@ -52,7 +52,7 @@ export const renderClusterFrameFake = async ({ di, extensions = [] }: Options) =
   const history = di.inject(observableHistoryInjectable);
   const currentRouteComponent = di.inject(currentRouteComponentInjectable);
 
-  return render(
+  return () => render(
     <Router history={history}>
       <Sidebar />
 
