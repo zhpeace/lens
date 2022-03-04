@@ -3,27 +3,27 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import type { DiContainer } from "@ogre-tools/injectable";
-import { getDiForUnitTesting } from "../../getDiForUnitTesting";
+import { getDiForUnitTesting } from "../renderer/getDiForUnitTesting";
 import React from "react";
 import { fireEvent, RenderResult } from "@testing-library/react";
 
-import { getRendererExtensionFake } from "../test-utils/get-renderer-extension-fake";
-import { renderClusterFrameFake } from "../test-utils/render-cluster-frame-fake";
-import type { LensRendererExtension } from "../../../extensions/lens-renderer-extension";
-import directoryForLensLocalStorageInjectable from "../../../common/directory-for-lens-local-storage/directory-for-lens-local-storage.injectable";
-import readJsonFileInjectable from "../../../common/fs/read-json-file.injectable";
-import pathExistsInjectable from "../../../common/fs/path-exists.injectable";
-import writeJsonFileInjectable from "../../../common/fs/write-json-file.injectable";
-import navigateToRouteInjectable from "../../routes/navigate-to-route.injectable";
-import routesInjectable from "../../routes/routes.injectable";
+import { getRendererExtensionFake } from "../renderer/components/test-utils/get-renderer-extension-fake";
+import { renderClusterFrameFake } from "../renderer/components/test-utils/render-cluster-frame-fake";
+import type { LensRendererExtension } from "../extensions/lens-renderer-extension";
+import directoryForLensLocalStorageInjectable from "../common/directory-for-lens-local-storage/directory-for-lens-local-storage.injectable";
+import readJsonFileInjectable from "../common/fs/read-json-file.injectable";
+import pathExistsInjectable from "../common/fs/path-exists.injectable";
+import writeJsonFileInjectable from "../common/fs/write-json-file.injectable";
+import navigateToRouteInjectable from "../renderer/routes/navigate-to-route.injectable";
+import routesInjectable from "../renderer/routes/routes.injectable";
 import { matches } from "lodash/fp";
 
-describe("sidebar-items", () => {
+describe("cluster sidebar and tab navigation for extensions", () => {
   let di: DiContainer;
   let rendered: RenderResult;
-  let readJsonFile: ReturnType<typeof readJsonFileInjectable.instantiate>;
-  let writeJsonFile: ReturnType<typeof writeJsonFileInjectable.instantiate>;
-  let pathExists: ReturnType<typeof pathExistsInjectable.instantiate>;
+  let readJsonFileFake: ReturnType<typeof readJsonFileInjectable.instantiate>;
+  let writeJsonFileFake: ReturnType<typeof writeJsonFileInjectable.instantiate>;
+  let pathExistsFake: ReturnType<typeof pathExistsInjectable.instantiate>;
   let navigateToRoute: ReturnType<typeof navigateToRouteInjectable.instantiate>;
 
   beforeEach(() => {
@@ -31,9 +31,9 @@ describe("sidebar-items", () => {
 
     di = getDiForUnitTesting({ doGeneralOverrides: true });
 
-    readJsonFile = di.inject(readJsonFileInjectable);
-    writeJsonFile = di.inject(writeJsonFileInjectable);
-    pathExists = di.inject(pathExistsInjectable);
+    readJsonFileFake = di.inject(readJsonFileInjectable);
+    writeJsonFileFake = di.inject(writeJsonFileInjectable);
+    pathExistsFake = di.inject(pathExistsInjectable);
     navigateToRoute = di.inject(navigateToRouteInjectable);
 
     di.override(
@@ -95,7 +95,7 @@ describe("sidebar-items", () => {
 
     describe("given state for expanded sidebar items already exists, when rendered", () => {
       beforeEach(async () => {
-        await writeJsonFile("/some-directory-for-lens-local-storage/app.json", {
+        await writeJsonFileFake("/some-directory-for-lens-local-storage/app.json", {
           sidebar: {
             expanded: { "some-extension-id-some-parent-id": true },
             width: 200,
@@ -128,7 +128,7 @@ describe("sidebar-items", () => {
 
     describe("given state for expanded unknown sidebar items already exists, when rendered", () => {
       beforeEach(async () => {
-        await writeJsonFile("/some-directory-for-lens-local-storage/app.json", {
+        await writeJsonFileFake("/some-directory-for-lens-local-storage/app.json", {
           sidebar: {
             expanded: { "some-extension-id-some-unknown-parent-id": true },
             width: 200,
@@ -153,7 +153,7 @@ describe("sidebar-items", () => {
 
     describe("given empty state for expanded sidebar items already exists, when rendered", () => {
       beforeEach(async () => {
-        await writeJsonFile("/some-directory-for-lens-local-storage/app.json", {
+        await writeJsonFileFake("/some-directory-for-lens-local-storage/app.json", {
           someThingButSidebar: {},
         });
 
@@ -283,7 +283,7 @@ describe("sidebar-items", () => {
           it("when not enough time passes, does not store state for expanded sidebar items to file system yet", async () => {
             jest.advanceTimersByTime(250 - 1);
 
-            const actual = await pathExists(
+            const actual = await pathExistsFake(
               "/some-directory-for-lens-local-storage/app.json",
             );
 
@@ -293,7 +293,7 @@ describe("sidebar-items", () => {
           it("when enough time passes, stores state for expanded sidebar items to file system", async () => {
             jest.advanceTimersByTime(250);
 
-            const actual = await readJsonFile(
+            const actual = await readJsonFileFake(
               "/some-directory-for-lens-local-storage/app.json",
             );
 
