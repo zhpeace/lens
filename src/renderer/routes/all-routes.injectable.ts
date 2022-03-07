@@ -17,7 +17,6 @@ export interface Route {
   clusterFrame: boolean;
   isEnabled: IComputedValue<boolean>;
   id?: string;
-  exact?: boolean;
   extension?: LensRendererExtension;
 }
 

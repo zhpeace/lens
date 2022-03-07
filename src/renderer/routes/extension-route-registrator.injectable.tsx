@@ -79,7 +79,6 @@ const toRouteInjectableFor =
             clusterFrame,
             isEnabled: computed(() => true),
             extension,
-            exact: true,
           }),
 
           injectionToken: routeInjectionToken,

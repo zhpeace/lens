@@ -12,7 +12,6 @@ const crdListRouteInjectable = getInjectable({
   instantiate: () => ({
     path: "/crd/definitions",
     clusterFrame: true,
-    exact: true,
     isEnabled: computed(() => true),
   }),
 

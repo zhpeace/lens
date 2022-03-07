@@ -18,7 +18,10 @@ const matchingRouteInjectable = getInjectable({
 
     return computed(() => {
       const matchedRoutes = routes.get().map((route) => {
-        const match = matchPath(observableHistory.location.pathname, route);
+        const match = matchPath(observableHistory.location.pathname, {
+          path: route.path,
+          exact: true,
+        });
 
         return {
           route,
@@ -26,8 +29,6 @@ const matchingRouteInjectable = getInjectable({
           pathParameters: match ? match.params : {},
         };
       });
-
-      // console.log(matchedRoutes);
 
       return matchedRoutes.find(matches({ isMatching: true }));
     });
