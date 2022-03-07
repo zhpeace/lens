@@ -65,8 +65,6 @@ const sidebarItemsInjectable = getInjectable({
             isEnabledExtensionSidebarItemFor(enabledExtensions),
           ]),
         ),
-
-        // filter((x) => !!x.extension),
       );
 
       const getSidebarItemsHierarchy = (
@@ -89,7 +87,7 @@ const sidebarItemsInjectable = getInjectable({
 
                 isActive: computed(() => {
                   if (isEmpty(children)) {
-                    return item.isActive.get();
+                    return item.isActive ? item.isActive.get() : false;
                   }
 
                   return pipeline(

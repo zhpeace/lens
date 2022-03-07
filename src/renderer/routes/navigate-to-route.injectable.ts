@@ -8,13 +8,15 @@ import observableHistoryInjectable from "../navigation/observable-history.inject
 import { buildURL } from "../../common/utils/buildUrl";
 import { runInAction } from "mobx";
 
+export type NavigateToRoute = (route: Route, parameters?: {}) => void;
+
 const navigateToRouteInjectable = getInjectable({
   id: "navigate-to-route",
 
-  instantiate: (di) => {
+  instantiate: (di): NavigateToRoute => {
     const observableHistory = di.inject(observableHistoryInjectable);
 
-    return (route: Route, parameters = {}) => {
+    return (route, parameters = {}) => {
       const url = buildURL(route.path)(parameters);
 
       runInAction(() => {
