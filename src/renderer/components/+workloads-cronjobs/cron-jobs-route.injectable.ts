@@ -10,12 +10,12 @@ const cronJobsRouteInjectable = getInjectable({
   id: "cron-jobs-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "cronjobs");
 
     return {
       path: "/cronjobs",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("cronjobs"),
+      isEnabled: isAllowedResource,
     };
   },
 

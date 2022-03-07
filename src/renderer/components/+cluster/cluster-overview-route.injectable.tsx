@@ -10,12 +10,12 @@ const clusterOverviewRouteInjectable = getInjectable({
   id: "cluster-overview-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "nodes");
 
     return {
       path: "/overview",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("nodes"),
+      isEnabled: isAllowedResource,
     };
   },
 

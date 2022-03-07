@@ -10,12 +10,12 @@ const daemonsetsRouteInjectable = getInjectable({
   id: "daemonsets-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "daemonsets");
 
     return {
       path: "/daemonsets",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("daemonsets"),
+      isEnabled: isAllowedResource,
     };
   },
 

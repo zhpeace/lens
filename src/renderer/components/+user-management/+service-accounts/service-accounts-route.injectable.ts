@@ -10,12 +10,12 @@ const serviceAccountsRouteInjectable = getInjectable({
   id: "service-accounts-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "serviceaccounts");
 
     return {
       path: "/service-accounts",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("serviceaccounts"),
+      isEnabled: isAllowedResource,
     };
   },
 

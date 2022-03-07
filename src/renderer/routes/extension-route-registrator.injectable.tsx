@@ -18,6 +18,7 @@ import { extensionRegistratorInjectionToken } from "../../extensions/extension-l
 import { SiblingsInTabLayout } from "../components/layout/siblings-in-tab-layout";
 import extensionPageParametersInjectable from "./extension-page-parameters.injectable";
 import { routeSpecificComponentInjectionToken } from "./route-specific-component-injection-token";
+import { computed } from "mobx";
 
 const extensionRouteRegistratorInjectable = getInjectable({
   id: "extension-route-registrator",
@@ -76,7 +77,7 @@ const toRouteInjectableFor =
             id: routeId,
             path: routePath,
             clusterFrame,
-            isEnabled: () => true,
+            isEnabled: computed(() => true),
             extension,
             exact: true,
           }),

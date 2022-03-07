@@ -28,7 +28,7 @@ const horizontalPodAutoScalersSidebarItemsInjectable = getInjectable({
         title: "HPA",
         onClick: () => navigateToRoute(route),
         isActive: routeIsActive,
-        isVisible: route.isEnabled(),
+        isVisible: route.isEnabled,
         priority: 50,
       },
     ]);

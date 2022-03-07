@@ -10,12 +10,12 @@ const storageClassesRouteInjectable = getInjectable({
   id: "storage-classes-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "storageclasses");
 
     return {
       path: "/storage-classes",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("storageclasses"),
+      isEnabled: isAllowedResource,
     };
   },
 

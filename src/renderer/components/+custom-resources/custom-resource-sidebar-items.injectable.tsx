@@ -37,7 +37,7 @@ const customResourceSidebarItemsInjectable = getInjectable({
         title: "Definitions",
         onClick: () => navigateToRoute(crdListRoute),
         isActive: crdListRouteIsActive,
-        isVisible: crdListRoute.isEnabled(),
+        isVisible: crdListRoute.isEnabled,
         priority: 10,
       };
 
@@ -54,7 +54,7 @@ const customResourceSidebarItemsInjectable = getInjectable({
         title: "Custom Resources",
         getIcon: () => <Icon material="extension" />,
         onClick: noop,
-        isVisible: some({ isVisible: true }, childrenAndGrandChildren),
+        isVisible: computed(() => some(item => item.isVisible.get(), childrenAndGrandChildren)),
         priority: 110,
       };
 

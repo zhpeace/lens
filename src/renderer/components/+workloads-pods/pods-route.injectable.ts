@@ -10,12 +10,12 @@ const podsRouteInjectable = getInjectable({
   id: "pods-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "pods");
 
     return {
       path: "/pods",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("pods"),
+      isEnabled: isAllowedResource,
     };
   },
 

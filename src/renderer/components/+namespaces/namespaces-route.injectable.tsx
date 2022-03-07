@@ -10,12 +10,12 @@ const namespacesRouteInjectable = getInjectable({
   id: "namespaces-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "namespaces");
 
     return {
       path: "/namespaces",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("namespaces"),
+      isEnabled: isAllowedResource,
     };
   },
 

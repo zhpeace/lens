@@ -3,19 +3,22 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
+import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
 
 const limitRangesRouteInjectable = getInjectable({
   id: "limit-ranges-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const limitRangesIsAllowed = di.inject(
+      isAllowedResourceInjectable,
+      "limitranges",
+    );
 
     return {
       path: "/limitranges",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("limitranges"),
+      isEnabled: limitRangesIsAllowed,
     };
   },
 

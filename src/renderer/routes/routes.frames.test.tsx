@@ -49,7 +49,7 @@ describe("routes, communication between frames", () => {
         path: "/some-path",
         Component: () => <div />,
         clusterFrame: false,
-        isEnabled: () => true,
+        isEnabled: computed(() => true),
       }),
 
       injectionToken: routeInjectionToken,
@@ -62,7 +62,7 @@ describe("routes, communication between frames", () => {
         path: "/some-path",
         Component: () => <div />,
         clusterFrame: true,
-        isEnabled: () => true,
+        isEnabled: computed(() => true),
       }),
 
       injectionToken: routeInjectionToken,

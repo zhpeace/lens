@@ -10,12 +10,12 @@ const networkPoliciesRouteInjectable = getInjectable({
   id: "network-policies-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "networkpolicies");
 
     return {
       path: "/network-policies",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("networkpolicies"),
+      isEnabled: isAllowedResource,
     };
   },
 

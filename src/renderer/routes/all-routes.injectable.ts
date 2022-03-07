@@ -4,7 +4,7 @@
  */
 import { getInjectable, getInjectionToken } from "@ogre-tools/injectable";
 import { overSome } from "lodash/fp";
-import { computed } from "mobx";
+import { computed, IComputedValue } from "mobx";
 import rendererExtensionsInjectable from "../../extensions/renderer-extensions.injectable";
 import type { LensRendererExtension } from "../../extensions/lens-renderer-extension";
 
@@ -15,7 +15,7 @@ export const routeInjectionToken = getInjectionToken<Route>({
 export interface Route {
   path: string;
   clusterFrame: boolean;
-  isEnabled: () => boolean;
+  isEnabled: IComputedValue<boolean>;
   id?: string;
   exact?: boolean;
   extension?: LensRendererExtension;

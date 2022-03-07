@@ -3,6 +3,7 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
+import { computed } from "mobx";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const extensionsRouteInjectable = getInjectable({
@@ -11,7 +12,7 @@ const extensionsRouteInjectable = getInjectable({
   instantiate: () => ({
     path: "/extensions",
     clusterFrame: false,
-    isEnabled: () => true,
+    isEnabled: computed(() => true),
   }),
 
   injectionToken: routeInjectionToken,

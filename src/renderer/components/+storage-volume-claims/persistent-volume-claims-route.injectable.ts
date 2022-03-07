@@ -10,12 +10,12 @@ const persistentVolumeClaimsRouteInjectable = getInjectable({
   id: "persistent-volume-claims-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "persistentvolumeclaims");
 
     return {
       path: "/persistent-volume-claims",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("persistentvolumeclaims"),
+      isEnabled: isAllowedResource,
     };
   },
 

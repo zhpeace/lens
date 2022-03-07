@@ -28,7 +28,7 @@ export interface SidebarItemRegistration {
   onClick: () => void;
   getIcon?: () => React.ReactNode;
   isActive?: IComputedValue<boolean>;
-  isVisible?: boolean;
+  isVisible?: IComputedValue<boolean>;
   priority: number;
   extension?: LensRendererExtension;
 }
@@ -99,6 +99,8 @@ const sidebarItemsInjectable = getInjectable({
                 }),
               };
             }),
+
+            filter(x => x.item.isVisible?.get() ?? true),
 
             (items) =>
               orderBy(

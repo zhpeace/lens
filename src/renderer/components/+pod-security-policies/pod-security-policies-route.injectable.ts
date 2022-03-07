@@ -10,12 +10,12 @@ const podSecurityPoliciesRouteInjectable = getInjectable({
   id: "pod-security-policies-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "podsecuritypolicies");
 
     return {
       path: "/pod-security-policies",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("podsecuritypolicies"),
+      isEnabled: isAllowedResource,
     };
   },
 

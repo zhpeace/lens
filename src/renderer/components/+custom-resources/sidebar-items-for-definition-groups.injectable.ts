@@ -59,7 +59,7 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
                 matches(crdPathParameters, pathParameters.get()),
             ),
 
-            isVisible: crdListRoute.isEnabled(),
+            isVisible: crdListRoute.isEnabled,
             priority: 10,
           };
         });
@@ -70,7 +70,7 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
             parentId: "custom-resources",
             title: group,
             onClick: noop,
-            isVisible: some({ isVisible: true }, childItems),
+            isVisible: computed(() => some(item => item.isVisible.get(), childItems)),
             priority: 10,
           },
 

@@ -10,13 +10,12 @@ const statefulsetsRouteInjectable = getInjectable({
   id: "statefulsets-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "statefulsets");
 
     return {
       path: "/statefulsets",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("statefulsets"),
-      priority: 50,
+      isEnabled: isAllowedResource,
     };
   },
 

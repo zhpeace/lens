@@ -3,6 +3,7 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
+import { computed } from "mobx";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const crdListRouteInjectable = getInjectable({
@@ -11,8 +12,8 @@ const crdListRouteInjectable = getInjectable({
   instantiate: () => ({
     path: "/crd/definitions",
     clusterFrame: true,
-    isEnabled: () => true,
     exact: true,
+    isEnabled: computed(() => true),
   }),
 
   injectionToken: routeInjectionToken,

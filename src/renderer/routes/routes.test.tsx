@@ -56,7 +56,7 @@ describe("routes", () => {
           path: "/some-path",
           Component: () => <div />,
           clusterFrame: false,
-          isEnabled: () => true,
+          isEnabled: computed(() => true),
         }),
       });
 
@@ -115,7 +115,7 @@ describe("routes", () => {
           path: "/some-path/:someParameter?/:someOtherParameter?",
           Component: () => <div />,
           clusterFrame: false,
-          isEnabled: () => true,
+          isEnabled: computed(() => true),
         }),
       });
 

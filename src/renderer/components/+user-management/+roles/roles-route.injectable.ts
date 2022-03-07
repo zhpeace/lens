@@ -10,12 +10,12 @@ const rolesRouteInjectable = getInjectable({
   id: "roles-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "roles");
 
     return {
       path: "/roles",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("roles"),
+      isEnabled: isAllowedResource,
     };
   },
 

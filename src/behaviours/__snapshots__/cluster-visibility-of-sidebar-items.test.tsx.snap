@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`cluster order of sidebar items when rendered renders 1`] = `
+exports[`cluster visibility of sidebar items given kube resource for route is not allowed renders 1`] = `
 <div>
   <div
     class="flex flex-col"
@@ -83,36 +83,6 @@ exports[`cluster order of sidebar items when rendered renders 1`] = `
           >
             Config
           </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-id-test="some-parent-id"
-        data-is-active-test="false"
-        data-test-id="some-parent-id"
-        data-testid="sidebar-item"
-        data-title-test="A Some parent"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-some-parent-id"
-          href="/"
-        >
-          <span
-            class="link-text box grow"
-          >
-            A Some parent
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
         </a>
       </div>
       <div
@@ -212,46 +182,6 @@ exports[`cluster order of sidebar items when rendered renders 1`] = `
             class="link-text box grow"
           >
             Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-id-test="some-another-parent-id"
-        data-is-active-test="false"
-        data-test-id="some-another-parent-id"
-        data-testid="sidebar-item"
-        data-title-test="b Some another parent"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-some-another-parent-id"
-          href="/"
-        >
-          <span
-            class="link-text box grow"
-          >
-            b Some another parent
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-id-test="some-other-parent-id"
-        data-is-active-test="false"
-        data-test-id="some-other-parent-id"
-        data-testid="sidebar-item"
-        data-title-test="C Some other parent"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-some-other-parent-id"
-          href="/"
-        >
-          <span
-            class="link-text box grow"
-          >
-            C Some other parent
           </span>
         </a>
       </div>
@@ -370,7 +300,7 @@ exports[`cluster order of sidebar items when rendered renders 1`] = `
 </div>
 `;
 
-exports[`cluster order of sidebar items when rendered when parent is expanded renders 1`] = `
+exports[`cluster visibility of sidebar items given kube resource for route is not allowed when kube resource becomes allowed renders 1`] = `
 <div>
   <div
     class="flex flex-col"
@@ -457,100 +387,23 @@ exports[`cluster order of sidebar items when rendered when parent is expanded re
       </div>
       <div
         class="SidebarItem"
-        data-id-test="some-parent-id"
+        data-id-test="some-item-id"
         data-is-active-test="false"
-        data-test-id="some-parent-id"
+        data-test-id="some-item-id"
         data-testid="sidebar-item"
-        data-title-test="A Some parent"
+        data-title-test="Some item"
       >
         <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-some-parent-id"
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-some-item-id"
           href="/"
         >
           <span
             class="link-text box grow"
           >
-            A Some parent
+            Some item
           </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_up"
-            >
-              keyboard_arrow_up
-            </span>
-          </i>
         </a>
-        <ul
-          class="sub-menu"
-        >
-          <div
-            class="SidebarItem"
-            data-id-test="some-child-id"
-            data-is-active-test="false"
-            data-parent-id-test="some-parent-id"
-            data-test-id="some-child-id"
-            data-testid="sidebar-item"
-            data-title-test="A Some child"
-          >
-            <a
-              class="nav-item flex gaps align-center"
-              data-testid="sidebar-item-link-for-some-child-id"
-              href="/"
-            >
-              <span
-                class="link-text box grow"
-              >
-                A Some child
-              </span>
-            </a>
-          </div>
-          <div
-            class="SidebarItem"
-            data-id-test="some-another-child-id"
-            data-is-active-test="false"
-            data-parent-id-test="some-parent-id"
-            data-test-id="some-another-child-id"
-            data-testid="sidebar-item"
-            data-title-test="b Some another child"
-          >
-            <a
-              class="nav-item flex gaps align-center"
-              data-testid="sidebar-item-link-for-some-another-child-id"
-              href="/"
-            >
-              <span
-                class="link-text box grow"
-              >
-                b Some another child
-              </span>
-            </a>
-          </div>
-          <div
-            class="SidebarItem"
-            data-id-test="some-other-child-id"
-            data-is-active-test="false"
-            data-parent-id-test="some-parent-id"
-            data-test-id="some-other-child-id"
-            data-testid="sidebar-item"
-            data-title-test="C Some other child"
-          >
-            <a
-              class="nav-item flex gaps align-center"
-              data-testid="sidebar-item-link-for-some-other-child-id"
-              href="/"
-            >
-              <span
-                class="link-text box grow"
-              >
-                C Some other child
-              </span>
-            </a>
-          </div>
-        </ul>
       </div>
       <div
         class="SidebarItem"
@@ -624,6 +477,36 @@ exports[`cluster order of sidebar items when rendered when parent is expanded re
       </div>
       <div
         class="SidebarItem"
+        data-id-test="namespaces"
+        data-is-active-test="false"
+        data-test-id="namespaces"
+        data-testid="sidebar-item"
+        data-title-test="Namespaces"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-namespaces"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="layers"
+            >
+              layers
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Namespaces
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
         data-id-test="events"
         data-is-active-test="false"
         data-test-id="events"
@@ -649,46 +532,6 @@ exports[`cluster order of sidebar items when rendered when parent is expanded re
             class="link-text box grow"
           >
             Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-id-test="some-another-parent-id"
-        data-is-active-test="false"
-        data-test-id="some-another-parent-id"
-        data-testid="sidebar-item"
-        data-title-test="b Some another parent"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-some-another-parent-id"
-          href="/"
-        >
-          <span
-            class="link-text box grow"
-          >
-            b Some another parent
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-id-test="some-other-parent-id"
-        data-is-active-test="false"
-        data-test-id="some-other-parent-id"
-        data-testid="sidebar-item"
-        data-title-test="C Some other parent"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-some-other-parent-id"
-          href="/"
-        >
-          <span
-            class="link-text box grow"
-          >
-            C Some other parent
           </span>
         </a>
       </div>

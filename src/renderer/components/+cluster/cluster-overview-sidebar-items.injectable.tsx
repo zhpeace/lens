@@ -30,7 +30,7 @@ const clusterOverviewSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon svg="kube" />,
         onClick: () => navigateToRoute(route),
         isActive: routeIsActive,
-        isVisible: route.isEnabled(),
+        isVisible: route.isEnabled,
         priority: 10,
       },
     ]);

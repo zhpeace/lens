@@ -10,12 +10,12 @@ const jobsRouteInjectable = getInjectable({
   id: "jobs-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "jobs");
 
     return {
       path: "/jobs",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("jobs"),
+      isEnabled: isAllowedResource,
     };
   },
 

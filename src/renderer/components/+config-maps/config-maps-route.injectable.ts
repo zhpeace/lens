@@ -10,12 +10,12 @@ const configMapsRouteInjectable = getInjectable({
   id: "config-maps-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "configmaps");
 
     return {
       path: "/configmaps",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("configmaps"),
+      isEnabled: isAllowedResource,
     };
   },
 

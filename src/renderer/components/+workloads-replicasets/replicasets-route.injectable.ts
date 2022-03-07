@@ -10,12 +10,12 @@ const replicasetsRouteInjectable = getInjectable({
   id: "replicasets-route",
 
   instantiate: (di) => {
-    const isAllowedResource = di.inject(isAllowedResourceInjectable);
+    const isAllowedResource = di.inject(isAllowedResourceInjectable, "replicasets");
 
     return {
       path: "/replicasets",
       clusterFrame: true,
-      isEnabled: () => isAllowedResource("replicasets"),
+      isEnabled: isAllowedResource,
     };
   },
 

@@ -6,7 +6,7 @@ import { getInjectable } from "@ogre-tools/injectable";
 import { computed } from "mobx";
 import currentlyInClusterFrameInjectable from "./currently-in-cluster-frame.injectable";
 import allRoutesInjectable from "./all-routes.injectable";
-import { invoke, matches } from "lodash/fp";
+import { matches } from "lodash/fp";
 
 const routesInjectable = getInjectable({
   id: "routes",
@@ -22,7 +22,13 @@ const routesInjectable = getInjectable({
       allRoutes
         .get()
         .filter(matches({ clusterFrame: currentlyInClusterFrame }))
-        .filter(invoke("isEnabled")),
+        .filter((route) => {
+          if (route.isEnabled) {
+            return route.isEnabled.get();
+          }
+
+          return true;
+        }),
     );
   },
 });

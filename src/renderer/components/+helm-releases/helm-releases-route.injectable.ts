@@ -3,6 +3,7 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
+import { computed } from "mobx";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 
 const helmReleasesRouteInjectable = getInjectable({
@@ -11,7 +12,7 @@ const helmReleasesRouteInjectable = getInjectable({
   instantiate: () => ({
     path: `/helm/releases/:repo?/:chartName?`,
     clusterFrame: true,
-    isEnabled: () => true,
+    isEnabled: computed(() => true),
   }),
 
   injectionToken: routeInjectionToken,
