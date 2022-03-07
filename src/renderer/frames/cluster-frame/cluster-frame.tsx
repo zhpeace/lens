@@ -25,8 +25,6 @@ import { DeleteClusterDialog } from "../../components/delete-cluster-dialog";
 import type { NamespaceStore } from "../../components/+namespaces/namespace-store/namespace.store";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import namespaceStoreInjectable  from "../../components/+namespaces/namespace-store/namespace-store.injectable";
-import type { ClusterId } from "../../../common/cluster-types";
-import hostedClusterInjectable from "../../../common/cluster-store/hosted-cluster.injectable";
 import type { KubeObjectStore } from "../../../common/k8s-api/kube-object.store";
 import type { KubeObject } from "../../../common/k8s-api/kube-object";
 import type { Disposer } from "../../../common/utils";
@@ -36,7 +34,6 @@ import startUrlInjectable from "./start-url.injectable";
 
 interface Dependencies {
   namespaceStore: NamespaceStore;
-  hostedClusterId: ClusterId;
   subscribeStores: (stores: KubeObjectStore<KubeObject>[]) => Disposer;
   currentRouteComponent: IComputedValue<React.ElementType>
   startUrl: IComputedValue<string>
@@ -82,7 +79,7 @@ class NonInjectedClusterFrame extends React.Component<Dependencies> {
         <CronJobTriggerDialog />
         <PortForwardDialog />
         <DeleteClusterDialog />
-        <CommandContainer clusterId={this.props.hostedClusterId} />
+        <CommandContainer />
       </ErrorBoundary>
     );
   }
@@ -91,7 +88,6 @@ class NonInjectedClusterFrame extends React.Component<Dependencies> {
 export const ClusterFrame = withInjectables<Dependencies>(NonInjectedClusterFrame, {
   getProps: di => ({
     namespaceStore: di.inject(namespaceStoreInjectable),
-    hostedClusterId: di.inject(hostedClusterInjectable).id,
     subscribeStores: di.inject(kubeWatchApiInjectable).subscribeStores,
     startUrl: di.inject(startUrlInjectable),
     currentRouteComponent: di.inject(currentRouteComponentInjectable),

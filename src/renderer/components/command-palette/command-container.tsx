@@ -18,18 +18,16 @@ import { getMatchedClusterId } from "../../navigation";
 import type { Disposer } from "../../utils";
 import { withInjectables } from "@ogre-tools/injectable-react";
 import windowAddEventListenerInjectable from "../../window/event-listener.injectable";
-
-export interface CommandContainerProps {
-  clusterId?: ClusterId;
-}
+import hostedClusterInjectable from "../../../common/cluster-store/hosted-cluster.injectable";
 
 interface Dependencies {
   addWindowEventListener: <K extends keyof WindowEventMap>(type: K, listener: (this: Window, ev: WindowEventMap[K]) => any, options?: boolean | AddEventListenerOptions) => Disposer;
   commandOverlay: CommandOverlay,
+  clusterId?: ClusterId;
 }
 
 @observer
-class NonInjectedCommandContainer extends React.Component<CommandContainerProps & Dependencies> {
+class NonInjectedCommandContainer extends React.Component<Dependencies> {
   private escHandler(event: KeyboardEvent) {
     const { commandOverlay } = this.props;
 
@@ -95,10 +93,18 @@ class NonInjectedCommandContainer extends React.Component<CommandContainerProps 
   }
 }
 
-export const CommandContainer = withInjectables<Dependencies, CommandContainerProps>(NonInjectedCommandContainer, {
-  getProps: (di, props) => ({
-    addWindowEventListener: di.inject(windowAddEventListenerInjectable),
-    commandOverlay: di.inject(commandOverlayInjectable),
-    ...props,
-  }),
-});
+export const CommandContainer = withInjectables<Dependencies>(
+  NonInjectedCommandContainer,
+  {
+    getProps: (di, props) => {
+      const hostedCluster = di.inject(hostedClusterInjectable);
+
+      return {
+        clusterId: hostedCluster?.id,
+        addWindowEventListener: di.inject(windowAddEventListenerInjectable),
+        commandOverlay: di.inject(commandOverlayInjectable),
+        ...props,
+      };
+    },
+  },
+);
