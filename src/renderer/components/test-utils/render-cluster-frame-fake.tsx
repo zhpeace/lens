@@ -24,15 +24,17 @@ interface Options {
   extensions: LensRendererExtension[];
 }
 
+type Callback = () => void;
+
 export interface Renderer {
-  beforeSetups: (callback: () => void) => Renderer;
-  beforeRender: (callback: () => void) => Renderer;
+  beforeSetups: (callback: Callback) => Renderer;
+  beforeRender: (callback: Callback) => Renderer;
   render: () => Promise<RenderResult>;
 }
 
 export const renderClusterFrameFakeFor = ({ di, extensions = [] }: Options) => {
-  let beforeSetupsCallback: () => void;
-  let beforeRenderCallback: () => void;
+  const beforeSetupsCallbacks: Callback[] = [];
+  const beforeRenderCallbacks: Callback[] = [];
 
   di.override(subscribeStoresInjectable, () => () => () => {});
 
@@ -46,19 +48,19 @@ export const renderClusterFrameFakeFor = ({ di, extensions = [] }: Options) => {
 
   const renderer: Renderer = {
     beforeSetups(callback: () => void) {
-      beforeSetupsCallback = callback;
+      beforeSetupsCallbacks.push(callback);
 
       return renderer;
     },
 
     beforeRender(callback: () => void) {
-      beforeRenderCallback = callback;
+      beforeRenderCallbacks.push(callback);
 
       return renderer;
     },
 
     async render() {
-      beforeSetupsCallback?.();
+      beforeSetupsCallbacks.forEach(callback => callback());
 
       await di.runSetups();
 
@@ -77,7 +79,7 @@ export const renderClusterFrameFakeFor = ({ di, extensions = [] }: Options) => {
       const history = di.inject(observableHistoryInjectable);
       const currentRouteComponent = di.inject(currentRouteComponentInjectable);
 
-      beforeRenderCallback?.();
+      beforeRenderCallbacks.forEach(callback => callback());
 
       return render(
         <Router history={history}>
