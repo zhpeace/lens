@@ -128,17 +128,13 @@ describe("cluster sidebar and tab navigation for core", () => {
       });
 
       it("parent is highlighted", () => {
-        const parent = rendered.getByTestId(
-          "sidebar-item-for-some-parent-id",
-        );
+        const parent = getSidebarItem(rendered, "some-parent-id");
 
         expect(parent.dataset.isActiveTest).toBe("true");
       });
 
       it("parent sidebar item is not expanded", () => {
-        const child = rendered.queryByTestId(
-          "sidebar-item-for-some-child-id",
-        );
+        const child = getSidebarItem(rendered, "some-child-id");
 
         expect(child).toBe(null);
       });
@@ -168,17 +164,13 @@ describe("cluster sidebar and tab navigation for core", () => {
       });
 
       it("parent sidebar item is not highlighted", () => {
-        const parent = rendered.getByTestId(
-          "sidebar-item-for-some-parent-id",
-        );
+        const parent = getSidebarItem(rendered, "some-parent-id");
 
         expect(parent.dataset.isActiveTest).toBe("false");
       });
 
       it("parent sidebar item is expanded", () => {
-        const child = rendered.queryByTestId(
-          "sidebar-item-for-some-child-id",
-        );
+        const child = getSidebarItem(rendered, "some-child-id");
 
         expect(child).not.toBe(null);
       });
@@ -204,9 +196,7 @@ describe("cluster sidebar and tab navigation for core", () => {
       });
 
       it("parent sidebar item is not expanded", () => {
-        const child = rendered.queryByTestId(
-          "sidebar-item-for-some-child-id",
-        );
+        const child = getSidebarItem(rendered, "some-child-id");
 
         expect(child).toBe(null);
       });
@@ -229,9 +219,7 @@ describe("cluster sidebar and tab navigation for core", () => {
       });
 
       it("parent sidebar item is not expanded", () => {
-        const child = rendered.queryByTestId(
-          "sidebar-item-for-some-child-id",
-        );
+        const child = getSidebarItem(rendered, "some-child-id");
 
         expect(child).toBe(null);
       });
@@ -247,17 +235,13 @@ describe("cluster sidebar and tab navigation for core", () => {
       });
 
       it("parent sidebar item is not highlighted", () => {
-        const parent = rendered.getByTestId(
-          "sidebar-item-for-some-parent-id",
-        );
+        const parent = getSidebarItem(rendered, "some-parent-id");
 
         expect(parent.dataset.isActiveTest).toBe("false");
       });
 
       it("parent sidebar item is not expanded", () => {
-        const child = rendered.queryByTestId(
-          "sidebar-item-for-some-child-id",
-        );
+        const child = getSidebarItem(rendered, "some-child-id");
 
         expect(child).toBe(null);
       });
@@ -276,17 +260,13 @@ describe("cluster sidebar and tab navigation for core", () => {
         });
 
         it("parent sidebar item is not highlighted", () => {
-          const parent = rendered.getByTestId(
-            "sidebar-item-for-some-parent-id",
-          );
+          const parent = getSidebarItem(rendered, "some-parent-id");
 
           expect(parent.dataset.isActiveTest).toBe("false");
         });
 
         it("parent sidebar item is expanded", () => {
-          const child = rendered.queryByTestId(
-            "sidebar-item-for-some-child-id",
-          );
+          const child = getSidebarItem(rendered, "some-child-id");
 
           expect(child).not.toBe(null);
         });
@@ -305,17 +285,13 @@ describe("cluster sidebar and tab navigation for core", () => {
           });
 
           it("parent is highlighted", () => {
-            const parent = rendered.getByTestId(
-              "sidebar-item-for-some-parent-id",
-            );
+            const parent = getSidebarItem(rendered, "some-parent-id");
 
             expect(parent.dataset.isActiveTest).toBe("true");
           });
 
           it("child is highlighted", () => {
-            const child = rendered.getByTestId(
-              "sidebar-item-for-some-child-id",
-            );
+            const child = getSidebarItem(rendered, "some-child-id");
 
             expect(child.dataset.isActiveTest).toBe("true");
           });
@@ -353,3 +329,8 @@ describe("cluster sidebar and tab navigation for core", () => {
     });
   });
 });
+
+const getSidebarItem = (rendered: RenderResult, itemId: string) =>
+  rendered
+    .queryAllByTestId("sidebar-item")
+    .find((x) => x.dataset.idTest === itemId) || null;

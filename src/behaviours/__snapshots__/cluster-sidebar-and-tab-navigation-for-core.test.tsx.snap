@@ -18,9 +18,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
     <div>
       <div
         class="SidebarItem"
+        data-id-test="cluster-overview"
         data-is-active-test="false"
         data-test-id="cluster-overview"
-        data-testid="sidebar-item-for-cluster-overview"
+        data-testid="sidebar-item"
+        data-title-test="Cluster"
       >
         <a
           class="nav-item flex gaps align-center"
@@ -45,9 +47,79 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="nodes"
+        data-is-active-test="false"
+        data-test-id="nodes"
+        data-testid="sidebar-item"
+        data-title-test="Nodes"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-nodes"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Nodes
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="workloads"
+        data-is-active-test="false"
+        data-test-id="workloads"
+        data-testid="sidebar-item"
+        data-title-test="Workloads"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-workloads"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Workloads
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="config"
         data-is-active-test="false"
         data-test-id="config"
-        data-testid="sidebar-item-for-config"
+        data-testid="sidebar-item"
+        data-title-test="Config"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -83,29 +155,24 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="some-parent-id"
         data-is-active-test="false"
-        data-test-id="custom-resources"
-        data-testid="sidebar-item-for-custom-resources"
+        data-test-id="some-parent-id"
+        data-testid="sidebar-item"
+        data-title-test="Some parent"
       >
         <a
           class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-custom-resources"
+          data-testid="sidebar-item-link-for-some-parent-id"
           href="/"
         >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="extension"
-            >
-              extension
-            </span>
-          </i>
+          <div
+            data-testid="some-icon-for-parent"
+          />
           <span
             class="link-text box grow"
           >
-            Custom Resources
+            Some parent
           </span>
           <i
             class="Icon expand-icon box right material focusable"
@@ -121,103 +188,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item-for-events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="helm"
-        data-testid="sidebar-item-for-helm"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-helm"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="apps"
-            >
-              apps
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Helm
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="namespaces"
-        data-testid="sidebar-item-for-namespaces"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-namespaces"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="layers"
-            >
-              layers
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Namespaces
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
+        data-id-test="network"
         data-is-active-test="false"
         data-test-id="network"
-        data-testid="sidebar-item-for-network"
+        data-testid="sidebar-item"
+        data-title-test="Network"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -253,36 +228,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="nodes"
-        data-testid="sidebar-item-for-nodes"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-nodes"
-          href="/"
-        >
-          <i
-            class="Icon svg focusable"
-          >
-            <span
-              class="icon"
-            >
-              [object Object]
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Nodes
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
+        data-id-test="storage"
         data-is-active-test="false"
         data-test-id="storage"
-        data-testid="sidebar-item-for-storage"
+        data-testid="sidebar-item"
+        data-title-test="Storage"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -318,9 +268,111 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="namespaces"
+        data-is-active-test="false"
+        data-test-id="namespaces"
+        data-testid="sidebar-item"
+        data-title-test="Namespaces"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-namespaces"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="layers"
+            >
+              layers
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Namespaces
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="events"
+        data-is-active-test="false"
+        data-test-id="events"
+        data-testid="sidebar-item"
+        data-title-test="Events"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-events"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="access_time"
+            >
+              access_time
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Events
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="helm"
+        data-is-active-test="false"
+        data-test-id="helm"
+        data-testid="sidebar-item"
+        data-title-test="Helm"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-helm"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="apps"
+            >
+              apps
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Helm
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="user-management"
         data-is-active-test="false"
         data-test-id="user-management"
-        data-testid="sidebar-item-for-user-management"
+        data-testid="sidebar-item"
+        data-title-test="Access Control"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -356,59 +408,31 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="custom-resources"
         data-is-active-test="false"
-        data-test-id="workloads"
-        data-testid="sidebar-item-for-workloads"
+        data-test-id="custom-resources"
+        data-testid="sidebar-item"
+        data-title-test="Custom Resources"
       >
         <a
           class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-workloads"
+          data-testid="sidebar-item-link-for-custom-resources"
           href="/"
         >
           <i
-            class="Icon svg focusable"
+            class="Icon material focusable"
           >
             <span
               class="icon"
+              data-icon-name="extension"
             >
-              [object Object]
+              extension
             </span>
           </i>
           <span
             class="link-text box grow"
           >
-            Workloads
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="some-parent-id"
-        data-testid="sidebar-item-for-some-parent-id"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-some-parent-id"
-          href="/"
-        >
-          <div
-            data-testid="some-icon-for-parent"
-          />
-          <span
-            class="link-text box grow"
-          >
-            Some parent
+            Custom Resources
           </span>
           <i
             class="Icon expand-icon box right material focusable"
@@ -445,9 +469,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
     <div>
       <div
         class="SidebarItem"
+        data-id-test="cluster-overview"
         data-is-active-test="false"
         data-test-id="cluster-overview"
-        data-testid="sidebar-item-for-cluster-overview"
+        data-testid="sidebar-item"
+        data-title-test="Cluster"
       >
         <a
           class="nav-item flex gaps align-center"
@@ -472,9 +498,79 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="nodes"
+        data-is-active-test="false"
+        data-test-id="nodes"
+        data-testid="sidebar-item"
+        data-title-test="Nodes"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-nodes"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Nodes
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="workloads"
+        data-is-active-test="false"
+        data-test-id="workloads"
+        data-testid="sidebar-item"
+        data-title-test="Workloads"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-workloads"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Workloads
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="config"
         data-is-active-test="false"
         data-test-id="config"
-        data-testid="sidebar-item-for-config"
+        data-testid="sidebar-item"
+        data-title-test="Config"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -510,29 +606,24 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="some-parent-id"
         data-is-active-test="false"
-        data-test-id="custom-resources"
-        data-testid="sidebar-item-for-custom-resources"
+        data-test-id="some-parent-id"
+        data-testid="sidebar-item"
+        data-title-test="Some parent"
       >
         <a
           class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-custom-resources"
+          data-testid="sidebar-item-link-for-some-parent-id"
           href="/"
         >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="extension"
-            >
-              extension
-            </span>
-          </i>
+          <div
+            data-testid="some-icon-for-parent"
+          />
           <span
             class="link-text box grow"
           >
-            Custom Resources
+            Some parent
           </span>
           <i
             class="Icon expand-icon box right material focusable"
@@ -548,103 +639,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item-for-events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="helm"
-        data-testid="sidebar-item-for-helm"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-helm"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="apps"
-            >
-              apps
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Helm
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="namespaces"
-        data-testid="sidebar-item-for-namespaces"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-namespaces"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="layers"
-            >
-              layers
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Namespaces
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
+        data-id-test="network"
         data-is-active-test="false"
         data-test-id="network"
-        data-testid="sidebar-item-for-network"
+        data-testid="sidebar-item"
+        data-title-test="Network"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -680,36 +679,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="nodes"
-        data-testid="sidebar-item-for-nodes"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-nodes"
-          href="/"
-        >
-          <i
-            class="Icon svg focusable"
-          >
-            <span
-              class="icon"
-            >
-              [object Object]
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Nodes
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
+        data-id-test="storage"
         data-is-active-test="false"
         data-test-id="storage"
-        data-testid="sidebar-item-for-storage"
+        data-testid="sidebar-item"
+        data-title-test="Storage"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -745,9 +719,111 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="namespaces"
+        data-is-active-test="false"
+        data-test-id="namespaces"
+        data-testid="sidebar-item"
+        data-title-test="Namespaces"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-namespaces"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="layers"
+            >
+              layers
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Namespaces
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="events"
+        data-is-active-test="false"
+        data-test-id="events"
+        data-testid="sidebar-item"
+        data-title-test="Events"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-events"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="access_time"
+            >
+              access_time
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Events
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="helm"
+        data-is-active-test="false"
+        data-test-id="helm"
+        data-testid="sidebar-item"
+        data-title-test="Helm"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-helm"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="apps"
+            >
+              apps
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Helm
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="user-management"
         data-is-active-test="false"
         data-test-id="user-management"
-        data-testid="sidebar-item-for-user-management"
+        data-testid="sidebar-item"
+        data-title-test="Access Control"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -783,59 +859,31 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="custom-resources"
         data-is-active-test="false"
-        data-test-id="workloads"
-        data-testid="sidebar-item-for-workloads"
+        data-test-id="custom-resources"
+        data-testid="sidebar-item"
+        data-title-test="Custom Resources"
       >
         <a
           class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-workloads"
+          data-testid="sidebar-item-link-for-custom-resources"
           href="/"
         >
           <i
-            class="Icon svg focusable"
+            class="Icon material focusable"
           >
             <span
               class="icon"
+              data-icon-name="extension"
             >
-              [object Object]
+              extension
             </span>
           </i>
           <span
             class="link-text box grow"
           >
-            Workloads
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="some-parent-id"
-        data-testid="sidebar-item-for-some-parent-id"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-some-parent-id"
-          href="/"
-        >
-          <div
-            data-testid="some-icon-for-parent"
-          />
-          <span
-            class="link-text box grow"
-          >
-            Some parent
+            Custom Resources
           </span>
           <i
             class="Icon expand-icon box right material focusable"
@@ -872,9 +920,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
     <div>
       <div
         class="SidebarItem"
+        data-id-test="cluster-overview"
         data-is-active-test="false"
         data-test-id="cluster-overview"
-        data-testid="sidebar-item-for-cluster-overview"
+        data-testid="sidebar-item"
+        data-title-test="Cluster"
       >
         <a
           class="nav-item flex gaps align-center"
@@ -899,9 +949,79 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="nodes"
+        data-is-active-test="false"
+        data-test-id="nodes"
+        data-testid="sidebar-item"
+        data-title-test="Nodes"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-nodes"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Nodes
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="workloads"
+        data-is-active-test="false"
+        data-test-id="workloads"
+        data-testid="sidebar-item"
+        data-title-test="Workloads"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-workloads"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Workloads
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="config"
         data-is-active-test="false"
         data-test-id="config"
-        data-testid="sidebar-item-for-config"
+        data-testid="sidebar-item"
+        data-title-test="Config"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -937,319 +1057,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="custom-resources"
-        data-testid="sidebar-item-for-custom-resources"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-custom-resources"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="extension"
-            >
-              extension
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Custom Resources
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item-for-events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="helm"
-        data-testid="sidebar-item-for-helm"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-helm"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="apps"
-            >
-              apps
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Helm
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="namespaces"
-        data-testid="sidebar-item-for-namespaces"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-namespaces"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="layers"
-            >
-              layers
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Namespaces
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="network"
-        data-testid="sidebar-item-for-network"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-network"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="device_hub"
-            >
-              device_hub
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Network
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="nodes"
-        data-testid="sidebar-item-for-nodes"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-nodes"
-          href="/"
-        >
-          <i
-            class="Icon svg focusable"
-          >
-            <span
-              class="icon"
-            >
-              [object Object]
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Nodes
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="storage"
-        data-testid="sidebar-item-for-storage"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-storage"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="storage"
-            >
-              storage
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Storage
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="user-management"
-        data-testid="sidebar-item-for-user-management"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-user-management"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="security"
-            >
-              security
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Access Control
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="workloads"
-        data-testid="sidebar-item-for-workloads"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-workloads"
-          href="/"
-        >
-          <i
-            class="Icon svg focusable"
-          >
-            <span
-              class="icon"
-            >
-              [object Object]
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Workloads
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
+        data-id-test="some-parent-id"
         data-is-active-test="false"
         data-test-id="some-parent-id"
-        data-testid="sidebar-item-for-some-parent-id"
+        data-testid="sidebar-item"
+        data-title-test="Some parent"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -1280,9 +1092,12 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
         >
           <div
             class="SidebarItem"
+            data-id-test="some-child-id"
             data-is-active-test="false"
+            data-parent-id-test="some-parent-id"
             data-test-id="some-child-id"
-            data-testid="sidebar-item-for-some-child-id"
+            data-testid="sidebar-item"
+            data-title-test="Some child"
           >
             <a
               class="nav-item flex gaps align-center"
@@ -1298,229 +1113,13 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
           </div>
         </ul>
       </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`cluster sidebar and tab navigation for core given core registrations given no initially persisted state for sidebar items, when rendered when a parent sidebar item is expanded when a child of the parent is selected renders 1`] = `
-<div>
-  <div
-    class="flex flex-col"
-    data-testid="cluster-sidebar"
-  >
-    <div>
-      <div
-        class=""
-        style="width: 40px; height: 40px;"
-      >
-        ??
-      </div>
-      <div />
-    </div>
-    <div>
       <div
         class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="cluster-overview"
-        data-testid="sidebar-item-for-cluster-overview"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-cluster-overview"
-          href="/"
-        >
-          <i
-            class="Icon svg focusable"
-          >
-            <span
-              class="icon"
-            >
-              [object Object]
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Cluster
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="config"
-        data-testid="sidebar-item-for-config"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-config"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="list"
-            >
-              list
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Config
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="custom-resources"
-        data-testid="sidebar-item-for-custom-resources"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-custom-resources"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="extension"
-            >
-              extension
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Custom Resources
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item-for-events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="helm"
-        data-testid="sidebar-item-for-helm"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-helm"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="apps"
-            >
-              apps
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Helm
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="namespaces"
-        data-testid="sidebar-item-for-namespaces"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-namespaces"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="layers"
-            >
-              layers
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Namespaces
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
+        data-id-test="network"
         data-is-active-test="false"
         data-test-id="network"
-        data-testid="sidebar-item-for-network"
+        data-testid="sidebar-item"
+        data-title-test="Network"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -1556,36 +1155,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="nodes"
-        data-testid="sidebar-item-for-nodes"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-nodes"
-          href="/"
-        >
-          <i
-            class="Icon svg focusable"
-          >
-            <span
-              class="icon"
-            >
-              [object Object]
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Nodes
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
+        data-id-test="storage"
         data-is-active-test="false"
         data-test-id="storage"
-        data-testid="sidebar-item-for-storage"
+        data-testid="sidebar-item"
+        data-title-test="Storage"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -1621,9 +1195,111 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="namespaces"
+        data-is-active-test="false"
+        data-test-id="namespaces"
+        data-testid="sidebar-item"
+        data-title-test="Namespaces"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-namespaces"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="layers"
+            >
+              layers
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Namespaces
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="events"
+        data-is-active-test="false"
+        data-test-id="events"
+        data-testid="sidebar-item"
+        data-title-test="Events"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-events"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="access_time"
+            >
+              access_time
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Events
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="helm"
+        data-is-active-test="false"
+        data-test-id="helm"
+        data-testid="sidebar-item"
+        data-title-test="Helm"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-helm"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="apps"
+            >
+              apps
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Helm
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="user-management"
         data-is-active-test="false"
         data-test-id="user-management"
-        data-testid="sidebar-item-for-user-management"
+        data-testid="sidebar-item"
+        data-title-test="Access Control"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -1659,9 +1335,130 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="custom-resources"
+        data-is-active-test="false"
+        data-test-id="custom-resources"
+        data-testid="sidebar-item"
+        data-title-test="Custom Resources"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-custom-resources"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="extension"
+            >
+              extension
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Custom Resources
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`cluster sidebar and tab navigation for core given core registrations given no initially persisted state for sidebar items, when rendered when a parent sidebar item is expanded when a child of the parent is selected renders 1`] = `
+<div>
+  <div
+    class="flex flex-col"
+    data-testid="cluster-sidebar"
+  >
+    <div>
+      <div
+        class=""
+        style="width: 40px; height: 40px;"
+      >
+        ??
+      </div>
+      <div />
+    </div>
+    <div>
+      <div
+        class="SidebarItem"
+        data-id-test="cluster-overview"
+        data-is-active-test="false"
+        data-test-id="cluster-overview"
+        data-testid="sidebar-item"
+        data-title-test="Cluster"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-cluster-overview"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Cluster
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="nodes"
+        data-is-active-test="false"
+        data-test-id="nodes"
+        data-testid="sidebar-item"
+        data-title-test="Nodes"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-nodes"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Nodes
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="workloads"
         data-is-active-test="false"
         data-test-id="workloads"
-        data-testid="sidebar-item-for-workloads"
+        data-testid="sidebar-item"
+        data-title-test="Workloads"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -1696,9 +1493,51 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="config"
+        data-is-active-test="false"
+        data-test-id="config"
+        data-testid="sidebar-item"
+        data-title-test="Config"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-config"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="list"
+            >
+              list
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Config
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="some-parent-id"
         data-is-active-test="true"
         data-test-id="some-parent-id"
-        data-testid="sidebar-item-for-some-parent-id"
+        data-testid="sidebar-item"
+        data-title-test="Some parent"
       >
         <a
           aria-current="page"
@@ -1730,9 +1569,12 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
         >
           <div
             class="SidebarItem"
+            data-id-test="some-child-id"
             data-is-active-test="true"
+            data-parent-id-test="some-parent-id"
             data-test-id="some-child-id"
-            data-testid="sidebar-item-for-some-child-id"
+            data-testid="sidebar-item"
+            data-title-test="Some child"
           >
             <a
               aria-current="page"
@@ -1749,232 +1591,13 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
           </div>
         </ul>
       </div>
-    </div>
-  </div>
-  <div
-    data-testid="some-child-page"
-  />
-</div>
-`;
-
-exports[`cluster sidebar and tab navigation for core given core registrations given no state for expanded sidebar items exists, and navigated to child sidebar item, when rendered renders 1`] = `
-<div>
-  <div
-    class="flex flex-col"
-    data-testid="cluster-sidebar"
-  >
-    <div>
-      <div
-        class=""
-        style="width: 40px; height: 40px;"
-      >
-        ??
-      </div>
-      <div />
-    </div>
-    <div>
       <div
         class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="cluster-overview"
-        data-testid="sidebar-item-for-cluster-overview"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-cluster-overview"
-          href="/"
-        >
-          <i
-            class="Icon svg focusable"
-          >
-            <span
-              class="icon"
-            >
-              [object Object]
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Cluster
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="config"
-        data-testid="sidebar-item-for-config"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-config"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="list"
-            >
-              list
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Config
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="custom-resources"
-        data-testid="sidebar-item-for-custom-resources"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-custom-resources"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="extension"
-            >
-              extension
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Custom Resources
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item-for-events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="helm"
-        data-testid="sidebar-item-for-helm"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-helm"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="apps"
-            >
-              apps
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Helm
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="namespaces"
-        data-testid="sidebar-item-for-namespaces"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-namespaces"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="layers"
-            >
-              layers
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Namespaces
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
+        data-id-test="network"
         data-is-active-test="false"
         data-test-id="network"
-        data-testid="sidebar-item-for-network"
+        data-testid="sidebar-item"
+        data-title-test="Network"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -2010,36 +1633,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="nodes"
-        data-testid="sidebar-item-for-nodes"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-nodes"
-          href="/"
-        >
-          <i
-            class="Icon svg focusable"
-          >
-            <span
-              class="icon"
-            >
-              [object Object]
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Nodes
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
+        data-id-test="storage"
         data-is-active-test="false"
         data-test-id="storage"
-        data-testid="sidebar-item-for-storage"
+        data-testid="sidebar-item"
+        data-title-test="Storage"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -2075,9 +1673,111 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="namespaces"
+        data-is-active-test="false"
+        data-test-id="namespaces"
+        data-testid="sidebar-item"
+        data-title-test="Namespaces"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-namespaces"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="layers"
+            >
+              layers
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Namespaces
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="events"
+        data-is-active-test="false"
+        data-test-id="events"
+        data-testid="sidebar-item"
+        data-title-test="Events"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-events"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="access_time"
+            >
+              access_time
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Events
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="helm"
+        data-is-active-test="false"
+        data-test-id="helm"
+        data-testid="sidebar-item"
+        data-title-test="Helm"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-helm"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="apps"
+            >
+              apps
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Helm
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="user-management"
         data-is-active-test="false"
         data-test-id="user-management"
-        data-testid="sidebar-item-for-user-management"
+        data-testid="sidebar-item"
+        data-title-test="Access Control"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -2113,9 +1813,133 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="custom-resources"
+        data-is-active-test="false"
+        data-test-id="custom-resources"
+        data-testid="sidebar-item"
+        data-title-test="Custom Resources"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-custom-resources"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="extension"
+            >
+              extension
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Custom Resources
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div
+    data-testid="some-child-page"
+  />
+</div>
+`;
+
+exports[`cluster sidebar and tab navigation for core given core registrations given no state for expanded sidebar items exists, and navigated to child sidebar item, when rendered renders 1`] = `
+<div>
+  <div
+    class="flex flex-col"
+    data-testid="cluster-sidebar"
+  >
+    <div>
+      <div
+        class=""
+        style="width: 40px; height: 40px;"
+      >
+        ??
+      </div>
+      <div />
+    </div>
+    <div>
+      <div
+        class="SidebarItem"
+        data-id-test="cluster-overview"
+        data-is-active-test="false"
+        data-test-id="cluster-overview"
+        data-testid="sidebar-item"
+        data-title-test="Cluster"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-cluster-overview"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Cluster
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="nodes"
+        data-is-active-test="false"
+        data-test-id="nodes"
+        data-testid="sidebar-item"
+        data-title-test="Nodes"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-nodes"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Nodes
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="workloads"
         data-is-active-test="false"
         data-test-id="workloads"
-        data-testid="sidebar-item-for-workloads"
+        data-testid="sidebar-item"
+        data-title-test="Workloads"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -2150,9 +1974,51 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="config"
+        data-is-active-test="false"
+        data-test-id="config"
+        data-testid="sidebar-item"
+        data-title-test="Config"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-config"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="list"
+            >
+              list
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Config
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="some-parent-id"
         data-is-active-test="true"
         data-test-id="some-parent-id"
-        data-testid="sidebar-item-for-some-parent-id"
+        data-testid="sidebar-item"
+        data-title-test="Some parent"
       >
         <a
           aria-current="page"
@@ -2167,6 +2033,266 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
             class="link-text box grow"
           >
             Some parent
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="network"
+        data-is-active-test="false"
+        data-test-id="network"
+        data-testid="sidebar-item"
+        data-title-test="Network"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-network"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="device_hub"
+            >
+              device_hub
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Network
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="storage"
+        data-is-active-test="false"
+        data-test-id="storage"
+        data-testid="sidebar-item"
+        data-title-test="Storage"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-storage"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="storage"
+            >
+              storage
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Storage
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="namespaces"
+        data-is-active-test="false"
+        data-test-id="namespaces"
+        data-testid="sidebar-item"
+        data-title-test="Namespaces"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-namespaces"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="layers"
+            >
+              layers
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Namespaces
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="events"
+        data-is-active-test="false"
+        data-test-id="events"
+        data-testid="sidebar-item"
+        data-title-test="Events"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-events"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="access_time"
+            >
+              access_time
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Events
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="helm"
+        data-is-active-test="false"
+        data-test-id="helm"
+        data-testid="sidebar-item"
+        data-title-test="Helm"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-helm"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="apps"
+            >
+              apps
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Helm
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="user-management"
+        data-is-active-test="false"
+        data-test-id="user-management"
+        data-testid="sidebar-item"
+        data-title-test="Access Control"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-user-management"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="security"
+            >
+              security
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Access Control
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="custom-resources"
+        data-is-active-test="false"
+        data-test-id="custom-resources"
+        data-testid="sidebar-item"
+        data-title-test="Custom Resources"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-custom-resources"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="extension"
+            >
+              extension
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Custom Resources
           </span>
           <i
             class="Icon expand-icon box right material focusable"
@@ -2206,9 +2332,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
     <div>
       <div
         class="SidebarItem"
+        data-id-test="cluster-overview"
         data-is-active-test="false"
         data-test-id="cluster-overview"
-        data-testid="sidebar-item-for-cluster-overview"
+        data-testid="sidebar-item"
+        data-title-test="Cluster"
       >
         <a
           class="nav-item flex gaps align-center"
@@ -2233,9 +2361,79 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="nodes"
+        data-is-active-test="false"
+        data-test-id="nodes"
+        data-testid="sidebar-item"
+        data-title-test="Nodes"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-nodes"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Nodes
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="workloads"
+        data-is-active-test="false"
+        data-test-id="workloads"
+        data-testid="sidebar-item"
+        data-title-test="Workloads"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-workloads"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Workloads
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="config"
         data-is-active-test="false"
         data-test-id="config"
-        data-testid="sidebar-item-for-config"
+        data-testid="sidebar-item"
+        data-title-test="Config"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -2271,319 +2469,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="custom-resources"
-        data-testid="sidebar-item-for-custom-resources"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-custom-resources"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="extension"
-            >
-              extension
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Custom Resources
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item-for-events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="helm"
-        data-testid="sidebar-item-for-helm"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-helm"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="apps"
-            >
-              apps
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Helm
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="namespaces"
-        data-testid="sidebar-item-for-namespaces"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-namespaces"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="layers"
-            >
-              layers
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Namespaces
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="network"
-        data-testid="sidebar-item-for-network"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-network"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="device_hub"
-            >
-              device_hub
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Network
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="nodes"
-        data-testid="sidebar-item-for-nodes"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-nodes"
-          href="/"
-        >
-          <i
-            class="Icon svg focusable"
-          >
-            <span
-              class="icon"
-            >
-              [object Object]
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Nodes
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="storage"
-        data-testid="sidebar-item-for-storage"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-storage"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="storage"
-            >
-              storage
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Storage
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="user-management"
-        data-testid="sidebar-item-for-user-management"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-user-management"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="security"
-            >
-              security
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Access Control
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="workloads"
-        data-testid="sidebar-item-for-workloads"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-workloads"
-          href="/"
-        >
-          <i
-            class="Icon svg focusable"
-          >
-            <span
-              class="icon"
-            >
-              [object Object]
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Workloads
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
+        data-id-test="some-parent-id"
         data-is-active-test="false"
         data-test-id="some-parent-id"
-        data-testid="sidebar-item-for-some-parent-id"
+        data-testid="sidebar-item"
+        data-title-test="Some parent"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -2614,9 +2504,12 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
         >
           <div
             class="SidebarItem"
+            data-id-test="some-child-id"
             data-is-active-test="false"
+            data-parent-id-test="some-parent-id"
             data-test-id="some-child-id"
-            data-testid="sidebar-item-for-some-child-id"
+            data-testid="sidebar-item"
+            data-title-test="Some child"
           >
             <a
               class="nav-item flex gaps align-center"
@@ -2632,229 +2525,13 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
           </div>
         </ul>
       </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`cluster sidebar and tab navigation for core given core registrations given state for expanded unknown sidebar items already exists, when rendered renders without errors 1`] = `
-<div>
-  <div
-    class="flex flex-col"
-    data-testid="cluster-sidebar"
-  >
-    <div>
-      <div
-        class=""
-        style="width: 40px; height: 40px;"
-      >
-        ??
-      </div>
-      <div />
-    </div>
-    <div>
       <div
         class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="cluster-overview"
-        data-testid="sidebar-item-for-cluster-overview"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-cluster-overview"
-          href="/"
-        >
-          <i
-            class="Icon svg focusable"
-          >
-            <span
-              class="icon"
-            >
-              [object Object]
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Cluster
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="config"
-        data-testid="sidebar-item-for-config"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-config"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="list"
-            >
-              list
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Config
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="custom-resources"
-        data-testid="sidebar-item-for-custom-resources"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-custom-resources"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="extension"
-            >
-              extension
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Custom Resources
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item-for-events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="helm"
-        data-testid="sidebar-item-for-helm"
-      >
-        <a
-          class="nav-item flex gaps align-center expandable"
-          data-testid="sidebar-item-link-for-helm"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="apps"
-            >
-              apps
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Helm
-          </span>
-          <i
-            class="Icon expand-icon box right material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="keyboard_arrow_down"
-            >
-              keyboard_arrow_down
-            </span>
-          </i>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="namespaces"
-        data-testid="sidebar-item-for-namespaces"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-namespaces"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="layers"
-            >
-              layers
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Namespaces
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
+        data-id-test="network"
         data-is-active-test="false"
         data-test-id="network"
-        data-testid="sidebar-item-for-network"
+        data-testid="sidebar-item"
+        data-title-test="Network"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -2890,36 +2567,11 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
-        data-is-active-test="false"
-        data-test-id="nodes"
-        data-testid="sidebar-item-for-nodes"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-nodes"
-          href="/"
-        >
-          <i
-            class="Icon svg focusable"
-          >
-            <span
-              class="icon"
-            >
-              [object Object]
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Nodes
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
+        data-id-test="storage"
         data-is-active-test="false"
         data-test-id="storage"
-        data-testid="sidebar-item-for-storage"
+        data-testid="sidebar-item"
+        data-title-test="Storage"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -2955,9 +2607,111 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="namespaces"
+        data-is-active-test="false"
+        data-test-id="namespaces"
+        data-testid="sidebar-item"
+        data-title-test="Namespaces"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-namespaces"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="layers"
+            >
+              layers
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Namespaces
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="events"
+        data-is-active-test="false"
+        data-test-id="events"
+        data-testid="sidebar-item"
+        data-title-test="Events"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-events"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="access_time"
+            >
+              access_time
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Events
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="helm"
+        data-is-active-test="false"
+        data-test-id="helm"
+        data-testid="sidebar-item"
+        data-title-test="Helm"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-helm"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="apps"
+            >
+              apps
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Helm
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="user-management"
         data-is-active-test="false"
         data-test-id="user-management"
-        data-testid="sidebar-item-for-user-management"
+        data-testid="sidebar-item"
+        data-title-test="Access Control"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -2993,9 +2747,130 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="custom-resources"
+        data-is-active-test="false"
+        data-test-id="custom-resources"
+        data-testid="sidebar-item"
+        data-title-test="Custom Resources"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-custom-resources"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="extension"
+            >
+              extension
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Custom Resources
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`cluster sidebar and tab navigation for core given core registrations given state for expanded unknown sidebar items already exists, when rendered renders without errors 1`] = `
+<div>
+  <div
+    class="flex flex-col"
+    data-testid="cluster-sidebar"
+  >
+    <div>
+      <div
+        class=""
+        style="width: 40px; height: 40px;"
+      >
+        ??
+      </div>
+      <div />
+    </div>
+    <div>
+      <div
+        class="SidebarItem"
+        data-id-test="cluster-overview"
+        data-is-active-test="false"
+        data-test-id="cluster-overview"
+        data-testid="sidebar-item"
+        data-title-test="Cluster"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-cluster-overview"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Cluster
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="nodes"
+        data-is-active-test="false"
+        data-test-id="nodes"
+        data-testid="sidebar-item"
+        data-title-test="Nodes"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-nodes"
+          href="/"
+        >
+          <i
+            class="Icon svg focusable"
+          >
+            <span
+              class="icon"
+            >
+              [object Object]
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Nodes
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="workloads"
         data-is-active-test="false"
         data-test-id="workloads"
-        data-testid="sidebar-item-for-workloads"
+        data-testid="sidebar-item"
+        data-title-test="Workloads"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -3030,9 +2905,51 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
       </div>
       <div
         class="SidebarItem"
+        data-id-test="config"
+        data-is-active-test="false"
+        data-test-id="config"
+        data-testid="sidebar-item"
+        data-title-test="Config"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-config"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="list"
+            >
+              list
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Config
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="some-parent-id"
         data-is-active-test="false"
         data-test-id="some-parent-id"
-        data-testid="sidebar-item-for-some-parent-id"
+        data-testid="sidebar-item"
+        data-title-test="Some parent"
       >
         <a
           class="nav-item flex gaps align-center expandable"
@@ -3046,6 +2963,266 @@ exports[`cluster sidebar and tab navigation for core given core registrations gi
             class="link-text box grow"
           >
             Some parent
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="network"
+        data-is-active-test="false"
+        data-test-id="network"
+        data-testid="sidebar-item"
+        data-title-test="Network"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-network"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="device_hub"
+            >
+              device_hub
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Network
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="storage"
+        data-is-active-test="false"
+        data-test-id="storage"
+        data-testid="sidebar-item"
+        data-title-test="Storage"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-storage"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="storage"
+            >
+              storage
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Storage
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="namespaces"
+        data-is-active-test="false"
+        data-test-id="namespaces"
+        data-testid="sidebar-item"
+        data-title-test="Namespaces"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-namespaces"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="layers"
+            >
+              layers
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Namespaces
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="events"
+        data-is-active-test="false"
+        data-test-id="events"
+        data-testid="sidebar-item"
+        data-title-test="Events"
+      >
+        <a
+          class="nav-item flex gaps align-center"
+          data-testid="sidebar-item-link-for-events"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="access_time"
+            >
+              access_time
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Events
+          </span>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="helm"
+        data-is-active-test="false"
+        data-test-id="helm"
+        data-testid="sidebar-item"
+        data-title-test="Helm"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-helm"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="apps"
+            >
+              apps
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Helm
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="user-management"
+        data-is-active-test="false"
+        data-test-id="user-management"
+        data-testid="sidebar-item"
+        data-title-test="Access Control"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-user-management"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="security"
+            >
+              security
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Access Control
+          </span>
+          <i
+            class="Icon expand-icon box right material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="keyboard_arrow_down"
+            >
+              keyboard_arrow_down
+            </span>
+          </i>
+        </a>
+      </div>
+      <div
+        class="SidebarItem"
+        data-id-test="custom-resources"
+        data-is-active-test="false"
+        data-test-id="custom-resources"
+        data-testid="sidebar-item"
+        data-title-test="Custom Resources"
+      >
+        <a
+          class="nav-item flex gaps align-center expandable"
+          data-testid="sidebar-item-link-for-custom-resources"
+          href="/"
+        >
+          <i
+            class="Icon material focusable"
+          >
+            <span
+              class="icon"
+              data-icon-name="extension"
+            >
+              extension
+            </span>
+          </i>
+          <span
+            class="link-text box grow"
+          >
+            Custom Resources
           </span>
           <i
             class="Icon expand-icon box right material focusable"

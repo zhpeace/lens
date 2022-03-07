@@ -14,6 +14,7 @@ import {
   invokeMap,
   isEmpty,
   map,
+  orderBy,
   overSome,
   some,
 } from "lodash/fp";
@@ -98,19 +99,19 @@ const sidebarItemsInjectable = getInjectable({
                 }),
               };
             }),
+
+            (items) =>
+              orderBy(
+                ["item.priority", (x) => x.item.title.toLowerCase()],
+                ["asc", "asc"],
+                items,
+              ),
           );
 
         return _getSidebarItemsHierarchy(null);
       };
 
       return getSidebarItemsHierarchy(registrations);
-
-      // return pipeline(
-      //   registrations,
-      //   map(asParents(registrations)),
-      //   filter((item) => item.isVisible),
-      //   (items) => orderBy(["priority", "title"], ["asc", "asc"], items),
-      // );
     });
   },
 });
@@ -125,26 +126,5 @@ const isEnabledExtensionSidebarItemFor =
 
 const dereference = (items: IComputedValue<SidebarItemRegistration[]>) =>
   items.get();
-
-// type StrictItemRegistration = SetRequired<
-//   SidebarItemRegistration,
-//   "isActive" | "isVisible"
-// >;
-
-// const asParents =
-//   (allItems: SidebarItemRegistration[]) =>
-//     (item: SidebarItemRegistration): StrictItemRegistration => {
-//       const children = allItems.filter(matches({ parentId: item.id }));
-//
-//       if (isEmpty(children)) {
-//         return { isActive: false, isVisible: true, ...item };
-//       }
-//
-//       return {
-//         isActive: some({ isActive: true }, children),
-//         isVisible: true, // some({ isVisible: true }, children),
-//         ...item,
-//       };
-//     };
 
 export default sidebarItemsInjectable;
