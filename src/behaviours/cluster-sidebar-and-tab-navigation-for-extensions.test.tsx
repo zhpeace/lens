@@ -45,14 +45,13 @@ describe("cluster sidebar and tab navigation for extensions", () => {
     let clusterFrameBuilder: ClusterFrameBuilder;
 
     beforeEach(async () => {
+      clusterFrameBuilder = getClusterFrameBuilder(di);
+
       const testExtension = getRendererExtensionFake(
         extensionStubWithSidebarItems,
       );
 
-      clusterFrameBuilder = getClusterFrameBuilder({
-        di,
-        extensions: [testExtension],
-      });
+      clusterFrameBuilder.addExtensions(testExtension);
     });
 
     describe("given no state for expanded sidebar items exists, and navigated to child sidebar item, when rendered", () => {

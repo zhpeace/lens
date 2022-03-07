@@ -112,10 +112,7 @@ describe("cluster sidebar and tab navigation for core", () => {
       di.register(routeComponentInjectable);
       di.register(sidebarItemsInjectable);
 
-      clusterFrameBuilder = getClusterFrameBuilder({
-        di,
-        extensions: [],
-      });
+      clusterFrameBuilder = getClusterFrameBuilder(di);
     });
 
     describe("given no state for expanded sidebar items exists, and navigated to child sidebar item, when rendered", () => {

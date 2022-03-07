@@ -7,7 +7,7 @@ import type { LensRendererExtension } from "../../../extensions/lens-renderer-ex
 import rendererExtensionsInjectable from "../../../extensions/renderer-extensions.injectable";
 import currentlyInClusterFrameInjectable from "../../routes/currently-in-cluster-frame.injectable";
 import { extensionRegistratorInjectionToken } from "../../../extensions/extension-loader/extension-registrator-injection-token";
-import { computed } from "mobx";
+import { computed, observable, runInAction } from "mobx";
 import { renderFor } from "./renderFor";
 import observableHistoryInjectable from "../../navigation/observable-history.injectable";
 import currentRouteComponentInjectable from "../../routes/current-route-component.injectable";
@@ -18,35 +18,55 @@ import { Observer } from "mobx-react";
 import subscribeStoresInjectable from "../../kube-watch-api/subscribe-stores.injectable";
 import allowedResourcesInjectable from "../../../common/cluster-store/allowed-resources.injectable";
 import type { RenderResult } from "@testing-library/react";
-
-interface Options {
-  di: DiContainer;
-  extensions: LensRendererExtension[];
-}
+import type { KubeResource } from "../../../common/rbac";
 
 type Callback = () => void;
 
 export interface ClusterFrameBuilder {
+  addExtensions: (...extensions: LensRendererExtension[]) => ClusterFrameBuilder;
+  allowKubeResource: (resourceName: KubeResource) => ClusterFrameBuilder;
   beforeSetups: (callback: Callback) => ClusterFrameBuilder;
   beforeRender: (callback: Callback) => ClusterFrameBuilder;
   render: () => Promise<RenderResult>;
 }
 
-export const getClusterFrameBuilder = ({ di, extensions = [] }: Options) => {
+export const getClusterFrameBuilder = (di: DiContainer) => {
   const beforeSetupsCallbacks: Callback[] = [];
   const beforeRenderCallbacks: Callback[] = [];
 
   di.override(subscribeStoresInjectable, () => () => () => {});
 
-  di.override(rendererExtensionsInjectable, () => computed(() => extensions));
+  const extensionsState = observable.array<LensRendererExtension>();
+
+  di.override(rendererExtensionsInjectable, () => computed(() => extensionsState));
 
   di.override(currentlyInClusterFrameInjectable, () => true);
 
+  const allowedResourcesState = observable.array<KubeResource>();
+
   di.override(allowedResourcesInjectable, () =>
-    computed(() => new Set<string>()),
+    computed(() => new Set([...allowedResourcesState])),
   );
 
   const builder: ClusterFrameBuilder = {
+    addExtensions: (...extensions) => {
+      runInAction(() => {
+        extensions.forEach(extension => {
+          extensionsState.push(extension);
+        });
+      });
+
+      return builder;
+    },
+
+    allowKubeResource: (resourceName) => {
+      runInAction(() => {
+        allowedResourcesState.push(resourceName);
+      });
+
+      return builder;
+    },
+
     beforeSetups(callback: () => void) {
       beforeSetupsCallbacks.push(callback);
 
@@ -69,7 +89,7 @@ export const getClusterFrameBuilder = ({ di, extensions = [] }: Options) => {
       );
 
       await Promise.all(
-        extensions.flatMap((extension) =>
+        extensionsState.flatMap((extension) =>
           extensionRegistrators.map((registrator) => registrator(extension, 1)),
         ),
       );

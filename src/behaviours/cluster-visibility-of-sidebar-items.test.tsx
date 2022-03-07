@@ -6,20 +6,20 @@ import { DiContainer, getInjectable } from "@ogre-tools/injectable";
 import { getDiForUnitTesting } from "../renderer/getDiForUnitTesting";
 import type { RenderResult } from "@testing-library/react";
 import {
+  ClusterFrameBuilder,
   getClusterFrameBuilder,
 } from "../renderer/components/test-utils/get-cluster-frame-builder";
 import {
   SidebarItemRegistration,
   sidebarItemsInjectionToken,
 } from "../renderer/components/layout/sidebar-items.injectable";
-import { computed, IObservableArray, observable } from "mobx";
+import { computed } from "mobx";
 import directoryForLensLocalStorageInjectable from "../common/directory-for-lens-local-storage/directory-for-lens-local-storage.injectable";
 import { routeInjectionToken } from "../renderer/routes/all-routes.injectable";
 import { routeSpecificComponentInjectionToken } from "../renderer/routes/route-specific-component-injection-token";
 import React from "react";
 import navigateToRouteInjectable from "../renderer/routes/navigate-to-route.injectable";
 import isAllowedResourceInjectable from "../common/utils/is-allowed-resource.injectable";
-import allowedResourcesInjectable from "../common/cluster-store/allowed-resources.injectable";
 
 describe("cluster visibility of sidebar items", () => {
   let di: DiContainer;
@@ -94,21 +94,10 @@ describe("cluster visibility of sidebar items", () => {
   });
 
   describe("given kube resource for route is not allowed", () => {
-    let allowedResourcesStateStub: IObservableArray<string>;
+    let clusterFrameBuilder: ClusterFrameBuilder;
 
     beforeEach(async () => {
-      const clusterFrameBuilder = getClusterFrameBuilder({
-        di,
-        extensions: [],
-      });
-
-      clusterFrameBuilder.beforeSetups(() => {
-        allowedResourcesStateStub = observable.array();
-
-        di.override(allowedResourcesInjectable, () =>
-          computed(() => new Set([...allowedResourcesStateStub])),
-        );
-      });
+      clusterFrameBuilder = getClusterFrameBuilder(di);
 
       rendered = await clusterFrameBuilder.render();
     });
@@ -125,7 +114,7 @@ describe("cluster visibility of sidebar items", () => {
 
     describe("when kube resource becomes allowed", () => {
       beforeEach(() => {
-        allowedResourcesStateStub.push("namespaces");
+        clusterFrameBuilder.allowKubeResource("namespaces");
       });
 
       it("renders", () => {

@@ -83,10 +83,7 @@ describe("cluster order of sidebar items", () => {
 
     di.register(sidebarItemsInjectable);
 
-    clusterFrameBuilder = getClusterFrameBuilder({
-      di,
-      extensions: [],
-    });
+    clusterFrameBuilder = getClusterFrameBuilder(di);
   });
 
   describe("when rendered", () => {

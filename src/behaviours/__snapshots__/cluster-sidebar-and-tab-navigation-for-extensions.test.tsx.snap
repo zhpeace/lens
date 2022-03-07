@@ -157,36 +157,6 @@ exports[`cluster sidebar and tab navigation for extensions given extension with 
       </div>
       <div
         class="SidebarItem"
-        data-id-test="events"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item"
-        data-title-test="Events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
         data-id-test="helm"
         data-is-active-test="false"
         data-test-id="helm"
@@ -490,36 +460,6 @@ exports[`cluster sidebar and tab navigation for extensions given extension with 
       </div>
       <div
         class="SidebarItem"
-        data-id-test="events"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item"
-        data-title-test="Events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
         data-id-test="helm"
         data-is-active-test="false"
         data-test-id="helm"
@@ -818,36 +758,6 @@ exports[`cluster sidebar and tab navigation for extensions given extension with 
             class="link-text box grow"
           >
             Storage
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-id-test="events"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item"
-        data-title-test="Events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
           </span>
         </a>
       </div>
@@ -1197,36 +1107,6 @@ exports[`cluster sidebar and tab navigation for extensions given extension with 
             class="link-text box grow"
           >
             Storage
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-id-test="events"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item"
-        data-title-test="Events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
           </span>
         </a>
       </div>
@@ -1625,36 +1505,6 @@ exports[`cluster sidebar and tab navigation for extensions given extension with 
       </div>
       <div
         class="SidebarItem"
-        data-id-test="events"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item"
-        data-title-test="Events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
         data-id-test="helm"
         data-is-active-test="false"
         data-test-id="helm"
@@ -2048,36 +1898,6 @@ exports[`cluster sidebar and tab navigation for extensions given extension with 
       </div>
       <div
         class="SidebarItem"
-        data-id-test="events"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item"
-        data-title-test="Events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
         data-id-test="helm"
         data-is-active-test="false"
         data-test-id="helm"
@@ -2419,36 +2239,6 @@ exports[`cluster sidebar and tab navigation for extensions given extension with 
             class="link-text box grow"
           >
             Storage
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-id-test="events"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item"
-        data-title-test="Events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
           </span>
         </a>
       </div>
@@ -2798,36 +2588,6 @@ exports[`cluster sidebar and tab navigation for extensions given extension with 
             class="link-text box grow"
           >
             Storage
-          </span>
-        </a>
-      </div>
-      <div
-        class="SidebarItem"
-        data-id-test="events"
-        data-is-active-test="false"
-        data-test-id="events"
-        data-testid="sidebar-item"
-        data-title-test="Events"
-      >
-        <a
-          class="nav-item flex gaps align-center"
-          data-testid="sidebar-item-link-for-events"
-          href="/"
-        >
-          <i
-            class="Icon material focusable"
-          >
-            <span
-              class="icon"
-              data-icon-name="access_time"
-            >
-              access_time
-            </span>
-          </i>
-          <span
-            class="link-text box grow"
-          >
-            Events
           </span>
         </a>
       </div>
