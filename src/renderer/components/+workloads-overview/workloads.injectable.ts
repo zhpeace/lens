@@ -3,9 +3,6 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import { getInjectable } from "@ogre-tools/injectable";
-import type { KubeResource } from "../../../common/rbac";
-import type { KubeObjectStore } from "../../../common/k8s-api/kube-object.store";
-import type { KubeObject } from "../../../common/k8s-api/kube-object";
 import { podsStore } from "../+workloads-pods/pods.store";
 import { deploymentStore } from "../+workloads-deployments/deployments.store";
 import { daemonSetStore } from "../+workloads-daemonsets/daemonsets.store";
@@ -16,25 +13,37 @@ import { cronJobStore } from "../+workloads-cronjobs/cronjob.store";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
 import namespaceStoreInjectable from "../+namespaces/namespace-store/namespace-store.injectable";
 import { workloads } from "./workloads";
+import type { KubeObjectStore } from "../../../common/k8s-api/kube-object.store";
+import type { KubeObject } from "../../../common/k8s-api/kube-object";
 
 const workloadsInjectable = getInjectable({
   id: "workloads",
 
-  instantiate: (di) =>
-    workloads({
-      isAllowedResource: di.inject(isAllowedResourceInjectable),
-      namespaceStore: di.inject(namespaceStoreInjectable),
+  instantiate: (di) => {
+    const asAllowable = ([resourceName, store]: [
+      any, // TODO: Fix typing in injectable
+      KubeObjectStore<KubeObject>,
+    ]) => ({
+      resourceName,
+      store,
+      isAllowed: di.inject(isAllowedResourceInjectable, resourceName),
+    });
 
-      workloadStores: new Map<KubeResource, KubeObjectStore<KubeObject>>([
-        ["pods", podsStore],
-        ["deployments", deploymentStore],
-        ["daemonsets", daemonSetStore],
-        ["statefulsets", statefulSetStore],
-        ["replicasets", replicaSetStore],
-        ["jobs", jobStore],
-        ["cronjobs", cronJobStore],
-      ]),
-    }),
+    const kubeResources = [
+      ["pods", podsStore],
+      ["deployments", deploymentStore],
+      ["daemonsets", daemonSetStore],
+      ["statefulsets", statefulSetStore],
+      ["replicasets", replicaSetStore],
+      ["jobs", jobStore],
+      ["cronjobs", cronJobStore],
+    ].map(asAllowable);
+
+    return workloads({
+      namespaceStore: di.inject(namespaceStoreInjectable),
+      kubeResources,
+    });
+  },
 });
 
 export default workloadsInjectable;

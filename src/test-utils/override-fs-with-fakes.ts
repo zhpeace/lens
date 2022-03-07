@@ -53,7 +53,7 @@ export const overrideFsWithFakes = (di: DiContainer) => {
   });
 };
 
-const readFileFor = (state: Map<string, Buffer>) => (filePath: string) => {
+const readFileFor = (state: Map<string, string>) => (filePath: string) => {
   const fileContent = state.get(filePath);
 
   if (!fileContent) {
@@ -64,5 +64,5 @@ const readFileFor = (state: Map<string, Buffer>) => (filePath: string) => {
     );
   }
 
-  return Promise.resolve(Buffer.from(fileContent));
+  return Promise.resolve(fileContent);
 };

@@ -11,14 +11,14 @@ import { StorageHelper } from "../storageHelper";
 import { isTestEnv } from "../../../common/vars";
 
 import { getHostedClusterId } from "../../../common/utils";
-import type { JsonObject } from "type-fest";
+import type { JsonObject, JsonValue } from "type-fest";
 import type { Logger } from "../../../common/logger";
 
 interface Dependencies {
   storage: { initialized: boolean, loaded: boolean, data: Record<string, any> };
   logger: Logger
   directoryForLensLocalStorage: string;
-  readJsonFile: (filePath: string) => Promise<JsonObject>;
+  readJsonFile: (filePath: string) => Promise<JsonValue>;
   writeJsonFile: (filePath: string, contentObject: JsonObject) => Promise<void>;
 }
 
@@ -35,7 +35,7 @@ export const createStorage = ({ storage, logger, directoryForLensLocalStorage, r
       const filePath = path.resolve(directoryForLensLocalStorage, `${getHostedClusterId() || "app"}.json`);
 
       try {
-        storage.data = await readJsonFile(filePath);
+        storage.data = (await readJsonFile(filePath)) as JsonObject;
       }
 
       // eslint-disable-next-line no-empty

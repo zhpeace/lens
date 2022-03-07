@@ -5,7 +5,6 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import { routeInjectionToken } from "../../routes/all-routes.injectable";
 import isAllowedResourceInjectable from "../../../common/utils/is-allowed-resource.injectable";
-import { computed } from "mobx";
 
 const eventsRouteInjectable = getInjectable({
   id: "events-route",
@@ -17,7 +16,6 @@ const eventsRouteInjectable = getInjectable({
       path: "/events",
       clusterFrame: true,
       isEnabled: isAllowedResource,
-      isEnabled: computed(() => true),
     };
   },
 
