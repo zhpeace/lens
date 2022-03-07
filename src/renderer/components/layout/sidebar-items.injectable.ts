@@ -29,7 +29,7 @@ export interface SidebarItemRegistration {
   getIcon?: () => React.ReactNode;
   isActive?: IComputedValue<boolean>;
   isVisible?: IComputedValue<boolean>;
-  priority: number;
+  orderNumber: number;
   extension?: LensRendererExtension;
 }
 
@@ -38,7 +38,7 @@ export const sidebarItemsInjectionToken = getInjectionToken<
 >({ id: "sidebar-items-injection-token" });
 
 export interface HierarchicalSidebarItem {
-  item: SidebarItemRegistration;
+  registration: SidebarItemRegistration;
   children: HierarchicalSidebarItem[];
   isActive: IComputedValue<boolean>;
 }
@@ -79,16 +79,16 @@ const sidebarItemsInjectable = getInjectable({
 
             filter((item) => item.parentId === parentId),
 
-            map((item) => {
-              const children = _getSidebarItemsHierarchy(item.id);
+            map((registration) => {
+              const children = _getSidebarItemsHierarchy(registration.id);
 
               return {
-                item,
+                registration,
                 children,
 
                 isActive: computed(() => {
                   if (isEmpty(children)) {
-                    return item.isActive ? item.isActive.get() : false;
+                    return registration.isActive ? registration.isActive.get() : false;
                   }
 
                   return pipeline(
@@ -100,11 +100,11 @@ const sidebarItemsInjectable = getInjectable({
               };
             }),
 
-            filter(x => x.item.isVisible?.get() ?? true),
+            filter(item => item.registration.isVisible?.get() ?? true),
 
             (items) =>
               orderBy(
-                ["item.priority", (x) => x.item.title.toLowerCase()],
+                ["registration.orderNumber", (item) => item.registration.title.toLowerCase()],
                 ["asc", "asc"],
                 items,
               ),

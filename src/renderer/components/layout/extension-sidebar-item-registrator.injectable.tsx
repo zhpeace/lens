@@ -67,7 +67,7 @@ const extensionSidebarItemRegistratorInjectable = getInjectable({
 
                   ...asd,
 
-                  priority: 9999,
+                  orderNumber: 9999,
                 };
               });
             });

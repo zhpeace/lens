@@ -22,14 +22,7 @@ interface Dependencies {
 }
 
 export interface SidebarItemProps {
-  // title?: string;
-  // onClick?: () => void;
-  // getIcon?: () => React.ReactNode;
-  // isActive?: boolean;
-  // id?: string;
-  // parentId?: string | null;
-
-  asd: HierarchicalSidebarItem;
+  item: HierarchicalSidebarItem;
 }
 
 @observer
@@ -44,7 +37,7 @@ class NonInjectedSidebarItem extends React.Component<
   }
 
   get id(): string {
-    return this.props.asd.item.id;
+    return this.registration.id;
   }
 
   @computed get expanded(): boolean {
@@ -52,11 +45,15 @@ class NonInjectedSidebarItem extends React.Component<
   }
 
   @computed get isExpandable(): boolean {
-    return this.props.asd.children.length > 0;
+    return this.props.item.children.length > 0;
   }
 
   @computed get isActive(): boolean {
-    return this.props.asd.isActive.get();
+    return this.props.item.isActive.get();
+  }
+
+  get registration() {
+    return this.props.item.registration;
   }
 
   toggleExpand = () => {
@@ -74,7 +71,7 @@ class NonInjectedSidebarItem extends React.Component<
 
     return (
       <ul className={cssNames("sub-menu", { active: this.isActive })}>
-        {this.props.asd.children.map(x => <SidebarItem key={x.item.id} asd={x} />)}
+        {this.props.item.children.map(item => <SidebarItem key={item.registration.id} item={item} />)}
       </ul>
     );
   }
@@ -87,8 +84,8 @@ class NonInjectedSidebarItem extends React.Component<
         data-test-id={this.id}
         data-id-test={this.id}
         data-is-active-test={this.isActive}
-        data-title-test={this.props.asd.item.title}
-        data-parent-id-test={this.props.asd.item.parentId}
+        data-title-test={this.registration.title}
+        data-parent-id-test={this.registration.parentId}
       >
         <NavLink
           to={""}
@@ -105,13 +102,13 @@ class NonInjectedSidebarItem extends React.Component<
             if (this.isExpandable) {
               this.toggleExpand();
             } else {
-              this.props.asd.item.onClick();
+              this.registration.onClick();
             }
           }}
           data-testid={`sidebar-item-link-for-${this.id}`}
         >
-          {this.props.asd.item.getIcon?.()}
-          <span className="link-text box grow">{this.props.asd.item.title}</span>
+          {this.registration.getIcon?.()}
+          <span className="link-text box grow">{this.registration.title}</span>
           {this.isExpandable && (
             <Icon
               className="expand-icon box right"

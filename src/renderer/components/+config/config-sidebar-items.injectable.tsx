@@ -25,7 +25,7 @@ const configSidebarItemsInjectable = getInjectable({
         title: "Config",
         getIcon: () => <Icon material="list" />,
         onClick: noop,
-        priority: 40,
+        orderNumber: 40,
       },
     ]),
 

@@ -25,7 +25,7 @@ const networkSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon material="device_hub" />,
         title: "Network",
         onClick: noop,
-        priority: 50,
+        orderNumber: 50,
       },
     ]),
 

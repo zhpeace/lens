@@ -32,7 +32,7 @@ const eventsSidebarItemsInjectable = getInjectable({
         onClick: () => navigateToRoute(route),
         isActive: routeIsActive,
         isVisible: route.isEnabled,
-        priority: 80,
+        orderNumber: 80,
       },
     ]);
   },

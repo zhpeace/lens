@@ -27,7 +27,7 @@ const daemonsetsSidebarItemsInjectable = getInjectable({
         onClick: () => navigateToRoute(route),
         isActive: routeIsActive,
         isVisible: route.isEnabled,
-        priority: 40,
+        orderNumber: 40,
       },
     ]);
   },

@@ -27,7 +27,7 @@ const replicasetsSidebarItemsInjectable = getInjectable({
         onClick: () => navigateToRoute(route),
         isActive: routeIsActive,
         isVisible: route.isEnabled,
-        priority: 60,
+        orderNumber: 60,
       },
     ]);
   },

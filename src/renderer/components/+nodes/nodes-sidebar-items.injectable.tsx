@@ -32,7 +32,7 @@ const nodesSidebarItemsInjectable = getInjectable({
         onClick: () => navigateToRoute(route),
         isActive: routeIsActive,
         isVisible: route.isEnabled,
-        priority: 20,
+        orderNumber: 20,
       },
     ]);
   },

@@ -25,7 +25,7 @@ const userManagementSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon material="security" />,
         title: "Access Control",
         onClick: noop,
-        priority: 100,
+        orderNumber: 100,
       },
     ]),
 

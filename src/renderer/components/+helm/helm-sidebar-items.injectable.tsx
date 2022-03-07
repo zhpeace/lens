@@ -25,7 +25,7 @@ const helmSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon material="apps" />,
         title: "Helm",
         onClick: noop,
-        priority: 90,
+        orderNumber: 90,
       },
     ]),
 

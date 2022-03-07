@@ -39,8 +39,8 @@ class NonInjectedSidebar extends React.Component<Dependencies> {
             hierarchicalSidebarItem: HierarchicalSidebarItem,
           ) => (
             <SidebarItem
-              asd={hierarchicalSidebarItem}
-              key={hierarchicalSidebarItem.item.id}
+              item={hierarchicalSidebarItem}
+              key={hierarchicalSidebarItem.registration.id}
             />
           ))}
         </div>

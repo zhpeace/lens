@@ -80,7 +80,7 @@ describe("cluster visibility of sidebar items", () => {
               title: "Some item",
               onClick: () => navigateToRoute(testRoute),
               isVisible: testRoute.isEnabled,
-              priority: 42,
+              orderNumber: 42,
             },
           ];
         });

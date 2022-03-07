@@ -60,7 +60,7 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
             ),
 
             isVisible: crdListRoute.isEnabled,
-            priority: 10,
+            orderNumber: 10,
           };
         });
 
@@ -71,7 +71,7 @@ const sidebarItemsForDefinitionGroupsInjectable = getInjectable({
             title: group,
             onClick: noop,
             isVisible: computed(() => some(item => item.isVisible.get(), childItems)),
-            priority: 10,
+            orderNumber: 10,
           },
 
           ...childItems,

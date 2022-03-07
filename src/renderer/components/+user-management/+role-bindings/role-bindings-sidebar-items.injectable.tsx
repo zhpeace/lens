@@ -27,7 +27,7 @@ const roleBindingsSidebarItemsInjectable = getInjectable({
         onClick: () => navigateToRoute(route),
         isActive: routeIsActive,
         isVisible: route.isEnabled,
-        priority: 50,
+        orderNumber: 50,
       },
     ]);
   },

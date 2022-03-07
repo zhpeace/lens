@@ -5,9 +5,7 @@
 import { computed } from "mobx";
 import { getInjectable } from "@ogre-tools/injectable";
 
-import sidebarItemsInjectable, {
-  HierarchicalSidebarItem,
-} from "../components/layout/sidebar-items.injectable";
+import sidebarItemsInjectable, { HierarchicalSidebarItem } from "../components/layout/sidebar-items.injectable";
 import { find } from "lodash/fp";
 import { pipeline } from "@ogre-tools/fp";
 
@@ -20,8 +18,8 @@ const siblingTabsInjectable = getInjectable({
     return computed((): HierarchicalSidebarItem[] =>
       pipeline(
         sidebarItems.get(),
-        find((asd) => asd.isActive.get()),
-        (asd) => asd.children || [],
+        find(({ isActive }) => isActive.get()),
+        ({ children = [] }) => children,
       ),
     );
   },

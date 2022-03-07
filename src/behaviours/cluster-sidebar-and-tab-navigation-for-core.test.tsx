@@ -91,7 +91,7 @@ describe("cluster sidebar and tab navigation for core", () => {
                 title: "Some parent",
                 onClick: noop,
                 getIcon: () => <div data-testid="some-icon-for-parent" />,
-                priority: 42,
+                orderNumber: 42,
               },
 
               {
@@ -100,7 +100,7 @@ describe("cluster sidebar and tab navigation for core", () => {
                 title: "Some child",
                 onClick: () => navigateToRoute(route),
                 isActive: routeIsActive,
-                priority: 42,
+                orderNumber: 42,
               },
             ];
           });

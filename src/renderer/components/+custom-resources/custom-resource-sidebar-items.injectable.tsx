@@ -38,7 +38,7 @@ const customResourceSidebarItemsInjectable = getInjectable({
         onClick: () => navigateToRoute(crdListRoute),
         isActive: crdListRouteIsActive,
         isVisible: crdListRoute.isEnabled,
-        priority: 10,
+        orderNumber: 10,
       };
 
       const definitionGroupItems = definitionGroupSidebarItems.get();
@@ -55,7 +55,7 @@ const customResourceSidebarItemsInjectable = getInjectable({
         getIcon: () => <Icon material="extension" />,
         onClick: noop,
         isVisible: computed(() => some(item => item.isVisible.get(), childrenAndGrandChildren)),
-        priority: 110,
+        orderNumber: 110,
       };
 
       return [parentItem, definitionsItem, ...definitionGroupItems];

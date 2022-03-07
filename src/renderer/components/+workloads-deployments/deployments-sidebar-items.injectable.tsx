@@ -27,7 +27,7 @@ const deploymentsSidebarItemsInjectable = getInjectable({
         onClick: () => navigateToRoute(route),
         isActive: routeIsActive,
         isVisible: route.isEnabled,
-        priority: 30,
+        orderNumber: 30,
       },
     ]);
   },
