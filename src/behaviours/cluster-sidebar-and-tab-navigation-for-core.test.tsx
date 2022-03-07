@@ -7,8 +7,8 @@ import { getDiForUnitTesting } from "../renderer/getDiForUnitTesting";
 import React from "react";
 import { fireEvent, RenderResult } from "@testing-library/react";
 import {
-  renderClusterFrameFakeFor,
-} from "../renderer/components/test-utils/render-cluster-frame-fake";
+  getClusterFrameBuilder, ClusterFrameBuilder,
+} from "../renderer/components/test-utils/get-cluster-frame-builder";
 import directoryForLensLocalStorageInjectable from "../common/directory-for-lens-local-storage/directory-for-lens-local-storage.injectable";
 import readJsonFileInjectable, { ReadJson } from "../common/fs/read-json-file.injectable";
 import pathExistsInjectable, { PathExists } from "../common/fs/path-exists.injectable";
@@ -46,7 +46,7 @@ describe("cluster sidebar and tab navigation for core", () => {
   });
 
   describe("given core registrations", () => {
-    let render: () => Promise<RenderResult>;
+    let clusterFrameBuilder: ClusterFrameBuilder;
     let route: Route;
 
     beforeEach(async () => {
@@ -112,17 +112,17 @@ describe("cluster sidebar and tab navigation for core", () => {
       di.register(routeComponentInjectable);
       di.register(sidebarItemsInjectable);
 
-      render = renderClusterFrameFakeFor({
+      clusterFrameBuilder = getClusterFrameBuilder({
         di,
         extensions: [],
-      }).render;
+      });
     });
 
     describe("given no state for expanded sidebar items exists, and navigated to child sidebar item, when rendered", () => {
       beforeEach(async () => {
         navigateToRoute(route);
 
-        rendered = await render();
+        rendered = await clusterFrameBuilder.render();
       });
 
       it("renders", () => {
@@ -158,7 +158,7 @@ describe("cluster sidebar and tab navigation for core", () => {
           },
         );
 
-        rendered = await render();
+        rendered = await clusterFrameBuilder.render();
       });
 
       it("renders", () => {
@@ -190,7 +190,7 @@ describe("cluster sidebar and tab navigation for core", () => {
           },
         );
 
-        rendered = await render();
+        rendered = await clusterFrameBuilder.render();
       });
 
       it("renders without errors", () => {
@@ -213,7 +213,7 @@ describe("cluster sidebar and tab navigation for core", () => {
           },
         );
 
-        rendered = await render();
+        rendered = await clusterFrameBuilder.render();
       });
 
       it("renders without errors", () => {
@@ -229,7 +229,7 @@ describe("cluster sidebar and tab navigation for core", () => {
 
     describe("given no initially persisted state for sidebar items, when rendered", () => {
       beforeEach(async () => {
-        rendered = await render();
+        rendered = await clusterFrameBuilder.render();
       });
 
       it("renders", () => {

@@ -6,8 +6,8 @@ import { DiContainer, getInjectable } from "@ogre-tools/injectable";
 import { getDiForUnitTesting } from "../renderer/getDiForUnitTesting";
 import { fireEvent, RenderResult } from "@testing-library/react";
 import {
-  renderClusterFrameFakeFor,
-} from "../renderer/components/test-utils/render-cluster-frame-fake";
+  getClusterFrameBuilder, ClusterFrameBuilder,
+} from "../renderer/components/test-utils/get-cluster-frame-builder";
 import {
   SidebarItemRegistration,
   sidebarItemsInjectionToken,
@@ -19,7 +19,7 @@ import directoryForLensLocalStorageInjectable from "../common/directory-for-lens
 describe("cluster order of sidebar items", () => {
   let di: DiContainer;
   let rendered: RenderResult;
-  let render: () => Promise<RenderResult>;
+  let clusterFrameBuilder: ClusterFrameBuilder;
 
   beforeEach(async () => {
     di = getDiForUnitTesting({ doGeneralOverrides: true });
@@ -83,15 +83,15 @@ describe("cluster order of sidebar items", () => {
 
     di.register(sidebarItemsInjectable);
 
-    render = renderClusterFrameFakeFor({
+    clusterFrameBuilder = getClusterFrameBuilder({
       di,
       extensions: [],
-    }).render;
+    });
   });
 
   describe("when rendered", () => {
     beforeEach(async () => {
-      rendered = await render();
+      rendered = await clusterFrameBuilder.render();
     });
 
     it("renders", () => {

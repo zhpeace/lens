@@ -6,8 +6,8 @@ import { DiContainer, getInjectable } from "@ogre-tools/injectable";
 import { getDiForUnitTesting } from "../renderer/getDiForUnitTesting";
 import type { RenderResult } from "@testing-library/react";
 import {
-  renderClusterFrameFakeFor,
-} from "../renderer/components/test-utils/render-cluster-frame-fake";
+  getClusterFrameBuilder,
+} from "../renderer/components/test-utils/get-cluster-frame-builder";
 import {
   SidebarItemRegistration,
   sidebarItemsInjectionToken,
@@ -97,18 +97,20 @@ describe("cluster visibility of sidebar items", () => {
     let allowedResourcesStateStub: IObservableArray<string>;
 
     beforeEach(async () => {
-      const renderer = renderClusterFrameFakeFor({
+      const clusterFrameBuilder = getClusterFrameBuilder({
         di,
         extensions: [],
       });
 
-      rendered = await renderer.beforeSetups(() => {
+      clusterFrameBuilder.beforeSetups(() => {
         allowedResourcesStateStub = observable.array();
 
         di.override(allowedResourcesInjectable, () =>
           computed(() => new Set([...allowedResourcesStateStub])),
         );
-      }).render();
+      });
+
+      rendered = await clusterFrameBuilder.render();
     });
 
     it("renders", () => {

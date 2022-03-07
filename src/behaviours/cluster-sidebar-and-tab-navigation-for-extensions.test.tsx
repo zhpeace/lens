@@ -7,7 +7,7 @@ import { getDiForUnitTesting } from "../renderer/getDiForUnitTesting";
 import React from "react";
 import { fireEvent, RenderResult } from "@testing-library/react";
 import { getRendererExtensionFake } from "../renderer/components/test-utils/get-renderer-extension-fake";
-import { renderClusterFrameFakeFor, Renderer } from "../renderer/components/test-utils/render-cluster-frame-fake";
+import { getClusterFrameBuilder, ClusterFrameBuilder } from "../renderer/components/test-utils/get-cluster-frame-builder";
 import type { LensRendererExtension } from "../extensions/lens-renderer-extension";
 import directoryForLensLocalStorageInjectable from "../common/directory-for-lens-local-storage/directory-for-lens-local-storage.injectable";
 import readJsonFileInjectable, { ReadJson } from "../common/fs/read-json-file.injectable";
@@ -42,14 +42,14 @@ describe("cluster sidebar and tab navigation for extensions", () => {
   });
 
   describe("given extension with cluster pages and cluster page menus", () => {
-    let renderer: Renderer;
+    let clusterFrameBuilder: ClusterFrameBuilder;
 
     beforeEach(async () => {
       const testExtension = getRendererExtensionFake(
         extensionStubWithSidebarItems,
       );
 
-      renderer = renderClusterFrameFakeFor({
+      clusterFrameBuilder = getClusterFrameBuilder({
         di,
         extensions: [testExtension],
       });
@@ -57,7 +57,7 @@ describe("cluster sidebar and tab navigation for extensions", () => {
 
     describe("given no state for expanded sidebar items exists, and navigated to child sidebar item, when rendered", () => {
       beforeEach(async () => {
-        rendered = await renderer
+        clusterFrameBuilder
           .beforeRender(() => {
             const route = di
               .inject(routesInjectable)
@@ -65,9 +65,9 @@ describe("cluster sidebar and tab navigation for extensions", () => {
               .find(matches({ id: "some-extension-id/some-child-page-id" }));
 
             navigateToRoute(route);
-          })
+          });
 
-          .render();
+        rendered = await clusterFrameBuilder.render();
       });
 
       it("renders", () => {
@@ -109,7 +109,7 @@ describe("cluster sidebar and tab navigation for extensions", () => {
           },
         );
 
-        rendered = await renderer.render();
+        rendered = await clusterFrameBuilder.render();
       });
 
       it("renders", () => {
@@ -147,7 +147,7 @@ describe("cluster sidebar and tab navigation for extensions", () => {
           },
         );
 
-        rendered = await renderer.render();
+        rendered = await clusterFrameBuilder.render();
       });
 
       it("renders without errors", () => {
@@ -173,7 +173,7 @@ describe("cluster sidebar and tab navigation for extensions", () => {
           },
         );
 
-        rendered = await renderer.render();
+        rendered = await clusterFrameBuilder.render();
       });
 
       it("renders without errors", () => {
@@ -192,7 +192,7 @@ describe("cluster sidebar and tab navigation for extensions", () => {
 
     describe("given no initially persisted state for sidebar items, when rendered", () => {
       beforeEach(async () => {
-        rendered = await renderer.render();
+        rendered = await clusterFrameBuilder.render();
       });
 
       it("renders", () => {

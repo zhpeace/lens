@@ -26,13 +26,13 @@ interface Options {
 
 type Callback = () => void;
 
-export interface Renderer {
-  beforeSetups: (callback: Callback) => Renderer;
-  beforeRender: (callback: Callback) => Renderer;
+export interface ClusterFrameBuilder {
+  beforeSetups: (callback: Callback) => ClusterFrameBuilder;
+  beforeRender: (callback: Callback) => ClusterFrameBuilder;
   render: () => Promise<RenderResult>;
 }
 
-export const renderClusterFrameFakeFor = ({ di, extensions = [] }: Options) => {
+export const getClusterFrameBuilder = ({ di, extensions = [] }: Options) => {
   const beforeSetupsCallbacks: Callback[] = [];
   const beforeRenderCallbacks: Callback[] = [];
 
@@ -46,17 +46,17 @@ export const renderClusterFrameFakeFor = ({ di, extensions = [] }: Options) => {
     computed(() => new Set<string>()),
   );
 
-  const renderer: Renderer = {
+  const builder: ClusterFrameBuilder = {
     beforeSetups(callback: () => void) {
       beforeSetupsCallbacks.push(callback);
 
-      return renderer;
+      return builder;
     },
 
     beforeRender(callback: () => void) {
       beforeRenderCallbacks.push(callback);
 
-      return renderer;
+      return builder;
     },
 
     async render() {
@@ -101,54 +101,5 @@ export const renderClusterFrameFakeFor = ({ di, extensions = [] }: Options) => {
     },
   };
 
-  return renderer;
-};
-
-export const renderClusterFrameFake = ({ di, extensions = [] }: Options) => {
-  di.override(subscribeStoresInjectable, () => () => () => {});
-
-  di.override(rendererExtensionsInjectable, () => computed(() => extensions));
-
-  di.override(currentlyInClusterFrameInjectable, () => true);
-
-  di.override(allowedResourcesInjectable, () =>
-    computed(() => new Set<string>()),
-  );
-
-  return async () => {
-    await di.runSetups();
-
-    const extensionRegistrators = di.injectMany(
-      extensionRegistratorInjectionToken,
-    );
-
-    await Promise.all(
-      extensions.flatMap((extension) =>
-        extensionRegistrators.map((registrator) => registrator(extension, 1)),
-      ),
-    );
-
-    const render = renderFor(di);
-
-    const history = di.inject(observableHistoryInjectable);
-    const currentRouteComponent = di.inject(currentRouteComponentInjectable);
-
-    return render(
-      <Router history={history}>
-        <Sidebar />
-
-        <Observer>
-          {() => {
-            const Component = currentRouteComponent.get();
-
-            if (!Component) {
-              return null;
-            }
-
-            return <Component />;
-          }}
-        </Observer>
-      </Router>,
-    );
-  };
+  return builder;
 };
