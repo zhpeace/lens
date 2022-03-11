@@ -8,7 +8,7 @@ import { getInjectable } from "@ogre-tools/injectable";
 
 export type ListNamespaces = () => Promise<string[]>;
 
-export function listNamespaces(config: KubeConfig): ListNamespaces {
+function createListNamespaces(config: KubeConfig): ListNamespaces {
   const coreApi = config.makeApiClient(CoreV1Api);
 
   return async () => {
@@ -18,9 +18,9 @@ export function listNamespaces(config: KubeConfig): ListNamespaces {
   };
 }
 
-const listNamespacesInjectable = getInjectable({
+const createListNamespacesInjectable = getInjectable({
   id: "list-namespaces",
-  instantiate: () => listNamespaces,
+  instantiate: () => createListNamespaces,
 });
 
-export default listNamespacesInjectable;
+export default createListNamespacesInjectable;
