@@ -18,6 +18,15 @@ import readFileInjectable from "../common/fs/read-file.injectable";
 import directoryForBundledBinariesInjectable from "../common/app-paths/directory-for-bundled-binaries/directory-for-bundled-binaries.injectable";
 import loggerInjectable from "../common/logger.injectable";
 import spawnInjectable from "./child-process/spawn.injectable";
+import extensionsStoreInjectable from "../extensions/extensions-store/extensions-store.injectable";
+import type { ExtensionsStore } from "../extensions/extensions-store/extensions-store";
+import fileSystemProvisionerStoreInjectable from "../extensions/extension-loader/create-extension-instance/file-system-provisioner-store/file-system-provisioner-store.injectable";
+import type { FileSystemProvisionerStore } from "../extensions/extension-loader/create-extension-instance/file-system-provisioner-store/file-system-provisioner-store";
+import clusterStoreInjectable from "../common/cluster-store/cluster-store.injectable";
+import type { ClusterStore } from "../common/cluster-store/cluster-store";
+import type { Cluster } from "../common/cluster/cluster";
+import userStoreInjectable from "../common/user-store/user-store.injectable";
+import type { UserStore } from "../common/user-store";
 
 export const getDiForUnitTesting = (
   { doGeneralOverrides } = { doGeneralOverrides: false },
@@ -39,6 +48,15 @@ export const getDiForUnitTesting = (
   di.preventSideEffects();
 
   if (doGeneralOverrides) {
+    // eslint-disable-next-line unused-imports/no-unused-vars-ts
+    di.override(extensionsStoreInjectable, () => ({ isEnabled: ({ id, isBundled }) => false }) as ExtensionsStore);
+
+    di.override(fileSystemProvisionerStoreInjectable, () => ({}) as FileSystemProvisionerStore);
+
+    // eslint-disable-next-line unused-imports/no-unused-vars-ts
+    di.override(clusterStoreInjectable, () => ({ getById: (id): Cluster => ({}) as Cluster }) as ClusterStore);
+    di.override(userStoreInjectable, () => ({}) as UserStore);
+
     di.override(
       getElectronAppPathInjectable,
       () => (name: string) => `some-electron-app-path-for-${kebabCase(name)}`,

@@ -7,18 +7,20 @@ import { ObservableMap } from "mobx";
 import type { CatalogEntity } from "../../../common/catalog";
 import { loadFromOptions } from "../../../common/kube-helpers";
 import type { Cluster } from "../../../common/cluster/cluster";
-import { computeDiff as computeDiffFor, configToModels } from "../kubeconfig-sync-manager/kubeconfig-sync-manager";
+import {
+  computeDiff as computeDiffFor,
+  configToModels,
+} from "../kubeconfig-sync-manager/kubeconfig-sync-manager";
 import mockFs from "mock-fs";
 import fs from "fs";
 import { ClusterManager } from "../../cluster-manager";
 import clusterStoreInjectable from "../../../common/cluster-store/cluster-store.injectable";
 import { getDiForUnitTesting } from "../../getDiForUnitTesting";
 import { createClusterInjectionToken } from "../../../common/cluster/create-cluster-injection-token";
-import directoryForKubeConfigsInjectable
-  from "../../../common/app-paths/directory-for-kube-configs/directory-for-kube-configs.injectable";
+import directoryForKubeConfigsInjectable from "../../../common/app-paths/directory-for-kube-configs/directory-for-kube-configs.injectable";
 import kubeAuthProxyCaInjectable from "../../kube-auth-proxy/kube-auth-proxy-ca.injectable";
 import createKubeAuthProxyCertFilesInjectable from "../../kube-auth-proxy/create-kube-auth-proxy-cert-files.injectable";
-
+import { ClusterStore } from "../../../common/cluster-store/cluster-store";
 
 jest.mock("electron", () => ({
   app: {
@@ -42,7 +44,9 @@ describe("kubeconfig-sync.source tests", () => {
   beforeEach(async () => {
     const di = getDiForUnitTesting({ doGeneralOverrides: true });
 
-    di.override(kubeAuthProxyCaInjectable, () => Promise.resolve(Buffer.from("ca")));
+    di.override(kubeAuthProxyCaInjectable, () =>
+      Promise.resolve(Buffer.from("ca")),
+    );
     di.override(createKubeAuthProxyCertFilesInjectable, () => ({} as any));
 
     mockFs();
@@ -53,6 +57,10 @@ describe("kubeconfig-sync.source tests", () => {
       directoryForKubeConfigs: di.inject(directoryForKubeConfigsInjectable),
       createCluster: di.inject(createClusterInjectionToken),
     });
+
+    di.override(clusterStoreInjectable, () =>
+      ClusterStore.createInstance({ createCluster: () => null }),
+    );
 
     di.inject(clusterStoreInjectable);
 
@@ -78,19 +86,25 @@ describe("kubeconfig-sync.source tests", () => {
 
     it("should keep a single valid split config", () => {
       const config = loadFromOptions({
-        clusters: [{
-          name: "cluster-name",
-          server: "1.2.3.4",
-          skipTLSVerify: false,
-        }],
-        users: [{
-          name: "user-name",
-        }],
-        contexts: [{
-          cluster: "cluster-name",
-          name: "context-name",
-          user: "user-name",
-        }],
+        clusters: [
+          {
+            name: "cluster-name",
+            server: "1.2.3.4",
+            skipTLSVerify: false,
+          },
+        ],
+        users: [
+          {
+            name: "user-name",
+          },
+        ],
+        contexts: [
+          {
+            cluster: "cluster-name",
+            name: "context-name",
+            user: "user-name",
+          },
+        ],
         currentContext: "foobar",
       });
 
@@ -115,29 +129,36 @@ describe("kubeconfig-sync.source tests", () => {
 
     it("should add only the valid clusters to the source", () => {
       const contents = JSON.stringify({
-        clusters: [{
-          name: "cluster-name",
-          cluster: {
-            server: "1.2.3.4",
+        clusters: [
+          {
+            name: "cluster-name",
+            cluster: {
+              server: "1.2.3.4",
+            },
+            skipTLSVerify: false,
           },
-          skipTLSVerify: false,
-        }],
-        users: [{
-          name: "user-name",
-        }],
-        contexts: [{
-          name: "context-name",
-          context: {
-            cluster: "cluster-name",
-            user: "user-name",
+        ],
+        users: [
+          {
+            name: "user-name",
           },
-        }, {
-          name: "context-the-second",
-          context: {
-            cluster: "missing-cluster",
-            user: "user-name",
+        ],
+        contexts: [
+          {
+            name: "context-name",
+            context: {
+              cluster: "cluster-name",
+              user: "user-name",
+            },
           },
-        }],
+          {
+            name: "context-the-second",
+            context: {
+              cluster: "missing-cluster",
+              user: "user-name",
+            },
+          },
+        ],
         currentContext: "foobar",
       });
       const rootSource = new ObservableMap<string, [Cluster, CatalogEntity]>();
@@ -157,30 +178,36 @@ describe("kubeconfig-sync.source tests", () => {
 
     it("should remove a cluster when it is removed from the contents", () => {
       const contents = JSON.stringify({
-        clusters: [{
-          name: "cluster-name",
-          cluster: {
-            server: "1.2.3.4",
+        clusters: [
+          {
+            name: "cluster-name",
+            cluster: {
+              server: "1.2.3.4",
+            },
+            skipTLSVerify: false,
           },
-          skipTLSVerify: false,
-        }],
-        users: [{
-          name: "user-name",
-
-        }],
-        contexts: [{
-          name: "context-name",
-          context: {
-            cluster: "cluster-name",
-            user: "user-name",
+        ],
+        users: [
+          {
+            name: "user-name",
           },
-        }, {
-          name: "context-the-second",
-          context: {
-            cluster: "missing-cluster",
-            user: "user-name",
+        ],
+        contexts: [
+          {
+            name: "context-name",
+            context: {
+              cluster: "cluster-name",
+              user: "user-name",
+            },
           },
-        }],
+          {
+            name: "context-the-second",
+            context: {
+              cluster: "missing-cluster",
+              user: "user-name",
+            },
+          },
+        ],
         currentContext: "foobar",
       });
       const rootSource = new ObservableMap<string, [Cluster, CatalogEntity]>();
@@ -204,37 +231,46 @@ describe("kubeconfig-sync.source tests", () => {
 
     it("should remove only the cluster that it is removed from the contents", () => {
       const contents = JSON.stringify({
-        clusters: [{
-          name: "cluster-name",
-          cluster: {
-            server: "1.2.3.4",
+        clusters: [
+          {
+            name: "cluster-name",
+            cluster: {
+              server: "1.2.3.4",
+            },
+            skipTLSVerify: false,
           },
-          skipTLSVerify: false,
-        }],
-        users: [{
-          name: "user-name",
-        }, {
-          name: "user-name-2",
-        }],
-        contexts: [{
-          name: "context-name",
-          context: {
-            cluster: "cluster-name",
-            user: "user-name",
+        ],
+        users: [
+          {
+            name: "user-name",
           },
-        }, {
-          name: "context-name-2",
-          context: {
-            cluster: "cluster-name",
-            user: "user-name-2",
+          {
+            name: "user-name-2",
           },
-        }, {
-          name: "context-the-second",
-          context: {
-            cluster: "missing-cluster",
-            user: "user-name",
+        ],
+        contexts: [
+          {
+            name: "context-name",
+            context: {
+              cluster: "cluster-name",
+              user: "user-name",
+            },
           },
-        }],
+          {
+            name: "context-name-2",
+            context: {
+              cluster: "cluster-name",
+              user: "user-name-2",
+            },
+          },
+          {
+            name: "context-the-second",
+            context: {
+              cluster: "missing-cluster",
+              user: "user-name",
+            },
+          },
+        ],
         currentContext: "foobar",
       });
       const rootSource = new ObservableMap<string, [Cluster, CatalogEntity]>();
@@ -250,35 +286,45 @@ describe("kubeconfig-sync.source tests", () => {
         const c = rootSource.values().next().value[0] as Cluster;
 
         expect(c.kubeConfigPath).toBe("/bar");
-        expect(["context-name", "context-name-2"].includes(c.contextName)).toBe(true);
+        expect(["context-name", "context-name-2"].includes(c.contextName)).toBe(
+          true,
+        );
       }
 
       const newContents = JSON.stringify({
-        clusters: [{
-          name: "cluster-name",
-          cluster: {
-            server: "1.2.3.4",
+        clusters: [
+          {
+            name: "cluster-name",
+            cluster: {
+              server: "1.2.3.4",
+            },
+            skipTLSVerify: false,
           },
-          skipTLSVerify: false,
-        }],
-        users: [{
-          name: "user-name",
-        }, {
-          name: "user-name-2",
-        }],
-        contexts: [{
-          name: "context-name",
-          context: {
-            cluster: "cluster-name",
-            user: "user-name",
+        ],
+        users: [
+          {
+            name: "user-name",
           },
-        }, {
-          name: "context-the-second",
-          context: {
-            cluster: "missing-cluster",
-            user: "user-name",
+          {
+            name: "user-name-2",
           },
-        }],
+        ],
+        contexts: [
+          {
+            name: "context-name",
+            context: {
+              cluster: "cluster-name",
+              user: "user-name",
+            },
+          },
+          {
+            name: "context-the-second",
+            context: {
+              cluster: "missing-cluster",
+              user: "user-name",
+            },
+          },
+        ],
         currentContext: "foobar",
       });
 
