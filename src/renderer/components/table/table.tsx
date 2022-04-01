@@ -20,7 +20,7 @@ import { withInjectables } from "@ogre-tools/injectable-react";
 import tableModelInjectable from "./table-model/table-model.injectable";
 
 export type TableSortBy = string;
-export type TableOrderBy = "asc" | "desc" | string;
+export type TableOrderBy = "asc" | "desc";
 export interface TableSortParams {
   sortBy: TableSortBy;
   orderBy: TableOrderBy;
@@ -154,9 +154,9 @@ class NonInjectedTable<Item> extends React.Component<TableProps<Item> & Dependen
   }
 
   getSorted(rawItems: Item[]) {
-    const { sortBy, orderBy: orderByRaw } = this.sortParams;
+    const { sortBy, orderBy } = this.sortParams;
 
-    return getSorted(rawItems, this.props.sortable[sortBy], orderByRaw);
+    return getSorted(rawItems, this.props.sortable[sortBy], orderBy);
   }
 
   protected onSort({ sortBy, orderBy }: TableSortParams) {
