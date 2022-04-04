@@ -3,7 +3,6 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 import type { ExtendableDisposer } from "../../../common/utils";
-import { downloadFile, downloadJson } from "../../../common/utils";
 import { Notifications } from "../notifications";
 import React from "react";
 import path from "path";
@@ -18,6 +17,8 @@ import attemptInstallInjectable from "./attempt-install/attempt-install.injectab
 import getBaseRegistryUrlInjectable from "./get-base-registry-url/get-base-registry-url.injectable";
 import extensionInstallationStateStoreInjectable from "../../../extensions/extension-installation-state-store/extension-installation-state-store.injectable";
 import confirmInjectable from "../confirm-dialog/confirm.injectable";
+import type { Fetch } from "../../../common/fetch/fetch.injectable";
+import fetchInjectable from "../../../common/fetch/fetch.injectable";
 
 export interface ExtensionInfo {
   name: string;
@@ -32,6 +33,7 @@ interface Dependencies {
   getBaseRegistryUrl: () => Promise<string>;
   extensionInstallationStateStore: ExtensionInstallationStateStore;
   confirm: Confirm;
+  fetch: Fetch;
 }
 
 const attemptInstallByInfo = ({
@@ -39,6 +41,7 @@ const attemptInstallByInfo = ({
   getBaseRegistryUrl,
   extensionInstallationStateStore,
   confirm,
+  fetch,
 }: Dependencies): AttemptInstallByInfo => (
   async (info) => {
     const { name, version, requireConfirmation = false } = info;
@@ -49,7 +52,15 @@ const attemptInstallByInfo = ({
     let finalVersion = version;
 
     try {
-      json = await downloadJson({ url: registryUrl }).promise;
+      const request = await fetch(registryUrl);
+
+      if (request.status === 404) {
+        Notifications.error(`Failed to get registry information for that extension: does not exist.`);
+
+        return disposer();
+      }
+
+      json = await request.json();
 
       if (!json || json.error || typeof json.versions !== "object" || !json.versions) {
         const message = json?.error ? `: ${json.error}` : "";
@@ -119,9 +130,15 @@ const attemptInstallByInfo = ({
 
     const url = json.versions[finalVersion].dist.tarball;
     const fileName = path.basename(url);
-    const { promise: dataP } = downloadFile({ url, timeout: 10 * 60 * 1000 });
+    const request = await fetch(url, { timeout: 10 * 60 * 1000 });
 
-    return attemptInstall({ fileName, dataP }, disposer);
+    if (request.status === 404) {
+      Notifications.error("Failed to download extension. Does not exist.");
+
+      return disposer();
+    }
+
+    return attemptInstall({ fileName, dataP: request.buffer() }, disposer);
   }
 );
 
@@ -132,6 +149,7 @@ const attemptInstallByInfoInjectable = getInjectable({
     getBaseRegistryUrl: di.inject(getBaseRegistryUrlInjectable),
     extensionInstallationStateStore: di.inject(extensionInstallationStateStoreInjectable),
     confirm: di.inject(confirmInjectable),
+    fetch: di.inject(fetchInjectable),
   }),
 });
 
