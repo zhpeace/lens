@@ -5,17 +5,17 @@
 
 import styles from "./cluster-status.module.scss";
 
-import { computed, observable, makeObservable } from "mobx";
+import { computed, observable } from "mobx";
 import { disposeOnUnmount, observer } from "mobx-react";
 import React from "react";
 import { ipcRendererOn } from "../../../common/ipc";
 import type { Cluster } from "../../../common/cluster/cluster";
 import type { IClassName } from "../../utils";
-import { cssNames } from "../../utils";
+import { cssNames, getOrInsert } from "../../utils";
 import { Button } from "../button";
 import { Icon } from "../icon";
 import { Spinner } from "../spinner";
-import type { KubeAuthUpdate } from "../../../common/cluster-types";
+import type { ClusterId, KubeAuthUpdate } from "../../../common/cluster-types";
 import { catalogEntityRegistry } from "../../api/catalog-entity-registry";
 import { requestClusterActivation } from "../../ipc";
 import type { NavigateToEntitySettings } from "../../../common/front-end-routing/routes/entity-settings/navigate-to-entity-settings.injectable";
@@ -33,77 +33,69 @@ interface Dependencies {
 
 @observer
 class NonInjectedClusterStatus extends React.Component<ClusterStatusProps & Dependencies> {
-  @observable authOutput: KubeAuthUpdate[] = [];
-  @observable isReconnecting = false;
+  private readonly authOutputs = observable.map<ClusterId, KubeAuthUpdate[]>();
+  private readonly reconnecting = observable.set<ClusterId>();
 
-  constructor(props: ClusterStatusProps & Dependencies) {
-    super(props);
-    makeObservable(this);
-  }
+  private readonly authOutput = computed(() => this.authOutputs.get(this.clusterId) ?? []);
+  private readonly hasErrors = computed(() => this.authOutput.get().some(({ isError }) => isError));
+  private readonly isReconnecting = computed(() => this.reconnecting.has(this.clusterId));
+  private readonly clusterName = computed(() => {
+    const entity = catalogEntityRegistry.getById(this.clusterId);
+    const { cluster } = this.props;
 
-  get cluster(): Cluster {
-    return this.props.cluster;
-  }
+    return entity?.getName() ?? cluster.name;
+  });
 
-  @computed get entity() {
-    return catalogEntityRegistry.getById(this.cluster.id);
-  }
-
-  @computed get hasErrors(): boolean {
-    return this.authOutput.some(({ isError }) => isError);
+  private get clusterId() {
+    return this.props.cluster.id;
   }
 
   componentDidMount() {
     disposeOnUnmount(this, [
-      ipcRendererOn(`cluster:${this.cluster.id}:connection-update`, (evt, res: KubeAuthUpdate) => {
-        this.authOutput.push(res);
+      ipcRendererOn(`cluster:connection-update`, (evt, clusterId: ClusterId, update: KubeAuthUpdate) => {
+        getOrInsert(this.authOutputs, clusterId, []).push(update);
       }),
     ]);
   }
 
-  componentDidUpdate(prevProps: Readonly<ClusterStatusProps>): void {
-    if (prevProps.cluster.id !== this.props.cluster.id) {
-      this.isReconnecting = false;
-      this.authOutput = [];
-    }
-  }
-
-  reconnect = async () => {
-    this.authOutput = [];
-    this.isReconnecting = true;
+  private reconnect = async () => {
+    this.authOutputs.delete(this.clusterId);
+    this.reconnecting.add(this.clusterId);
 
     try {
-      await requestClusterActivation(this.cluster.id, true);
+      await requestClusterActivation(this.clusterId, true);
     } catch (error) {
-      this.authOutput.push({
+      getOrInsert(this.authOutputs, this.clusterId, []).push({
         message: error.toString(),
         isError: true,
       });
     } finally {
-      this.isReconnecting = false;
+      this.reconnecting.delete(this.clusterId);
     }
   };
 
-  manageProxySettings = () => {
-    this.props.navigateToEntitySettings(this.cluster.id, "proxy");
+  private manageProxySettings = () => {
+    this.props.navigateToEntitySettings(this.clusterId, "proxy");
   };
 
-  renderAuthenticationOutput() {
+  private renderAuthenticationOutput() {
     return (
       <pre>
         {
-          this.authOutput.map(({ message, isError }, index) => (
-            <p key={index} className={cssNames({ error: isError })}>
-              {message.trim()}
-            </p>
-          ))
+          this.authOutput
+            .get()
+            .map(({ message, isError }, index) => (
+              <p key={index} className={cssNames({ error: isError })}>
+                {message.trim()}
+              </p>
+            ))
         }
       </pre>
     );
   }
 
-  renderStatusIcon() {
-    if (this.hasErrors) {
+  private renderStatusIcon() {
+    if (this.hasErrors.get()) {
       return <Icon material="cloud_off" className={styles.icon} />;
     }
 
@@ -111,14 +103,14 @@ class NonInjectedClusterStatus extends React.Component<ClusterStatusProps & Depe
       <>
         <Spinner singleColor={false} className={styles.spinner} />
         <pre className="kube-auth-out">
-          <p>{this.isReconnecting ? "Reconnecting" : "Connecting"}&hellip;</p>
+          <p>{this.isReconnecting.get() ? "Reconnecting" : "Connecting"}&hellip;</p>
         </pre>
       </>
     );
   }
 
-  renderReconnectionHelp() {
-    if (this.hasErrors && !this.isReconnecting) {
+  private renderReconnectionHelp() {
+    if (this.hasErrors.get() && !this.isReconnecting.get()) {
       return (
         <>
           <Button
@@ -126,7 +118,7 @@ class NonInjectedClusterStatus extends React.Component<ClusterStatusProps & Depe
             label="Reconnect"
             className="box center"
             onClick={this.reconnect}
-            waiting={this.isReconnecting}
+            waiting={this.isReconnecting.get()}
           />
           <a
             className="box center interactive"
@@ -145,7 +137,7 @@ class NonInjectedClusterStatus extends React.Component<ClusterStatusProps & Depe
     return (
       <div className={cssNames(styles.status, "flex column box center align-center justify-center", this.props.className)}>
         <div className="flex items-center column gaps">
-          <h2>{this.entity?.getName() ?? this.cluster.name}</h2>
+          <h2>{this.clusterName.get()}</h2>
           {this.renderStatusIcon()}
           {this.renderAuthenticationOutput()}
           {this.renderReconnectionHelp()}
