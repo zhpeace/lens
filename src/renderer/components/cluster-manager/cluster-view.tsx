@@ -6,7 +6,7 @@
 import "./cluster-view.scss";
 import React from "react";
 import type { IComputedValue } from "mobx";
-import { computed, makeObservable, reaction } from "mobx";
+import { when, computed, makeObservable, reaction } from "mobx";
 import { disposeOnUnmount, observer } from "mobx-react";
 import { ClusterStatus } from "./cluster-status";
 import { ClusterFrameHandler } from "./lens-views";
@@ -18,10 +18,13 @@ import { withInjectables } from "@ogre-tools/injectable-react";
 import type { NavigateToCatalog } from "../../../common/front-end-routing/routes/catalog/navigate-to-catalog.injectable";
 import navigateToCatalogInjectable from "../../../common/front-end-routing/routes/catalog/navigate-to-catalog.injectable";
 import clusterViewRouteParametersInjectable from "./cluster-view-route-parameters.injectable";
+import type { ClusterConnectionStatusState } from "./cluster-status.state.injectable";
+import clusterConnectionStatusStateInjectable from "./cluster-status.state.injectable";
 
 interface Dependencies {
   clusterId: IComputedValue<string>;
   navigateToCatalog: NavigateToCatalog;
+  clusterConnectionStatusState: ClusterConnectionStatusState;
 }
 
 @observer
@@ -63,6 +66,30 @@ class NonInjectedClusterView extends React.Component<Dependencies> {
         ClusterFrameHandler.getInstance().initView(clusterId);
         requestClusterActivation(clusterId, false); // activate and fetch cluster's state from main
         catalogEntityRegistry.activeEntity = clusterId;
+
+        disposeOnUnmount(this, [
+          when(
+            () => {
+              const cluster = this.store.getById(clusterId);
+
+              if (!cluster) {
+                return true;
+              }
+
+              return (
+                cluster.ready && cluster.available && ClusterFrameHandler.getInstance().hasLoadedView(clusterId)
+              ) || (
+                cluster.disconnected // covers manual disconnection before connection
+              );
+            },
+            () => {
+              const state = this.props.clusterConnectionStatusState.forCluster(clusterId);
+
+              state.clearReconnectingState();
+              state.resetAuthOutput();
+            },
+          ),
+        ]);
       }, {
         fireImmediately: true,
       }),
@@ -104,6 +131,7 @@ export const ClusterView = withInjectables<Dependencies>(
       return {
         clusterId: routeParameters.clusterId,
         navigateToCatalog: di.inject(navigateToCatalogInjectable),
+        clusterConnectionStatusState: di.inject(clusterConnectionStatusStateInjectable),
       };
     },
   },
