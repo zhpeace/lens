@@ -7,6 +7,7 @@ import type { IComputedValue } from "mobx";
 import { action, computed,  observable } from "mobx";
 import type { ClusterId, KubeAuthUpdate } from "../../../common/cluster-types";
 import { getOrInsert } from "../../utils";
+import initClusterStatusWatcherInjectable from "./cluster-status-watcher.injectable";
 
 export interface ClusterConnectionStatus {
   authOutput: IComputedValue<KubeAuthUpdate[]>;
@@ -24,11 +25,11 @@ export interface ClusterConnectionStatusState {
 
 const clusterConnectionStatusStateInjectable = getInjectable({
   id: "cluster-connection-status-state",
-  instantiate: (): ClusterConnectionStatusState => {
+  instantiate: (di) => {
     const authOutputs = observable.map<ClusterId, KubeAuthUpdate[]>();
     const reconnecting = observable.set<ClusterId>();
-
-    return {
+    const initWatcher = di.inject(initClusterStatusWatcherInjectable);
+    const state: ClusterConnectionStatusState = {
       forCluster: (clusterId) => {
         const authOutput = computed(() => authOutputs.get(clusterId) ?? []);
 
@@ -51,6 +52,10 @@ const clusterConnectionStatusStateInjectable = getInjectable({
         };
       },
     };
+
+    initWatcher(state);
+
+    return state;
   },
 });
 

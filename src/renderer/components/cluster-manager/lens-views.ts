@@ -9,7 +9,7 @@ import logger from "../../../main/logger";
 import { clusterVisibilityHandler } from "../../../common/ipc/cluster";
 import { ClusterStore } from "../../../common/cluster-store/cluster-store";
 import type { ClusterId } from "../../../common/cluster-types";
-import { getClusterFrameUrl, Singleton } from "../../utils";
+import { getClusterFrameUrl } from "../../utils";
 import { ipcRenderer } from "electron";
 
 export interface LensView {
@@ -17,11 +17,10 @@ export interface LensView {
   frame: HTMLIFrameElement;
 }
 
-export class ClusterFrameHandler extends Singleton {
+export class ClusterFrameHandler {
   private views = observable.map<string, LensView>();
 
   constructor() {
-    super();
     makeObservable(this);
   }
 
