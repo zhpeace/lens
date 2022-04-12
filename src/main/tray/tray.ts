@@ -9,7 +9,7 @@ import { Menu, nativeImage, nativeTheme, Tray } from "electron";
 import type { IComputedValue } from "mobx";
 import { autorun } from "mobx";
 import { showAbout } from "../menu/menu";
-import { checkForUpdates, isAutoUpdateEnabled } from "../app-updater";
+import { checkForUpdates } from "../app-updater";
 import type { WindowManager } from "../window-manager";
 import logger from "../logger";
 import { isWindows, productName } from "../../common/vars";
@@ -79,6 +79,7 @@ export async function initTray(
   trayMenuItems: IComputedValue<TrayMenuRegistration[]>,
   navigateToPreferences: () => void,
   stopServicesAndExitApp: () => void,
+  isAutoUpdateEnabled: () => boolean,
 ): Promise<Disposer> {
   const icon = await createCurrentTrayIcon();
   const dispose = disposer();
@@ -100,7 +101,7 @@ export async function initTray(
   dispose.push(
     autorun(() => {
       try {
-        const menu = createTrayMenu(windowManager, toJS(trayMenuItems.get()), navigateToPreferences, stopServicesAndExitApp);
+        const menu = createTrayMenu(windowManager, toJS(trayMenuItems.get()), navigateToPreferences, stopServicesAndExitApp, isAutoUpdateEnabled);
 
         tray.setContextMenu(menu);
       } catch (error) {
@@ -131,6 +132,7 @@ function createTrayMenu(
   extensionTrayItems: TrayMenuRegistration[],
   navigateToPreferences: () => void,
   stopServicesAndExitApp: () => void,
+  isAutoUpdateEnabled: () => boolean,
 ): Menu {
   let template: Electron.MenuItemConstructorOptions[] = [
     {
