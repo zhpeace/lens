@@ -178,7 +178,6 @@ export class LensProxy extends Singleton {
 
         if (url.searchParams.has("watch")) {
           res.statusCode = proxyRes.statusCode;
-          res.flushHeaders();
         }
       }
 
