@@ -13,14 +13,12 @@ import { checkForUpdates, isAutoUpdateEnabled } from "../app-updater";
 import type { WindowManager } from "../window-manager";
 import logger from "../logger";
 import { isWindows, productName } from "../../common/vars";
-import { exitApp } from "../exit-app";
 import type { Disposer } from "../../common/utils";
 import { base64, disposer, getOrInsertWithAsync, toJS } from "../../common/utils";
 import type { TrayMenuRegistration } from "./tray-menu-registration";
 import sharp from "sharp";
 import LogoLens from "../../renderer/components/icon/logo-lens.svg";
 import { JSDOM } from "jsdom";
-
 
 const TRAY_LOG_PREFIX = "[TRAY]";
 
@@ -80,6 +78,7 @@ export async function initTray(
   windowManager: WindowManager,
   trayMenuItems: IComputedValue<TrayMenuRegistration[]>,
   navigateToPreferences: () => void,
+  stopServicesAndExitApp: () => void,
 ): Promise<Disposer> {
   const icon = await createCurrentTrayIcon();
   const dispose = disposer();
@@ -101,7 +100,7 @@ export async function initTray(
   dispose.push(
     autorun(() => {
       try {
-        const menu = createTrayMenu(windowManager, toJS(trayMenuItems.get()), navigateToPreferences);
+        const menu = createTrayMenu(windowManager, toJS(trayMenuItems.get()), navigateToPreferences, stopServicesAndExitApp);
 
         tray.setContextMenu(menu);
       } catch (error) {
@@ -131,6 +130,7 @@ function createTrayMenu(
   windowManager: WindowManager,
   extensionTrayItems: TrayMenuRegistration[],
   navigateToPreferences: () => void,
+  stopServicesAndExitApp: () => void,
 ): Menu {
   let template: Electron.MenuItemConstructorOptions[] = [
     {
@@ -174,7 +174,7 @@ function createTrayMenu(
     {
       label: "Quit App",
       click() {
-        exitApp();
+        stopServicesAndExitApp();
       },
     },
   ]));
