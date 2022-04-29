@@ -8,10 +8,10 @@ import type { RequestInit, Response } from "node-fetch";
 
 export type Fetch = (url: string, init?: RequestInit) => Promise<Response>;
 
-const fetchInjectableInjectable = getInjectable({
-  id: "fetch-injectable",
+const fetchInjectable = getInjectable({
+  id: "fetch",
   instantiate: (): Fetch => fetch,
   causesSideEffects: true,
 });
 
-export default fetchInjectableInjectable;
+export default fetchInjectable;

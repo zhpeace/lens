@@ -10,23 +10,24 @@ import { Notifications } from "../../notifications";
 import path from "path";
 import React from "react";
 import { readFileNotify } from "../read-file-notify/read-file-notify";
-import type { InstallRequest } from "../attempt-install/install-request";
-import type { ExtensionInfo } from "../attempt-install-by-info.injectable";
+import type { AttemptInstallByInfo } from "../attempt-install-by-info/attempt-install-by-info";
 import type { ExtensionInstallationStateStore } from "../../../../extensions/extension-installation-state-store/extension-installation-state-store";
-import type { Fetch } from "../../../../common/fetch/fetch.injectable";
+import type { AttemptInstall } from "../attempt-install/attempt-install.injectable";
+import type { DownloadBinary } from "../../../../common/fetch/download-binary.injectable";
+import { withTimeout } from "../../../../common/fetch/timeout-controller";
 
 interface Dependencies {
-  attemptInstall: (request: InstallRequest, disposer?: ExtendableDisposer) => Promise<void>;
-  attemptInstallByInfo: (extensionInfo: ExtensionInfo) => Promise<void>;
+  attemptInstall: AttemptInstall;
+  attemptInstallByInfo: AttemptInstallByInfo;
   extensionInstallationStateStore: ExtensionInstallationStateStore;
-  fetch: Fetch;
+  downloadBinary: DownloadBinary;
 }
 
 export const installFromInput = ({
   attemptInstall,
   attemptInstallByInfo,
   extensionInstallationStateStore,
-  fetch,
+  downloadBinary,
 }: Dependencies) => async (input: string) => {
   let disposer: ExtendableDisposer | undefined = undefined;
 
@@ -35,22 +36,28 @@ export const installFromInput = ({
     if (InputValidators.isUrl.validate(input)) {
       // install via url
       disposer = extensionInstallationStateStore.startPreInstall();
-      const request = await fetch(input, { timeout: 10 * 60 * 1000 });
+      const { signal } = withTimeout(10 * 60 * 1000);
+      const result = await downloadBinary(input, { signal });
 
-      if (request.status < 200 || 300 <= request.status) {
-        Notifications.error(`Failed to download extension: ${request.statusText}`);
+      if (result.status === "error") {
+        Notifications.error(`Failed to download extension: ${result.message}`);
 
         return disposer();
       }
 
       const fileName = path.basename(input);
 
-      await attemptInstall({ fileName, dataP: request.buffer() }, disposer);
+      await attemptInstall({ fileName, data: result.data }, disposer);
     } else if (InputValidators.isPath.validate(input)) {
       // install from system path
       const fileName = path.basename(input);
+      const data = await readFileNotify(input);
 
-      await attemptInstall({ fileName, dataP: readFileNotify(input) });
+      if (!data) {
+        return;
+      }
+
+      await attemptInstall({ fileName, data });
     } else if (InputValidators.isExtensionNameInstall.validate(input)) {
       const [{ groups: { name, version }}] = [...input.matchAll(InputValidators.isExtensionNameInstallRegex)];
 

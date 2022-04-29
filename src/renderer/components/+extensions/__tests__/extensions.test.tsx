@@ -23,25 +23,25 @@ import directoryForUserDataInjectable from "../../../../common/app-paths/directo
 import directoryForDownloadsInjectable from "../../../../common/app-paths/directory-for-downloads/directory-for-downloads.injectable";
 import getConfigurationFileModelInjectable from "../../../../common/get-configuration-file-model/get-configuration-file-model.injectable";
 import appVersionInjectable from "../../../../common/get-configuration-file-model/app-version/app-version.injectable";
-import fetchInjectable from "../../../../common/fetch/fetch.injectable";
-import fetchMock, { type FetchMockSandbox } from "fetch-mock";
+import type { DownloadJson } from "../../../../common/fetch/download-json.injectable";
+import type { DownloadBinary } from "../../../../common/fetch/download-binary.injectable";
+import downloadJsonInjectable from "../../../../common/fetch/download-json.injectable";
+import downloadBinaryInjectable from "../../../../common/fetch/download-binary.injectable";
+import { observable, when } from "mobx";
 
 console.log("This is here as a reminder that mockFs breaks things and needs to be removed");
 
 mockWindow();
 
-jest.setTimeout(30000);
 jest.mock("fs-extra");
 jest.mock("../../notifications");
-jest.mock("../../../../common/utils/tar", () => ({
-  listTarEntries: () => [] as string[],
-}));
 
 describe("Extensions", () => {
   let extensionLoader: ExtensionLoader;
   let extensionDiscovery: ExtensionDiscovery;
   let render: DiRender;
-  let mockFetch: FetchMockSandbox;
+  let downloadJson: jest.MockedFunction<DownloadJson>;
+  let downloadBinary: jest.MockedFunction<DownloadBinary>;
 
   beforeEach(async () => {
     const di = getDiForUnitTesting({ doGeneralOverrides: true });
@@ -52,9 +52,6 @@ describe("Extensions", () => {
     di.permitSideEffects(getConfigurationFileModelInjectable);
     di.permitSideEffects(appVersionInjectable);
 
-    mockFetch = fetchMock.sandbox();
-    di.override(fetchInjectable, () => mockFetch as any);
-
     mockFs({
       "some-directory-for-user-data": {},
     });
@@ -62,6 +59,12 @@ describe("Extensions", () => {
     await di.runSetups();
 
     render = renderFor(di);
+
+    downloadJson = jest.fn().mockImplementation((url) => { throw new Error(`Unexpected call to downloadJson for url=${url}`); });
+    downloadBinary = jest.fn().mockImplementation((url) => { throw new Error(`Unexpected call to downloadJson for url=${url}`); });
+
+    di.override(downloadJsonInjectable, () => downloadJson);
+    di.override(downloadBinaryInjectable, () => downloadBinary);
 
     extensionLoader = di.inject(extensionLoaderInjectable);
     extensionDiscovery = di.inject(extensionDiscoveryInjectable);
@@ -111,8 +114,6 @@ describe("Extensions", () => {
       fireEvent.click(menuTrigger);
       expect(await res.findByText("Disable")).toHaveAttribute("aria-disabled", "true");
       expect(await res.findByText("Uninstall")).toHaveAttribute("aria-disabled", "true");
-    }, {
-      timeout: 30000,
     });
   });
 
@@ -130,15 +131,22 @@ describe("Extensions", () => {
       },
     });
 
-    let resolveBuffer: (buf: Buffer) => void;
+    const doResolve = observable.box(false);
 
-    mockFetch.getOnce(url, new Promise<Buffer>(resolve => {
-      resolveBuffer = resolve;
-    }));
+    downloadBinary.mockImplementation(async (targetUrl) => {
+      expect(targetUrl).toBe(url);
+
+      await when(() => doResolve.get());
+
+      return {
+        status: "error",
+        message: "unknown location",
+      };
+    });
 
     fireEvent.click(await res.findByText("Install"));
     expect((await res.findByText("Install")).closest("button")).toBeDisabled();
-    resolveBuffer(Buffer.from([]));
+    doResolve.set(true);
   });
 
   it("displays spinner while extensions are loading", () => {
