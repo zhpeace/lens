@@ -8,7 +8,7 @@ import type { Hotbar } from "../../common/hotbar-types";
 import type { MigrationDeclaration } from "../helpers";
 
 export default {
-  version: "5.4.0-alpha.1",
+  version: "5.5.0-alpha.1",
   run(store) {
     const hotbars: Hotbar[] = store.get("hotbars") ?? [];
 
