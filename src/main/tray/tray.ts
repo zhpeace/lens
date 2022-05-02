@@ -17,7 +17,6 @@ import type { TrayMenuRegistration } from "./tray-menu-registration";
 import sharp from "sharp";
 import LogoLens from "../../renderer/components/icon/logo-lens.svg";
 import { JSDOM } from "jsdom";
-import type { LensWindow } from "../start-main-application/lens-window/application-window/lens-window-injection-token";
 
 const TRAY_LOG_PREFIX = "[TRAY]";
 
@@ -78,7 +77,7 @@ export async function initTray(
   navigateToPreferences: () => void,
   stopServicesAndExitApp: () => void,
   isAutoUpdateEnabled: () => boolean,
-  applicationWindow: LensWindow,
+  showApplicationWindow: () => Promise<void>,
   showAbout: () => void,
 ): Promise<Disposer> {
   const icon = await createCurrentTrayIcon();
@@ -92,7 +91,7 @@ export async function initTray(
 
   if (isWindows) {
     tray.on("click", () => {
-      applicationWindow.show()
+      showApplicationWindow()
         .catch(error => logger.error(`${TRAY_LOG_PREFIX}: Failed to open lens`, { error }));
     });
   }
@@ -100,7 +99,7 @@ export async function initTray(
   dispose.push(
     autorun(() => {
       try {
-        const menu = createTrayMenu(toJS(trayMenuItems.get()), navigateToPreferences, stopServicesAndExitApp, isAutoUpdateEnabled, applicationWindow, showAbout);
+        const menu = createTrayMenu(toJS(trayMenuItems.get()), navigateToPreferences, stopServicesAndExitApp, isAutoUpdateEnabled, showApplicationWindow, showAbout);
 
         tray.setContextMenu(menu);
       } catch (error) {
@@ -131,14 +130,14 @@ function createTrayMenu(
   navigateToPreferences: () => void,
   stopServicesAndExitApp: () => void,
   isAutoUpdateEnabled: () => boolean,
-  applicationWindow: LensWindow,
+  showApplicationWindow: () => Promise<void>,
   showAbout: () => void,
 ): Menu {
   let template: Electron.MenuItemConstructorOptions[] = [
     {
       label: `Open ${productName}`,
       click() {
-        applicationWindow.show().catch(error => logger.error(`${TRAY_LOG_PREFIX}: Failed to open lens`, { error }));
+        showApplicationWindow().catch(error => logger.error(`${TRAY_LOG_PREFIX}: Failed to open lens`, { error }));
       },
     },
     {
@@ -154,7 +153,7 @@ function createTrayMenu(
       label: "Check for updates",
       click() {
         checkForUpdates()
-          .then(() => applicationWindow.show());
+          .then(() => showApplicationWindow());
       },
     });
   }
@@ -165,7 +164,7 @@ function createTrayMenu(
     {
       label: `About ${productName}`,
       click() {
-        applicationWindow.show()
+        showApplicationWindow()
           .then(showAbout)
           .catch(error => logger.error(`${TRAY_LOG_PREFIX}: Failed to show Lens About view`, { error }));
       },
