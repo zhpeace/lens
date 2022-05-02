@@ -8,9 +8,7 @@ import type { NativeImage } from "electron";
 import { Menu, nativeImage, nativeTheme, Tray } from "electron";
 import type { IComputedValue } from "mobx";
 import { autorun } from "mobx";
-import { showAbout } from "../menu/menu";
 import { checkForUpdates } from "../app-updater";
-import type { WindowManager } from "../window-manager";
 import logger from "../logger";
 import { isWindows, productName } from "../../common/vars";
 import type { Disposer } from "../../common/utils";
@@ -19,6 +17,7 @@ import type { TrayMenuRegistration } from "./tray-menu-registration";
 import sharp from "sharp";
 import LogoLens from "../../renderer/components/icon/logo-lens.svg";
 import { JSDOM } from "jsdom";
+import type { LensWindow } from "../start-main-application/lens-window/application-window/lens-window-injection-token";
 
 const TRAY_LOG_PREFIX = "[TRAY]";
 
@@ -75,11 +74,12 @@ function watchShouldUseDarkColors(tray: Tray): Disposer {
 }
 
 export async function initTray(
-  windowManager: WindowManager,
   trayMenuItems: IComputedValue<TrayMenuRegistration[]>,
   navigateToPreferences: () => void,
   stopServicesAndExitApp: () => void,
   isAutoUpdateEnabled: () => boolean,
+  applicationWindow: LensWindow,
+  showAbout: () => void,
 ): Promise<Disposer> {
   const icon = await createCurrentTrayIcon();
   const dispose = disposer();
@@ -92,8 +92,7 @@ export async function initTray(
 
   if (isWindows) {
     tray.on("click", () => {
-      windowManager
-        .ensureMainWindow()
+      applicationWindow.show()
         .catch(error => logger.error(`${TRAY_LOG_PREFIX}: Failed to open lens`, { error }));
     });
   }
@@ -101,7 +100,7 @@ export async function initTray(
   dispose.push(
     autorun(() => {
       try {
-        const menu = createTrayMenu(windowManager, toJS(trayMenuItems.get()), navigateToPreferences, stopServicesAndExitApp, isAutoUpdateEnabled);
+        const menu = createTrayMenu(toJS(trayMenuItems.get()), navigateToPreferences, stopServicesAndExitApp, isAutoUpdateEnabled, applicationWindow, showAbout);
 
         tray.setContextMenu(menu);
       } catch (error) {
@@ -128,19 +127,18 @@ function getMenuItemConstructorOptions(trayItem: TrayMenuRegistration): Electron
 }
 
 function createTrayMenu(
-  windowManager: WindowManager,
   extensionTrayItems: TrayMenuRegistration[],
   navigateToPreferences: () => void,
   stopServicesAndExitApp: () => void,
   isAutoUpdateEnabled: () => boolean,
+  applicationWindow: LensWindow,
+  showAbout: () => void,
 ): Menu {
   let template: Electron.MenuItemConstructorOptions[] = [
     {
       label: `Open ${productName}`,
       click() {
-        windowManager
-          .ensureMainWindow()
-          .catch(error => logger.error(`${TRAY_LOG_PREFIX}: Failed to open lens`, { error }));
+        applicationWindow.show().catch(error => logger.error(`${TRAY_LOG_PREFIX}: Failed to open lens`, { error }));
       },
     },
     {
@@ -156,7 +154,7 @@ function createTrayMenu(
       label: "Check for updates",
       click() {
         checkForUpdates()
-          .then(() => windowManager.ensureMainWindow());
+          .then(() => applicationWindow.show());
       },
     });
   }
@@ -167,7 +165,7 @@ function createTrayMenu(
     {
       label: `About ${productName}`,
       click() {
-        windowManager.ensureMainWindow()
+        applicationWindow.show()
           .then(showAbout)
           .catch(error => logger.error(`${TRAY_LOG_PREFIX}: Failed to show Lens About view`, { error }));
       },
