@@ -30,6 +30,7 @@ const logPrefix = "[CLUSTER-FRAME]:";
 export const initClusterFrame =
   ({ hostedCluster, loadExtensions, catalogEntityRegistry, frameRoutingId, emitEvent, clusterFrameContext }: Dependencies) =>
     async (unmountRoot: () => void) => {
+      await requestSetClusterFrameId(hostedCluster.id);
 
       // TODO: Make catalogEntityRegistry already initialized when passed as dependency
       catalogEntityRegistry.init();
@@ -38,7 +39,6 @@ export const initClusterFrame =
         `${logPrefix} Init dashboard, clusterId=${hostedCluster.id}, frameId=${frameRoutingId}`,
       );
 
-      await requestSetClusterFrameId(hostedCluster.id);
       await hostedCluster.whenReady; // cluster.activate() is done at this point
 
       catalogEntityRegistry.activeEntity = hostedCluster.id;

@@ -82,7 +82,6 @@ export class CatalogEntityRegistry {
 
   init() {
     ipcRendererOn(catalogItemsChannel, (event, items: (CatalogEntityData & CatalogEntityKindData)[]) => {
-      console.log(items);
       this.updateItems(items);
     });
 

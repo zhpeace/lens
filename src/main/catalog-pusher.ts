@@ -26,7 +26,6 @@ const changesDueToPreferencesWith = (entityPreferencesStore: EntityPreferencesSt
 );
 
 const broadcaster = debounce((items: (CatalogEntityData & CatalogEntityKindData)[]) => {
-  console.log(items.length);
   broadcastMessage(catalogItemsChannel, items);
 }, 100, { leading: true, trailing: true });
 
@@ -39,7 +38,10 @@ export function pushCatalogToRenderer({ catalogEntityRegistry, entityPreferences
   const entityData = computed(() => toJS(catalogEntityRegistry.items.map(changesDueToPreferencesWith(entityPreferencesStore))));
 
   return disposer(
-    ipcMainOn(catalogInitChannel, () => broadcaster(entityData.get())),
+    ipcMainOn(catalogInitChannel, () => {
+      broadcaster.cancel();
+      broadcaster(entityData.get());
+    }),
     reaction(() => entityData.get(), broadcaster, {
       fireImmediately: true,
     }),
