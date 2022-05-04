@@ -47,11 +47,12 @@ function NonInjectedSidebarCluster({
     return (
       <div className={styles.SidebarCluster}>
         <Avatar
-          title="??"
           background="var(--halfGray)"
           size={40}
           className={styles.loadingAvatar}
-        />
+        >
+          ??
+        </Avatar>
         <div className={styles.loadingClusterName} />
       </div>
     );
