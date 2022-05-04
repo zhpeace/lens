@@ -10,7 +10,7 @@ import { Notifications } from "../../notifications";
 import path from "path";
 import React from "react";
 import { readFileNotify } from "../read-file-notify/read-file-notify";
-import type { AttemptInstallByInfo } from "../attempt-install-by-info/attempt-install-by-info";
+import type { AttemptInstallByInfo } from "../attempt-install-by-info.injectable";
 import type { ExtensionInstallationStateStore } from "../../../../extensions/extension-installation-state-store/extension-installation-state-store";
 import type { AttemptInstall } from "../attempt-install/attempt-install.injectable";
 import type { DownloadBinary } from "../../../../common/fetch/download-binary.injectable";
