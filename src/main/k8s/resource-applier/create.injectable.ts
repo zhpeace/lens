@@ -11,7 +11,8 @@ import unlinkInjectable from "../../../common/fs/unlink.injectable";
 import writeFileInjectable from "../../../common/fs/write-file.injectable";
 import loggerInjectable from "../../../common/logger.injectable";
 import execFileInjectable from "../../child-process/exec-file.injectable";
-import { K8sResourceApplier, ResourceApplier, ResourceApplierDependencies } from "./applier";
+import type { K8sResourceApplier, ResourceApplierDependencies } from "./applier";
+import { ResourceApplier } from "./applier";
 
 export type CreateK8sResourceApplier = (cluster: Cluster) => K8sResourceApplier;
 
