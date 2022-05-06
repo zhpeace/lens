@@ -8,17 +8,18 @@ import type { NativeImage } from "electron";
 import { Menu, nativeImage, nativeTheme, Tray } from "electron";
 import type { IComputedValue } from "mobx";
 import { autorun } from "mobx";
-import { checkForUpdates } from "../app-updater";
 import logger from "../logger";
-import { isWindows, productName } from "../../common/vars";
+import { isWindows } from "../../common/vars";
 import type { Disposer } from "../../common/utils";
-import { base64, disposer, getOrInsertWithAsync, toJS } from "../../common/utils";
-import type { TrayMenuRegistration } from "./tray-menu-registration";
+import { base64, disposer, getOrInsertWithAsync } from "../../common/utils";
 import sharp from "sharp";
 import LogoLens from "../../renderer/components/icon/logo-lens.svg";
 import { JSDOM } from "jsdom";
+import type { TrayMenuItem } from "./tray-menu-item/tray-menu-item-injection-token";
+import { pipeline } from "@ogre-tools/fp";
+import { filter, isEmpty, map } from "lodash/fp";
 
-const TRAY_LOG_PREFIX = "[TRAY]";
+export const TRAY_LOG_PREFIX = "[TRAY]";
 
 // note: instance of Tray should be saved somewhere, otherwise it disappears
 export let tray: Tray;
@@ -73,12 +74,8 @@ function watchShouldUseDarkColors(tray: Tray): Disposer {
 }
 
 export async function initTray(
-  trayMenuItems: IComputedValue<TrayMenuRegistration[]>,
-  navigateToPreferences: () => void,
-  stopServicesAndExitApp: () => void,
-  isAutoUpdateEnabled: () => boolean,
+  trayMenuItems: IComputedValue<TrayMenuItem[]>,
   showApplicationWindow: () => Promise<void>,
-  showAbout: () => void,
 ): Promise<Disposer> {
   const icon = await createCurrentTrayIcon();
   const dispose = disposer();
@@ -99,7 +96,9 @@ export async function initTray(
   dispose.push(
     autorun(() => {
       try {
-        const menu = createTrayMenu(toJS(trayMenuItems.get()), navigateToPreferences, stopServicesAndExitApp, isAutoUpdateEnabled, showApplicationWindow, showAbout);
+        const options = toTrayMenuOptions(trayMenuItems.get());
+
+        const menu = Menu.buildFromTemplate(options);
 
         tray.setContextMenu(menu);
       } catch (error) {
@@ -115,66 +114,53 @@ export async function initTray(
   return dispose;
 }
 
-function getMenuItemConstructorOptions(trayItem: TrayMenuRegistration): Electron.MenuItemConstructorOptions {
-  return {
-    ...trayItem,
-    submenu: trayItem.submenu ? trayItem.submenu.map(getMenuItemConstructorOptions) : undefined,
-    click: trayItem.click ? () => {
-      trayItem.click(trayItem);
-    } : undefined,
-  };
-}
+const toTrayMenuOptions = (trayMenuItems: TrayMenuItem[]) => {
+  const _toTrayMenuOptions = (parentId: string | null) =>
+    pipeline(
+      trayMenuItems,
 
-function createTrayMenu(
-  extensionTrayItems: TrayMenuRegistration[],
-  navigateToPreferences: () => void,
-  stopServicesAndExitApp: () => void,
-  isAutoUpdateEnabled: () => boolean,
-  showApplicationWindow: () => Promise<void>,
-  showAbout: () => void,
-): Menu {
-  let template: Electron.MenuItemConstructorOptions[] = [
-    {
-      label: `Open ${productName}`,
-      click() {
-        showApplicationWindow().catch(error => logger.error(`${TRAY_LOG_PREFIX}: Failed to open lens`, { error }));
-      },
-    },
-    {
-      label: "Preferences",
-      click() {
-        navigateToPreferences();
-      },
-    },
-  ];
+      filter((item) => item.parentId === parentId),
 
-  if (isAutoUpdateEnabled()) {
-    template.push({
-      label: "Check for updates",
-      click() {
-        checkForUpdates()
-          .then(() => showApplicationWindow());
-      },
-    });
-  }
+      map(
+        (trayMenuItem: TrayMenuItem): Electron.MenuItemConstructorOptions => {
+          if (trayMenuItem.separator) {
+            return { id: trayMenuItem.id, type: "separator" };
+          }
 
-  template = template.concat(extensionTrayItems.map(getMenuItemConstructorOptions));
+          const childItems = _toTrayMenuOptions(trayMenuItem.id);
 
-  return Menu.buildFromTemplate(template.concat([
-    {
-      label: `About ${productName}`,
-      click() {
-        showApplicationWindow()
-          .then(showAbout)
-          .catch(error => logger.error(`${TRAY_LOG_PREFIX}: Failed to show Lens About view`, { error }));
-      },
-    },
-    { type: "separator" },
-    {
-      label: "Quit App",
-      click() {
-        stopServicesAndExitApp();
-      },
-    },
-  ]));
-}
+          return {
+            id: trayMenuItem.id,
+            label: trayMenuItem.label,
+            enabled: trayMenuItem.enabled.get(),
+            toolTip: trayMenuItem.tooltip,
+
+            ...(isEmpty(childItems)
+              ? {
+                type: "normal",
+                submenu: _toTrayMenuOptions(trayMenuItem.id),
+
+                click: () => {
+                  try {
+                    trayMenuItem.click?.();
+                  } catch (error) {
+                    logger.error(
+                      `${TRAY_LOG_PREFIX}: clicking item "${trayMenuItem.id} failed."`,
+                      { error },
+                    );
+                  }
+                },
+              }
+              : {
+                type: "submenu",
+                submenu: _toTrayMenuOptions(trayMenuItem.id),
+              }),
+
+          };
+        },
+      ),
+    );
+
+  return _toTrayMenuOptions(null);
+};
+
